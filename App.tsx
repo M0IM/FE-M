@@ -1,27 +1,20 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
+import RootNavigator from './src/navigators/root/RootNavigator.tsx';
+import Config from 'react-native-config';
 
 function App() {
+  console.log(Config.TEST);
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <AppSetupContainer>
+      <RootNavigator />
+    </AppSetupContainer>
   );
 }
 
 let AppEntryPoint = App;
 
 if (process.env.STORYBOOK_ENABLED) {
-  AppEntryPoint = require("./.ondevice").default;
+  AppEntryPoint = require('./.ondevice').default;
 }
 
 export default AppEntryPoint;

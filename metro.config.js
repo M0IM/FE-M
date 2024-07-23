@@ -1,11 +1,14 @@
-const { getDefaultConfig, mergeConfig } = require("@react-native/metro-config");
-const path = require("path");
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+const path = require('path');
 
-const { generate } = require("@storybook/react-native/scripts/generate");
+const {generate} = require('@storybook/react-native/scripts/generate');
 
 generate({
-  configPath: path.resolve(__dirname, "./.ondevice"),
+  configPath: path.resolve(__dirname, './.ondevice'),
 });
+
+const defaultConfig = getDefaultConfig(__dirname);
+const {assetExts, sourceExts} = defaultConfig.resolver;
 
 /**
  * Metro configuration
@@ -16,21 +19,24 @@ generate({
 const config = {
   transformer: {
     unstable_allowRequireContext: true,
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
   },
   resolver: {
+    assetExts: assetExts.filter(ext => ext !== 'svg'),
+    sourceExts: [...sourceExts, 'svg'],
     resolveRequest: (context, moduleName, platform) => {
       const defaultResolveResult = context.resolveRequest(
         context,
         moduleName,
-        platform
+        platform,
       );
 
       if (
-        process.env.STORYBOOK_ENABLED !== "true" &&
-        defaultResolveResult?.filePath?.includes?.(".ondevice/")
+        process.env.STORYBOOK_ENABLED !== 'true' &&
+        defaultResolveResult?.filePath?.includes?.('.ondevice/')
       ) {
         return {
-          type: "empty",
+          type: 'empty',
         };
       }
 

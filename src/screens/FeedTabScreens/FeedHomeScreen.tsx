@@ -6,7 +6,8 @@ export default function FeedHomeScreen() {
   return (
     <View>
       <Text>FEED_HOME 화면입니다.</Text>
-      <CatSvg width={200} height={200} fill="#fff" />
+      {/*<CatSvg width={200} height={200} fill="#fff" />*/}
+      <Text>HI</Text>
       <Icon name="delete" size={32} color="red" />
     </View>
   );

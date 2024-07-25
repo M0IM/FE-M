@@ -10,6 +10,7 @@ module.exports = {
     name: '@storybook/react-webpack5',
     options: {},
   },
+  staticDirs: ['../src/assets/images'],
   docs: {
     autodocs: true,
   },

@@ -42,7 +42,7 @@ const Tab = createBottomTabNavigator<FeedTabParamList>();
 export default function FeedTabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({route, navigation}) => ({
+      screenOptions={({route}) => ({
         headerTintColor: '#fff',
         tabBarActiveTintColor: '#fff',
         tabBarShowLabel: false,

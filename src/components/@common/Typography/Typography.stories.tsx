@@ -1,10 +1,10 @@
 import type {Meta, StoryObj} from '@storybook/react';
 
-import {Logo} from './Logo.tsx';
+import {Typography} from './Typography.tsx';
 
 const meta = {
   title: 'logo/Typography',
-  component: Logo,
+  component: Typography,
   parameters: {
     layout: 'centered',
   },
@@ -25,7 +25,7 @@ const meta = {
       description: '버튼 클릭 이벤트',
     },
   },
-} satisfies Meta<typeof Logo>;
+} satisfies Meta<typeof Typography>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

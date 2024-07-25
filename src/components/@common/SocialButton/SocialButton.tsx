@@ -37,13 +37,13 @@ export const SocialButton = ({
 );
 
 const socialButtonVariants = cva(
-  'h-10 w-10 rounded-full active:bg-hover flex items-center justify-center',
+  'h-10 w-10 p-1 rounded-full active:bg-hover flex items-center justify-center',
   {
     variants: {
       size: {
         SM: 'w-10 h-10',
-        MD: 'w-14 h-14',
-        LG: 'w-20 h-20',
+        MD: 'w-14 h-14 p-3',
+        LG: 'w-20 h-20 p-4',
       },
       provider: {
         NAVER: 'bg-social-naver',

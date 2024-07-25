@@ -38,6 +38,13 @@ module.exports = {
       error: '#ff3E3E',
       warning: '#FFB800',
       main: '#00F0A1',
+      social: {
+        google: '#FFFFFF',
+        apple: '#000000',
+        kakao: '#FEE501',
+        naver: '#02C300',
+      },
+      hover: '#f1f5f9',
     },
     fontFamily: {
       bold: ['Pretendard-Bold'],

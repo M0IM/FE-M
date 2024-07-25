@@ -45,7 +45,7 @@ export const CustomButton = ({
       ${buttonSize[size]} 
       ${buttonVariant[variant]} 
       ${inValid && 'bg-gray-200'} 
-      ${variant === 'outlined' && 'border-0.5 p-2 rounded-full'}`}>
+      ${variant === 'outlined' && 'p-2 rounded-full'}`}>
     <View className={`flex flex-row items-center justify-center`}>
       {icon}
       <Text

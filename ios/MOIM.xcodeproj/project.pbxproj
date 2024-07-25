@@ -12,12 +12,15 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2122284382E34B168E760E70 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */; };
 		22D58F8B8B8F3A61DFE67956 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACEBCA1747EBB350A1CF0170 /* PrivacyInfo.xcprivacy */; };
+		30B611A8EFCA41CE8910A67F /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7C316099B4149C4940C3837 /* Pretendard-Bold.ttf */; };
 		636BD3122C4FCB6B00FC5E0D /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6312C4FC9A800DC9714 /* Ionicons.ttf */; };
 		636BD3132C4FCB6B00FC5E0D /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6322C4FC9A800DC9714 /* MaterialIcons.ttf */; };
 		636BD3142C4FCB6B00FC5E0D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6302C4FC9A800DC9714 /* Octicons.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-MOIM-MOIMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MOIM-MOIMTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E5C247F273CB4A29A9C7106A /* Pretendard-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66B6A9776CF84E5BA791B630 /* Pretendard-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +44,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MOIM/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MOIM/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-MOIM-MOIMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MOIM-MOIMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.ttf"; path = "../src/assets/fonts/Pretendard-Medium.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-MOIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM.debug.xcconfig"; path = "Target Support Files/Pods-MOIM/Pods-MOIM.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-MOIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM.release.xcconfig"; path = "Target Support Files/Pods-MOIM/Pods-MOIM.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-MOIM-MOIMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM-MOIMTests.debug.xcconfig"; path = "Target Support Files/Pods-MOIM-MOIMTests/Pods-MOIM-MOIMTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -48,9 +52,11 @@
 		638CD6302C4FC9A800DC9714 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		638CD6312C4FC9A800DC9714 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		638CD6322C4FC9A800DC9714 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		66B6A9776CF84E5BA791B630 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../src/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MOIM/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-MOIM-MOIMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM-MOIMTests.release.xcconfig"; path = "Target Support Files/Pods-MOIM-MOIMTests/Pods-MOIM-MOIMTests.release.xcconfig"; sourceTree = "<group>"; };
 		ACEBCA1747EBB350A1CF0170 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MOIM/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		C7C316099B4149C4940C3837 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.ttf"; path = "../src/assets/fonts/Pretendard-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -116,6 +122,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		42201003EA334566A5B57BCD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C7C316099B4149C4940C3837 /* Pretendard-Bold.ttf */,
+				66B6A9776CF84E5BA791B630 /* Pretendard-Light.ttf */,
+				27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		638CD62F2C4FC8FE00DC9714 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +159,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				42201003EA334566A5B57BCD /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -267,6 +285,9 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				22D58F8B8B8F3A61DFE67956 /* PrivacyInfo.xcprivacy in Resources */,
+				30B611A8EFCA41CE8910A67F /* Pretendard-Bold.ttf in Resources */,
+				E5C247F273CB4A29A9C7106A /* Pretendard-Light.ttf in Resources */,
+				2122284382E34B168E760E70 /* Pretendard-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,7 +627,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -674,7 +698,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

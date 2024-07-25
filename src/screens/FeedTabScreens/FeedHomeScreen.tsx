@@ -3,6 +3,7 @@ import CatSvg from 'assets/icons/cat.svg';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import React from 'react';
 import {SocialButton} from '../../components/@common/SocialButton/SocialButton.tsx';
+import {Logo} from '../../components/@common/Logo/Logo.tsx';
 
 export default function FeedHomeScreen() {
   return (
@@ -12,6 +13,8 @@ export default function FeedHomeScreen() {
       <Text className="text-warning">HI</Text>
       <Icon name="delete" size={32} color="red" />
       <SocialButton provider={'KAKAO'} size={'SM'} />
+      <Logo size={'LG'} background={'BACKGROUND'} />
+      <Logo background={'TRANSPARENT'} />
     </View>
   );
 }

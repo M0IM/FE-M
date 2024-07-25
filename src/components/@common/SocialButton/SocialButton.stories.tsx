@@ -3,7 +3,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {SocialButton} from './SocialButton';
 
 const meta = {
-  title: 'button/SocialButton',
+  title: 'button/Logo',
   component: SocialButton,
   parameters: {
     layout: 'centered',
@@ -30,28 +30,28 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const APPLE: Story = {
+export const Apple: Story = {
   args: {
     provider: 'APPLE',
     size: 'MD',
   },
 };
 
-export const GOOGLE: Story = {
+export const Google: Story = {
   args: {
     provider: 'GOOGLE',
     size: 'MD',
   },
 };
 
-export const KAKAO: Story = {
+export const Kakao: Story = {
   args: {
     provider: 'KAKAO',
     size: 'MD',
   },
 };
 
-export const NAVER: Story = {
+export const Naver: Story = {
   args: {
     provider: 'NAVER',
     size: 'MD',

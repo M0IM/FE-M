@@ -3,7 +3,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {Logo} from './Logo.tsx';
 
 const meta = {
-  title: 'logo/Typography',
+  title: 'icon/Logo',
   component: Logo,
   parameters: {
     layout: 'centered',

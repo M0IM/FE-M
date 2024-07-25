@@ -3,7 +3,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {SocialButton} from './SocialButton';
 
 const meta = {
-  title: 'button/Typography',
+  title: 'button/SocialButton',
   component: SocialButton,
   parameters: {
     layout: 'centered',

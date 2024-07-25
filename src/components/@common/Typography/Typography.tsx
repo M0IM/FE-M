@@ -7,17 +7,18 @@ import {KeyOfTypography, typographyStyles} from 'styles/typography';
 interface TypographyProps extends TextProps {
   fontWeight: KeyOfTypography;
   className?: string;
+  children: React.ReactNode;
 }
 
 export const Typography = ({
   fontWeight = 'MEDIUM',
   className,
+  children,
   ...props
 }: TypographyProps) => (
-  <Text
-    {...props}
-    className={cn(typographyVariants({fontWeight}), className)}
-  />
+  <Text {...props} className={cn(typographyVariants({fontWeight}), className)}>
+    {children}
+  </Text>
 );
 
 const typographyVariants = cva('text-black', {

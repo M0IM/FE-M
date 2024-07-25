@@ -37,7 +37,7 @@ export const SocialButton = ({
 );
 
 const socialButtonVariants = cva(
-  'h-10 w-10 p-1 rounded-full active:bg-hover flex items-center justify-center',
+  'h-10 w-10 p-1 rounded-full flex items-center justify-center',
   {
     variants: {
       size: {
@@ -46,10 +46,10 @@ const socialButtonVariants = cva(
         LG: 'w-20 h-20 p-4',
       },
       provider: {
-        NAVER: 'bg-social-naver',
-        GOOGLE: 'bg-social-google',
-        APPLE: 'bg-social-apple',
-        KAKAO: 'bg-social-kakao',
+        NAVER: 'bg-social-naver active:bg-hover',
+        GOOGLE: 'bg-social-google active:bg-hover',
+        APPLE: 'bg-social-apple active:bg-hover',
+        KAKAO: 'bg-social-kakao active:bg-hover',
       },
       defaultVariants: {
         size: 'MD',

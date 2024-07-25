@@ -8,7 +8,6 @@ export default function FeedHomeScreen() {
       <Text className="footnote">FEED_HOME 화면입니다.</Text>
       <CatSvg width={200} height={200} fill="#fff" />
       <Text className="font-bold">HI</Text>
-      <Text className={'index'}></Text>
       <Icon name="delete" size={32} color="red" />
     </View>
   );

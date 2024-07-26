@@ -16,7 +16,8 @@
     "storybook:android": "STORYBOOK_ENABLED=true react-native run-android",
     "storybook-generate": "sb-rn-get-stories --config-path .ondevice",
     "storybook:web": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prestart": "rm -f node_modules/react-native-config/ios/ReactNativeConfig/GeneratedDotEnv.m node_modules/react-native-config/android/build/generated/source/buildConfig/debug/com/lugg/RNCConfig/BuildConfig.java node_modules/react-native-config/android/build/generated/source/buildConfig/release/com/lugg/RNCConfig/BuildConfig.java"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.21.0",

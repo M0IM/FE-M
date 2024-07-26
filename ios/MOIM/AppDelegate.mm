@@ -1,8 +1,17 @@
 #import "AppDelegate.h"
 
+#import <RNKakaoLogins.h>
 #import <React/RCTBundleURLProvider.h>
 
 @implementation AppDelegate
+- (BOOL)application:(UIApplication *)app
+     openURL:(NSURL *)url
+     options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+ if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+    return [RNKakaoLogins handleOpenUrl: url];
+ }
+ return NO;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

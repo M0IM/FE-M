@@ -8,8 +8,9 @@ buildscript {
         kotlinVersion = "1.8.0"
     }
     repositories {
-        google()
+        google() 
         mavenCentral()
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")

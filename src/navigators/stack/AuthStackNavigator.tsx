@@ -8,9 +8,21 @@ export default function AuthStackNavigator() {
     <AuthStack.Navigator
       screenOptions={{
         headerShown: false,
+        cardStyle: {
+          backgroundColor: 'white',
+        },
       }}>
       <AuthStack.Screen name={'AUTH_HOME'} component={AuthHomeScreen} />
-      <AuthStack.Screen name={'LOGIN'} component={LoginScreen} />
+      <AuthStack.Screen
+        options={{
+          headerShown: true,
+          headerTitle: '로그인',
+          headerBackTitleVisible: false,
+          headerTintColor: '#1D2002',
+        }}
+        name={'LOGIN'}
+        component={LoginScreen}
+      />
       <AuthStack.Screen name={'SIGN_UP'} component={SignUpScreen} />
     </AuthStack.Navigator>
   );

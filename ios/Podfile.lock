@@ -1138,6 +1138,8 @@ PODS:
     - React-jsi (= 0.73.9)
     - React-logger (= 0.73.9)
     - React-perflogger (= 0.73.9)
+  - RNAppleAuthentication (2.3.0):
+    - React-Core
   - RNCAsyncStorage (1.24.0):
     - React-Core
   - RNCMaskedView (0.3.1):
@@ -1240,6 +1242,7 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
@@ -1373,6 +1376,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNAppleAuthentication:
+    :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
@@ -1458,6 +1463,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: efb26ad81d94a9b047504bd716b48869bd311649
   React-utils: dab84549e65d6d711937b9c34d9f6d8fb8bd711c
   ReactCommon: 3dc453f427d2f3d7f2c71499d191b456f83c59bd
+  RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNDateTimePicker: 4f3c4dbd4f908be32ec8c93f086e8924bd4a2e07

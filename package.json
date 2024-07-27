@@ -20,6 +20,7 @@
     "prestart": "rm -f node_modules/react-native-config/ios/ReactNativeConfig/GeneratedDotEnv.m node_modules/react-native-config/android/build/generated/source/buildConfig/debug/com/lugg/RNCConfig/BuildConfig.java node_modules/react-native-config/android/build/generated/source/buildConfig/release/com/lugg/RNCConfig/BuildConfig.java"
   },
   "dependencies": {
+    "@invertase/react-native-apple-authentication": "^2.3.0",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/datetimepicker": "^7.6.2",
     "@react-native-community/slider": "^4.5.0",

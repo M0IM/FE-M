@@ -23,7 +23,10 @@ const RecommendBar = ({
     }
     <View className='flex flex-col justify-center'>
       <Text className='text-dark-900 text-base' numberOfLines={1}>{username}님의 관심사를 알려주세요!</Text>
-      <Text className='text-gray-500 text-xs mt-[2px]' numberOfLines={1}>관심 카테고리를 설정하면 정확한 추천이 피드에 표시돼요.</Text>
+      <Text className='text-gray-500 text-xs mt-[2px]' numberOfLines={1}>관심 분야를 설정하면 정확한 추천이 피드에 표시돼요.</Text>
+    </View>
+    <View className='ml-auto'>
+      <Ionicons name='chevron-forward' color="#E9ECEF" size={30} />
     </View>
   </TouchableOpacity>
 );

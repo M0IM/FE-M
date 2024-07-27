@@ -1,9 +1,9 @@
-import {Image, Pressable, PressableProps} from 'react-native';
+import {Image, Pressable, PressableProps, View} from 'react-native';
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils/cn';
 import React from 'react';
 
-import appleImage from 'assets/images/apple-image.png';
+import appleImage from '../../../assets/images/apple-image.png';
 import googleImage from 'assets/images/google-image.png';
 import kakaoImage from 'assets/images/kakao-image.png';
 import naverImage from 'assets/images/naver-image.png';
@@ -32,7 +32,11 @@ export const SocialButton = ({
     {...props}
     className={cn(socialButtonVariants({size, provider}), className)}
     onPress={onPress}>
-    <Image className="w-full h-full rounded-full" source={images[provider]} />
+    <Image
+      className="w-full h-full"
+      source={images[provider]}
+      resizeMode={'stretch'}
+    />
   </Pressable>
 );
 
@@ -42,8 +46,8 @@ const socialButtonVariants = cva(
     variants: {
       size: {
         SM: 'w-10 h-10',
-        MD: 'w-14 h-14 p-3',
-        LG: 'w-20 h-20 p-4',
+        MD: 'w-14 h-14 p-4',
+        LG: 'w-20 h-20 p-5',
       },
       provider: {
         NAVER: 'bg-social-naver active:bg-hover',

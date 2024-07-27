@@ -12,6 +12,10 @@
     {
       "path": "src/assets/fonts/Pretendard-Medium.ttf",
       "sha1": "68efbed10e1229e9c9ed49d8c620a8fef87cda07"
+    },
+    {
+      "path": "src/assets/fonts/SokchoBadaDotum.ttf",
+      "sha1": "a7fc9ea746f2e15355b0cfbdfc6bd0ce7c20ca39"
     }
   ]
 }

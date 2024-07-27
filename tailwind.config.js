@@ -50,6 +50,7 @@ module.exports = {
       bold: ['Pretendard-Bold'],
       light: ['Pretendard-Light'],
       medium: ['Pretendard-Medium'],
+      sokcho: ['SokchoBadaDotum'],
     },
   },
   plugins: [nativewind()],

@@ -16,8 +16,12 @@ import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
+import {AuthStackParamList} from '../../navigators/types';
+import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
-export default function AuthHomeScreen() {
+type TAuthHomeScreenProps = NativeStackScreenProps<AuthStackParamList>;
+
+export default function AuthHomeScreen({navigation}: TAuthHomeScreenProps) {
   const handlePressKakaoLoginButton = async () => {
     try {
       const {idToken} = await loginWithKakaoAccount();
@@ -80,6 +84,9 @@ export default function AuthHomeScreen() {
             textStyle={'text-white font-bold text-xl'}
             variant={'filled'}
             size={'large'}
+            onPress={() => {
+              navigation.navigate('LOGIN');
+            }}
           />
           <CustomButton
             textStyle={'text-sm'}

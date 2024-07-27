@@ -23,7 +23,7 @@ export default function LoginScreen() {
         <Typography className="text-5xl" fontWeight={'BOLD'}>
           {Login.TITLE}
         </Typography>
-        <Typography className="text-xl" fontWeight={'MEDIUM'}>
+        <Typography className="text-xl" fontWeight={'SOKCHO'}>
           {Login.SUB_TITLE}
         </Typography>
       </View>

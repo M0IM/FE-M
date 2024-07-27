@@ -27,6 +27,7 @@ const typographyVariants = cva('text-black', {
       BOLD: typographyStyles.BOLD,
       MEDIUM: typographyStyles.MEDIUM,
       LIGHT: typographyStyles.LIGHT,
+      SOKCHO: typographyStyles.SOKCHO,
     },
   },
   defaultVariants: {

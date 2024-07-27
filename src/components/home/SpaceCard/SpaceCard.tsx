@@ -1,6 +1,7 @@
-import { View, Text, TouchableOpacityProps, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacityProps, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Typography } from 'components/@common/Typography/Typography';
 
 interface SpaceCardProps extends TouchableOpacityProps {
     uri?: string;
@@ -25,7 +26,7 @@ const SpaceCard = ({
           </View>
         )
       }
-      <Text className='text-dark-800' numberOfLines={1}>{spaceName}</Text>
+      <Typography fontWeight='MEDIUM' className='text-dark-800' numberOfLines={1}>{spaceName}</Typography>
     </TouchableOpacity>
   );
 };

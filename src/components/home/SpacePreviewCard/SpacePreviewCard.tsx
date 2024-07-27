@@ -1,7 +1,8 @@
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Image, Pressable } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { PressableProps } from 'react-native';
+import { Typography } from 'components/@common/Typography/Typography';
 
 interface SpacePreviewCardProps extends PressableProps {
     spaceImg?: string;
@@ -29,10 +30,10 @@ const SpacePreviewCard = ({
           </View>
         )}
       <View className='flex flex-col gap-1 ml-3'>
-        <Text className='text-dark-800 font-bold text-base w-[300]' numberOfLines={1}>{spaceName}</Text>
+        <Typography fontWeight='BOLD' className='text-dark-800 text-base w-[300]' numberOfLines={1}>{spaceName}</Typography>
         <View className='flex flex-row items-center'>
-          <Text className='text-gray-500 font-light text-xs'>멤버 {memberCount}명</Text>
-          <Text className='text-gray-500 ml-3 font-light text-xs w-[150]' numberOfLines={1}>{region}</Text>
+          <Typography fontWeight='LIGHT' className='text-gray-500 text-xs'>멤버 {memberCount}명</Typography>
+          <Typography fontWeight='LIGHT' className='text-gray-500 ml-3 text-xs w-[150]' numberOfLines={1}>{region}</Typography>
         </View>
       </View>
     </Pressable>

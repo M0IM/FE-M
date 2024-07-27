@@ -5,9 +5,10 @@ import {useState} from 'react';
 import {Pressable, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {TJoinRequestDto} from '../../types/dtos/auth.ts';
 
 type TSignUpScreenProps = {
-  setSignUpInfo: React.Dispatch<React.SetStateAction<any>>;
+  setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
   signUpInfo: object;
 };
 

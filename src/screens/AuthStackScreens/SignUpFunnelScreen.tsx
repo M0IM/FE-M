@@ -3,7 +3,7 @@ import {
   AuthStackNavigationProp,
   AuthStackParamList,
 } from '../../navigators/types';
-import {useState} from 'react';
+import React, {useState} from 'react';
 
 import SignUpSecondStepScreen from './SignUpSecondStepScreen.tsx';
 import SignUpThirdStepScreen from './SignUpThirdStepScreen.tsx';
@@ -11,6 +11,7 @@ import {AuthStack} from '../../navigators/constants';
 
 import AuthHomeScreen from './AuthHomeScreen.tsx';
 import SignUpLastStepScreen from './SignUpLastStepScreen.tsx';
+import {TJoinRequestDto} from '../../types/dtos/auth.ts';
 
 export default function SignUpFunnelScreen() {
   const navigation = useNavigation<AuthStackNavigationProp>();

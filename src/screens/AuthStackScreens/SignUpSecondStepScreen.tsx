@@ -5,9 +5,10 @@ import {useState} from 'react';
 import {Pressable, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {TJoinRequestDto} from '../../types/dtos/auth.ts';
 
 type TSignUpScreenProps = {
-  setSignUpInfo: React.Dispatch<React.SetStateAction<any>>;
+  setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
   onNext: (type: string) => void;
 };
 
@@ -22,7 +23,7 @@ export default function SignUpSecondStepScreen({
     // Example of updating signUpInfo
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
-      gender: sex,
+      gender: 'MALE',
     }));
     onNext('STEP_3');
   };
@@ -50,10 +51,16 @@ export default function SignUpSecondStepScreen({
       fixedBottomComponent={
         <CustomButton label={'다음'} onPress={handleNext} />
       }>
-      <Typography fontWeight={'BOLD'}>회원가입 두번쨰</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
+      <Typography fontWeight={'BOLD'} className="text-2xl mt-5">
+        약관 동의
+      </Typography>
+      <Typography fontWeight={'MEDIUM'}>
+        필수 항목에 대한 약관 동의를 완료해주세요.
+      </Typography>
+      <View className="mt-10">
+        <Typography fontWeight={'BOLD'}>체크 박스</Typography>
+        <Typography fontWeight={'BOLD'}>체크 박스</Typography>
+      </View>
     </ScreenContainer>
   );
 }

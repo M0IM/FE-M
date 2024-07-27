@@ -56,6 +56,7 @@
 		638CD6322C4FC9A800DC9714 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		63CFFA972C5393AA00B87BF7 /* MOIM-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MOIM-Bridging-Header.h"; sourceTree = "<group>"; };
 		63CFFA982C5393AB00B87BF7 /* SwfitBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwfitBridge.swift; sourceTree = "<group>"; };
+		63F1D9362C54C6920075A05D /* MOIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MOIM.entitlements; path = MOIM/MOIM.entitlements; sourceTree = "<group>"; };
 		66B6A9776CF84E5BA791B630 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../src/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MOIM/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-MOIM-MOIMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM-MOIMTests.release.xcconfig"; path = "Target Support Files/Pods-MOIM-MOIMTests/Pods-MOIM-MOIMTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 		13B07FAE1A68108700A75B9A /* MOIM */ = {
 			isa = PBXGroup;
 			children = (
+				63F1D9362C54C6920075A05D /* MOIM.entitlements */,
 				638CD62F2C4FC8FE00DC9714 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -519,8 +521,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MOIM/MOIM.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6XKZSBB9HH;
+				DEVELOPMENT_TEAM = G8T58R8JDT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MOIM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -534,6 +537,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.moim.MOIM;
 				PRODUCT_NAME = MOIM;
 				SWIFT_OBJC_BRIDGING_HEADER = "MOIM-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -548,8 +552,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MOIM/MOIM.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6XKZSBB9HH;
+				DEVELOPMENT_TEAM = G8T58R8JDT;
 				INFOPLIST_FILE = MOIM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -562,6 +567,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.moim.MOIM;
 				PRODUCT_NAME = MOIM;
 				SWIFT_OBJC_BRIDGING_HEADER = "MOIM-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -639,10 +645,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -711,10 +714,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

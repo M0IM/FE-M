@@ -8,6 +8,8 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 
+import {SECOND_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+
 type TSignUpScreenProps = {
   onNext: (type: string) => void;
 };
@@ -65,7 +67,7 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
           <Typography
             className="text-lg m-auto text-dark-800"
             fontWeight={'MEDIUM'}>
-            회원가입
+            {SECOND_STEP.SIGN_UP}
           </Typography>
         </View>
       }
@@ -73,10 +75,10 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
         <CustomButton label={'다음'} onPress={handleNext} inValid={!allCheck} />
       }>
       <Typography fontWeight={'BOLD'} className="text-2xl mt-5">
-        약관 동의
+        {SECOND_STEP.TERM_AGREEMENT}
       </Typography>
       <Typography fontWeight={'MEDIUM'}>
-        필수 항목에 대한 약관 동의를 완료해주세요.
+        {SECOND_STEP.TERM_AGREEMENT_DESCRIPTION}
       </Typography>
 
       <View className="w-full mt-10 flex-row items-center">
@@ -89,7 +91,7 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
           onTintColor={'#FFFFFF'}
         />
         <Typography className="ml-5 text-xl" fontWeight={'MEDIUM'}>
-          전체 동의
+          {SECOND_STEP.ALL_AGREE}
         </Typography>
       </View>
 
@@ -104,7 +106,7 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
             onTintColor={'#FFFFFF'}
           />
           <Typography className="ml-5 text-xl" fontWeight={'MEDIUM'}>
-            개인 정보 처리 방침
+            {SECOND_STEP.PERSONAL_INFO}
           </Typography>
         </View>
 
@@ -118,7 +120,7 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
             onTintColor={'#FFFFFF'}
           />
           <Typography className="ml-5 text-xl" fontWeight={'MEDIUM'}>
-            서비스 이용약관
+            {SECOND_STEP.SERVICE_TERM}
           </Typography>
         </View>
       </View>

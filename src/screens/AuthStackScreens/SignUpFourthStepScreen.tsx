@@ -11,6 +11,7 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 import {TJoinRequestDto} from 'types/dtos/auth.ts';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep4} from 'utils/validate.ts';
+import {FOURTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
@@ -76,22 +77,22 @@ export default function SignUpFourthStepScreen({
       }>
       <View className="mb-10">
         <Typography fontWeight={'BOLD'} className="text-xl mt-10">
-          비밀번호를
+          {FOURTH_STEP.PASSWORD_DESC_1}
         </Typography>
         <Typography fontWeight={'BOLD'} className="text-xl">
-          입력해주세요.
+          {FOURTH_STEP.PASSWORD_DESC_2}
         </Typography>
       </View>
 
       <View className=" flex-col gap-y-10">
         <View>
-          <Typography fontWeight={'MEDIUM'}>비밀번호</Typography>
+          <Typography fontWeight={'MEDIUM'}>{FOURTH_STEP.PASSWORD}</Typography>
           <Typography className="my-2 text-sm" fontWeight={'LIGHT'}>
-            8~16자리 영문, 숫자, 특수문자를 조합해 작성해주세요.
+            {FOURTH_STEP.PASSWORD_VALIDATION}
           </Typography>
           <InputField
             autoFocus
-            placeholder="비밀번호를 입력해주세요."
+            placeholder={FOURTH_STEP.WRITE_PASSWORD}
             error={form.errors.password}
             touched={form.touched.password}
             secureTextEntry
@@ -103,11 +104,11 @@ export default function SignUpFourthStepScreen({
         </View>
         <View>
           <Typography className="mb-2" fontWeight={'MEDIUM'}>
-            비밀번호 확인
+            {FOURTH_STEP.CHECK_PASSWORD}
           </Typography>
           <InputField
             ref={passwordCheckRef}
-            placeholder="동일한 비밀번호를 입력해주세요."
+            placeholder={FOURTH_STEP.WRITE_SAME_PASSWORD}
             error={form.errors.passwordCheck}
             touched={form.touched.passwordCheck}
             secureTextEntry

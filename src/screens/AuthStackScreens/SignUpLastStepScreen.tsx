@@ -12,6 +12,7 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 import {TJoinRequestDto} from 'types/dtos/auth.ts';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep5} from 'utils/validate.ts';
+import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
@@ -64,7 +65,6 @@ export default function SignUpLastStepScreen({
               color={'#26282B'}
             />
           </Pressable>
-
           <Typography
             className="text-lg m-auto text-dark-800"
             fontWeight={'MEDIUM'}>
@@ -82,19 +82,19 @@ export default function SignUpLastStepScreen({
       }>
       <View className="mb-10">
         <Typography fontWeight={'BOLD'} className="text-xl mt-10">
-          성별 나이 거주지역 등
+          {FIFTH_STEP.DESC_1}
         </Typography>
         <Typography fontWeight={'BOLD'} className="text-xl">
-          개인 정보를 입력해주세요.
+          {FIFTH_STEP.DESC_2}
         </Typography>
       </View>
 
       <View className="flex-col gap-y-10">
         <View>
-          <Typography fontWeight={'MEDIUM'}>성별</Typography>
+          <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.GENDER}</Typography>
           <View className="flex flex-row justify-around">
             <View className="flex flex-col items-center gap-y-2">
-              <Typography fontWeight={'MEDIUM'}>남자</Typography>
+              <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.MALE}</Typography>
               <CheckBox
                 disabled={false}
                 value={gender === 'MALE'}
@@ -105,7 +105,7 @@ export default function SignUpLastStepScreen({
               />
             </View>
             <View className="flex flex-col items-center gap-y-2">
-              <Typography fontWeight={'MEDIUM'}>여자</Typography>
+              <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.FEMALE}</Typography>
               <CheckBox
                 disabled={false}
                 value={gender === 'FEMALE'}
@@ -122,7 +122,7 @@ export default function SignUpLastStepScreen({
             나이
           </Typography>
           <InputField
-            placeholder="나이를 입력하세요"
+            placeholder={FIFTH_STEP.WRITE_AGE}
             error={form.errors.age}
             touched={form.touched.age}
             inputMode="numeric"
@@ -134,11 +134,11 @@ export default function SignUpLastStepScreen({
         </View>
         <View>
           <Typography className="mb-4" fontWeight={'MEDIUM'}>
-            거주지역
+            {FIFTH_STEP.RESIDENCE}
           </Typography>
           <InputField
             ref={residenceRef}
-            placeholder="거주 지역 입력"
+            placeholder={FIFTH_STEP.WRITE_RESIDENCE}
             error={form.errors.residence}
             touched={form.touched.residence}
             inputMode="text"

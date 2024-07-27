@@ -1,16 +1,17 @@
 import React, {useRef} from 'react';
 import {Pressable, TextInput, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
-import {ScreenContainer} from '../../components/ScreenContainer.tsx';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
+import {ScreenContainer} from 'components/ScreenContainer.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {InputField} from 'components/@common/InputField/InputField.tsx';
 
-import {useNavigation} from '@react-navigation/native';
-import {TJoinRequestDto} from '../../types/dtos/auth.ts';
-import {InputField} from '../../components/@common/InputField/InputField.tsx';
-import useForm from '../../hooks/useForm.ts';
-import {validateSignUpStep3} from '../../utils/validate.ts';
+import {TJoinRequestDto} from 'types/dtos/auth.ts';
+import useForm from 'hooks/useForm.ts';
+import {validateSignUpStep3} from 'utils/validate.ts';
+import {THIRD_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
@@ -83,11 +84,11 @@ export default function SignUpThirdStepScreen({
       <View className=" flex-col gap-y-10">
         <View>
           <Typography className="mb-2" fontWeight={'MEDIUM'}>
-            이름
+            {THIRD_STEP.NAME}
           </Typography>
           <InputField
             autoFocus
-            placeholder="이름을 입력하세요"
+            placeholder={THIRD_STEP.WRITE_NAME}
             error={form.errors.nickname}
             touched={form.touched.nickname}
             inputMode="text"
@@ -99,11 +100,11 @@ export default function SignUpThirdStepScreen({
         </View>
         <View>
           <Typography className="mb-2" fontWeight={'MEDIUM'}>
-            이메일
+            {THIRD_STEP.EMAIL}
           </Typography>
           <InputField
             ref={emailRef}
-            placeholder="이메일을 입력하세요"
+            placeholder={THIRD_STEP.WRITE_EMAIL}
             error={form.errors.email}
             touched={form.touched.email}
             inputMode="email"

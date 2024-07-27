@@ -16,12 +16,17 @@ import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-import {AuthStackParamList} from '../../navigators/types';
-import {NativeStackScreenProps} from 'react-native-screens/native-stack';
+import {AuthStackNavigationProp} from '../../navigators/types';
 
-type TAuthHomeScreenProps = NativeStackScreenProps<AuthStackParamList>;
+type TAuthHomeScreenProps = {
+  navigation: AuthStackNavigationProp;
+  onNext: (type: string) => void;
+};
 
-export default function AuthHomeScreen({navigation}: TAuthHomeScreenProps) {
+export default function AuthHomeScreen({
+  navigation,
+  onNext,
+}: TAuthHomeScreenProps) {
   const handlePressKakaoLoginButton = async () => {
     try {
       const {idToken} = await loginWithKakaoAccount();
@@ -92,6 +97,7 @@ export default function AuthHomeScreen({navigation}: TAuthHomeScreenProps) {
             textStyle={'text-sm'}
             variant={'outlined'}
             label={AuthHome.SIGN_UP}
+            onPress={() => onNext('REGISTER')}
           />
         </View>
       </View>

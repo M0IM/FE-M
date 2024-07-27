@@ -2,6 +2,7 @@ import {AuthStack} from 'navigators/constants';
 import LoginScreen from 'screens/AuthStackScreens/LoginScreen.tsx';
 import AuthHomeScreen from 'screens/AuthStackScreens/AuthHomeScreen.tsx';
 import SignUpScreen from 'screens/AuthStackScreens/SignUpScreen.tsx';
+import SignUpFunnelScreen from '../../screens/AuthStackScreens/SignUpFunnelScreen.tsx';
 
 export default function AuthStackNavigator() {
   return (
@@ -12,7 +13,7 @@ export default function AuthStackNavigator() {
           backgroundColor: 'white',
         },
       }}>
-      <AuthStack.Screen name={'AUTH_HOME'} component={AuthHomeScreen} />
+      <AuthStack.Screen name={'AUTH_HOME'} component={SignUpFunnelScreen} />
       <AuthStack.Screen
         options={{
           headerShown: true,
@@ -23,7 +24,6 @@ export default function AuthStackNavigator() {
         name={'LOGIN'}
         component={LoginScreen}
       />
-      <AuthStack.Screen name={'SIGN_UP'} component={SignUpScreen} />
     </AuthStack.Navigator>
   );
 }

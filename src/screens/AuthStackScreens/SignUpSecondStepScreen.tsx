@@ -9,13 +9,14 @@ import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 
 import {SECOND_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import {AuthStackNavigationProp} from '../../navigators/types';
 
 type TSignUpScreenProps = {
   onNext: (type: string) => void;
 };
 
 export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavigationProp>();
 
   const [allCheck, setAllCheck] = useState(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
@@ -96,7 +97,7 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
       </View>
 
       <View className="ml-5">
-        <View className="w-full mt-10 flex-row items-center">
+        <View className="w-[90%] mt-10 flex-row justify-between">
           <CheckBox
             disabled={false}
             value={showPrivacyPolicy}
@@ -105,12 +106,23 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
             onCheckColor={'#FFFFFF'}
             onTintColor={'#FFFFFF'}
           />
-          <Typography className="ml-5 text-xl" fontWeight={'MEDIUM'}>
-            {SECOND_STEP.PERSONAL_INFO}
-          </Typography>
+          <Pressable
+            className="active:bg-gray-200 w-full active:rounded-lg"
+            onPress={() => navigation.navigate('PRIVACY_POLICY')}>
+            <View className="flex-row items-center">
+              <Typography className="ml-5 text-xl flex-1" fontWeight={'MEDIUM'}>
+                {SECOND_STEP.PERSONAL_INFO}
+              </Typography>
+              <Ionicons
+                name={'chevron-forward-outline'}
+                size={30}
+                color={'#26282B'}
+              />
+            </View>
+          </Pressable>
         </View>
 
-        <View className="w-full mt-10 flex-row items-center">
+        <View className="w-[90%] mt-10 flex-row justify-between">
           <CheckBox
             disabled={false}
             value={showTermsOfService}
@@ -119,9 +131,20 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
             onCheckColor={'#FFFFFF'}
             onTintColor={'#FFFFFF'}
           />
-          <Typography className="ml-5 text-xl" fontWeight={'MEDIUM'}>
-            {SECOND_STEP.SERVICE_TERM}
-          </Typography>
+          <Pressable
+            className="active:bg-gray-200 w-full active:rounded-lg"
+            onPress={() => navigation.navigate('SERVICE_TERM')}>
+            <View className="flex-row items-center">
+              <Typography className="ml-5 text-xl flex-1" fontWeight={'MEDIUM'}>
+                {SECOND_STEP.SERVICE_TERM}
+              </Typography>
+              <Ionicons
+                name={'chevron-forward-outline'}
+                size={30}
+                color={'#26282B'}
+              />
+            </View>
+          </Pressable>
         </View>
       </View>
     </ScreenContainer>

@@ -19,16 +19,16 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView className="m-10 my-20 flex-1">
-      <View className="flex flex-col items-center justify-center mt-6">
+      <View className="flex flex-col items-center justify-center mt-6 mb-20">
         <Typography className="text-5xl" fontWeight={'BOLD'}>
           {Login.TITLE}
         </Typography>
-        <Typography className="text-xl" fontWeight={'SOKCHO'}>
+        <Typography className="text-xl" fontWeight={'MEDIUM'}>
           {Login.SUB_TITLE}
         </Typography>
       </View>
 
-      <View className="flex-col gap-10 flex-1 justify-center">
+      <View className="flex-col gap-10 justify-center">
         <View>
           <InputField
             autoFocus
@@ -56,7 +56,7 @@ export default function LoginScreen() {
         </View>
       </View>
 
-      <View className="flex-col gap-y-3 w-full">
+      <View className="flex-col gap-y-3 w-full mt-20">
         <CustomButton
           label={Login.LOGIN}
           textStyle={'text-white font-bold text-xl'}

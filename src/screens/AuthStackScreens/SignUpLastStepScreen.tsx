@@ -1,11 +1,17 @@
-import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
-import {ScreenContainer} from '../../components/ScreenContainer.tsx';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import {useState} from 'react';
-import {Pressable, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {TJoinRequestDto} from '../../types/dtos/auth.ts';
+import CheckBox from '@react-native-community/checkbox';
+
+import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
+import {ScreenContainer} from 'components/ScreenContainer.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {InputField} from 'components/@common/InputField/InputField.tsx';
+
+import {TJoinRequestDto} from 'types/dtos/auth.ts';
+import useForm from 'hooks/useForm.ts';
+import {validateSignUpStep5} from 'utils/validate.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
@@ -16,19 +22,37 @@ export default function SignUpLastStepScreen({
   setSignUpInfo,
   signUpInfo,
 }: TSignUpScreenProps) {
-  const [password, setPassword] = useState('비밀인뎁쇼?');
   const navigation = useNavigation();
+  const residenceRef = useRef<TextInput | null>(null);
+  const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
+
+  const form = useForm({
+    initialValue: {
+      gender: 'MALE',
+      age: '',
+      residence: '',
+    },
+    validate: validateSignUpStep5,
+  });
+
+  const handleGenderChange = (selectedGender: 'FEMALE' | 'MALE') => {
+    setGender(selectedGender);
+  };
+
   const handleSubmit = () => {
-    // Example of updating signUpInfo
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
-      password,
+      gender,
+      age: form.values.age,
+      residence: form.values.residence,
     }));
-
-    console.log(signUpInfo);
   };
+
+  const isDisabled = Object.values(form.errors).some(error => error);
+
   return (
     <ScreenContainer
+      enabled={false}
       fixedTopComponent={
         <View className="flex-row justify-center items-center">
           <Pressable
@@ -53,12 +77,82 @@ export default function SignUpLastStepScreen({
           textStyle={'text-sm font-bold'}
           label={'가입 후 로그인 하기'}
           onPress={handleSubmit}
+          inValid={isDisabled}
         />
       }>
-      <Typography fontWeight={'BOLD'}>회원가입 마지막</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
+      <View className="mb-10">
+        <Typography fontWeight={'BOLD'} className="text-xl mt-10">
+          성별 나이 거주지역 등
+        </Typography>
+        <Typography fontWeight={'BOLD'} className="text-xl">
+          개인 정보를 입력해주세요.
+        </Typography>
+      </View>
+
+      <View className="flex-col gap-y-10">
+        <View>
+          <Typography fontWeight={'MEDIUM'}>성별</Typography>
+          <View className="flex flex-row justify-around">
+            <View className="flex flex-col items-center gap-y-2">
+              <Typography fontWeight={'MEDIUM'}>남자</Typography>
+              <CheckBox
+                disabled={false}
+                value={gender === 'MALE'}
+                onValueChange={() => handleGenderChange('MALE')}
+                onFillColor={'#00F0A1'}
+                onCheckColor={'#FFFFFF'}
+                onTintColor={'#FFFFFF'}
+              />
+            </View>
+            <View className="flex flex-col items-center gap-y-2">
+              <Typography fontWeight={'MEDIUM'}>여자</Typography>
+              <CheckBox
+                disabled={false}
+                value={gender === 'FEMALE'}
+                onValueChange={() => handleGenderChange('FEMALE')}
+                onFillColor={'#00F0A1'}
+                onCheckColor={'#FFFFFF'}
+                onTintColor={'#FFFFFF'}
+              />
+            </View>
+          </View>
+        </View>
+        <View>
+          <Typography className="mb-4" fontWeight={'MEDIUM'}>
+            나이
+          </Typography>
+          <InputField
+            placeholder="나이를 입력하세요"
+            error={form.errors.age}
+            touched={form.touched.age}
+            inputMode="numeric"
+            returnKeyType="next"
+            blurOnSubmit={false}
+            onSubmitEditing={() => residenceRef.current?.focus()}
+            {...form.getTextInputProps('age')}
+          />
+        </View>
+        <View>
+          <Typography className="mb-4" fontWeight={'MEDIUM'}>
+            거주지역
+          </Typography>
+          <InputField
+            ref={residenceRef}
+            placeholder="거주 지역 입력"
+            error={form.errors.residence}
+            touched={form.touched.residence}
+            inputMode="text"
+            returnKeyType="join"
+            onSubmitEditing={() => {
+              // 데이터 통신 로직
+              if (!isDisabled) {
+                console.log(signUpInfo);
+              }
+            }}
+            {...form.getTextInputProps('residence')}
+          />
+        </View>
+      </View>
     </ScreenContainer>
   );
 }

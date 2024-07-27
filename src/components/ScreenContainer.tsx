@@ -3,7 +3,6 @@ import {
   ScrollView,
   View,
   ActivityIndicator,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -14,6 +13,7 @@ type TScreenContainerProps = {
   loading?: boolean;
   fixedTopComponent?: ReactNode;
   fixedBottomComponent?: ReactNode;
+  enabled?: boolean;
 };
 
 export function ScreenContainer({
@@ -21,11 +21,13 @@ export function ScreenContainer({
   loading = false,
   fixedTopComponent,
   fixedBottomComponent,
+  enabled = true,
 }: TScreenContainerProps) {
   return (
     <View className="flex-1">
       <KeyboardAvoidingView
         className="flex-1"
+        enabled={enabled}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <SafeAreaView className="flex-1">
           {fixedTopComponent && (

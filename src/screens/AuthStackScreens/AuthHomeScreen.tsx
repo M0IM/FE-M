@@ -1,22 +1,20 @@
 import {Platform, View} from 'react-native';
-
 import {
   getProfile,
   loginWithKakaoAccount,
 } from '@react-native-seoul/kakao-login';
-
-import {Logo} from 'components/@common/Logo/Logo.tsx';
-import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
-
-import {AuthHome} from '../../constants/screens/AuthStackScreens/AuthHome.ts';
-
 import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-import {AuthStackNavigationProp} from '../../navigators/types';
+
+import {Logo} from 'components/@common/Logo/Logo.tsx';
+import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
+
+import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
+import {AuthStackNavigationProp} from 'navigators/types';
 
 type TAuthHomeScreenProps = {
   navigation: AuthStackNavigationProp;

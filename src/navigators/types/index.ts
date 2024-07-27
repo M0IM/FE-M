@@ -15,6 +15,7 @@ export type AuthStackParamList = {
   STEP_2: undefined;
   STEP_3: undefined;
   STEP_4: undefined;
+  STEP_5: undefined;
 };
 
 /** screen name */

@@ -1,11 +1,16 @@
+import React, {useRef} from 'react';
+import {Pressable, TextInput, View} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
 import {ScreenContainer} from '../../components/ScreenContainer.tsx';
 import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import {useState} from 'react';
-import {Pressable, View} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {useNavigation} from '@react-navigation/native';
 import {TJoinRequestDto} from '../../types/dtos/auth.ts';
+import {InputField} from '../../components/@common/InputField/InputField.tsx';
+import useForm from '../../hooks/useForm.ts';
+import {validateSignUpStep3} from '../../utils/validate.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
@@ -16,16 +21,28 @@ export default function SignUpThirdStepScreen({
   onNext,
   setSignUpInfo,
 }: TSignUpScreenProps) {
-  const [nickname, setNickname] = useState('야호');
   const navigation = useNavigation();
+  const emailRef = useRef<TextInput | null>(null);
+
+  const form = useForm({
+    initialValue: {
+      nickname: '',
+      email: '',
+    },
+    validate: validateSignUpStep3,
+  });
+
   const handleNext = () => {
-    // Example of updating signUpInfo
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
-      nickname,
+      nickname: form.values.nickname,
+      email: form.values.email,
     }));
     onNext('STEP_3');
   };
+
+  const isDisabled = Object.values(form.errors).some(error => error);
+
   return (
     <ScreenContainer
       fixedTopComponent={
@@ -48,12 +65,54 @@ export default function SignUpThirdStepScreen({
         </View>
       }
       fixedBottomComponent={
-        <CustomButton label={'다음'} onPress={handleNext} />
+        <CustomButton
+          label={'다음'}
+          onPress={handleNext}
+          inValid={isDisabled}
+        />
       }>
-      <Typography fontWeight={'BOLD'}>회원가입 세번쨰</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
-      <Typography fontWeight={'BOLD'}>HI</Typography>
+      <View className="mb-10">
+        <Typography fontWeight={'BOLD'} className="text-xl mt-10">
+          이름과 이메일을
+        </Typography>
+        <Typography fontWeight={'BOLD'} className="text-xl">
+          입력해주세요.
+        </Typography>
+      </View>
+
+      <View className=" flex-col gap-y-10">
+        <View>
+          <Typography className="mb-2" fontWeight={'MEDIUM'}>
+            이름
+          </Typography>
+          <InputField
+            autoFocus
+            placeholder="이름을 입력하세요"
+            error={form.errors.nickname}
+            touched={form.touched.nickname}
+            inputMode="text"
+            returnKeyType="next"
+            blurOnSubmit={false}
+            onSubmitEditing={() => emailRef.current?.focus()}
+            {...form.getTextInputProps('nickname')}
+          />
+        </View>
+        <View>
+          <Typography className="mb-2" fontWeight={'MEDIUM'}>
+            이메일
+          </Typography>
+          <InputField
+            ref={emailRef}
+            placeholder="이메일을 입력하세요"
+            error={form.errors.email}
+            touched={form.touched.email}
+            inputMode="email"
+            returnKeyType="join"
+            onSubmitEditing={() => (isDisabled ? null : onNext('STEP_3'))}
+            {...form.getTextInputProps('email')}
+          />
+        </View>
+      </View>
     </ScreenContainer>
   );
 }

@@ -1,13 +1,13 @@
 import {SafeAreaView, TextInput, View} from 'react-native';
 import {useRef} from 'react';
 
-import {InputField} from '../../components/@common/InputField/InputField.tsx';
+import {InputField} from 'components/@common/InputField/InputField.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {Login} from 'constants/screens/AuthStackScreens/LoginScreen.ts';
 
-import useForm from '../../hooks/useForm.ts';
-import {validateLogin} from '../../utils/validate.ts';
+import useForm from 'hooks/useForm.ts';
+import {validateLogin} from 'utils/validate.ts';
 
 export default function LoginScreen() {
   const passwordRef = useRef<TextInput | null>(null);

@@ -2,9 +2,10 @@ export type TJoinRequestDto = {
   nickname: string;
   email: string;
   password: string;
+  passwordCheck: string;
   role: 'ROLE_USER' | 'ROLE_ADMIN';
   gender: 'FEMALE' | 'MALE';
-  age: number;
-  birth: Date;
+  age: string;
+  birth: string;
   residence: string;
 };

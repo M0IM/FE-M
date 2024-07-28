@@ -1,7 +1,6 @@
 import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
 import RootNavigator from './src/navigators/root/RootNavigator.tsx';
 
-
 function App() {
   return (
     <AppSetupContainer>

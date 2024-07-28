@@ -51,6 +51,7 @@ module.exports = {
       light: ['Pretendard-Light'],
       medium: ['Pretendard-Medium'],
       sokcho: ['SokchoBadaDotum'],
+      mango: ['MangoByeolbyeol'],
     },
   },
   plugins: [nativewind()],

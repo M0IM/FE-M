@@ -3,6 +3,7 @@ export const typographyStyles = {
   LIGHT: 'font-light',
   MEDIUM: 'font-medium',
   SOKCHO: 'font-sokcho',
+  MANGO: 'font-mango',
 };
 
 /** typeof typoStyles */

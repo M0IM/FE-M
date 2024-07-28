@@ -1,4 +1,4 @@
-import {Platform, View} from 'react-native';
+import {Platform, Text, View} from 'react-native';
 import {
   getProfile,
   loginWithKakaoAccount,
@@ -51,7 +51,7 @@ export default function AuthHomeScreen({
       <View className="flex flex-col items-center justify-center">
         <Logo background={'TRANSPARENT'} />
         <View className="flex flex-col items-center justify-center mt-6">
-          <Typography className="text-5xl" fontWeight={'BOLD'}>
+          <Typography className="text-6xl" fontWeight={'MANGO'}>
             {AuthHome.TITLE}
           </Typography>
           <Typography className="text-xl" fontWeight={'MEDIUM'}>

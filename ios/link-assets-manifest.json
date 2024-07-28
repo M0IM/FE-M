@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/MangoByeolbyeol.ttf",
+      "sha1": "42345c14d8013ea5a18d5d8a95f1ec9ad5298042"
+    },
+    {
       "path": "src/assets/fonts/Pretendard-Bold.ttf",
       "sha1": "5014ee949529efb25dc8d2555fb8d4586f43e058"
     },

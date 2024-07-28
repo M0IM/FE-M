@@ -20,7 +20,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView className="m-10 my-20 flex-1">
       <View className="flex flex-col items-center justify-center mt-6 mb-20">
-        <Typography className="text-5xl" fontWeight={'BOLD'}>
+        <Typography className="text-6xl" fontWeight={'MANGO'}>
           {Login.TITLE}
         </Typography>
         <Typography className="text-xl" fontWeight={'MEDIUM'}>

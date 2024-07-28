@@ -15,6 +15,7 @@
 		2122284382E34B168E760E70 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */; };
 		22D58F8B8B8F3A61DFE67956 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACEBCA1747EBB350A1CF0170 /* PrivacyInfo.xcprivacy */; };
 		30B611A8EFCA41CE8910A67F /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7C316099B4149C4940C3837 /* Pretendard-Bold.ttf */; };
+		5080445DA3D548D9BAAEE51D /* MangoByeolbyeol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6BAD056C34739BFAFF90D /* MangoByeolbyeol.ttf */; };
 		636BD3122C4FCB6B00FC5E0D /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6312C4FC9A800DC9714 /* Ionicons.ttf */; };
 		636BD3132C4FCB6B00FC5E0D /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6322C4FC9A800DC9714 /* MaterialIcons.ttf */; };
 		636BD3142C4FCB6B00FC5E0D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6302C4FC9A800DC9714 /* Octicons.ttf */; };
@@ -62,6 +63,7 @@
 		66B6A9776CF84E5BA791B630 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../src/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MOIM/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-MOIM-MOIMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM-MOIMTests.release.xcconfig"; path = "Target Support Files/Pods-MOIM-MOIMTests/Pods-MOIM-MOIMTests.release.xcconfig"; sourceTree = "<group>"; };
+		9AB6BAD056C34739BFAFF90D /* MangoByeolbyeol.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = MangoByeolbyeol.ttf; path = ../src/assets/fonts/MangoByeolbyeol.ttf; sourceTree = "<group>"; };
 		ACEBCA1747EBB350A1CF0170 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MOIM/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C7C316099B4149C4940C3837 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.ttf"; path = "../src/assets/fonts/Pretendard-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -137,6 +139,7 @@
 				66B6A9776CF84E5BA791B630 /* Pretendard-Light.ttf */,
 				27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */,
 				032223B17DE349E082179A94 /* SokchoBadaDotum.ttf */,
+				9AB6BAD056C34739BFAFF90D /* MangoByeolbyeol.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				E5C247F273CB4A29A9C7106A /* Pretendard-Light.ttf in Resources */,
 				2122284382E34B168E760E70 /* Pretendard-Medium.ttf in Resources */,
 				9B9107ABCF3F4E68A344B54C /* SokchoBadaDotum.ttf in Resources */,
+				5080445DA3D548D9BAAEE51D /* MangoByeolbyeol.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

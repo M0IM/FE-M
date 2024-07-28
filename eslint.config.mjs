@@ -28,6 +28,8 @@ export default [
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+      "semi": [1, "always"],
+      "indent": [1, 2],
     }
   }
 ];

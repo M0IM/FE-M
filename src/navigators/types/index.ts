@@ -11,7 +11,13 @@ export type FeedTabParamList = {
 export type AuthStackParamList = {
   AUTH_HOME: undefined;
   LOGIN: undefined;
-  SIGN_UP: undefined;
+  SERVICE_TERM: undefined;
+  PRIVACY_POLICY: undefined;
+  STEP_1: undefined;
+  STEP_2: undefined;
+  STEP_3: undefined;
+  STEP_4: undefined;
+  STEP_5: undefined;
 };
 
 /** screen name */

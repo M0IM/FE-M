@@ -1,27 +1,30 @@
-import {Platform, View} from 'react-native';
-
+import {Platform, Text, View} from 'react-native';
 import {
   getProfile,
   loginWithKakaoAccount,
 } from '@react-native-seoul/kakao-login';
-
-import {Logo} from 'components/@common/Logo/Logo.tsx';
-import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
-
-import {AuthHome} from '../../constants/screens/AuthStackScreens/AuthHome.ts';
-
 import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-import {AuthStackParamList} from '../../navigators/types';
-import {NativeStackScreenProps} from 'react-native-screens/native-stack';
 
-type TAuthHomeScreenProps = NativeStackScreenProps<AuthStackParamList>;
+import {Logo} from 'components/@common/Logo/Logo.tsx';
+import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 
-export default function AuthHomeScreen({navigation}: TAuthHomeScreenProps) {
+import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
+import {AuthStackNavigationProp} from 'navigators/types';
+
+type TAuthHomeScreenProps = {
+  navigation: AuthStackNavigationProp;
+  onNext: (type: string) => void;
+};
+
+export default function AuthHomeScreen({
+  navigation,
+  onNext,
+}: TAuthHomeScreenProps) {
   const handlePressKakaoLoginButton = async () => {
     try {
       const {idToken} = await loginWithKakaoAccount();
@@ -48,7 +51,7 @@ export default function AuthHomeScreen({navigation}: TAuthHomeScreenProps) {
       <View className="flex flex-col items-center justify-center">
         <Logo background={'TRANSPARENT'} />
         <View className="flex flex-col items-center justify-center mt-6">
-          <Typography className="text-5xl" fontWeight={'BOLD'}>
+          <Typography className="text-6xl" fontWeight={'MANGO'}>
             {AuthHome.TITLE}
           </Typography>
           <Typography className="text-xl" fontWeight={'MEDIUM'}>
@@ -92,6 +95,7 @@ export default function AuthHomeScreen({navigation}: TAuthHomeScreenProps) {
             textStyle={'text-sm'}
             variant={'outlined'}
             label={AuthHome.SIGN_UP}
+            onPress={() => onNext('REGISTER')}
           />
         </View>
       </View>

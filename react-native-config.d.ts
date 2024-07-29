@@ -5,6 +5,10 @@ declare module 'react-native-config' {
     KAKAO_REST_API_KEY?: string;
     KAKAO_JS_KEY?: string;
     KAKAO_ADMIN_KEY?: string;
+    NAVER_CLIENT_ID: string;
+    NAVER_CLIENT_SECRET: string;
+    NAVER_URL_SCHEME: string;
+    NAVER_APP_NAME: string;
   }
 
   export const Config: NativeConfig;

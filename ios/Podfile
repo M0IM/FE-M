@@ -39,6 +39,8 @@ target 'MOIM' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'naveridlogin-sdk-ios'
+
   target 'MOIMTests' do
     inherit! :complete
     # Pods for testing

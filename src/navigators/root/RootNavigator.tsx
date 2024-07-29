@@ -13,10 +13,9 @@ export default function RootNavigator() {
     if (!isLoginLoading) {
       setTimeout(() => {
         SplashScreen.hide();
-      }, 500);
+      }, 1000);
     }
   }, [isLoginLoading]);
-
   return (
     <NavigationContainer>
       {isLogin ? <FeedTabNavigator /> : <AuthStackNavigator />}

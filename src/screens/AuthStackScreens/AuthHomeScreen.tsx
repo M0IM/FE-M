@@ -18,6 +18,7 @@ import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
 import Config from 'react-native-config';
 import {useEffect} from 'react';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 type TAuthHomeScreenProps = {
   navigation: AuthStackNavigationProp;
@@ -33,6 +34,15 @@ export default function AuthHomeScreen({
   navigation,
   onNext,
 }: TAuthHomeScreenProps) {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: Config.GOOGLE_WEB_CLIENT_ID,
+      iosClientId: Config.GOOGLE_IOS_CLIENT_ID,
+      offlineAccess: true,
+      hostedDomain: '',
+    });
+  }, []);
+
   useEffect(() => {
     // @ts-ignore
     NaverLogin.initialize({
@@ -65,7 +75,6 @@ export default function AuthHomeScreen({
       console.log(error);
     }
   };
-
   const handlePressKakaoLoginButton = async () => {
     try {
       const {idToken} = await loginWithKakaoAccount();
@@ -86,6 +95,22 @@ export default function AuthHomeScreen({
       console.log(error);
     }
   };
+  const handlePressGoogleLoginButton = async () => {
+    await GoogleSignin.hasPlayServices();
+    try {
+      const response = await GoogleSignin.signIn();
+      console.log(response);
+      if (!response.idToken) {
+        return null;
+      }
+
+      return {
+        idToken: response.idToken,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View className="flex flex-1 bg-white flex-col items-center justify-around p-10">
       <View className="flex flex-col items-center justify-center">
@@ -101,7 +126,11 @@ export default function AuthHomeScreen({
       </View>
       <View className="w-full gap-y-10">
         <View className="flex-row items-center justify-center gap-10">
-          <SocialButton provider={'GOOGLE'} size={'MD'} />
+          <SocialButton
+            provider={'GOOGLE'}
+            size={'MD'}
+            onPress={handlePressGoogleLoginButton}
+          />
           <SocialButton
             provider={'NAVER'}
             size={'MD'}

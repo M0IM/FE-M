@@ -8,7 +8,7 @@ import Label from 'components/@common/Label/Label';
 interface ProfileBarProps extends TouchableOpacityProps {
     uri?: string;
     username: string;
-    label: string;
+    label?: string;
 }
 
 const ProfileBar = ({

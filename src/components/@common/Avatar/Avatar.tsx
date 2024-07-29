@@ -52,10 +52,10 @@ const avatarVariants = cva(
   {
     variants: {
       size: {
-        XS: `w-[${SIZE.XS}px] h-[${SIZE.XS}px]`,
-        SM: `w-[${SIZE.SM}px] h-[${SIZE.SM}px]`,
-        MD: `w-[${SIZE.MD}px] h-[${SIZE.MD}px]`,
-        LG: `w-[${SIZE.LG}px] h-[${SIZE.LG}px]`,
+        XS: `w-[${SIZE.XS}] h-[${SIZE.XS}]`,
+        SM: `w-[${SIZE.SM}] h-[${SIZE.SM}]`,
+        MD: `w-[${SIZE.MD}] h-[${SIZE.MD}]`,
+        LG: `w-[${SIZE.LG}] h-[${SIZE.LG}]`,
       },
       defaultVariants: {
         size: 'SM',

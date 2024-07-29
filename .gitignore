@@ -72,3 +72,4 @@ yarn-error.log
 # environment
 .env
 env
+ios/tmp.xcconfig

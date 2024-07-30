@@ -1,6 +1,5 @@
 import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
 import RootNavigator from './src/navigators/root/RootNavigator.tsx';
-import {DevToolsBubble} from 'react-native-react-query-devtools';
 
 import Toast, {
   BaseToast,
@@ -39,7 +38,6 @@ function App() {
       <>
         <RootNavigator />
         <Toast config={toastConfig} />
-        <DevToolsBubble />
       </>
     </AppSetupContainer>
   );
@@ -49,10 +47,6 @@ let AppEntryPoint = App;
 
 if (process.env.STORYBOOK_ENABLED) {
   AppEntryPoint = require('./.ondevice').default;
-}
-
-if (__DEV__) {
-  require('./ReactotronConfig');
 }
 
 export default AppEntryPoint;

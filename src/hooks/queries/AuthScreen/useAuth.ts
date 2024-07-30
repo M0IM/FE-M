@@ -5,46 +5,17 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import {getAccessToken, logout, postLogin, postSignup, socialLogin} from 'apis';
 import {UseMutationCustomOptions} from 'types/mutations/common.ts';
 import {
-  numbers,
   removeEncryptStorage,
   removeHeader,
   setEncryptStorage,
   setHeader,
+  numbers,
 } from 'utils';
 import {queryKeys, storageKeys} from 'constants/storageKeys/keys.ts';
-import Toast from 'react-native-toast-message';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: postSignup,
-    onSuccess: data => {
-      // 토큰 저장.
-      const accessToken = data.result.accessToken;
-      const refreshToken = data.result.refreshToken;
-      setHeader('Authorization', accessToken);
-      setEncryptStorage(storageKeys.ACCESS_TOKEN, accessToken);
-      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
-      Toast.show({
-        type: 'success',
-        text1: data.message ? data.message : '회원가입 성공',
-        visibilityTime: 2000,
-        position: 'bottom',
-      });
-    },
-    onSettled: () => {
-      queryClient.refetchQueries({
-        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
-      });
-    },
-    onError: error => {
-      console.log(error);
-      Toast.show({
-        type: 'error',
-        text1: error.message ? error.message : '회원가입에 실패하였습니다.',
-        visibilityTime: 2000,
-        position: 'bottom',
-      });
-    },
     throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
@@ -55,17 +26,19 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
     mutationFn: postLogin,
     onSuccess: data => {
       // 토큰 저장.
-      const accessToken = data.result.accessToken;
-      const refreshToken = data.result.refreshToken;
+      const accessToken = data.accessToken;
+      const refreshToken = data.refreshToken;
 
       setEncryptStorage(storageKeys.ACCESS_TOKEN, accessToken);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
-
-      setHeader('Authorization', accessToken);
+      setHeader('Authorization', `Bearer ${accessToken}`);
     },
     onSettled: () => {
       queryClient.refetchQueries({
         queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
       });
     },
     throwOnError: error => Number(error.response?.status) >= 500,
@@ -76,22 +49,30 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
 function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: socialLogin,
-    onSuccess: ({result}) => {
-      setHeader('Authorization', result.accessToken);
-      setEncryptStorage(storageKeys.REFRESH_TOKEN, result.refreshToken);
+    onSuccess: ({accessToken, refreshToken}) => {
+      setEncryptStorage(storageKeys.ACCESS_TOKEN, accessToken);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
+      setHeader('Authorization', `Bearer ${accessToken}`);
     },
-    onSettled: () => {
-      queryClient.refetchQueries({
-        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
-      });
+    ...mutationOptions,
+  });
+}
+
+function useLogout(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      removeHeader('Authorization');
+      removeEncryptStorage(storageKeys.ACCESS_TOKEN);
+      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+      queryClient.resetQueries({queryKey: [queryKeys.AUTH]});
     },
-    throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
 }
 
 function useGetRefreshToken() {
-  const {data, error, isSuccess, isError, isPending} = useQuery({
+  const {data, isSuccess, isError, isPending} = useQuery({
     queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
     staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
@@ -102,10 +83,8 @@ function useGetRefreshToken() {
 
   useEffect(() => {
     if (isSuccess) {
-      setHeader('Authorization', `Bearer ${data?.result.accessToken}`);
-      setEncryptStorage(storageKeys.ACCESS_TOKEN, data.result.accessToken);
-      setEncryptStorage(storageKeys.REFRESH_TOKEN, data.result.refreshToken);
-      console.log(isSuccess, '성공');
+      setHeader('Authorization', `Bearer ${data.accessToken}`);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, data.refreshToken);
     }
   }, [isSuccess]);
 
@@ -116,30 +95,17 @@ function useGetRefreshToken() {
     }
   }, [isError]);
 
-  return {isSuccess, isError, error, data, isPending};
-}
-
-function useLogout(mutationOptions?: UseMutationCustomOptions) {
-  return useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
-      removeHeader('Authorization');
-      queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
-    },
-    throwOnError: error => Number(error.response?.status) >= 500,
-    ...mutationOptions,
-  });
+  return {isSuccess, isError, isPending};
 }
 
 function useAuth() {
   const signUpMutation = useSignup();
   const loginMutation = useLogin();
   const socialIdTokenMutation = useSocialIdTokenLogin();
-  const getNewAccessToken = useGetRefreshToken();
+  const refreshTokenQuery = useGetRefreshToken();
+  const isLogin = refreshTokenQuery.isSuccess;
   const logoutMutation = useLogout();
-  const isLogin = getNewAccessToken.isSuccess;
-  const isLoginLoading = getNewAccessToken.isPending;
+  const isLoginLoading = refreshTokenQuery.isPending;
 
   return {
     signUpMutation,
@@ -148,7 +114,6 @@ function useAuth() {
     isLogin,
     logoutMutation,
     isLoginLoading,
-    getNewAccessToken,
   };
 }
 

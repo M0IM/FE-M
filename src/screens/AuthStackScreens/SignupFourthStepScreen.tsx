@@ -23,7 +23,7 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
   const [showTermsOfService, setShowTermsOfService] = useState(false);
 
   const handleNext = () => {
-    onNext('STEP_3');
+    onNext('STEP_5');
   };
 
   const handleAllCheck = (newValue: boolean) => {

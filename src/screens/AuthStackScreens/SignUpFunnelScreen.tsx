@@ -2,28 +2,30 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import AuthHomeScreen from './AuthHomeScreen.tsx';
-import SignUpSecondStepScreen from './SignUpSecondStepScreen.tsx';
-import SignUpThirdStepScreen from './SignUpThirdStepScreen.tsx';
-import SignUpFourthStepScreen from './SignUpFourthStepScreen.tsx';
-import SignUpLastStepScreen from './SignUpLastStepScreen.tsx';
+import SignUpSecondStepScreen from './SignupSecondStepScreen.tsx';
+import SignUpThirdStepScreen from './SignupThridStepScreen.tsx';
+import SignUpFourthStepScreen from './SignupFourthStepScreen.tsx';
+import SignupLastStepScreen from './SignupLastStepScreen.tsx';
 
 import {AuthStackNavigationProp, AuthStackParamList} from 'navigators/types';
 import {AuthStack} from 'navigators/constants';
-import {TJoinRequestDto} from 'types/dtos/auth.ts';
+import {TSignup} from '../../apis';
 
 export default function SignUpFunnelScreen() {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const [signUpInfo, setSignUpInfo] = useState<TJoinRequestDto>({
+  const [signUpInfo, setSignUpInfo] = useState<TSignup>({
+    provider: 'LOCAL',
+    providerId: '',
     nickname: '',
     email: '',
     password: '',
-    passwordCheck: '',
     role: 'ROLE_USER',
     gender: 'MALE',
-    age: '',
     birth: '',
     residence: '',
   });
+
+  console.log(signUpInfo);
 
   const stepInfoList = {
     STEP_1: (
@@ -41,7 +43,10 @@ export default function SignUpFunnelScreen() {
       />
     ),
     STEP_2: (
-      <SignUpSecondStepScreen onNext={() => navigation.navigate('STEP_3')} />
+      <SignUpSecondStepScreen
+        setSignUpInfo={setSignUpInfo}
+        onNext={() => navigation.navigate('STEP_3')}
+      />
     ),
     STEP_3: (
       <SignUpThirdStepScreen
@@ -56,7 +61,7 @@ export default function SignUpFunnelScreen() {
       />
     ),
     STEP_5: (
-      <SignUpLastStepScreen
+      <SignupLastStepScreen
         setSignUpInfo={setSignUpInfo}
         signUpInfo={signUpInfo}
       />

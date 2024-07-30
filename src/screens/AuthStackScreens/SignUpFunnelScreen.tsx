@@ -25,15 +25,14 @@ export default function SignUpFunnelScreen() {
     residence: '',
   });
 
-  console.log(signUpInfo);
-
   const stepInfoList = {
     STEP_1: (
       <AuthHomeScreen
+        setSignUpInfo={setSignUpInfo}
         navigation={navigation}
         onNext={(type: string) => {
           if (type === 'REGISTER') {
-            navigation.navigate('STEP_2');
+            navigation.navigate('STEP_4');
           } else {
             setSignUpInfo({
               ...signUpInfo,

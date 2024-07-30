@@ -1,13 +1,17 @@
-import {Alert, Platform, View} from 'react-native';
+import {Platform, View} from 'react-native';
+import React, {useEffect} from 'react';
+import Config from 'react-native-config';
 import {
   getProfile,
   loginWithKakaoAccount,
 } from '@react-native-seoul/kakao-login';
+import {appleClient} from 'apis';
 import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import NaverLogin from '@react-native-seoul/naver-login';
+import {GoogleSignin, User} from '@react-native-google-signin/google-signin';
 
 import {Logo} from 'components/@common/Logo/Logo.tsx';
 import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
@@ -15,14 +19,14 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 
 import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
+import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+import {TSignup} from 'types/dtos/auth.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
-import Config from 'react-native-config';
-import {useEffect} from 'react';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 type TAuthHomeScreenProps = {
   navigation: AuthStackNavigationProp;
   onNext: (type: string) => void;
+  setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
 };
 
 const consumerKey = Config.NAVER_CLIENT_ID;
@@ -33,6 +37,7 @@ const serviceUrlSchemeIOS = Config.NAVER_URL_SCHEME;
 export default function AuthHomeScreen({
   navigation,
   onNext,
+  setSignUpInfo,
 }: TAuthHomeScreenProps) {
   useEffect(() => {
     GoogleSignin.configure({
@@ -54,78 +59,151 @@ export default function AuthHomeScreen({
     });
   }, []);
 
+  const {socialIdTokenMutation} = useAuth();
+
   const handlePressNaverLoginButton = async () => {
-    try {
-      console.log('클릭');
-      const {failureResponse, successResponse} = await NaverLogin.login();
-      console.log('클릭2');
-      if (successResponse?.accessToken) {
-        const profileNaver = await NaverLogin.getProfile(
-          successResponse?.accessToken,
-        );
-        console.log(successResponse, profileNaver);
-        Alert.alert(
-          '야호',
-          `${profileNaver.response.name}님 환영합니다. 생년월일은 ${profileNaver.response.birthday}이며, 
-                    성별은 ${profileNaver.response.gender}입니다. 폰 번호는 ${profileNaver.response.mobile}입니다. 
-                    나이대는 ${profileNaver.response.age}입니다. 이메일 주소는 ${profileNaver.response.email}입니다.`,
-        );
-      }
-      console.log('에러시', failureResponse);
-    } catch (error) {
-      console.log(error);
-    }
+    const {successResponse} = await NaverLogin.login();
+    const profile = await NaverLogin.getProfile(successResponse!.accessToken);
+
+    socialIdTokenMutation.mutate(
+      {
+        type: 'NAVER',
+        idToken: String(successResponse?.accessToken),
+      },
+      {
+        onSuccess: ({result}) => {
+          if (result.provider === 'UNREGISTERED') {
+            setSignUpInfo(prevInfo => ({
+              ...prevInfo,
+              provider: 'NAVER',
+              providerId: profile.response.id,
+              nickname: String(profile.response.nickname),
+              role: 'ROLE_USER',
+              email: profile.response.email,
+            }));
+            onNext(result.provider);
+          } else {
+            onNext('NAVER');
+          }
+        },
+        onError: error => {
+          console.log(error);
+        },
+      },
+    );
   };
   const handlePressKakaoLoginButton = async () => {
-    try {
-      const {idToken} = await loginWithKakaoAccount();
-      const profile = await getProfile();
-      console.log(idToken, profile);
-    } catch (error) {
-      console.log(error);
-    }
+    const {idToken} = await loginWithKakaoAccount();
+    const {nickname, email, id} = await getProfile();
+    console.log(id);
+    socialIdTokenMutation.mutate(
+      {
+        type: 'KAKAO',
+        idToken: idToken,
+      },
+      {
+        onSuccess: ({result}) => {
+          if (result.provider === 'UNREGISTERED') {
+            setSignUpInfo(prevInfo => ({
+              ...prevInfo,
+              provider: 'KAKAO',
+              providerId: String(id),
+              nickname,
+              role: 'ROLE_USER',
+              email,
+            }));
+            onNext(result.provider);
+          } else {
+            onNext('KAKAO');
+          }
+        },
+        onError: error => {
+          console.log(error);
+        },
+      },
+    );
   };
   const handlePressAppleLoginButton = async () => {
-    try {
-      const {identityToken, fullName} = await appleAuth.performRequest({
-        requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-      });
-      console.log('identity', identityToken, 'fullName', fullName);
-    } catch (error) {
-      console.log(error);
+    const {user, identityToken: idToken} = await appleClient.fetchLogin();
+
+    const authState = await appleClient.getUserAuthState(user);
+
+    if (idToken && authState === appleAuth.State.AUTHORIZED) {
+      socialIdTokenMutation.mutate(
+        {
+          type: 'APPLE',
+          idToken: idToken,
+        },
+        {
+          onSuccess: ({result}) => {
+            if (result.provider === 'UNREGISTERED') {
+              setSignUpInfo(prevInfo => ({
+                ...prevInfo,
+                provider: 'APPLE',
+                providerId: String(user),
+                nickname: '개념빵맨',
+                role: 'ROLE_USER',
+                email: `${String(user)}@apple.com`,
+              }));
+              onNext(result.provider);
+            } else {
+              onNext('APPLE');
+            }
+          },
+          onError: error => {
+            console.log(error);
+          },
+        },
+      );
     }
   };
   const handlePressGoogleLoginButton = async () => {
     await GoogleSignin.hasPlayServices();
-    try {
-      const response = await GoogleSignin.signIn();
-      console.log(response);
-      if (!response.idToken) {
-        return null;
-      }
+    const response: User = await GoogleSignin.signIn();
 
-      return {
-        idToken: response.idToken,
-      };
-    } catch (error) {
-      console.log(error);
-    }
+    socialIdTokenMutation.mutate(
+      {
+        type: 'GOOGLE',
+        idToken: String(response.idToken),
+      },
+      {
+        onSuccess: ({result}) => {
+          if (result.provider === 'UNREGISTERED') {
+            setSignUpInfo(prevInfo => ({
+              ...prevInfo,
+              provider: 'GOOGLE',
+              providerId: String(response.user.id),
+              nickname: String(response.user.name),
+              role: 'ROLE_USER',
+              email: response.user.email,
+            }));
+            onNext(result.provider);
+          } else {
+            onNext('GOOGLE');
+          }
+        },
+        onError: error => {
+          console.log(error);
+        },
+      },
+    );
   };
+
   return (
     <View className="flex flex-1 bg-white flex-col items-center justify-around p-10">
       <View className="flex flex-col items-center justify-center">
         <Logo background={'TRANSPARENT'} />
         <View className="flex flex-col items-center justify-center mt-6">
           <Typography
-            className="text-6xl text-dark-800"
-            fontWeight='MANGO'
-          >
+            style={{fontFamily: 'MangoByeolbyeol'}}
+            className="text-6xl"
+            fontWeight={'MANGO'}>
             {AuthHome.TITLE}
           </Typography>
           <Typography
-            className="text-lg text-dark-800 mt-1"
-            fontWeight='MEDIUM'>
+            style={{fontFamily: 'Pretendard-Medium'}}
+            className="text-xl"
+            fontWeight={'MEDIUM'}>
             {AuthHome.SUB_TITLE}
           </Typography>
         </View>
@@ -163,7 +241,7 @@ export default function AuthHomeScreen({
           )}
           <CustomButton
             label={AuthHome.EMAIL_LOGIN}
-            textStyle={'text-white text-xl font-bold'}
+            textStyle={'text-white font-bold text-xl'}
             variant={'filled'}
             size={'large'}
             onPress={() => {
@@ -174,7 +252,9 @@ export default function AuthHomeScreen({
             textStyle={'text-sm'}
             variant={'outlined'}
             label={AuthHome.SIGN_UP}
-            onPress={() => onNext('REGISTER')}
+            onPress={() => {
+              navigation.navigate('STEP_2');
+            }}
           />
         </View>
       </View>

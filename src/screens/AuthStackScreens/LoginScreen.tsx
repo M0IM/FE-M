@@ -4,6 +4,7 @@ import {useRef} from 'react';
 import {InputField} from 'components/@common/InputField/InputField.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
+
 import {Login} from 'constants/screens/AuthStackScreens/LoginScreen.ts';
 
 import useForm from 'hooks/useForm.ts';
@@ -20,10 +21,16 @@ export default function LoginScreen() {
   return (
     <SafeAreaView className="m-10 my-20 flex-1">
       <View className="flex flex-col items-center justify-center mt-6 mb-20">
-        <Typography className="text-6xl" fontWeight={'MANGO'}>
+        <Typography
+          style={{fontFamily: 'MangoByeolbyeol'}}
+          className="text-6xl"
+          fontWeight={'MANGO'}>
           {Login.TITLE}
         </Typography>
-        <Typography className="text-xl" fontWeight={'MEDIUM'}>
+        <Typography
+          style={{fontFamily: 'Pretendard-Medium'}}
+          className="text-xl"
+          fontWeight={'MEDIUM'}>
           {Login.SUB_TITLE}
         </Typography>
       </View>

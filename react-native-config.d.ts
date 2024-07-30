@@ -9,6 +9,10 @@ declare module 'react-native-config' {
     NAVER_CLIENT_SECRET: string;
     NAVER_URL_SCHEME: string;
     NAVER_APP_NAME: string;
+    GOOGLE_URL_SCHEME?: string;
+    GOOGLE_WEB_CLIENT_ID?: string;
+    GOOGLE_IOS_CLIENT_ID?: string;
+    GOOGLE_AOS_CLIENT_ID?: string;
   }
 
   export const Config: NativeConfig;

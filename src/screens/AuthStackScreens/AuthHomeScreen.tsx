@@ -116,10 +116,16 @@ export default function AuthHomeScreen({
       <View className="flex flex-col items-center justify-center">
         <Logo background={'TRANSPARENT'} />
         <View className="flex flex-col items-center justify-center mt-6">
-          <Typography className="text-6xl" fontWeight={'MANGO'}>
+          <Typography
+            style={{fontFamily: 'MangoByeolbyeol'}}
+            className="text-6xl"
+            fontWeight={'MANGO'}>
             {AuthHome.TITLE}
           </Typography>
-          <Typography className="text-xl" fontWeight={'MEDIUM'}>
+          <Typography
+            style={{fontFamily: 'Pretendard-Medium'}}
+            className="text-xl"
+            fontWeight={'MEDIUM'}>
             {AuthHome.SUB_TITLE}
           </Typography>
         </View>

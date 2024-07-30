@@ -25,6 +25,8 @@ export default function SignUpFunnelScreen() {
     residence: '',
   });
 
+  console.log(signUpInfo);
+
   const stepInfoList = {
     STEP_1: (
       <AuthHomeScreen

@@ -9,7 +9,7 @@ import SignupLastStepScreen from './SignupLastStepScreen.tsx';
 
 import {AuthStackNavigationProp, AuthStackParamList} from 'navigators/types';
 import {AuthStack} from 'navigators/constants';
-import {TSignup} from 'types/dtos/auth.ts';
+import {TSignup} from '../../apis';
 
 export default function SignUpFunnelScreen() {
   const navigation = useNavigation<AuthStackNavigationProp>();
@@ -25,14 +25,15 @@ export default function SignUpFunnelScreen() {
     residence: '',
   });
 
+  console.log(signUpInfo);
+
   const stepInfoList = {
     STEP_1: (
       <AuthHomeScreen
-        setSignUpInfo={setSignUpInfo}
         navigation={navigation}
         onNext={(type: string) => {
-          if (type === 'UNREGISTERED') {
-            navigation.navigate('STEP_4');
+          if (type === 'REGISTER') {
+            navigation.navigate('STEP_2');
           } else {
             setSignUpInfo({
               ...signUpInfo,
@@ -54,7 +55,10 @@ export default function SignUpFunnelScreen() {
       />
     ),
     STEP_4: (
-      <SignUpFourthStepScreen onNext={() => navigation.navigate('STEP_5')} />
+      <SignUpFourthStepScreen
+        setSignUpInfo={setSignUpInfo}
+        onNext={() => navigation.navigate('STEP_5')}
+      />
     ),
     STEP_5: (
       <SignupLastStepScreen

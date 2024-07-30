@@ -1,13 +1,21 @@
 import React, {ReactElement} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
+  // defaultOptions: {
+  //   queries: {
+  //     throwOnError: true,
+  //   },
+  //   mutations: {
+  //     // throwOnError: true,
+  //   },
+  // },
   defaultOptions: {
     queries: {
-      throwOnError: true,
+      retry: false,
     },
     mutations: {
-      throwOnError: true,
+      retry: false,
     },
   },
 });

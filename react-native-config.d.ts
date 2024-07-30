@@ -13,6 +13,7 @@ declare module 'react-native-config' {
     GOOGLE_WEB_CLIENT_ID?: string;
     GOOGLE_IOS_CLIENT_ID?: string;
     GOOGLE_AOS_CLIENT_ID?: string;
+    SERVER_URL: string;
   }
 
   export const Config: NativeConfig;

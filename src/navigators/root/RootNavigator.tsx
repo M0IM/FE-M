@@ -4,10 +4,12 @@ import AuthStackNavigator from '../stack/AuthStackNavigator.tsx';
 import {useEffect} from 'react';
 
 import SplashScreen from 'react-native-splash-screen';
+import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
+import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 
 export default function RootNavigator() {
-  const isLogin = false;
-  const isLoginLoading = false;
+  const {isLogin, isLoginLoading} = useAuth();
+  console.log(isLogin, isLoginLoading);
 
   useEffect(() => {
     if (!isLoginLoading) {
@@ -19,6 +21,7 @@ export default function RootNavigator() {
   return (
     <NavigationContainer>
       {isLogin ? <FeedTabNavigator /> : <AuthStackNavigator />}
+      {/*<CustomButton label={'HI'} onPress={() => isLogin === false} />*/}
     </NavigationContainer>
   );
 }

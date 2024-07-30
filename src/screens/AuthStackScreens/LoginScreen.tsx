@@ -6,17 +6,48 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 
 import {Login} from 'constants/screens/AuthStackScreens/LoginScreen.ts';
+import Toast from 'react-native-toast-message';
 
 import useForm from 'hooks/useForm.ts';
 import {validateLogin} from 'utils/validate.ts';
 
+import {postLogin} from '../../apis';
+import {useMutation} from '@tanstack/react-query';
+
 export default function LoginScreen() {
   const passwordRef = useRef<TextInput | null>(null);
-
+  console.log('hi');
   const login = useForm({
     initialValue: {email: '', password: ''},
     validate: validateLogin,
   });
+
+  // const {loginMutation} = useAuth();
+  const loginMutation = useMutation({
+    mutationFn: postLogin,
+  });
+  const handlePressLogin = () => {
+    loginMutation.mutate(
+      {
+        email: login.values.email,
+        password: login.values.password,
+      },
+      {
+        onSuccess: data => {
+          console.log(data);
+        },
+        onError: error => {
+          console.log(error);
+          Toast.show({
+            type: 'error',
+            text1: error.response?.data.message || '로그인 에러발생',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
+        },
+      },
+    );
+  };
 
   return (
     <SafeAreaView className="m-10 my-20 flex-1">
@@ -69,6 +100,7 @@ export default function LoginScreen() {
           textStyle={'text-white font-bold text-xl'}
           variant={'filled'}
           size={'large'}
+          onPress={handlePressLogin}
         />
         <CustomButton
           textStyle={'text-sm'}

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -33,14 +33,14 @@ export default function SignUpThirdStepScreen({
     validate: validateSignUpStep3,
   });
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
       nickname: form.values.nickname,
       email: form.values.email,
     }));
     onNext('STEP_3');
-  };
+  }, [form.values, setSignUpInfo, onNext]);
 
   const isDisabled = Object.values(form.errors).some(error => error);
 

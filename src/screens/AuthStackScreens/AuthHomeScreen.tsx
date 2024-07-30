@@ -1,6 +1,7 @@
-import {Alert, Platform, Text, View} from 'react-native';
+import {Platform, View} from 'react-native';
 import {
   getProfile,
+  login,
   loginWithKakaoAccount,
 } from '@react-native-seoul/kakao-login';
 import {
@@ -8,6 +9,7 @@ import {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import NaverLogin from '@react-native-seoul/naver-login';
+import Toast from 'react-native-toast-message';
 
 import {Logo} from 'components/@common/Logo/Logo.tsx';
 import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
@@ -17,12 +19,16 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
 import Config from 'react-native-config';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
+
+import {TSignup} from '../../apis';
 
 type TAuthHomeScreenProps = {
   navigation: AuthStackNavigationProp;
   onNext: (type: string) => void;
+  setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
 };
 
 const consumerKey = Config.NAVER_CLIENT_ID;
@@ -33,6 +39,7 @@ const serviceUrlSchemeIOS = Config.NAVER_URL_SCHEME;
 export default function AuthHomeScreen({
   navigation,
   onNext,
+  setSignUpInfo,
 }: TAuthHomeScreenProps) {
   useEffect(() => {
     GoogleSignin.configure({
@@ -54,35 +61,66 @@ export default function AuthHomeScreen({
     });
   }, []);
 
-  const handlePressNaverLoginButton = async () => {
-    try {
-      console.log('클릭');
-      const {failureResponse, successResponse} = await NaverLogin.login();
-      console.log('클릭2');
-      const profileNaver = await NaverLogin.getProfile(
-        successResponse?.accessToken,
-      );
-      console.log(successResponse, profileNaver);
-      console.log('에러시', failureResponse);
+  const {socialIdTokenMutation} = useAuth();
 
-      Alert.alert(
-        '야호',
-        `${profileNaver.response.name}님 환영합니다. 생년월일은 ${profileNaver.response.birthday}이며, 
-                  성별은 ${profileNaver.response.gender}입니다. 폰 번호는 ${profileNaver.response.mobile}입니다. 
-                  나이대는 ${profileNaver.response.age}입니다. 이메일 주소는 ${profileNaver.response.email}입니다.`,
-      );
-    } catch (error) {
-      console.log(error);
-    }
+  const handlePressNaverLoginButton = async () => {
+    const {successResponse} = await NaverLogin.login();
+    const {nickname, id, email} = await NaverLogin.getProfile(
+      successResponse.accessToken,
+    );
+
+    socialIdTokenMutation.mutate(
+      {
+        type: 'NAVER',
+        idToken: String(successResponse?.accessToken),
+      },
+      {
+        onSuccess: ({type}) => {
+          if (type === 'REGISTER') {
+            setSignUpInfo(prevInfo => ({
+              ...prevInfo,
+              provider: 'NAVER',
+              providerId: String(id),
+              nickname,
+              role: 'ROLE_USER',
+              email,
+            }));
+            onNext('REGISTER');
+          } else {
+            onNext('NAVER');
+          }
+        },
+        onError: error => {
+          console.log(error);
+          navigation.navigate('AUTH_HOME');
+        },
+      },
+    );
   };
   const handlePressKakaoLoginButton = async () => {
-    try {
-      const {idToken} = await loginWithKakaoAccount();
-      const profile = await getProfile();
-      console.log(idToken, profile);
-    } catch (error) {
-      console.log(error);
-    }
+    const {idToken} = await loginWithKakaoAccount();
+    const {nickname, email, id} = await getProfile();
+
+    socialIdTokenMutation.mutate(
+      {type: 'KAKAO', idToken},
+      {
+        onSuccess: ({type}) => {
+          onNext(type);
+          setSignUpInfo(prevInfo => ({
+            ...prevInfo,
+            provider: 'KAKAO',
+            providerId: String(id),
+            nickname,
+            role: 'ROLE_USER',
+            email,
+          }));
+          onNext(type);
+        },
+        onError: error => {
+          console.log(error);
+        },
+      },
+    );
   };
   const handlePressAppleLoginButton = async () => {
     try {
@@ -174,7 +212,9 @@ export default function AuthHomeScreen({
             textStyle={'text-sm'}
             variant={'outlined'}
             label={AuthHome.SIGN_UP}
-            onPress={() => onNext('REGISTER')}
+            onPress={() => {
+              navigation.navigate('STEP_2');
+            }}
           />
         </View>
       </View>

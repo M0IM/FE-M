@@ -8,13 +8,13 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {InputField} from 'components/@common/InputField/InputField.tsx';
 
-import {TJoinRequestDto} from 'types/dtos/auth.ts';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep4} from 'utils/validate.ts';
 import {FOURTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import {TSignup} from '../../apis';
 
 type TSignUpScreenProps = {
-  setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
+  setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
   onNext: (type: string) => void;
 };
 

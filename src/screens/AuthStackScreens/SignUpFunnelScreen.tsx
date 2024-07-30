@@ -55,10 +55,7 @@ export default function SignUpFunnelScreen() {
       />
     ),
     STEP_4: (
-      <SignUpFourthStepScreen
-        setSignUpInfo={setSignUpInfo}
-        onNext={() => navigation.navigate('STEP_5')}
-      />
+      <SignUpFourthStepScreen onNext={() => navigation.navigate('STEP_5')} />
     ),
     STEP_5: (
       <SignupLastStepScreen

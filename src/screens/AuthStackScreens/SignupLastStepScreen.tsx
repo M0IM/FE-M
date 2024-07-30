@@ -14,6 +14,7 @@ import {validateSignUpStep5} from 'utils/validate.ts';
 import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 import {postSignup, TSignup} from '../../apis';
 import {useMutation} from '@tanstack/react-query';
+import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -27,10 +28,7 @@ export default function SignupLastStepScreen({
   const navigation = useNavigation();
   const residenceRef = useRef<TextInput | null>(null);
   const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
-
-  const signUpMutation = useMutation({
-    mutationFn: postSignup,
-  });
+  const {signUpMutation} = useAuth();
 
   const form = useForm({
     initialValue: {

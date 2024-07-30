@@ -9,17 +9,18 @@ import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {InputField} from 'components/@common/InputField/InputField.tsx';
 
-import {TJoinRequestDto} from 'types/dtos/auth.ts';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep5} from 'utils/validate.ts';
 import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import {postSignup, TSignup} from '../../apis';
+import {useMutation} from '@tanstack/react-query';
 
 type TSignUpScreenProps = {
-  setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
-  signUpInfo: object;
+  setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
+  signUpInfo: TSignup;
 };
 
-export default function SignUpLastStepScreen({
+export default function SignupLastStepScreen({
   setSignUpInfo,
   signUpInfo,
 }: TSignUpScreenProps) {
@@ -27,10 +28,14 @@ export default function SignUpLastStepScreen({
   const residenceRef = useRef<TextInput | null>(null);
   const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
 
+  const signUpMutation = useMutation({
+    mutationFn: postSignup,
+  });
+
   const form = useForm({
     initialValue: {
       gender: 'MALE',
-      age: '',
+      birth: '',
       residence: '',
     },
     validate: validateSignUpStep5,
@@ -44,9 +49,25 @@ export default function SignUpLastStepScreen({
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
       gender,
-      age: form.values.age,
+      birth: form.values.birth,
       residence: form.values.residence,
     }));
+    signUpMutation.mutate(
+      {
+        provider: 'LOCAL',
+        nickname: signUpInfo.nickname,
+        email: signUpInfo.email,
+        password: signUpInfo.password,
+        role: 'ROLE_USER',
+        gender: signUpInfo.gender,
+        birth: '1999-07-14',
+        residence: form.values.residence,
+      },
+      {
+        onSuccess: () => console.log('성공했습니다.'),
+        onError: error => console.log(error),
+      },
+    );
   };
 
   const isDisabled = Object.values(form.errors).some(error => error);
@@ -125,11 +146,11 @@ export default function SignUpLastStepScreen({
             placeholder={FIFTH_STEP.WRITE_AGE}
             error={form.errors.age}
             touched={form.touched.age}
-            inputMode="numeric"
+            inputMode="text"
             returnKeyType="next"
             blurOnSubmit={false}
             onSubmitEditing={() => residenceRef.current?.focus()}
-            {...form.getTextInputProps('age')}
+            {...form.getTextInputProps('birth')}
           />
         </View>
         <View>

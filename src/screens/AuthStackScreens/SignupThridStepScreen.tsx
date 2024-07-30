@@ -48,6 +48,7 @@ export default function SignUpFourthStepScreen({
 
   return (
     <ScreenContainer
+      enabled={false}
       fixedTopComponent={
         <View className="flex-row justify-center items-center">
           <Pressable

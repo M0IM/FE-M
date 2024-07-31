@@ -10,22 +10,16 @@ import Toast from 'react-native-toast-message';
 
 import useForm from 'hooks/useForm.ts';
 import {validateLogin} from 'utils/validate.ts';
-
-import {postLogin} from '../../apis';
-import {useMutation} from '@tanstack/react-query';
+import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 
 export default function LoginScreen() {
+  const {loginMutation} = useAuth();
   const passwordRef = useRef<TextInput | null>(null);
-  console.log('hi');
   const login = useForm({
     initialValue: {email: '', password: ''},
     validate: validateLogin,
   });
 
-  // const {loginMutation} = useAuth();
-  const loginMutation = useMutation({
-    mutationFn: postLogin,
-  });
   const handlePressLogin = () => {
     loginMutation.mutate(
       {

@@ -1,6 +1,8 @@
 import axiosInstance from './axiosInstance.ts';
 import {getEncryptStorage} from '../utils';
 import {storageKeys} from '../constants/storageKeys/keys.ts';
+import axios from 'axios';
+import Config from 'react-native-config';
 
 type TSignup = {
   provider: 'KAKAO' | 'GOOGLE' | 'NAVER' | 'APPLE' | 'LOCAL';
@@ -63,7 +65,7 @@ type TLogin = {
 const postLogin = async ({
   email,
   password,
-}: TLogin): Promise<TResponseToken> => {
+}: TLogin): Promise<TResponseSignup> => {
   const {data} = await axiosInstance.post('/api/v1/auth/login', {
     email,
     password,
@@ -87,19 +89,33 @@ const socialLogin = async ({
 }: TSocial): Promise<TResponseToken> => {
   const {data} = await axiosInstance.post(`/api/v1/auth/oAuth`, {
     provider: type,
-    idToken,
+    token: idToken,
   });
 
   return data;
 };
 
-const logout = async () => {
-  const {data} = await axiosInstance.post('/api/v1/auth/logout', {});
+type TLogout = {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: object;
+};
+
+const logout = async (): Promise<TLogout> => {
+  const {data} = await axiosInstance.get('/api/v1/auth/logout');
 
   return data;
 };
 
-const getAccessToken = async (): Promise<TResponseToken> => {
+type TGetAccessToken = {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: TResponseToken;
+};
+
+const getAccessToken = async (): Promise<TGetAccessToken> => {
   const refreshToken = await getEncryptStorage(storageKeys.REFRESH_TOKEN);
 
   const {data} = await axiosInstance.get('/api/v1/auth/reissueToken', {
@@ -111,5 +127,30 @@ const getAccessToken = async (): Promise<TResponseToken> => {
   return data;
 };
 
+type TUserProfile = {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    profileId: number;
+    nickname: string;
+    profileImageUrl: string;
+  };
+};
+
+const getUserProfile = async (): Promise<TUserProfile> => {
+  // const {data} = await axiosInstance.get('/api/v1/users/profile');
+  const {data} = await axios.get(`${Config.SERVER_URL}/api/v1/users/profile`);
+  console.log(data);
+  return data;
+};
+
 export type {TResponseSignup, TResponseToken, TSignup, TLogin, TSocial};
-export {postSignup, postLogin, socialLogin, logout, getAccessToken};
+export {
+  postSignup,
+  postLogin,
+  socialLogin,
+  logout,
+  getAccessToken,
+  getUserProfile,
+};

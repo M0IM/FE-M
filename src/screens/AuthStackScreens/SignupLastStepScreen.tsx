@@ -13,7 +13,6 @@ import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep5} from 'utils/validate.ts';
 import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 import {postSignup, TSignup} from '../../apis';
-import {useMutation} from '@tanstack/react-query';
 import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 
 type TSignUpScreenProps = {
@@ -28,7 +27,7 @@ export default function SignupLastStepScreen({
   const navigation = useNavigation();
   const residenceRef = useRef<TextInput | null>(null);
   const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
-  const {signUpMutation} = useAuth();
+  const {signUpMutation, loginMutation} = useAuth();
 
   const form = useForm({
     initialValue: {
@@ -43,7 +42,8 @@ export default function SignupLastStepScreen({
     setGender(selectedGender);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
       gender,
@@ -52,17 +52,25 @@ export default function SignupLastStepScreen({
     }));
     signUpMutation.mutate(
       {
-        provider: 'LOCAL',
+        provider: signUpInfo.provider,
+        providerId: signUpInfo.providerId,
         nickname: signUpInfo.nickname,
         email: signUpInfo.email,
         password: signUpInfo.password,
         role: 'ROLE_USER',
         gender: signUpInfo.gender,
-        birth: '1999-07-14',
+        birth: form.values.birth,
         residence: form.values.residence,
       },
       {
-        onSuccess: () => console.log('성공했습니다.'),
+        onSuccess: data => {
+          loginMutation.mutate({
+            email: signUpInfo.email,
+            password: signUpInfo.password as string,
+          });
+          console.log(data);
+          console.log(signUpInfo);
+        },
         onError: error => console.log(error),
       },
     );
@@ -165,7 +173,7 @@ export default function SignupLastStepScreen({
             onSubmitEditing={() => {
               // 데이터 통신 로직
               if (!isDisabled) {
-                console.log(signUpInfo);
+                // console.log(signUpInfo);
               }
             }}
             {...form.getTextInputProps('residence')}

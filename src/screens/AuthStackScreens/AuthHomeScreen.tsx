@@ -1,7 +1,6 @@
 import {Platform, View} from 'react-native';
 import {
   getProfile,
-  login,
   loginWithKakaoAccount,
 } from '@react-native-seoul/kakao-login';
 import {
@@ -9,7 +8,6 @@ import {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import NaverLogin from '@react-native-seoul/naver-login';
-import Toast from 'react-native-toast-message';
 
 import {Logo} from 'components/@common/Logo/Logo.tsx';
 import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
@@ -68,6 +66,7 @@ export default function AuthHomeScreen({
     const {nickname, id, email} = await NaverLogin.getProfile(
       successResponse.accessToken,
     );
+    console.log(successResponse);
 
     socialIdTokenMutation.mutate(
       {
@@ -114,7 +113,7 @@ export default function AuthHomeScreen({
             role: 'ROLE_USER',
             email,
           }));
-          onNext(type);
+          onNext('REGISTER');
         },
         onError: error => {
           console.log(error);
@@ -124,11 +123,33 @@ export default function AuthHomeScreen({
   };
   const handlePressAppleLoginButton = async () => {
     try {
-      const {identityToken, fullName} = await appleAuth.performRequest({
+      const {identityToken, fullName, email} = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       });
-      console.log('identity', identityToken, 'fullName', fullName);
+      console.log(identityToken);
+      if (identityToken) {
+        socialIdTokenMutation.mutate(
+          {type: 'APPLE', idToken: identityToken},
+          {
+            onSuccess: ({type}) => {
+              onNext(type);
+              setSignUpInfo(prevInfo => ({
+                ...prevInfo,
+                provider: 'APPLE',
+                providerId: String(identityToken),
+                nickname: String(fullName),
+                role: 'ROLE_USER',
+                email: String(email),
+              }));
+              onNext('REGISTER');
+            },
+            onError: error => {
+              console.log(error);
+            },
+          },
+        );
+      }
     } catch (error) {
       console.log(error);
     }

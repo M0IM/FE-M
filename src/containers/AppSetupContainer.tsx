@@ -1,6 +1,7 @@
 import {ReactElement} from 'react';
 import TanstackQueryContainer from './TanstackQueryContainer.tsx';
 import ErrorBoundaryContainer from './ErrorBoundaryContainer.tsx';
+import NavigatorContainer from './NavigatorContainer.tsx';
 
 interface IAppSetupContainer {
   children: ReactElement;
@@ -9,7 +10,9 @@ interface IAppSetupContainer {
 export default function AppSetupContainer({children}: IAppSetupContainer) {
   return (
     <TanstackQueryContainer>
-      <ErrorBoundaryContainer>{children}</ErrorBoundaryContainer>
+      <NavigatorContainer>
+        <ErrorBoundaryContainer>{children}</ErrorBoundaryContainer>
+      </NavigatorContainer>
     </TanstackQueryContainer>
   );
 }

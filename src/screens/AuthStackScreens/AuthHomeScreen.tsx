@@ -1,4 +1,4 @@
-import {Alert, Platform, Text, View} from 'react-native';
+import {Alert, Platform, View} from 'react-native';
 import {
   getProfile,
   loginWithKakaoAccount,
@@ -59,18 +59,19 @@ export default function AuthHomeScreen({
       console.log('클릭');
       const {failureResponse, successResponse} = await NaverLogin.login();
       console.log('클릭2');
-      const profileNaver = await NaverLogin.getProfile(
-        successResponse?.accessToken,
-      );
-      console.log(successResponse, profileNaver);
+      if (successResponse?.accessToken) {
+        const profileNaver = await NaverLogin.getProfile(
+          successResponse?.accessToken,
+        );
+        console.log(successResponse, profileNaver);
+        Alert.alert(
+          '야호',
+          `${profileNaver.response.name}님 환영합니다. 생년월일은 ${profileNaver.response.birthday}이며, 
+                    성별은 ${profileNaver.response.gender}입니다. 폰 번호는 ${profileNaver.response.mobile}입니다. 
+                    나이대는 ${profileNaver.response.age}입니다. 이메일 주소는 ${profileNaver.response.email}입니다.`,
+        );
+      }
       console.log('에러시', failureResponse);
-
-      Alert.alert(
-        '야호',
-        `${profileNaver.response.name}님 환영합니다. 생년월일은 ${profileNaver.response.birthday}이며, 
-                  성별은 ${profileNaver.response.gender}입니다. 폰 번호는 ${profileNaver.response.mobile}입니다. 
-                  나이대는 ${profileNaver.response.age}입니다. 이메일 주소는 ${profileNaver.response.email}입니다.`,
-      );
     } catch (error) {
       console.log(error);
     }
@@ -117,15 +118,14 @@ export default function AuthHomeScreen({
         <Logo background={'TRANSPARENT'} />
         <View className="flex flex-col items-center justify-center mt-6">
           <Typography
-            style={{fontFamily: 'MangoByeolbyeol'}}
-            className="text-6xl"
-            fontWeight={'MANGO'}>
+            className="text-6xl text-dark-800"
+            fontWeight='MANGO'
+          >
             {AuthHome.TITLE}
           </Typography>
           <Typography
-            style={{fontFamily: 'Pretendard-Medium'}}
-            className="text-xl"
-            fontWeight={'MEDIUM'}>
+            className="text-lg text-dark-800 mt-1"
+            fontWeight='MEDIUM'>
             {AuthHome.SUB_TITLE}
           </Typography>
         </View>
@@ -163,7 +163,7 @@ export default function AuthHomeScreen({
           )}
           <CustomButton
             label={AuthHome.EMAIL_LOGIN}
-            textStyle={'text-white font-bold text-xl'}
+            textStyle={'text-white text-xl font-bold'}
             variant={'filled'}
             size={'large'}
             onPress={() => {

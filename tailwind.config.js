@@ -14,8 +14,8 @@ module.exports = {
         bold: ['Pretendard-Bold'],
         light: ['Pretendard-Light'],
         medium: ['Pretendard-Medium'],
-        sokcho: ['SokchoBadaDotum'],
-        mango: ['MangoByeolbyeol'],
+        SokchoBadaDotum: ['SokchoBadaDotum'],
+        MangoByeol: ['MangoByeolbyeol'],
       },
     },
     colors: {

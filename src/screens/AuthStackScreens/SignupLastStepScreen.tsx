@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {Pressable, TextInput, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from '@react-native-community/checkbox';
 
@@ -12,8 +12,12 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep5} from 'utils/validate.ts';
 import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
-import {postSignup, TSignup} from '../../apis';
+import {TSignup} from '../../apis';
 import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
+import {
+  AuthStackNavigationProp,
+  FeedTabNavigationProp,
+} from '../../navigators/types';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -24,7 +28,7 @@ export default function SignupLastStepScreen({
   setSignUpInfo,
   signUpInfo,
 }: TSignUpScreenProps) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavigationProp>();
   const residenceRef = useRef<TextInput | null>(null);
   const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
   const {signUpMutation, loginMutation} = useAuth();
@@ -42,14 +46,14 @@ export default function SignupLastStepScreen({
     setGender(selectedGender);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
       gender,
       birth: form.values.birth,
       residence: form.values.residence,
     }));
+    console.log(signUpInfo);
     signUpMutation.mutate(
       {
         provider: signUpInfo.provider,
@@ -64,14 +68,17 @@ export default function SignupLastStepScreen({
       },
       {
         onSuccess: data => {
-          loginMutation.mutate({
-            email: signUpInfo.email,
-            password: signUpInfo.password as string,
-          });
           console.log(data);
-          console.log(signUpInfo);
+          console.log('성공');
+          navigation.navigate('LOGIN');
         },
-        onError: error => console.log(error),
+        onError: error => {
+          console.log(error, '에러입니다');
+          navigation.navigate('LOGIN');
+        },
+        onSettled: () => {
+          console.log('hi');
+        },
       },
     );
   };
@@ -141,6 +148,7 @@ export default function SignupLastStepScreen({
                 onCheckColor={'#FFFFFF'}
                 onTintColor={'#FFFFFF'}
               />
+              <CustomButton label={'HI'} onPress={handleSubmit} />
             </View>
           </View>
         </View>

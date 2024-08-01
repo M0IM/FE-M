@@ -1,8 +1,9 @@
-import axiosInstance from './axiosInstance.ts';
-import {getEncryptStorage} from '../utils';
-import {storageKeys} from '../constants/storageKeys/keys.ts';
 import axios from 'axios';
 import Config from 'react-native-config';
+
+import axiosInstance from './axiosInstance.ts';
+import {getEncryptStorage, removeEncryptStorage, removeHeader} from 'utils';
+import {storageKeys} from '../constants/storageKeys/keys.ts';
 
 type TSignup = {
   provider: 'KAKAO' | 'GOOGLE' | 'NAVER' | 'APPLE' | 'LOCAL';
@@ -19,7 +20,7 @@ type TSignup = {
 type TResponseToken = {
   accessToken: string;
   refreshToken: string;
-  type: 'KAKAO' | 'GOOGLE' | 'APPLE' | 'NAVER' | 'REGISTER';
+  provider: 'KAKAO' | 'GOOGLE' | 'APPLE' | 'NAVER' | 'UNREGISTERED';
 };
 
 type TResponseSignup = {
@@ -86,7 +87,7 @@ type TSocial = {
 const socialLogin = async ({
   type,
   idToken,
-}: TSocial): Promise<TResponseToken> => {
+}: TSocial): Promise<TResponseSignup> => {
   const {data} = await axiosInstance.post(`/api/v1/auth/oAuth`, {
     provider: type,
     token: idToken,
@@ -104,6 +105,8 @@ type TLogout = {
 
 const logout = async (): Promise<TLogout> => {
   const {data} = await axiosInstance.get('/api/v1/auth/logout');
+  await removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+  removeHeader('Authorization');
 
   return data;
 };
@@ -117,12 +120,16 @@ type TGetAccessToken = {
 
 const getAccessToken = async (): Promise<TGetAccessToken> => {
   const refreshToken = await getEncryptStorage(storageKeys.REFRESH_TOKEN);
+  console.log('함수', refreshToken);
 
-  const {data} = await axiosInstance.get('/api/v1/auth/reissueToken', {
-    headers: {
-      Authorization: `Bearer ${refreshToken}`,
+  const {data} = await axios.get(
+    `${Config.SERVER_URL}/api/v1/auth/reissueToken`,
+    {
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
     },
-  });
+  );
 
   return data;
 };

@@ -9,7 +9,15 @@ module.exports = {
     './src/components/**/*.{ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        bold: ['Pretendard-Bold'],
+        light: ['Pretendard-Light'],
+        medium: ['Pretendard-Medium'],
+        SokchoBadaDotum: ['SokchoBadaDotum'],
+        MangoByeol: ['MangoByeolbyeol'],
+      },
+    },
     colors: {
       gray: {
         50: '#FCFCFC',
@@ -45,13 +53,6 @@ module.exports = {
         naver: '#02C300',
       },
       hover: '#f1f5f9',
-    },
-    fontFamily: {
-      bold: ['Pretendard-Bold'],
-      light: ['Pretendard-Light'],
-      medium: ['Pretendard-Medium'],
-      sokcho: ['SokchoBadaDotum'],
-      mango: ['MangoByeolbyeol'],
     },
   },
   plugins: [nativewind()],

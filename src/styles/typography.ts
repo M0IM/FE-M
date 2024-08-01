@@ -2,8 +2,8 @@ export const typographyStyles = {
   BOLD: 'font-bold',
   LIGHT: 'font-light',
   MEDIUM: 'font-medium',
-  SOKCHO: 'font-sokcho',
-  MANGO: 'font-mango',
+  SOKCHO: 'font-SokchoBadaDotum',
+  MANGO: 'font-MangoByeol',
 };
 
 /** typeof typoStyles */

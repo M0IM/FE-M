@@ -73,7 +73,7 @@ export default function SignUpSecondStepScreen({onNext}: TSignUpScreenProps) {
         </View>
       }
       fixedBottomComponent={
-        <CustomButton label={'다음'} onPress={handleNext} inValid={!allCheck} />
+        <CustomButton textStyle={'text-sm font-bold'} label={'다음'} onPress={handleNext} inValid={!allCheck} />
       }>
       <Typography fontWeight={'BOLD'} className="text-2xl mt-5">
         {SECOND_STEP.TERM_AGREEMENT}

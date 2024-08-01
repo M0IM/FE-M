@@ -63,10 +63,7 @@ export default function AuthHomeScreen({
 
   const handlePressNaverLoginButton = async () => {
     const {successResponse} = await NaverLogin.login();
-    const {nickname, id, email} = await NaverLogin.getProfile(
-      successResponse.accessToken,
-    );
-    console.log(successResponse);
+    const profile = await NaverLogin.getProfile(successResponse.accessToken);
 
     socialIdTokenMutation.mutate(
       {
@@ -74,46 +71,53 @@ export default function AuthHomeScreen({
         idToken: String(successResponse?.accessToken),
       },
       {
-        onSuccess: ({type}) => {
-          if (type === 'REGISTER') {
+        onSuccess: ({result}) => {
+          console.log('hi', result.provider);
+          if (result.provider === 'UNREGISTERED') {
             setSignUpInfo(prevInfo => ({
               ...prevInfo,
               provider: 'NAVER',
-              providerId: String(id),
-              nickname,
+              providerId: profile.response.id,
+              nickname: String(profile.response.nickname),
               role: 'ROLE_USER',
-              email,
+              email: profile.response.email,
             }));
-            onNext('REGISTER');
+            onNext(result.provider);
           } else {
             onNext('NAVER');
           }
         },
         onError: error => {
           console.log(error);
-          navigation.navigate('AUTH_HOME');
         },
       },
     );
   };
   const handlePressKakaoLoginButton = async () => {
     const {idToken} = await loginWithKakaoAccount();
-    const {nickname, email, id} = await getProfile();
+    const {nickname, email} = await getProfile();
 
     socialIdTokenMutation.mutate(
-      {type: 'KAKAO', idToken},
       {
-        onSuccess: ({type}) => {
-          onNext(type);
-          setSignUpInfo(prevInfo => ({
-            ...prevInfo,
-            provider: 'KAKAO',
-            providerId: String(id),
-            nickname,
-            role: 'ROLE_USER',
-            email,
-          }));
-          onNext('REGISTER');
+        type: 'KAKAO',
+        idToken: idToken,
+      },
+      {
+        onSuccess: ({result}) => {
+          console.log('야호', result.provider);
+          if (result.provider === 'UNREGISTERED') {
+            setSignUpInfo(prevInfo => ({
+              ...prevInfo,
+              provider: 'KAKAO',
+              providerId: idToken,
+              nickname,
+              role: 'ROLE_USER',
+              email,
+            }));
+            onNext(result.provider);
+          } else {
+            onNext('KAKAO');
+          }
         },
         onError: error => {
           console.log(error);
@@ -122,53 +126,47 @@ export default function AuthHomeScreen({
     );
   };
   const handlePressAppleLoginButton = async () => {
-    try {
-      const {identityToken, fullName, email} = await appleAuth.performRequest({
+    const {identityToken, fullName, email} = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+    });
+
+    console.log(
+      await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-      });
-      console.log(identityToken);
-      if (identityToken) {
-        socialIdTokenMutation.mutate(
-          {type: 'APPLE', idToken: identityToken},
-          {
-            onSuccess: ({type}) => {
-              onNext(type);
-              setSignUpInfo(prevInfo => ({
-                ...prevInfo,
-                provider: 'APPLE',
-                providerId: String(identityToken),
-                nickname: String(fullName),
-                role: 'ROLE_USER',
-                email: String(email),
-              }));
-              onNext('REGISTER');
-            },
-            onError: error => {
-              console.log(error);
-            },
-          },
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      }),
+    );
   };
   const handlePressGoogleLoginButton = async () => {
     await GoogleSignin.hasPlayServices();
-    try {
-      const response = await GoogleSignin.signIn();
-      console.log(response);
-      if (!response.idToken) {
-        return null;
-      }
+    const response = await GoogleSignin.signIn();
 
-      return {
-        idToken: response.idToken,
-      };
-    } catch (error) {
-      console.log(error);
-    }
+    socialIdTokenMutation.mutate(
+      {
+        type: 'GOOGLE',
+        idToken: String(response.idToken),
+      },
+      {
+        onSuccess: ({result}) => {
+          console.log('hi', result.provider);
+          if (result.provider === 'UNREGISTERED') {
+            setSignUpInfo(prevInfo => ({
+              ...prevInfo,
+              provider: 'GOOGLE',
+              providerId: String(response.idToken),
+              nickname: String(response.user.name),
+              role: 'ROLE_USER',
+              email: response.user.email,
+            }));
+            onNext(result.provider);
+          } else {
+            onNext('GOOGLE');
+          }
+        },
+        onError: error => {
+          console.log(error);
+        },
+      },
+    );
   };
   return (
     <View className="flex flex-1 bg-white flex-col items-center justify-around p-10">

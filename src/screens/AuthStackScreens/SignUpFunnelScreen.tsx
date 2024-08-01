@@ -31,7 +31,7 @@ export default function SignUpFunnelScreen() {
         setSignUpInfo={setSignUpInfo}
         navigation={navigation}
         onNext={(type: string) => {
-          if (type === 'REGISTER') {
+          if (type === 'UNREGISTERED') {
             navigation.navigate('STEP_4');
           } else {
             setSignUpInfo({

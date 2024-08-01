@@ -67,6 +67,7 @@ export default function SignUpThirdStepScreen({
       }
       fixedBottomComponent={
         <CustomButton
+          textStyle={'text-sm font-bold'}
           label={'다음'}
           onPress={handleNext}
           inValid={isDisabled}

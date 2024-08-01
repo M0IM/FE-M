@@ -22,20 +22,18 @@ export default function LoginScreen() {
     <SafeAreaView className="m-10 my-20 flex-1">
       <View className="flex flex-col items-center justify-center mt-6 mb-20">
         <Typography
-          style={{fontFamily: 'MangoByeolbyeol'}}
-          className="text-6xl"
+          className="text-6xl text-dark-800"
           fontWeight={'MANGO'}>
           {Login.TITLE}
         </Typography>
         <Typography
-          style={{fontFamily: 'Pretendard-Medium'}}
-          className="text-xl"
+          className="text-lg text-dark-800"
           fontWeight={'MEDIUM'}>
           {Login.SUB_TITLE}
         </Typography>
       </View>
 
-      <View className="flex-col gap-10 justify-center">
+      <View className="flex-col gap-5 justify-center">
         <View>
           <InputField
             autoFocus

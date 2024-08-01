@@ -15,6 +15,7 @@
 		2122284382E34B168E760E70 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */; };
 		22D58F8B8B8F3A61DFE67956 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACEBCA1747EBB350A1CF0170 /* PrivacyInfo.xcprivacy */; };
 		30B611A8EFCA41CE8910A67F /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7C316099B4149C4940C3837 /* Pretendard-Bold.ttf */; };
+		30FE8C9D2C5955FB0021204E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 30FE8C9C2C5955FB0021204E /* main.jsbundle */; };
 		5080445DA3D548D9BAAEE51D /* MangoByeolbyeol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AB6BAD056C34739BFAFF90D /* MangoByeolbyeol.ttf */; };
 		636BD3122C4FCB6B00FC5E0D /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6312C4FC9A800DC9714 /* Ionicons.ttf */; };
 		636BD3132C4FCB6B00FC5E0D /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6322C4FC9A800DC9714 /* MaterialIcons.ttf */; };
@@ -49,6 +50,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MOIM/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-MOIM-MOIMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MOIM-MOIMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.ttf"; path = "../src/assets/fonts/Pretendard-Medium.ttf"; sourceTree = "<group>"; };
+		30FE8C9C2C5955FB0021204E /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-MOIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM.debug.xcconfig"; path = "Target Support Files/Pods-MOIM/Pods-MOIM.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-MOIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM.release.xcconfig"; path = "Target Support Files/Pods-MOIM/Pods-MOIM.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-MOIM-MOIMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM-MOIMTests.debug.xcconfig"; path = "Target Support Files/Pods-MOIM-MOIMTests/Pods-MOIM-MOIMTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				30FE8C9C2C5955FB0021204E /* main.jsbundle */,
 				63CFFA982C5393AB00B87BF7 /* SwfitBridge.swift */,
 				637A6CFA2C536909004CC647 /* Config.xcconfig */,
 				13B07FAE1A68108700A75B9A /* MOIM */,
@@ -293,6 +296,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30FE8C9D2C5955FB0021204E /* main.jsbundle in Resources */,
 				636BD3122C4FCB6B00FC5E0D /* Ionicons.ttf in Resources */,
 				636BD3132C4FCB6B00FC5E0D /* MaterialIcons.ttf in Resources */,
 				636BD3142C4FCB6B00FC5E0D /* Octicons.ttf in Resources */,

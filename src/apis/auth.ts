@@ -12,6 +12,11 @@ import {
   TSignup,
   TSocial,
 } from 'types/dtos/auth.ts';
+import {
+  appleAuth,
+  AppleCredentialState,
+  AppleRequestResponse,
+} from '@invertase/react-native-apple-authentication';
 
 /**
  * @docs 회원가입 API
@@ -99,4 +104,28 @@ const getAccessToken = async (): Promise<TGetAccessToken> => {
   return data;
 };
 
-export {postSignup, postLogin, socialLogin, logout, getAccessToken};
+const appleClient = {
+  fetchLogin: async (): Promise<AppleRequestResponse> => {
+    const response = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+    return response;
+  },
+
+  getUserAuthState: async (user: string) => {
+    const response: AppleCredentialState =
+      await appleAuth.getCredentialStateForUser(user);
+
+    return response;
+  },
+};
+
+export {
+  postSignup,
+  postLogin,
+  socialLogin,
+  logout,
+  getAccessToken,
+  appleClient,
+};

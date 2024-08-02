@@ -11,13 +11,11 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep5} from 'utils/validate.ts';
-import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
-import {TSignup} from '../../apis';
+
 import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
-import {
-  AuthStackNavigationProp,
-  FeedTabNavigationProp,
-} from '../../navigators/types';
+import {AuthStackNavigationProp} from '../../navigators/types';
+import {TSignup} from '../../types/dtos/auth.ts';
+import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -31,7 +29,7 @@ export default function SignupLastStepScreen({
   const navigation = useNavigation<AuthStackNavigationProp>();
   const residenceRef = useRef<TextInput | null>(null);
   const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
-  const {signUpMutation, loginMutation} = useAuth();
+  const {signUpMutation} = useAuth();
 
   const form = useForm({
     initialValue: {
@@ -53,7 +51,6 @@ export default function SignupLastStepScreen({
       birth: form.values.birth,
       residence: form.values.residence,
     }));
-    console.log(signUpInfo);
     signUpMutation.mutate(
       {
         provider: signUpInfo.provider,
@@ -70,14 +67,10 @@ export default function SignupLastStepScreen({
         onSuccess: data => {
           console.log(data);
           console.log('성공');
-          navigation.navigate('LOGIN');
         },
         onError: error => {
+          navigation.navigate('AUTH_HOME');
           console.log(error, '에러입니다');
-          navigation.navigate('LOGIN');
-        },
-        onSettled: () => {
-          console.log('hi');
         },
       },
     );

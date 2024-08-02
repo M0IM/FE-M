@@ -70,7 +70,6 @@ function useGetRefreshToken() {
     refetchOnReconnect: true,
     refetchIntervalInBackground: true,
   });
-  console.log(isSuccess, '싫어');
 
   useEffect(() => {
     if (isSuccess) {

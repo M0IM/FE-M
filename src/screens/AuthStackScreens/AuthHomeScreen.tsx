@@ -11,7 +11,7 @@ import {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import NaverLogin from '@react-native-seoul/naver-login';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {GoogleSignin, User} from '@react-native-google-signin/google-signin';
 
 import {Logo} from 'components/@common/Logo/Logo.tsx';
 import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
@@ -133,7 +133,7 @@ export default function AuthHomeScreen({
     } = await appleClient.fetchLogin();
 
     const authState = await appleClient.getUserAuthState(user);
-    console.log(authState);
+    console.log(user);
 
     if (idToken && authState === appleAuth.State.AUTHORIZED) {
       socialIdTokenMutation.mutate(
@@ -166,8 +166,7 @@ export default function AuthHomeScreen({
   };
   const handlePressGoogleLoginButton = async () => {
     await GoogleSignin.hasPlayServices();
-    const response = await GoogleSignin.signIn();
-    console.log(response.idToken);
+    const response: User = await GoogleSignin.signIn();
 
     socialIdTokenMutation.mutate(
       {
@@ -181,7 +180,7 @@ export default function AuthHomeScreen({
             setSignUpInfo(prevInfo => ({
               ...prevInfo,
               provider: 'GOOGLE',
-              providerId: String(response.idToken),
+              providerId: String(response.user.id),
               nickname: String(response.user.name),
               role: 'ROLE_USER',
               email: response.user.email,

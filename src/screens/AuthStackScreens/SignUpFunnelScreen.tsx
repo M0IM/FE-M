@@ -2,25 +2,25 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import AuthHomeScreen from './AuthHomeScreen.tsx';
-import SignUpSecondStepScreen from './SignUpSecondStepScreen.tsx';
-import SignUpThirdStepScreen from './SignUpThirdStepScreen.tsx';
-import SignUpFourthStepScreen from './SignUpFourthStepScreen.tsx';
-import SignUpLastStepScreen from './SignUpLastStepScreen.tsx';
+import SignUpSecondStepScreen from './SignupSecondStepScreen.tsx';
+import SignUpThirdStepScreen from './SignupThridStepScreen.tsx';
+import SignUpFourthStepScreen from './SignupFourthStepScreen.tsx';
+import SignupLastStepScreen from './SignupLastStepScreen.tsx';
 
 import {AuthStackNavigationProp, AuthStackParamList} from 'navigators/types';
 import {AuthStack} from 'navigators/constants';
-import {TJoinRequestDto} from 'types/dtos/auth.ts';
+import {TSignup} from 'types/dtos/auth.ts';
 
 export default function SignUpFunnelScreen() {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const [signUpInfo, setSignUpInfo] = useState<TJoinRequestDto>({
+  const [signUpInfo, setSignUpInfo] = useState<TSignup>({
+    provider: 'LOCAL',
+    providerId: '',
     nickname: '',
     email: '',
     password: '',
-    passwordCheck: '',
     role: 'ROLE_USER',
     gender: 'MALE',
-    age: '',
     birth: '',
     residence: '',
   });
@@ -28,10 +28,11 @@ export default function SignUpFunnelScreen() {
   const stepInfoList = {
     STEP_1: (
       <AuthHomeScreen
+        setSignUpInfo={setSignUpInfo}
         navigation={navigation}
         onNext={(type: string) => {
-          if (type === 'REGISTER') {
-            navigation.navigate('STEP_2');
+          if (type === 'UNREGISTERED') {
+            navigation.navigate('STEP_4');
           } else {
             setSignUpInfo({
               ...signUpInfo,
@@ -41,7 +42,10 @@ export default function SignUpFunnelScreen() {
       />
     ),
     STEP_2: (
-      <SignUpSecondStepScreen onNext={() => navigation.navigate('STEP_3')} />
+      <SignUpSecondStepScreen
+        setSignUpInfo={setSignUpInfo}
+        onNext={() => navigation.navigate('STEP_3')}
+      />
     ),
     STEP_3: (
       <SignUpThirdStepScreen
@@ -50,13 +54,10 @@ export default function SignUpFunnelScreen() {
       />
     ),
     STEP_4: (
-      <SignUpFourthStepScreen
-        setSignUpInfo={setSignUpInfo}
-        onNext={() => navigation.navigate('STEP_5')}
-      />
+      <SignUpFourthStepScreen onNext={() => navigation.navigate('STEP_5')} />
     ),
     STEP_5: (
-      <SignUpLastStepScreen
+      <SignupLastStepScreen
         setSignUpInfo={setSignUpInfo}
         signUpInfo={signUpInfo}
       />

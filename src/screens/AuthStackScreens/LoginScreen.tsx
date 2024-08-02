@@ -6,29 +6,50 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 
 import {Login} from 'constants/screens/AuthStackScreens/LoginScreen.ts';
+import Toast from 'react-native-toast-message';
 
 import useForm from 'hooks/useForm.ts';
 import {validateLogin} from 'utils/validate.ts';
+import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 
 export default function LoginScreen() {
+  const {loginMutation} = useAuth();
   const passwordRef = useRef<TextInput | null>(null);
-
   const login = useForm({
     initialValue: {email: '', password: ''},
     validate: validateLogin,
   });
 
+  const handlePressLogin = () => {
+    loginMutation.mutate(
+      {
+        email: login.values.email,
+        password: login.values.password,
+      },
+      {
+        onSuccess: data => {
+          console.log(data);
+        },
+        onError: error => {
+          console.log(error);
+          Toast.show({
+            type: 'error',
+            text1: error.response?.data.message || '로그인 에러발생',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
+        },
+      },
+    );
+  };
+
   return (
     <SafeAreaView className="m-10 my-20 flex-1">
       <View className="flex flex-col items-center justify-center mt-6 mb-20">
-        <Typography
-          className="text-6xl text-dark-800"
-          fontWeight={'MANGO'}>
+        <Typography className="text-6xl text-dark-800" fontWeight={'MANGO'}>
           {Login.TITLE}
         </Typography>
-        <Typography
-          className="text-lg text-dark-800"
-          fontWeight={'MEDIUM'}>
+        <Typography className="text-lg text-dark-800" fontWeight={'MEDIUM'}>
           {Login.SUB_TITLE}
         </Typography>
       </View>
@@ -67,6 +88,7 @@ export default function LoginScreen() {
           textStyle={'text-white font-bold text-xl'}
           variant={'filled'}
           size={'large'}
+          onPress={handlePressLogin}
         />
         <CustomButton
           textStyle={'text-sm'}

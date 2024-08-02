@@ -17,8 +17,8 @@ function validateUser(values: UserInformation) {
     errors.email = '올바른 이메일 형식이 아닙니다.';
   }
 
-  if (!(values.password.length >= 8 && values.password.length < 20)) {
-    errors.password = '비밀번호는 8~20자 사이로 입력해주세요.';
+  if (!(values.password.length >= 8 && values.password.length < 16)) {
+    errors.password = '비밀번호는 8~16자 사이로 입력해주세요.';
   }
 
   if (!passwordPattern.test(values.password)) {
@@ -76,20 +76,20 @@ function validateSignUpStep4(values: TSignUpValues) {
   return errors;
 }
 
-function validateAge(age: string): string {
-  const ageNumber = Number(age);
-  if (!age || isNaN(ageNumber) || ageNumber < 0 || ageNumber > 120) {
-    return '유효한 나이를 입력해주세요.';
-  }
-  return '';
-}
+// function validateAge(age: string): string {
+//   const ageNumber = Number(age);
+//   if (!age || isNaN(ageNumber) || ageNumber < 0 || ageNumber > 120) {
+//     return '유효한 나이를 입력해주세요.';
+//   }
+//   return '';
+// }
 
 function validateSignUpStep5(
-  values: Pick<TJoinRequestDto, 'age' | 'gender' | 'residence'>,
+  values: Pick<TJoinRequestDto, 'birth' | 'gender' | 'residence'>,
 ) {
   const errors = {
     gender: '',
-    age: '',
+    birth: '',
     residence: '',
   };
 
@@ -97,7 +97,7 @@ function validateSignUpStep5(
     errors.gender = '유효한 성별을 선택해주세요.';
   }
 
-  errors.age = validateAge(values.age);
+  // errors.birth = validateAge(values.birth);
 
   if (!values.residence.trim()) {
     errors.residence = '거주지를 입력해주세요.';

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,13 +8,13 @@ import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {InputField} from 'components/@common/InputField/InputField.tsx';
 
-import {TJoinRequestDto} from 'types/dtos/auth.ts';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep3} from 'utils/validate.ts';
 import {THIRD_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import {TSignup} from 'types/dtos/auth.ts';
 
 type TSignUpScreenProps = {
-  setSignUpInfo: React.Dispatch<React.SetStateAction<TJoinRequestDto>>;
+  setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
   onNext: (type: string) => void;
 };
 
@@ -33,14 +33,14 @@ export default function SignUpThirdStepScreen({
     validate: validateSignUpStep3,
   });
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
       nickname: form.values.nickname,
       email: form.values.email,
     }));
     onNext('STEP_3');
-  };
+  }, [form.values, setSignUpInfo, onNext]);
 
   const isDisabled = Object.values(form.errors).some(error => error);
 

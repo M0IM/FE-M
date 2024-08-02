@@ -12,10 +12,39 @@ import {
   setHeader,
 } from 'utils';
 import {queryKeys, storageKeys} from 'constants/storageKeys/keys.ts';
+import Toast from 'react-native-toast-message';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: postSignup,
+    onSuccess: data => {
+      // 토큰 저장.
+      const accessToken = data.result.accessToken;
+      const refreshToken = data.result.refreshToken;
+      setHeader('Authorization', accessToken);
+      setEncryptStorage(storageKeys.ACCESS_TOKEN, accessToken);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
+      Toast.show({
+        type: 'success',
+        text1: data.message ? data.message : '회원가입 성공',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    onSettled: () => {
+      queryClient.refetchQueries({
+        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
+      });
+    },
+    onError: error => {
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message ? error.message : '회원가입에 실패하였습니다.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
     throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });

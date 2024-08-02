@@ -3,34 +3,19 @@ import Config from 'react-native-config';
 
 import axiosInstance from './axiosInstance.ts';
 import {getEncryptStorage, removeEncryptStorage, removeHeader} from 'utils';
-import {storageKeys} from '../constants/storageKeys/keys.ts';
+import {storageKeys} from 'constants/storageKeys/keys.ts';
+import {
+  TGetAccessToken,
+  TLogin,
+  TLogout,
+  TResponseSignup,
+  TSignup,
+  TSocial,
+} from 'types/dtos/auth.ts';
 
-type TSignup = {
-  provider: 'KAKAO' | 'GOOGLE' | 'NAVER' | 'APPLE' | 'LOCAL';
-  providerId?: string;
-  nickname: string;
-  email: string;
-  password?: string;
-  role?: 'ROLE_USER' | 'ROLE_ADMIN';
-  gender: 'FEMALE' | 'MALE';
-  birth: string;
-  residence: string;
-};
-
-type TResponseToken = {
-  accessToken: string;
-  refreshToken: string;
-  provider: 'KAKAO' | 'GOOGLE' | 'APPLE' | 'NAVER' | 'UNREGISTERED';
-};
-
-type TResponseSignup = {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: TResponseToken;
-};
-
-// 회원가입 API
+/**
+ * @docs 회원가입 API
+ */
 const postSignup = async ({
   provider,
   providerId,
@@ -53,16 +38,12 @@ const postSignup = async ({
     birth,
     residence,
   });
-
   return data;
 };
 
-type TLogin = {
-  email: string;
-  password: string;
-};
-
-// 일반 로그인 API
+/**
+ * @docs 로그인 API
+ */
 const postLogin = async ({
   email,
   password,
@@ -74,15 +55,8 @@ const postLogin = async ({
   return data;
 };
 
-type TSocial = {
-  type: 'KAKAO' | 'APPLE' | 'GOOGLE' | 'NAVER';
-  idToken: string;
-};
-
 /**
  * @docs 소셜 로그인 API
- * @param type
- * @param idToken
  */
 const socialLogin = async ({
   type,
@@ -96,13 +70,9 @@ const socialLogin = async ({
   return data;
 };
 
-type TLogout = {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: object;
-};
-
+/**
+ * @docs 로그아웃 API
+ */
 const logout = async (): Promise<TLogout> => {
   const {data} = await axiosInstance.get('/api/v1/auth/logout');
   await removeEncryptStorage(storageKeys.REFRESH_TOKEN);
@@ -111,16 +81,11 @@ const logout = async (): Promise<TLogout> => {
   return data;
 };
 
-type TGetAccessToken = {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: TResponseToken;
-};
-
+/**
+ * @docs refreshToken을 활용하여, accessToken을 재발급받는 API
+ */
 const getAccessToken = async (): Promise<TGetAccessToken> => {
   const refreshToken = await getEncryptStorage(storageKeys.REFRESH_TOKEN);
-  console.log('함수', refreshToken);
 
   const {data} = await axios.get(
     `${Config.SERVER_URL}/api/v1/auth/reissueToken`,
@@ -134,30 +99,4 @@ const getAccessToken = async (): Promise<TGetAccessToken> => {
   return data;
 };
 
-type TUserProfile = {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: {
-    profileId: number;
-    nickname: string;
-    profileImageUrl: string;
-  };
-};
-
-const getUserProfile = async (): Promise<TUserProfile> => {
-  // const {data} = await axiosInstance.get('/api/v1/users/profile');
-  const {data} = await axios.get(`${Config.SERVER_URL}/api/v1/users/profile`);
-  console.log(data);
-  return data;
-};
-
-export type {TResponseSignup, TResponseToken, TSignup, TLogin, TSocial};
-export {
-  postSignup,
-  postLogin,
-  socialLogin,
-  logout,
-  getAccessToken,
-  getUserProfile,
-};
+export {postSignup, postLogin, socialLogin, logout, getAccessToken};

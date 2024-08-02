@@ -1,11 +1,45 @@
-export type TJoinRequestDto = {
+import {CommonResponse} from '../mutations/common.ts';
+
+type TSignup = {
+  provider: 'KAKAO' | 'GOOGLE' | 'NAVER' | 'APPLE' | 'LOCAL';
+  providerId?: string;
   nickname: string;
   email: string;
-  password: string;
-  passwordCheck: string;
-  role: 'ROLE_USER' | 'ROLE_ADMIN';
+  password?: string;
+  role?: 'ROLE_USER' | 'ROLE_ADMIN';
   gender: 'FEMALE' | 'MALE';
-  age: string;
   birth: string;
   residence: string;
+};
+
+type TResponseToken = {
+  accessToken: string;
+  refreshToken: string;
+  provider: 'KAKAO' | 'GOOGLE' | 'APPLE' | 'NAVER' | 'UNREGISTERED';
+};
+
+type TResponseSignup = CommonResponse<TResponseToken>;
+
+type TLogin = {
+  email: string;
+  password: string;
+};
+
+type TSocial = {
+  type: 'KAKAO' | 'APPLE' | 'GOOGLE' | 'NAVER';
+  idToken: string;
+};
+
+type TLogout = CommonResponse<object>;
+
+type TGetAccessToken = CommonResponse<TResponseToken>;
+
+export type {
+  TSignup,
+  TResponseToken,
+  TResponseSignup,
+  TLogin,
+  TSocial,
+  TLogout,
+  TGetAccessToken,
 };

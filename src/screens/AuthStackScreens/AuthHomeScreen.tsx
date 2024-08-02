@@ -94,8 +94,8 @@ export default function AuthHomeScreen({
   };
   const handlePressKakaoLoginButton = async () => {
     const {idToken} = await loginWithKakaoAccount();
-    const {nickname, email} = await getProfile();
-    console.log(idToken, '카카오 아이디');
+    const {nickname, email, id} = await getProfile();
+    console.log(id);
     socialIdTokenMutation.mutate(
       {
         type: 'KAKAO',
@@ -103,12 +103,11 @@ export default function AuthHomeScreen({
       },
       {
         onSuccess: ({result}) => {
-          console.log('hi');
           if (result.provider === 'UNREGISTERED') {
             setSignUpInfo(prevInfo => ({
               ...prevInfo,
               provider: 'KAKAO',
-              providerId: idToken,
+              providerId: String(id),
               nickname,
               role: 'ROLE_USER',
               email,
@@ -125,15 +124,9 @@ export default function AuthHomeScreen({
     );
   };
   const handlePressAppleLoginButton = async () => {
-    const {
-      user,
-      fullName,
-      email,
-      identityToken: idToken,
-    } = await appleClient.fetchLogin();
+    const {user, identityToken: idToken} = await appleClient.fetchLogin();
 
     const authState = await appleClient.getUserAuthState(user);
-    console.log(user);
 
     if (idToken && authState === appleAuth.State.AUTHORIZED) {
       socialIdTokenMutation.mutate(
@@ -146,11 +139,11 @@ export default function AuthHomeScreen({
             if (result.provider === 'UNREGISTERED') {
               setSignUpInfo(prevInfo => ({
                 ...prevInfo,
-                provider: 'KAKAO',
-                providerId: String(idToken),
-                nickname: String(fullName),
+                provider: 'APPLE',
+                providerId: String(user),
+                nickname: '개념빵맨',
                 role: 'ROLE_USER',
-                email: String(email),
+                email: `${String(user)}@apple.com`,
               }));
               onNext(result.provider);
             } else {
@@ -175,7 +168,6 @@ export default function AuthHomeScreen({
       },
       {
         onSuccess: ({result}) => {
-          console.log('hi', result.provider);
           if (result.provider === 'UNREGISTERED') {
             setSignUpInfo(prevInfo => ({
               ...prevInfo,

@@ -10,8 +10,8 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep4} from 'utils/validate.ts';
-import {FOURTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
-import {TSignup} from '../../apis';
+import {FOURTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import {TSignup} from 'types/dtos/auth.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;

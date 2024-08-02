@@ -29,7 +29,7 @@ export default function MyHomeScreen() {
       onSuccess: data => {
         Toast.show({
           type: 'success',
-          text1: data.isSuccess && '로그아웃에 성공하였습니다.',
+          text1: data && '로그아웃에 성공하였습니다.',
           visibilityTime: 2000,
           position: 'bottom',
         });

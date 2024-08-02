@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {Pressable, TextInput, View} from 'react-native';
-import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from '@react-native-community/checkbox';
 
@@ -12,10 +12,10 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep5} from 'utils/validate.ts';
 
-import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
-import {AuthStackNavigationProp} from '../../navigators/types';
-import {TSignup} from '../../types/dtos/auth.ts';
-import {FIFTH_STEP} from '../../constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+import {AuthStackNavigationProp} from 'navigators/types';
+import {TSignup} from 'types/dtos/auth.ts';
+import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -51,29 +51,17 @@ export default function SignupLastStepScreen({
       birth: form.values.birth,
       residence: form.values.residence,
     }));
-    signUpMutation.mutate(
-      {
-        provider: signUpInfo.provider,
-        providerId: signUpInfo.providerId,
-        nickname: signUpInfo.nickname,
-        email: signUpInfo.email,
-        password: signUpInfo.password,
-        role: 'ROLE_USER',
-        gender: signUpInfo.gender,
-        birth: form.values.birth,
-        residence: form.values.residence,
-      },
-      {
-        onSuccess: data => {
-          console.log(data);
-          console.log('성공');
-        },
-        onError: error => {
-          navigation.navigate('AUTH_HOME');
-          console.log(error, '에러입니다');
-        },
-      },
-    );
+    signUpMutation.mutate({
+      provider: signUpInfo.provider,
+      providerId: signUpInfo.providerId,
+      nickname: signUpInfo.nickname,
+      email: signUpInfo.email,
+      password: signUpInfo.password,
+      role: 'ROLE_USER',
+      gender: signUpInfo.gender,
+      birth: form.values.birth,
+      residence: form.values.residence,
+    });
   };
 
   const isDisabled = Object.values(form.errors).some(error => error);

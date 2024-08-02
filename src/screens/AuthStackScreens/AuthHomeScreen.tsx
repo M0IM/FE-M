@@ -1,13 +1,17 @@
 import {Platform, View} from 'react-native';
+import React, {useEffect} from 'react';
+import Config from 'react-native-config';
 import {
   getProfile,
   loginWithKakaoAccount,
 } from '@react-native-seoul/kakao-login';
+import {appleClient} from 'apis';
 import {
   appleAuth,
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
 import NaverLogin from '@react-native-seoul/naver-login';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 import {Logo} from 'components/@common/Logo/Logo.tsx';
 import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
@@ -15,13 +19,9 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 
 import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
+import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+import {TSignup} from 'types/dtos/auth.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
-import Config from 'react-native-config';
-import React, {useEffect} from 'react';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
-
-import {TSignup} from '../../apis';
 
 type TAuthHomeScreenProps = {
   navigation: AuthStackNavigationProp;
@@ -63,7 +63,7 @@ export default function AuthHomeScreen({
 
   const handlePressNaverLoginButton = async () => {
     const {successResponse} = await NaverLogin.login();
-    const profile = await NaverLogin.getProfile(successResponse.accessToken);
+    const profile = await NaverLogin.getProfile(successResponse!.accessToken);
 
     socialIdTokenMutation.mutate(
       {
@@ -72,7 +72,6 @@ export default function AuthHomeScreen({
       },
       {
         onSuccess: ({result}) => {
-          console.log('hi', result.provider);
           if (result.provider === 'UNREGISTERED') {
             setSignUpInfo(prevInfo => ({
               ...prevInfo,
@@ -96,7 +95,7 @@ export default function AuthHomeScreen({
   const handlePressKakaoLoginButton = async () => {
     const {idToken} = await loginWithKakaoAccount();
     const {nickname, email} = await getProfile();
-
+    console.log(idToken, '카카오 아이디');
     socialIdTokenMutation.mutate(
       {
         type: 'KAKAO',
@@ -104,7 +103,7 @@ export default function AuthHomeScreen({
       },
       {
         onSuccess: ({result}) => {
-          console.log('야호', result.provider);
+          console.log('hi');
           if (result.provider === 'UNREGISTERED') {
             setSignUpInfo(prevInfo => ({
               ...prevInfo,
@@ -126,19 +125,49 @@ export default function AuthHomeScreen({
     );
   };
   const handlePressAppleLoginButton = async () => {
-    const {identityToken, fullName, email} = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-    });
+    const {
+      user,
+      fullName,
+      email,
+      identityToken: idToken,
+    } = await appleClient.fetchLogin();
 
-    console.log(
-      await appleAuth.performRequest({
-        requestedOperation: appleAuth.Operation.LOGIN,
-      }),
-    );
+    const authState = await appleClient.getUserAuthState(user);
+    console.log(authState);
+
+    if (idToken && authState === appleAuth.State.AUTHORIZED) {
+      socialIdTokenMutation.mutate(
+        {
+          type: 'APPLE',
+          idToken: idToken,
+        },
+        {
+          onSuccess: ({result}) => {
+            if (result.provider === 'UNREGISTERED') {
+              setSignUpInfo(prevInfo => ({
+                ...prevInfo,
+                provider: 'KAKAO',
+                providerId: String(idToken),
+                nickname: String(fullName),
+                role: 'ROLE_USER',
+                email: String(email),
+              }));
+              onNext(result.provider);
+            } else {
+              onNext('APPLE');
+            }
+          },
+          onError: error => {
+            console.log(error);
+          },
+        },
+      );
+    }
   };
   const handlePressGoogleLoginButton = async () => {
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
+    console.log(response.idToken);
 
     socialIdTokenMutation.mutate(
       {
@@ -168,6 +197,7 @@ export default function AuthHomeScreen({
       },
     );
   };
+
   return (
     <View className="flex flex-1 bg-white flex-col items-center justify-around p-10">
       <View className="flex flex-col items-center justify-center">

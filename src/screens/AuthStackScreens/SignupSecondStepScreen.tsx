@@ -11,7 +11,7 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 import useForm from 'hooks/useForm.ts';
 import {validateSignUpStep3} from 'utils/validate.ts';
 import {THIRD_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
-import {TSignup} from '../../apis';
+import {TSignup} from 'types/dtos/auth.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;

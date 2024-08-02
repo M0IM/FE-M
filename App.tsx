@@ -51,4 +51,8 @@ if (process.env.STORYBOOK_ENABLED) {
   AppEntryPoint = require('./.ondevice').default;
 }
 
+if (__DEV__) {
+  require('./ReactotronConfig');
+}
+
 export default AppEntryPoint;

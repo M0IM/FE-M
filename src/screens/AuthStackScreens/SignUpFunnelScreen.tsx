@@ -9,7 +9,7 @@ import SignupLastStepScreen from './SignupLastStepScreen.tsx';
 
 import {AuthStackNavigationProp, AuthStackParamList} from 'navigators/types';
 import {AuthStack} from 'navigators/constants';
-import {TSignup} from '../../apis';
+import {TSignup} from 'types/dtos/auth.ts';
 
 export default function SignUpFunnelScreen() {
   const navigation = useNavigation<AuthStackNavigationProp>();

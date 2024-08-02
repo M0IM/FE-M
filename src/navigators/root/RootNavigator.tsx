@@ -6,7 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 
 export default function RootNavigator() {
-  const {isLogin, getNewAccessToken} = useAuth();
+  const {isLogin} = useAuth();
   console.log(isLogin);
 
   useEffect(() => {

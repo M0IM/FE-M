@@ -21,4 +21,16 @@ type UseQueryCustomOptions<TQueryFnData = unknown, TData = TQueryFnData> = Omit<
   'queryKey'
 >;
 
-export type {ResponseError, UseMutationCustomOptions, UseQueryCustomOptions};
+type CommonResponse<T> = {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: T;
+};
+
+export type {
+  ResponseError,
+  UseMutationCustomOptions,
+  UseQueryCustomOptions,
+  CommonResponse,
+};

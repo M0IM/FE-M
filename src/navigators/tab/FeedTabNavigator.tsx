@@ -1,16 +1,16 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {FeedTabParamList} from '../types';
 import HomeScreen from 'screens/FeedTabScreens/FeedHomeScreen.tsx';
 import MoimHomeScreen from 'screens/FeedTabScreens/MoimHomeScreen.tsx';
 import ChatHomeScreen from 'screens/FeedTabScreens/MyHomeScreen.tsx';
 import MyHomeScreen from 'screens/FeedTabScreens/MyHomeScreen.tsx';
-import {StyleSheet} from 'react-native';
+
+import {FeedTabHeaderLogo} from 'components/feedTab/FeedTabHeaderLogo.tsx';
+import {FeedTabHeaderRight} from 'components/feedTab/FeedTabHeaderRight.tsx';
+
 import {FeedTabRouteProp} from '../types';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Logo} from '../../components/@common/Logo/Logo.tsx';
-import {FeedTabHeaderLogo} from '../../components/feedTab/FeedTabHeaderLogo.tsx';
-import {FeedTabHeaderRight} from '../../components/feedTab/FeedTabHeaderRight.tsx';
+import {FeedTabParamList} from '../types';
 
 function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
   let iconName = '';
@@ -50,13 +50,15 @@ export default function FeedTabNavigator() {
         headerTitle: '',
         headerLeft: () => FeedTabHeaderLogo(navigation),
         headerRight: () => FeedTabHeaderRight(navigation),
+        headerStyle: {
+          backgroundColor: '#fff',
+        },
         headerTintColor: '#fff',
         tabBarActiveTintColor: '#fff',
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: '#FFF',
           borderTopColor: '#808080',
-          borderTopWIdth: StyleSheet.hairlineWidth,
         },
         tabBarIcon: ({focused}) => FeedTabBarIcons(route, focused),
       })}>

@@ -8,6 +8,9 @@ import MyHomeScreen from 'screens/FeedTabScreens/MyHomeScreen.tsx';
 import {StyleSheet} from 'react-native';
 import {FeedTabRouteProp} from '../types';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Logo} from '../../components/@common/Logo/Logo.tsx';
+import {FeedTabHeaderLogo} from '../../components/feedTab/FeedTabHeaderLogo.tsx';
+import {FeedTabHeaderRight} from '../../components/feedTab/FeedTabHeaderRight.tsx';
 
 function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
   let iconName = '';
@@ -42,7 +45,11 @@ const Tab = createBottomTabNavigator<FeedTabParamList>();
 export default function FeedTabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={({route, navigation}) => ({
+        headerShown: true,
+        headerTitle: '',
+        headerLeft: () => FeedTabHeaderLogo(navigation),
+        headerRight: () => FeedTabHeaderRight(navigation),
         headerTintColor: '#fff',
         tabBarActiveTintColor: '#fff',
         tabBarShowLabel: false,

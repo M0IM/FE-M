@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface FloatingButtonProps extends TouchableOpacityProps{
-    type: 'add' | 'write';
+    type?: 'add' | 'write';
 }
 
 const FloatingButton = ({

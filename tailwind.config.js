@@ -46,6 +46,7 @@ module.exports = {
       error: '#ff3E3E',
       warning: '#FFB800',
       main: '#00F0A1',
+      blue: '#2485E6',
       social: {
         google: '#FFFFFF',
         apple: '#000000',

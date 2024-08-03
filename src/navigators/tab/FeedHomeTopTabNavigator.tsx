@@ -2,7 +2,6 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import FeedHomeScreen from '../../screens/FeedTabScreens/FeedHomeScreen.tsx';
 import {FeedTopTabParamList} from '../types';
 import FeedHomeCalendarScreen from '../../screens/FeedTabScreens/FeedHomeCalendarScreen.tsx';
-import {Text, View} from 'react-native';
 
 const Tab = createMaterialTopTabNavigator<FeedTopTabParamList>();
 

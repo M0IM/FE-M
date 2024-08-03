@@ -1,7 +1,9 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import FeedHomeScreen from '../../screens/FeedTabScreens/FeedHomeScreen.tsx';
+
+import FeedHomeScreen from 'screens/FeedTabScreens/FeedHomeScreen.tsx';
+
 import {FeedTopTabParamList} from '../types';
-import FeedHomeCalendarScreen from '../../screens/FeedTabScreens/FeedHomeCalendarScreen.tsx';
+import CalendarStackNavigator from '../stack/CalendarStackNavigator.tsx';
 
 const Tab = createMaterialTopTabNavigator<FeedTopTabParamList>();
 
@@ -28,7 +30,7 @@ export default function FeedHomeTopTabNavigator() {
       />
       <Tab.Screen
         name={'FEED_HOME_CALENDAR'}
-        component={FeedHomeCalendarScreen}
+        component={CalendarStackNavigator}
         options={{
           tabBarLabel: '내 일정',
         }}

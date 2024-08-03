@@ -13,7 +13,7 @@ export type CalendarPost = {
   address: string;
 };
 
-export default function FeedHomeCalendarScreen() {
+export default function CalendarHomeScreen() {
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);

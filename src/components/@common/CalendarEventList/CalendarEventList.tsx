@@ -1,6 +1,6 @@
 import {ScrollView, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {CalendarPost} from 'screens/FeedTabScreens/FeedHomeCalendarScreen.tsx';
+import {CalendarPost} from '../../../screens/CalendarStackScreens/CalendarHomeScreen.tsx';
 import {CalendarEvent} from '../../calendar/CalendarEvent/CalendarEvent.tsx';
 
 interface ICalendarEventListProps {

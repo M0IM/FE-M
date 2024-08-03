@@ -1,14 +1,22 @@
 import {Pressable, PressableProps, Text, View} from 'react-native';
-import {CalendarPost} from '../../../screens/FeedTabScreens/FeedHomeCalendarScreen.tsx';
+import {CalendarPost} from '../../../screens/CalendarStackScreens/CalendarHomeScreen.tsx';
+import {useNavigation} from '@react-navigation/native';
+import {CalendarStackNavigationProp} from '../../../navigators/types';
 
 interface ICalendarEventProps extends PressableProps {
   post: CalendarPost;
 }
 
 export function CalendarEvent({post, ...props}: ICalendarEventProps) {
+  const navigation = useNavigation<CalendarStackNavigationProp>();
   return (
     <Pressable
       {...props}
+      onPress={() =>
+        navigation.navigate('CALENDAR_DETAIL', {
+          id: post.id,
+        })
+      }
       className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"
       key={post.id}>
       <View className="bg-main w-1 rounded-l-full h-full z-10" />

@@ -1,5 +1,6 @@
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {MaterialTopTabNavigationProp} from '@react-navigation/material-top-tabs';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 /** param list */
 export type FeedTabParamList = {
@@ -26,10 +27,16 @@ export type AuthStackParamList = {
   STEP_5: undefined;
 };
 
+export type CalendarStackParamList = {
+  CALENDAR_HOME: undefined;
+  CALENDAR_DETAIL: {id: number};
+};
+
 /** screen name */
 export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
 export type AuthStackScreenName = keyof AuthStackParamList;
+export type CalendarStackScreenName = keyof CalendarStackParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -41,9 +48,15 @@ export type AuthStackRouteProp = RouteProp<
   AuthStackParamList,
   AuthStackScreenName
 >;
+export type CalendarStackRouteProp = RouteProp<
+  CalendarStackParamList,
+  CalendarStackScreenName
+>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
 export type FeedTopTabNavigationProp =
   MaterialTopTabNavigationProp<FeedTopTabParamList>;
 export type AuthStackNavigationProp = NavigationProp<AuthStackParamList>;
+export type CalendarStackNavigationProp =
+  StackNavigationProp<CalendarStackParamList>;

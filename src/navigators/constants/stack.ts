@@ -1,5 +1,8 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {AuthStackParamList} from '../types';
+import {AuthStackParamList, CalendarStackParamList} from '../types';
 
 // 1. AuthStack
 export const AuthStack = createStackNavigator<AuthStackParamList>();
+
+// 2. CalendarStack
+export const CalendarStack = createStackNavigator<CalendarStackParamList>();

@@ -6,7 +6,6 @@ type Ref = BottomSheet;
 
 interface CustomBottomSheetModalProps {
   children: React.ReactNode;
-  handleClosePress: () => void;
   minHeight: string;
   maxHeight: string;
 }

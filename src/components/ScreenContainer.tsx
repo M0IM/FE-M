@@ -24,7 +24,7 @@ export function ScreenContainer({
   enabled = true,
 }: TScreenContainerProps) {
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white">
       <KeyboardAvoidingView
         className="flex-1"
         enabled={enabled}

@@ -10,7 +10,7 @@ export type FeedTabParamList = {
 };
 
 export type FeedTopTabParamList = {
-  FEED_HOME: undefined;
+  FEED_HOME_FEED: undefined;
   FEED_HOME_CALENDAR: undefined;
 };
 

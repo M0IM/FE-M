@@ -1,3 +1,25 @@
+function getDateDetails(dateString: Date | string) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return {year, month, day};
+}
+
+function getDateWithSeparator(
+  dateString: Date | string,
+  separator: string = '',
+) {
+  const {year, month, day} = getDateDetails(dateString);
+
+  return [
+    String(year),
+    String(month).padStart(2, '0'),
+    String(day).padStart(2, '0'),
+  ].join(separator);
+}
+
 function getMonthYearDetails(initialDate: Date) {
   const month = initialDate.getMonth() + 1;
   const year = initialDate.getFullYear();
@@ -38,5 +60,14 @@ function getNewMonthYear(prevData: MonthYear, increment: number) {
   return getMonthYearDetails(newMonthYear);
 }
 
+function isSameAsCurrentDate(year: number, month: number, date: number) {
+  const currentDate = getDateWithSeparator(new Date());
+  const inputDate = `${year}${String(month).padStart(2, '0')}${String(
+    date,
+  ).padStart(2, '0')}`;
+
+  return currentDate === inputDate;
+}
+
 export type {MonthYear};
-export {getMonthYearDetails, getNewMonthYear};
+export {getMonthYearDetails, getNewMonthYear, isSameAsCurrentDate};

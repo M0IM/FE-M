@@ -13,7 +13,7 @@ export function DayOfWeeks() {
             }}>
             <Text
               className={`
-                text-black text-sm font-bold
+                text-black text-xs font-bold
                 ${dayOfWeek === '토' && 'text-blue'}
                 ${dayOfWeek === '일' && 'text-error'}
             `}>

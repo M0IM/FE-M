@@ -8,7 +8,7 @@ const Tab = createMaterialTopTabNavigator<FeedTopTabParamList>();
 export default function FeedHomeTopTabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName={'FEED_HOME'}
+      initialRouteName={'FEED_HOME_FEED'}
       screenOptions={{
         tabBarLabelStyle: {
           fontSize: 18,
@@ -20,7 +20,7 @@ export default function FeedHomeTopTabNavigator() {
         },
       }}>
       <Tab.Screen
-        name={'FEED_HOME'}
+        name={'FEED_HOME_FEED'}
         component={FeedHomeScreen}
         options={{
           tabBarLabel: '피드',

@@ -8,7 +8,7 @@ export function FeedTabHeaderLogo(navigation: FeedTabNavigationProp) {
       className="p-1 ml-3 active:bg-hover rounded-2xl">
       <Image
         className="w-8 h-8 p-5"
-        source={require('../../assets/logos/logo-green.png')}
+        source={require('assets/logos/logo-green.png')}
       />
     </Pressable>
   );

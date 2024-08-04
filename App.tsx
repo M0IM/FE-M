@@ -1,3 +1,4 @@
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
 import RootNavigator from './src/navigators/root/RootNavigator.tsx';
 import {DevToolsBubble} from 'react-native-react-query-devtools';
@@ -36,11 +37,11 @@ const toastConfig = {
 function App() {
   return (
     <AppSetupContainer>
-      <>
+      <GestureHandlerRootView>
         <RootNavigator />
         <Toast config={toastConfig} />
         <DevToolsBubble />
-      </>
+      </GestureHandlerRootView>
     </AppSetupContainer>
   );
 }

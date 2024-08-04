@@ -1,7 +1,6 @@
 import {CalendarStack} from '../constants';
 import CalendarHomeScreen from 'screens/CalendarStackScreens/CalendarHomeScreen.tsx';
 import CalendarDetailScreen from 'screens/CalendarStackScreens/CalendarDetailScreen.tsx';
-import {TransitionPresets} from '@react-navigation/stack';
 
 export default function CalendarStackNavigator() {
   return (

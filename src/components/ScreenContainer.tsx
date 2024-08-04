@@ -40,8 +40,9 @@ export function ScreenContainer({
               paddingBottom: 30,
               paddingHorizontal: 20,
               flexGrow: 1,
-              gap: 10,
+              gap: 20,
             }}
+            showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps={'handled'}>
             {loading ? (
               <View className="flex-1 items-center justify-center">

@@ -7,12 +7,11 @@ import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 
 export default function RootNavigator() {
   const {isLogin} = useAuth();
-  console.log(isLogin);
 
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hide();
-    }, 1000);
+    }, 300);
   }, []);
 
   return <>{isLogin ? <FeedTabNavigator /> : <AuthStackNavigator />}</>;

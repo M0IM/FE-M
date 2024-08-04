@@ -105,7 +105,6 @@ function useGetRefreshToken() {
       setHeader('Authorization', `Bearer ${data?.result.accessToken}`);
       setEncryptStorage(storageKeys.ACCESS_TOKEN, data.result.accessToken);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, data.result.refreshToken);
-      console.log(isSuccess, '성공');
     }
   }, [isSuccess]);
 

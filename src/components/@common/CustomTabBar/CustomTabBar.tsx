@@ -1,10 +1,16 @@
+import { MaterialTopTabNavigationEventMap } from '@react-navigation/material-top-tabs';
+import { MaterialTopTabDescriptorMap } from '@react-navigation/material-top-tabs/lib/typescript/src/types';
+import { NavigationHelpers, ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { View, TouchableOpacity, Animated } from 'react-native';
 
 interface CustomTabBarProps {
-    state: any;
-    descriptors: any;
-    navigation: any;
-    position: any
+    state: TabNavigationState<ParamListBase>;
+    descriptors: MaterialTopTabDescriptorMap;
+    navigation: NavigationHelpers<
+      ParamListBase,
+      MaterialTopTabNavigationEventMap
+    >;
+    position: Animated.AnimatedInterpolation<number>
 }
 
 const CustomTabBar = ({

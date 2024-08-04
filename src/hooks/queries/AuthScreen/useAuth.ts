@@ -121,10 +121,24 @@ function useGetRefreshToken() {
 function useLogout(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: logout,
-    onSuccess: () => {
+    onSuccess: data => {
       removeEncryptStorage(storageKeys.REFRESH_TOKEN);
       removeHeader('Authorization');
       queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
+      Toast.show({
+        type: 'success',
+        text1: data.message && '로그아웃에 성공하였습니다.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,

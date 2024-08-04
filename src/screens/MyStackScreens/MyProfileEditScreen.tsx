@@ -1,6 +1,7 @@
+import {ScreenContainer} from 'components/ScreenContainer.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+
 import {MyStackRouteProp} from '../../navigators/types';
-import {ScreenContainer} from '../../components/ScreenContainer.tsx';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
 
 interface IMyProfileEditScreenProps {
   route: MyStackRouteProp;

@@ -1,7 +1,10 @@
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
 import RootNavigator from './src/navigators/root/RootNavigator.tsx';
 import {DevToolsBubble} from 'react-native-react-query-devtools';
+
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['Sending']);
 
 import Toast, {
   BaseToast,

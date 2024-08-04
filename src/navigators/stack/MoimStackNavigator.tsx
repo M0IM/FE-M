@@ -6,6 +6,7 @@ import MoimDetailScreen from '../../screens/MoimStackScreens/MoimDetailScreen.ts
 export default function MoimStackNavigator() {
   return (
     <MoimStack.Navigator
+      initialRouteName={'MOIM_LIST'}
       screenOptions={{
         cardStyle: {
           backgroundColor: 'white',

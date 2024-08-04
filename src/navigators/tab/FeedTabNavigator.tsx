@@ -1,10 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MoimHomeScreen from '../../screens/MoimStackScreens/MoimHomeScreen.tsx';
-import ChatHomeScreen from '../../screens/MyStackScreens/MyHomeScreen.tsx';
-import MyHomeScreen from '../../screens/MyStackScreens/MyHomeScreen.tsx';
-
+import ChatHomeScreen from 'screens/FeedTabScreens/ChatHomeScreen.tsx';
 import {FeedTabHeaderLogo} from 'components/feedTab/FeedTabHeaderLogo.tsx';
 import {FeedTabHeaderRight} from 'components/feedTab/FeedTabHeaderRight.tsx';
 

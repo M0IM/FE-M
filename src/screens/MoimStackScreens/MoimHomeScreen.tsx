@@ -1,6 +1,6 @@
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {MoimStackNavigationProp} from '../../navigators/types';
+import MoimActiveEvent from '../../components/screens/MoimHomeScreens/MoimActiveEvent.tsx';
 
 interface IMoimHomeScreenProps {
   navigation: MoimStackNavigationProp;
@@ -9,7 +9,7 @@ interface IMoimHomeScreenProps {
 export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
   return (
     <ScreenContainer>
-      <Typography fontWeight={'MEDIUM'}>모임 홈 페이지</Typography>
+      <MoimActiveEvent />
     </ScreenContainer>
   );
 }

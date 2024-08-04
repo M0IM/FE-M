@@ -1,10 +1,12 @@
-import {ScreenContainer} from '../../components/ScreenContainer.tsx';
-import MyProfileCard from '../../components/screens/MyStackScreens/MyProfileCard.tsx';
-import {SettingItem} from '../../components/@common/SettingItem/SettingItem.tsx';
 import {View} from 'react-native';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import {MyStackNavigationProp} from '../../navigators/types';
-import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
+
+import {ScreenContainer} from 'components/ScreenContainer.tsx';
+import MyProfileCard from 'components/screens/MyStackScreens/MyProfileCard.tsx';
+import {SettingItem} from 'components/@common/SettingItem/SettingItem.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+
+import {MyStackNavigationProp} from 'navigators/types';
+import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
 
 interface IMyHomeScreenProps {
   navigation: MyStackNavigationProp;

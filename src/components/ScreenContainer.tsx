@@ -7,6 +7,7 @@ import {
   Platform,
   SafeAreaView,
 } from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 type TScreenContainerProps = {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ export function ScreenContainer({
   enabled = true,
 }: TScreenContainerProps) {
   return (
-    <View className="flex-1 bg-white">
+    <GestureHandlerRootView className="flex-1 bg-white">
       <KeyboardAvoidingView
         className="flex-1"
         enabled={enabled}
@@ -59,6 +60,6 @@ export function ScreenContainer({
           )}
         </SafeAreaView>
       </KeyboardAvoidingView>
-    </View>
+    </GestureHandlerRootView>
   );
 }

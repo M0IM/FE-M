@@ -4,6 +4,7 @@ import FeedHomeScreen from 'screens/FeedTabScreens/FeedHomeScreen.tsx';
 
 import {FeedTopTabParamList} from '../types';
 import CalendarStackNavigator from '../stack/CalendarStackNavigator.tsx';
+import CustomTabBar from 'components/@common/CustomTabBar/CustomTabBar.tsx';
 
 const Tab = createMaterialTopTabNavigator<FeedTopTabParamList>();
 
@@ -11,16 +12,8 @@ export default function FeedHomeTopTabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName={'FEED_HOME_FEED'}
-      screenOptions={{
-        tabBarLabelStyle: {
-          fontSize: 18,
-          fontFamily: 'Pretendard-Bold',
-        },
-        tabBarActiveTintColor: '#000',
-        tabBarIndicatorStyle: {
-          backgroundColor: '#00F0A1',
-        },
-      }}>
+      tabBar={props => <CustomTabBar {...props} />}
+      >
       <Tab.Screen
         name={'FEED_HOME_FEED'}
         component={FeedHomeScreen}

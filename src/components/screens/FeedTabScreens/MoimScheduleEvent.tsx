@@ -6,7 +6,7 @@ import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 
 export default function MoimScheduleEvent() {
   return (
-    <View className='flex flex-col gap-2 mt-5'>
+    <View className='flex flex-col gap-2 mt-1'>
       <Typography className="text-2xl mt-5" fontWeight={'BOLD'}>
         반가워요 00님
       </Typography>

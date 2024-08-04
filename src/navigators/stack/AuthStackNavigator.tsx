@@ -1,7 +1,7 @@
 import LoginScreen from 'screens/AuthStackScreens/LoginScreen.tsx';
-import SignUpFunnelScreen from '../../screens/AuthStackScreens/SignUpFunnelScreen.tsx';
-import PrivacyPolicyScreen from '../../screens/AuthStackScreens/PrivacyPolicyScreen.tsx';
-import ServiceTermScreen from '../../screens/AuthStackScreens/ServiceTermScreen.tsx';
+import SignUpFunnelScreen from 'screens/AuthStackScreens/SignUpFunnelScreen.tsx';
+import PrivacyPolicyScreen from 'screens/AuthStackScreens/PrivacyPolicyScreen.tsx';
+import ServiceTermScreen from 'screens/AuthStackScreens/ServiceTermScreen.tsx';
 
 import {AuthStack} from 'navigators/constants';
 

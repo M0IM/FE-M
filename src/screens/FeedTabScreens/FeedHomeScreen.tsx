@@ -7,7 +7,7 @@ import {Logo} from '../../components/@common/Logo/Logo.tsx';
 
 export default function FeedHomeScreen() {
   return (
-    <View>
+    <View className={'bg-white flex-1'}>
       <Text className="footnote">FEED_HOME 화면입니다.</Text>
       <CatSvg width={200} height={200} fill="#fff" />
       <Text className="text-warning">HI</Text>

@@ -1,9 +1,10 @@
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
+import {ScreenContainer} from 'components/ScreenContainer.tsx';
 
 export default function ChatHomeScreen() {
   return (
-    <View>
+    <ScreenContainer>
       <Text>ChatHome Screen</Text>
-    </View>
+    </ScreenContainer>
   );
 }

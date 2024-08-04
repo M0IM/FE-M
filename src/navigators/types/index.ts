@@ -32,6 +32,11 @@ export type CalendarStackParamList = {
   CALENDAR_DETAIL: {id: number};
 };
 
+export type MoimStackParamList = {
+  MOIM_LIST: undefined;
+  MOIM_DETAIL: {id: number};
+};
+
 export type MyStackParamList = {
   // 세팅 페이지
   MY_SETTING_HOME: undefined;
@@ -68,6 +73,7 @@ export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
 export type AuthStackScreenName = keyof AuthStackParamList;
 export type CalendarStackScreenName = keyof CalendarStackParamList;
+export type MoimStackScreenName = keyof MoimStackParamList;
 export type MyStackScreenName = keyof MyStackParamList;
 
 /** route props */
@@ -84,6 +90,10 @@ export type CalendarStackRouteProp = RouteProp<
   CalendarStackParamList,
   CalendarStackScreenName
 >;
+export type MoimStackRouteProp = RouteProp<
+  MoimStackParamList,
+  MoimStackScreenName
+>;
 export type MyStackRouteProp = RouteProp<MyStackParamList, MyStackScreenName>;
 
 /** navigation props */
@@ -93,4 +103,5 @@ export type FeedTopTabNavigationProp =
 export type AuthStackNavigationProp = NavigationProp<AuthStackParamList>;
 export type CalendarStackNavigationProp =
   StackNavigationProp<CalendarStackParamList>;
+export type MoimStackNavigationProp = StackNavigationProp<MoimStackParamList>;
 export type MyStackNavigationProp = StackNavigationProp<MyStackParamList>;

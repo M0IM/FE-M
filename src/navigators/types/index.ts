@@ -32,11 +32,19 @@ export type CalendarStackParamList = {
   CALENDAR_DETAIL: {id: number};
 };
 
+export type MyStackParamList = {
+  MY_SETTING_HOME: undefined;
+  MY_MANAGE_PROFILE: undefined;
+  MY_DETAIL_PROFILE: {id: number};
+  MY_PROFILE_EDIT: {id: number};
+};
+
 /** screen name */
 export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
 export type AuthStackScreenName = keyof AuthStackParamList;
 export type CalendarStackScreenName = keyof CalendarStackParamList;
+export type MyStackScreenName = keyof MyStackParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -52,6 +60,7 @@ export type CalendarStackRouteProp = RouteProp<
   CalendarStackParamList,
   CalendarStackScreenName
 >;
+export type MyStackRouteProp = RouteProp<MyStackParamList, MyStackScreenName>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -60,3 +69,4 @@ export type FeedTopTabNavigationProp =
 export type AuthStackNavigationProp = NavigationProp<AuthStackParamList>;
 export type CalendarStackNavigationProp =
   StackNavigationProp<CalendarStackParamList>;
+export type MyStackNavigationProp = StackNavigationProp<MyStackParamList>;

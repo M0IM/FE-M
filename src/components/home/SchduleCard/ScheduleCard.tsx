@@ -24,20 +24,20 @@ const ScheduleCard = ({
         <View className="w-[5] h-[27] rounded-lg bg-main" />
         <Typography
           fontWeight="MEDIUM"
-          className="text-dark-800 text-lg"
+          className="text-dark-800 text-base"
           numberOfLines={1}>
           {schedule}
         </Typography>
       </View>
       <Typography
         fontWeight="MEDIUM"
-        className="mt-1 ml-[17] text-gray-300"
+        className="mt-1 ml-[17] text-xs text-gray-300"
         numberOfLines={1}>
         {date}
       </Typography>
       <Typography
         fontWeight="MEDIUM"
-        className="mt-1 ml-[17] text-gray-300"
+        className="mt-1 ml-[17] text-xs text-gray-300"
         numberOfLines={1}>
         {time}
       </Typography>

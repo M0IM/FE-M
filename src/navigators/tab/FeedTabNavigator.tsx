@@ -51,6 +51,9 @@ export default function FeedTabNavigator() {
         headerRight: () => FeedTabHeaderRight(navigation),
         headerStyle: {
           backgroundColor: '#fff',
+          borderBottomColor: '#000',
+          shadowOpacity: 0,
+          elevation: 0
         },
         headerTintColor: '#fff',
         tabBarActiveTintColor: '#fff',

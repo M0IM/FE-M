@@ -1,7 +1,9 @@
-import {Pressable, PressableProps, Text, View} from 'react-native';
+import {Platform, Pressable, PressableProps, Text, View} from 'react-native';
 import {CalendarPost} from '../../../screens/CalendarStackScreens/CalendarHomeScreen.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {CalendarStackNavigationProp} from '../../../navigators/types';
+import { cva } from 'class-variance-authority';
+import { cn } from 'utils/cn.ts';
 
 interface ICalendarEventProps extends PressableProps {
   post: CalendarPost;
@@ -9,6 +11,7 @@ interface ICalendarEventProps extends PressableProps {
 
 export function CalendarEvent({post, ...props}: ICalendarEventProps) {
   const navigation = useNavigation<CalendarStackNavigationProp>();
+  const platform = Platform.OS;
   return (
     <Pressable
       {...props}
@@ -20,11 +23,11 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
       className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"
       key={post.id}>
       <View className="bg-main w-1 rounded-l-full h-full z-10" />
-      <View className="bg-white p-4 rounded-r-2xl shadow-lg flex-1">
+      <View className={cn(CalenderEventVariant({platform}))}>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
-          className="text-black font-bold text-lg">
+          className="text-dark-800 font-bold text-base mb-1">
           {post.title}
         </Text>
         <View className="mt-1">
@@ -35,3 +38,15 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
     </Pressable>
   );
 }
+
+const CalenderEventVariant = cva('bg-white p-4 rounded-r-2xl flex-1', {
+  variants: {
+    platform: {
+      ios: 'shadow shadow-gray-200',
+      android: 'elevation-lg shadow-gray-300',
+      windows: 'shadow shadow-gray-200',
+      macos: 'shadow shadow-gray-200',
+      web: 'shadow shadow-gray-200'
+    }
+  }
+});

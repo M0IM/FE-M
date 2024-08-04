@@ -26,22 +26,22 @@ export function Calendar<T>({
   return (
     <>
       <View className="flex-row items-center justify-center">
-        <View className="flex-row items-center justify-between my-6 mx-4 bg-gray-100 w-3/5 rounded-2xl">
+        <View className="flex-row items-center justify-between my-6 mx-4 bg-gray-50 w-3/5 rounded-3xl border-gray-200 border-[0.5px]">
           <Pressable className="p-3" onPress={() => onChangeMonth(-1)}>
-            <Ionicons name="chevron-back" size={25} color={'#000'} />
+            <Ionicons name="chevron-back" size={25} color={'#E9ECEF'} />
           </Pressable>
           <Pressable className="flex-row items-center p-2">
-            <Text className="text-lg font-bold text-black">
+            <Text className="text-base font-light text-gray-500">
               {year}년 {month}월
             </Text>
             <MaterialIcons
               name={'keyboard-arrow-down'}
               size={20}
-              color={'#000'}
+              color={'#72787F'}
             />
           </Pressable>
           <Pressable className="p-3" onPress={() => onChangeMonth(1)}>
-            <Ionicons name="chevron-forward" size={25} color={'#000'} />
+            <Ionicons name="chevron-forward" size={25} color={'#E9ECEF'} />
           </Pressable>
         </View>
       </View>

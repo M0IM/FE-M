@@ -1,7 +1,6 @@
 import {
   View,
   TouchableOpacityProps,
-  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import {Typography} from 'components/@common/Typography/Typography';
@@ -56,39 +55,31 @@ const PostPreviewBox = ({
   ...props
 }: PostPreviewBoxProps) => {
   return (
-    <View className="flex flex-col p-7 rounded-3xl bg-gray-50 border-gray-100 border-[1px]">
-      <FlatList
-        horizontal={true}
-        data={postList}
-        renderItem={({item, index}) => (
-          <View key={index} className="flex flex-col gap-2">
-            <Typography className="text-base" fontWeight="MEDIUM">
-              {item.spaceName}
-            </Typography>
-            <FlatList
-              data={item.contentsList}
-              renderItem={({item, index}) => (
-                <TouchableOpacity
-                  {...props}
-                  activeOpacity={0.8}
-                  key={index}
-                  className="flex flex-row items-center justify-between">
-                  <Typography
-                    fontWeight="MEDIUM"
-                    numberOfLines={1}
-                    className="text-xs w-[250] mt-2 text-gray-400">
-                    {item.title}
-                  </Typography>
-                  <Typography fontWeight="BOLD" className="text-main text-xs">
-                    {item.category}
-                  </Typography>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        )}
-        ItemSeparatorComponent={() => <View className="h-[30]" />}
-      />
+    <View className="flex flex-col px-7 py-2 rounded-3xl bg-gray-50 border-gray-100 border-[1px]">
+      {postList.map((item, index) => (
+        <View key={index} className="flex flex-col py-4">
+          <Typography className="text-base" fontWeight="MEDIUM">
+            {item.spaceName}
+          </Typography>
+          {item.contentsList.map((item, index) => (
+            <TouchableOpacity
+              {...props}
+              activeOpacity={0.8}
+              key={index}
+              className="flex flex-row items-center justify-between">
+              <Typography
+                fontWeight="MEDIUM"
+                numberOfLines={1}
+                className="text-xs w-[250] mt-2 text-gray-400">
+                {item.title}
+              </Typography>
+              <Typography fontWeight="BOLD" className="text-main text-xs">
+                {item.category}
+              </Typography>
+            </TouchableOpacity>
+          ))}
+        </View>
+      ))}
     </View>
   );
 };

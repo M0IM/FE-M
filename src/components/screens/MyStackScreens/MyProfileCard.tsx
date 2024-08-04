@@ -25,10 +25,14 @@ export default function MyProfileCard({navigation}: IMyProfileCard) {
           onPress={() => navigation.navigate('MY_MANAGE_PROFILE')}>
           <Image source={Group} />
         </InfoSquareCard>
-        <InfoSquareCard title={'문의 하기'}>
+        <InfoSquareCard
+          title={'문의 하기'}
+          onPress={() => navigation.navigate('MY_CONTACT')}>
           <Image source={Call} />
         </InfoSquareCard>
-        <InfoSquareCard title={'내 후기 확인'}>
+        <InfoSquareCard
+          title={'내 후기 확인'}
+          onPress={() => navigation.navigate('MY_REVIEW')}>
           <Image source={Bubble} />
         </InfoSquareCard>
       </View>

@@ -37,6 +37,10 @@ export type MyStackParamList = {
   MY_SETTING_HOME: undefined;
   // 프로필 설정 페이지
   MY_MANAGE_PROFILE: undefined;
+  // 문의 하기
+  MY_CONTACT: undefined;
+  // 내 후기 확인
+  MY_REVIEW: undefined;
   // 내 프로필 페이지
   MY_DETAIL_PROFILE: {id: number};
   // 프로필 수정 페이지

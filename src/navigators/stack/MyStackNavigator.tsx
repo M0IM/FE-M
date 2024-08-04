@@ -11,6 +11,8 @@ import EditAlertScreen from '../../screens/MyStackScreens/EditAlertScreen.tsx';
 import AppInfoScreen from '../../screens/MyStackScreens/AppInfoScreen.tsx';
 import MyPrivacyPolicyScreen from '../../screens/MyStackScreens/MyPrivacyPolicyScreen.tsx';
 import MyServiceTermScreen from '../../screens/MyStackScreens/MyServiceTermScreen.tsx';
+import MyContactScreen from '../../screens/MyStackScreens/MyContactScreen.tsx';
+import MyReviewScreen from '../../screens/MyStackScreens/MyReviewScreen.tsx';
 
 export default function MyStackNavigator() {
   return (
@@ -43,6 +45,20 @@ export default function MyStackNavigator() {
         component={MyDetailProfileScreen}
         options={{
           headerTitle: '내 프로필',
+        }}
+      />
+      <MyStack.Screen
+        name={'MY_CONTACT'}
+        component={MyContactScreen}
+        options={{
+          headerTitle: '문의 하기',
+        }}
+      />
+      <MyStack.Screen
+        name={'MY_REVIEW'}
+        component={MyReviewScreen}
+        options={{
+          headerTitle: '내 후기 확인',
         }}
       />
       <MyStack.Screen

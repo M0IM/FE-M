@@ -5,14 +5,14 @@ import MyDetailProfileScreen from 'screens/MyStackScreens/MyDetailProfileScreen.
 import ProfilesScreen from 'screens/MyStackScreens/ProfilesScreen.tsx';
 import MyProfileEditScreen from 'screens/MyStackScreens/MyProfileEditScreen.tsx';
 import RevokeMoimScreen from 'screens/MyStackScreens/RevokeMoimScreen.tsx';
-import MyMoimJoinStatusScreen from '../../screens/MyStackScreens/MyMoimJoinStatusScreen.tsx';
-import EditMoimInfoScreen from '../../screens/MyStackScreens/EditMoimInfoScreen.tsx';
-import EditAlertScreen from '../../screens/MyStackScreens/EditAlertScreen.tsx';
-import AppInfoScreen from '../../screens/MyStackScreens/AppInfoScreen.tsx';
-import MyPrivacyPolicyScreen from '../../screens/MyStackScreens/MyPrivacyPolicyScreen.tsx';
-import MyServiceTermScreen from '../../screens/MyStackScreens/MyServiceTermScreen.tsx';
-import MyContactScreen from '../../screens/MyStackScreens/MyContactScreen.tsx';
-import MyReviewScreen from '../../screens/MyStackScreens/MyReviewScreen.tsx';
+import MyMoimJoinStatusScreen from 'screens/MyStackScreens/MyMoimJoinStatusScreen.tsx';
+import EditMoimInfoScreen from 'screens/MyStackScreens/EditMoimInfoScreen.tsx';
+import EditAlertScreen from 'screens/MyStackScreens/EditAlertScreen.tsx';
+import AppInfoScreen from 'screens/MyStackScreens/AppInfoScreen.tsx';
+import MyPrivacyPolicyScreen from 'screens/MyStackScreens/MyPrivacyPolicyScreen.tsx';
+import MyServiceTermScreen from 'screens/MyStackScreens/MyServiceTermScreen.tsx';
+import MyContactScreen from 'screens/MyStackScreens/MyContactScreen.tsx';
+import MyReviewScreen from 'screens/MyStackScreens/MyReviewScreen.tsx';
 
 export default function MyStackNavigator() {
   return (

@@ -1,6 +1,6 @@
 import { Typography } from 'components/@common/Typography/Typography';
 import SchedulePreviewCard from 'components/space/SchedulePreviewCard/SchedulePreviewCard';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, TouchableOpacity } from 'react-native';
 
 const participants = [
     {
@@ -90,14 +90,14 @@ const MoimContentsPreview = () => {
         <View className='flex flex-col mt-10'>
             <Typography fontWeight='BOLD' className='text-xs text-gray-400 mb-4'>공지사항</Typography>
             {testPostData.map((item, index) => (
-                <View key={index} className='p-5 border-gray-200 border-[0.5px] rounded-xl mb-4'>
+                <TouchableOpacity activeOpacity={0.8} key={index} className='p-5 border-gray-200 border-[0.5px] rounded-xl mb-4'>
                     <View className='flex flex-row'>
                         <Typography fontWeight='BOLD' className='text-dark-800 text-sm'>{item.title}</Typography>
                         <Typography fontWeight='BOLD' className='text-main text-sm ml-2'>N</Typography>
                     </View>
                     <Typography fontWeight='MEDIUM' className='text-dark-800 text-sm mt-1'>{item.content}</Typography>
                     <Typography fontWeight='MEDIUM' className='text-gray-300 text-xs mt-5'>{item.date}</Typography>
-                </View>
+                </TouchableOpacity>
             ))}
         </View>
     </View>

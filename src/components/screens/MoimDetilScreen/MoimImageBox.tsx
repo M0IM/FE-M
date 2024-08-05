@@ -1,8 +1,10 @@
-import { cva } from 'class-variance-authority';
-import { Typography } from 'components/@common/Typography/Typography';
 import { View, Image, Platform, TouchableOpacity } from 'react-native';
-import { cn } from 'utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
+import { Typography } from 'components/@common/Typography/Typography';
+import { cn } from 'utils';
+import { cva } from 'class-variance-authority';
+
 
 const testImage = "https://images.unsplash.com/photo-1711486107626-855a7a5ca7f0?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxNXx8fGVufDB8fHx8fA%3D%3D";
 
@@ -11,6 +13,12 @@ const MoimImageBox = () => {
     return (
         <View className='flex flex-col items-center relative'>
             <Image source={{uri: testImage}} className='w-full h-[240px] rounded-tr-2xl rounded-tl-2xl'/>
+            <LinearGradient 
+                colors={['rgba(255,255,255,1)', 'rgba(255,255,255,0)']} 
+                className='w-full h-[70px] absolute bottom-0' 
+                start={{ x: 0, y: 1 }} 
+                end={{ x: 0, y: 0 }} 
+            />
             <View className='absolute top-28 right-2'>
                 <TouchableOpacity className='p-2'>
                     <View className='flex flex-row items-center bg-black opacity-70 rounded-md p-2'>

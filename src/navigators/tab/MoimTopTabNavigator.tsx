@@ -1,8 +1,8 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import CustomTabBar from 'components/@common/CustomTabBar/CustomTabBar';
+import MoimPlanStackNavigator from 'navigators/stack/MoimPlanStackNavigator';
+import MoimPostStackNavigator from 'navigators/stack/MoimPostStackNavigator';
 import {MoimTopTabParamList} from 'navigators/types';
-import MoimBoardScreen from 'screens/MoimBoardStackScreens/MoimBoardScreen';
-import MoimPlanHomeScreen from 'screens/MoimCalenderStackScreens/MoimPlanHomeScreen';
 import MoimDetailScreen from 'screens/MoimStackScreens/MoimDetailScreen';
 
 const Tab = createMaterialTopTabNavigator<MoimTopTabParamList>();
@@ -21,14 +21,14 @@ export default function MoimTopTabNavigator() {
       />
       <Tab.Screen
         name={'MOIM_PLAN'}
-        component={MoimPlanHomeScreen}
+        component={MoimPlanStackNavigator}
         options={{
           tabBarLabel: '일정',
         }}
       />
       <Tab.Screen
         name={'MOIM_BOARD'}
-        component={MoimBoardScreen}
+        component={MoimPostStackNavigator}
         options={{
           tabBarLabel: '게시판',
         }}

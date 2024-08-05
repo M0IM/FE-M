@@ -1,18 +1,16 @@
 import {MoimTopTabRouteProp} from '../../navigators/types';
 import MoimImageBox from 'components/screens/MoimDetilScreen/MoimImageBox';
 import MoimInfoContainer from 'components/screens/MoimDetilScreen/MoimInfoContainer';
-import { SafeAreaView, ScrollView } from 'react-native';
+import {SafeAreaView, ScrollView} from 'react-native';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
 }
 
-export default function MoimDetailScreen({
-  route,
-}: IMoimDetailScreenProps) {
-  console.log(route);
+export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
+  console.log('hi', route.params.id);
   return (
-    <SafeAreaView className='flex-1 bg-white'>
+    <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
         <MoimImageBox />
         <MoimInfoContainer />

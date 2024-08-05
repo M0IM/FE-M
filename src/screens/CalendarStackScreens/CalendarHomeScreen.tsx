@@ -5,6 +5,7 @@ import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
 import {CalendarEventList} from 'components/@common/CalendarEventList/CalendarEventList.tsx';
 
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
+import FloatingButton from '../../components/@common/FloatingButton/FloatingButton.tsx';
 
 export type CalendarPost = {
   id: number;
@@ -95,6 +96,7 @@ export default function CalendarHomeScreen() {
         onPressDate={handlePressDate}
       />
       <CalendarEventList posts={posts[selectedDate]} />
+      <FloatingButton type={'write'} />
     </SafeAreaView>
   );
 }

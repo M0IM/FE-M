@@ -24,6 +24,13 @@ const Label = ({
   label,
   style,
 }: LabelProps) => {
+  const hexColors = {
+    main: '#00F0A1',
+    gray: '#C9CCD1',
+    dark: '#000000'
+  };
+  const hexColor = hexColors[color];
+
   const nameColors = {
     main: COLOR.MAIN,
     gray: COLOR.GRAY,
@@ -34,9 +41,11 @@ const Label = ({
   return (
     <View className={`flex flex-col items-center justify-center p-1 pl-2 pr-2 rounded-2xl
         ${variant === 'filled' && `bg-${nameColor}`}
-        ${variant === 'outlined' && `border-${nameColor} border-[1px]`}
+        ${variant === 'outlined' && `border-[1px]`}
         ${style}
-    `}>
+    `}
+      style={variant === 'outlined' && {borderColor: hexColor}}
+    >
       <Typography 
         fontWeight={variant === 'filled' ? 'BOLD' : 'MEDIUM'}
         className={`${variant === 'outlined' ? `text-${nameColor}` : 'text-white'} text-xs `}

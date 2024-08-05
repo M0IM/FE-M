@@ -44,7 +44,7 @@ export function ScreenContainer({
               paddingBottom: 30,
               paddingHorizontal: 20,
               flexGrow: 1,
-              gap: 30,
+              gap: 20,
             }}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps={'handled'}>

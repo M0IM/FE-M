@@ -20,10 +20,10 @@ export default function ChatStackNavigator() {
       />
       <ChatStack.Screen
         options={{
-          headerShown: true,
-          headerTitle: '채팅방',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
           headerTintColor: '#000',
-          headerBackTitleVisible: false,
         }}
         name={'CHAT_ROOM'}
         component={ChatRoomScreen}

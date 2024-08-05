@@ -22,7 +22,7 @@ export default function CalendarStackNavigator() {
         options={{
           headerShown: true,
           headerTitle: '',
-          headerBackTitle: '',
+          headerBackTitleVisible: false,
         }}
       />
     </CalendarStack.Navigator>

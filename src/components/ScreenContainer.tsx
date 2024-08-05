@@ -14,6 +14,7 @@ type TScreenContainerProps = {
   loading?: boolean;
   fixedTopComponent?: ReactNode;
   fixedBottomComponent?: ReactNode;
+  keyboardVerticalOffset?: number;
   enabled?: boolean;
 };
 
@@ -22,6 +23,7 @@ export function ScreenContainer({
   loading = false,
   fixedTopComponent,
   fixedBottomComponent,
+  keyboardVerticalOffset = 0,
   enabled = true,
 }: TScreenContainerProps) {
   return (
@@ -29,6 +31,7 @@ export function ScreenContainer({
       <KeyboardAvoidingView
         className="flex-1"
         enabled={enabled}
+        keyboardVerticalOffset={keyboardVerticalOffset}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <SafeAreaView className="flex-1">
           {fixedTopComponent && (

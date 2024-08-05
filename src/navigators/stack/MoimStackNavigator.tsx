@@ -1,7 +1,7 @@
 import {MoimStack} from '../constants';
 
-import MoimHomeScreen from '../../screens/MoimStackScreens/MoimHomeScreen.tsx';
-import MoimDetailScreen from '../../screens/MoimStackScreens/MoimDetailScreen.tsx';
+import MoimHomeScreen from 'screens/MoimStackScreens/MoimHomeScreen.tsx';
+import MoimDetailScreen from 'screens/MoimStackScreens/MoimDetailScreen.tsx';
 
 export default function MoimStackNavigator() {
   return (

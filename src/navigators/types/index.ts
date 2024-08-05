@@ -68,6 +68,11 @@ export type MyStackParamList = {
   MY_PASSWORD_CHANGE: undefined;
 };
 
+export type ChatStackParamList = {
+  CHAT_LIST: undefined;
+  CHAT_ROOM: {id: number};
+};
+
 /** screen name */
 export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
@@ -75,6 +80,7 @@ export type AuthStackScreenName = keyof AuthStackParamList;
 export type CalendarStackScreenName = keyof CalendarStackParamList;
 export type MoimStackScreenName = keyof MoimStackParamList;
 export type MyStackScreenName = keyof MyStackParamList;
+export type ChatStackScreenName = keyof ChatStackParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -95,6 +101,10 @@ export type MoimStackRouteProp = RouteProp<
   MoimStackScreenName
 >;
 export type MyStackRouteProp = RouteProp<MyStackParamList, MyStackScreenName>;
+export type ChatStackRouteProp = RouteProp<
+  ChatStackParamList,
+  ChatStackScreenName
+>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -105,3 +115,4 @@ export type CalendarStackNavigationProp =
   StackNavigationProp<CalendarStackParamList>;
 export type MoimStackNavigationProp = StackNavigationProp<MoimStackParamList>;
 export type MyStackNavigationProp = StackNavigationProp<MyStackParamList>;
+export type ChatStackNavigationProp = StackNavigationProp<ChatStackParamList>;

@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import ChatHomeScreen from 'screens/FeedTabScreens/ChatHomeScreen.tsx';
+import ChatHomeScreen from '../../screens/ChatStackScreens/ChatHomeScreen.tsx';
 import {FeedTabHeaderLogo} from 'components/feedTab/FeedTabHeaderLogo.tsx';
 import {FeedTabHeaderRight} from 'components/feedTab/FeedTabHeaderRight.tsx';
 
@@ -10,6 +10,7 @@ import {FeedTabParamList} from '../types';
 import FeedHomeTopTabNavigator from './FeedHomeTopTabNavigator.tsx';
 import MyStackNavigator from '../stack/MyStackNavigator.tsx';
 import MoimStackNavigator from '../stack/MoimStackNavigator.tsx';
+import ChatStackNavigator from '../stack/ChatStackNavigator.tsx';
 
 function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
   let iconName = '';
@@ -53,7 +54,7 @@ export default function FeedTabNavigator() {
           backgroundColor: '#fff',
           borderBottomColor: '#000',
           shadowOpacity: 0,
-          elevation: 0
+          elevation: 0,
         },
         headerTintColor: '#fff',
         tabBarActiveTintColor: '#fff',
@@ -66,7 +67,13 @@ export default function FeedTabNavigator() {
       })}>
       <Tab.Screen name={'FEED_HOME'} component={FeedHomeTopTabNavigator} />
       <Tab.Screen name={'MOIM_HOME'} component={MoimStackNavigator} />
-      <Tab.Screen name={'CHAT_HOME'} component={ChatHomeScreen} />
+      <Tab.Screen
+        options={{
+          headerShown: false,
+        }}
+        name={'CHAT_HOME'}
+        component={ChatStackNavigator}
+      />
       <Tab.Screen
         name={'MY_HOME'}
         options={{

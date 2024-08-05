@@ -2,9 +2,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {
   AuthStackParamList,
   CalendarStackParamList,
-  ChatStackParamList,
   MoimStackParamList,
   MyStackParamList,
+  MoimPlanStackParamList,
+  MoimPostStackParamList
 } from '../types';
 
 // 1. AuthStack
@@ -19,5 +20,8 @@ export const MyStack = createStackNavigator<MyStackParamList>();
 // 4. MoimStack
 export const MoimStack = createStackNavigator<MoimStackParamList>();
 
-// 5. ChatStack
-export const ChatStack = createStackNavigator<ChatStackParamList>();
+// 5. MoimPlanStack
+export const MoimPlanStack = createStackNavigator<MoimPlanStackParamList>();
+
+// 6. MoimPostStack
+export const MoimPostStack = createStackNavigator<MoimPostStackParamList>();

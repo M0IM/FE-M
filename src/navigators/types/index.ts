@@ -34,7 +34,12 @@ export type CalendarStackParamList = {
 
 export type MoimStackParamList = {
   MOIM_LIST: undefined;
-  MOIM_DETAIL: {id: number};
+  MOIM_DETAIL: {
+    screen: MoimTopTabScreenName;
+    params: {
+      id: number;
+    };
+  };
 };
 
 export type MyStackParamList = {
@@ -68,9 +73,18 @@ export type MyStackParamList = {
   MY_PASSWORD_CHANGE: undefined;
 };
 
-export type ChatStackParamList = {
-  CHAT_LIST: undefined;
-  CHAT_ROOM: {id: number};
+export type MoimTopTabParamList = {
+  MOIM_SPACE: {id: number};
+  MOIM_PLAN: {id: number};
+  MOIM_BOARD: {id: number};
+};
+
+export type MoimPlanStackParamList = {
+  MOIM_PLAN_HOME: undefined
+};
+
+export type MoimPostStackParamList = {
+  MOIM_BOARD: undefined
 };
 
 /** screen name */
@@ -80,7 +94,9 @@ export type AuthStackScreenName = keyof AuthStackParamList;
 export type CalendarStackScreenName = keyof CalendarStackParamList;
 export type MoimStackScreenName = keyof MoimStackParamList;
 export type MyStackScreenName = keyof MyStackParamList;
-export type ChatStackScreenName = keyof ChatStackParamList;
+export type MoimTopTabScreenName = keyof MoimTopTabParamList;
+export type MoimPlanStackScreenName = keyof MoimPlanStackParamList;
+export type MoimPostStackScreenName = keyof MoimPostStackParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -101,10 +117,12 @@ export type MoimStackRouteProp = RouteProp<
   MoimStackScreenName
 >;
 export type MyStackRouteProp = RouteProp<MyStackParamList, MyStackScreenName>;
-export type ChatStackRouteProp = RouteProp<
-  ChatStackParamList,
-  ChatStackScreenName
+export type MoimTopTabRouteProp = RouteProp<
+  MoimTopTabParamList,
+  MoimTopTabScreenName
 >;
+export type MoimPlanStackRouteProp = RouteProp<MoimPlanStackParamList, MoimPlanStackScreenName>;
+export type MoimPostStackRouteProp = RouteProp<MoimPostStackParamList, MoimPostStackScreenName>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -115,4 +133,7 @@ export type CalendarStackNavigationProp =
   StackNavigationProp<CalendarStackParamList>;
 export type MoimStackNavigationProp = StackNavigationProp<MoimStackParamList>;
 export type MyStackNavigationProp = StackNavigationProp<MyStackParamList>;
-export type ChatStackNavigationProp = StackNavigationProp<ChatStackParamList>;
+export type MoimTopTabNavigationProp =
+  MaterialTopTabNavigationProp<MoimTopTabParamList>;
+export type MoimPlanStackNavigationProp = StackNavigationProp<MoimPlanStackParamList>;
+export type MoimPostStackNavigationProp = StackNavigationProp<MoimPostStackParamList>;

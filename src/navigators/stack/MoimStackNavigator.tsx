@@ -1,7 +1,7 @@
 import {MoimStack} from '../constants';
 
-import MoimHomeScreen from 'screens/MoimStackScreens/MoimHomeScreen.tsx';
-import MoimDetailScreen from 'screens/MoimStackScreens/MoimDetailScreen.tsx';
+import MoimHomeScreen from '../../screens/MoimStackScreens/MoimHomeScreen.tsx';
+import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator.tsx';
 
 export default function MoimStackNavigator() {
   return (
@@ -14,7 +14,7 @@ export default function MoimStackNavigator() {
         headerShown: false,
       }}>
       <MoimStack.Screen name={'MOIM_LIST'} component={MoimHomeScreen} />
-      <MoimStack.Screen name={'MOIM_DETAIL'} component={MoimDetailScreen} />
+      <MoimStack.Screen name={'MOIM_DETAIL'} component={MoimTopTabNavigator} />
     </MoimStack.Navigator>
   );
 }

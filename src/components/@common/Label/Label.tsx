@@ -15,16 +15,18 @@ interface LabelProps {
   color?: LabelColor;
   variant?: LabelVariant;
   label: string;
+  style?: string;
 }
 
 const Label = ({
   color = 'dark',
   variant = 'outlined',
-  label
+  label,
+  style,
 }: LabelProps) => {
   const hexColors = {
     main: '#00F0A1',
-    gray:'#72787F',
+    gray: '#C9CCD1',
     dark: '#000000'
   };
   const hexColor = hexColors[color];
@@ -39,8 +41,11 @@ const Label = ({
   return (
     <View className={`flex flex-col items-center justify-center p-1 pl-2 pr-2 rounded-2xl
         ${variant === 'filled' && `bg-${nameColor}`}
-        ${variant === 'outlined' && `border-[${hexColor}] border-[1px]`}
-    `}>
+        ${variant === 'outlined' && `border-[1px]`}
+        ${style}
+    `}
+      style={variant === 'outlined' && {borderColor: hexColor}}
+    >
       <Typography 
         fontWeight={variant === 'filled' ? 'BOLD' : 'MEDIUM'}
         className={`${variant === 'outlined' ? `text-${nameColor}` : 'text-white'} text-xs `}

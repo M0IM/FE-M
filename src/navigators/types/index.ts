@@ -34,7 +34,12 @@ export type CalendarStackParamList = {
 
 export type MoimStackParamList = {
   MOIM_LIST: undefined;
-  MOIM_DETAIL: {id: number};
+  MOIM_DETAIL: {
+    screen: MoimTopTabScreenName;
+    params: {
+      id: number;
+    };
+  };
 };
 
 export type MyStackParamList = {
@@ -69,10 +74,10 @@ export type MyStackParamList = {
 };
 
 export type MoimTopTabParamList = {
-  MOIM_HOME: {id: number};
+  MOIM_SPACE: {id: number};
   MOIM_PLAN: {id: number};
   MOIM_BOARD: {id: number};
-}
+};
 
 /** screen name */
 export type FeedTabScreenName = keyof FeedTabParamList;
@@ -102,7 +107,10 @@ export type MoimStackRouteProp = RouteProp<
   MoimStackScreenName
 >;
 export type MyStackRouteProp = RouteProp<MyStackParamList, MyStackScreenName>;
-export type MoimTopTabRouteProp = RouteProp<MoimTopTabParamList, MoimTopTabScreenName>;
+export type MoimTopTabRouteProp = RouteProp<
+  MoimTopTabParamList,
+  MoimTopTabScreenName
+>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -113,4 +121,5 @@ export type CalendarStackNavigationProp =
   StackNavigationProp<CalendarStackParamList>;
 export type MoimStackNavigationProp = StackNavigationProp<MoimStackParamList>;
 export type MyStackNavigationProp = StackNavigationProp<MyStackParamList>;
-export type MoimTopTabNavigationProp = MaterialTopTabNavigationProp<MoimTopTabParamList>;
+export type MoimTopTabNavigationProp =
+  MaterialTopTabNavigationProp<MoimTopTabParamList>;

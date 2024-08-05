@@ -1,3 +1,4 @@
+import MoimDashboardContainer from 'components/screens/MoimDetilScreen/MoimDashboardContainer';
 import {MoimTopTabRouteProp} from '../../navigators/types';
 import MoimImageBox from 'components/screens/MoimDetilScreen/MoimImageBox';
 import MoimInfoContainer from 'components/screens/MoimDetilScreen/MoimInfoContainer';
@@ -16,6 +17,7 @@ export default function MoimDetailScreen({
       <ScrollView>
         <MoimImageBox />
         <MoimInfoContainer />
+        <MoimDashboardContainer />
       </ScrollView>
     </SafeAreaView>
   );

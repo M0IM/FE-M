@@ -45,7 +45,7 @@ const MoimImageBoxVaraint = cva('flex items-center justify-center absolute bg-wh
     variants: {
         platform: {
           ios: 'shadow-md shadow-gray-200',
-          android: 'elevation-lg shadow-gray-100',
+          android: 'elevation-lg shadow-gray-300',
           windows: 'shadow-md shadow-gray-200',
           macos: 'shadow-md shadow-gray-200',
           web: 'shadow-md shadow-gray-200',

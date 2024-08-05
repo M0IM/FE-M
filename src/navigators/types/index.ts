@@ -68,6 +68,12 @@ export type MyStackParamList = {
   MY_PASSWORD_CHANGE: undefined;
 };
 
+export type MoimTopTabParamList = {
+  MOIM_HOME: {id: number};
+  MOIM_PLAN: {id: number};
+  MOIM_BOARD: {id: number};
+}
+
 /** screen name */
 export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
@@ -75,6 +81,7 @@ export type AuthStackScreenName = keyof AuthStackParamList;
 export type CalendarStackScreenName = keyof CalendarStackParamList;
 export type MoimStackScreenName = keyof MoimStackParamList;
 export type MyStackScreenName = keyof MyStackParamList;
+export type MoimTopTabScreenName = keyof MoimTopTabParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -95,6 +102,7 @@ export type MoimStackRouteProp = RouteProp<
   MoimStackScreenName
 >;
 export type MyStackRouteProp = RouteProp<MyStackParamList, MyStackScreenName>;
+export type MoimTopTabRouteProp = RouteProp<MoimTopTabParamList, MoimTopTabScreenName>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -105,3 +113,4 @@ export type CalendarStackNavigationProp =
   StackNavigationProp<CalendarStackParamList>;
 export type MoimStackNavigationProp = StackNavigationProp<MoimStackParamList>;
 export type MyStackNavigationProp = StackNavigationProp<MyStackParamList>;
+export type MoimTopTabNavigationProp = MaterialTopTabNavigationProp<MoimTopTabParamList>;

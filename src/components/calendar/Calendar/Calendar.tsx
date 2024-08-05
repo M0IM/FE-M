@@ -6,6 +6,10 @@ import {DayOfWeeks} from './DayOfWeeks.tsx';
 import {DateBox} from './DateBox.tsx';
 
 import {isSameAsCurrentDate, MonthYear} from 'utils';
+import BottomSheet from '../../@common/BottomSheet/BottomSheet.tsx';
+import useBottomSheet from '../../../hooks/useBottomSheet.ts';
+import {DateSelectorBottomSheet} from '../../@common/DateBottomSheet/DateSelectorBottomSheet.tsx';
+import {useState} from 'react';
 
 interface ICalendarProps<T> {
   monthYear: MonthYear;
@@ -23,6 +27,8 @@ export function Calendar<T>({
   schedules,
 }: ICalendarProps<T>) {
   const {month, year, lastDate, firstDOW} = monthYear;
+  const {ref, open, close} = useBottomSheet();
+  const [openModal, setOpenModal] = useState();
   return (
     <>
       <View className="flex-row items-center justify-center">
@@ -30,7 +36,7 @@ export function Calendar<T>({
           <Pressable className="p-3" onPress={() => onChangeMonth(-1)}>
             <Ionicons name="chevron-back" size={25} color={'#E9ECEF'} />
           </Pressable>
-          <Pressable className="flex-row items-center p-2">
+          <Pressable className="flex-row items-center p-2" onPress={open}>
             <Text className="text-base font-light text-gray-500">
               {year}년 {month}월
             </Text>
@@ -67,6 +73,17 @@ export function Calendar<T>({
           numColumns={7}
         />
       </View>
+      {/*바텀 시트*/}
+      <DateSelectorBottomSheet
+        isOpen={true}
+        onOpen={() => open()}
+        onClose={close}
+        date={new Date()}
+        onChangeDate={() => {}}
+        onConfirmDate={() => {
+          close();
+        }}
+      />
     </>
   );
 }

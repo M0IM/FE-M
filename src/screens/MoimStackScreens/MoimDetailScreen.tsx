@@ -1,6 +1,6 @@
-import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {MoimTopTabRouteProp} from '../../navigators/types';
+import MoimImageBox from 'components/screens/MoimDetilScreen/MoimImageBox';
+import { SafeAreaView, ScrollView } from 'react-native';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -9,13 +9,12 @@ interface IMoimDetailScreenProps {
 export default function MoimDetailScreen({
   route,
 }: IMoimDetailScreenProps) {
-  // console.log(route);
+  console.log(route);
   return (
-    <ScreenContainer>
-      <Typography fontWeight={'MEDIUM'}>
-        {/* {route.params?.id}번 모임 세부 게시글 */}
-        dd
-      </Typography>
-    </ScreenContainer>
+    <SafeAreaView className='flex-1 bg-white'>
+      <ScrollView>
+        <MoimImageBox />
+      </ScrollView>
+    </SafeAreaView>
   );
 }

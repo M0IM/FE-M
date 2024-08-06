@@ -7,6 +7,7 @@ import {posts} from '../CalendarStackScreens/CalendarHomeScreen.tsx';
 import {CalendarEventList} from '../../components/@common/CalendarEventList/CalendarEventList.tsx';
 import {SafeAreaView} from 'react-native';
 import FloatingButton from '../../components/@common/FloatingButton/FloatingButton.tsx';
+import {PlanCalendarEventList} from '../../components/@common/CalendarEventList/PlanCalendarEventList.tsx';
 
 const MoimPlanHomeScreen = () => {
   const currentMonthYear = getMonthYearDetails(new Date());
@@ -29,7 +30,7 @@ const MoimPlanHomeScreen = () => {
         selectedDate={selectedDate}
         onPressDate={handlePressDate}
       />
-      <CalendarEventList posts={posts[selectedDate]} />
+      <PlanCalendarEventList posts={posts[selectedDate]} />
       <FloatingButton type={'add'} onPress={() => {}} />
     </SafeAreaView>
   );

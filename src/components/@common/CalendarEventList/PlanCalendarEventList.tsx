@@ -1,13 +1,13 @@
 import {ScrollView, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CalendarPost} from '../../../screens/CalendarStackScreens/CalendarHomeScreen.tsx';
-import {CalendarEvent} from '../../calendar/CalendarEvent/CalendarEvent.tsx';
+import {PlanCalendarEvent} from '../../planCalendar/PlanCalendarEvent.tsx';
 
-interface ICalendarEventListProps {
+interface IPlanCalendarEventListProps {
   posts: CalendarPost[];
 }
 
-export function CalendarEventList({posts}: ICalendarEventListProps) {
+export function PlanCalendarEventList({posts}: IPlanCalendarEventListProps) {
   // 아랫부분이 잘리지 않도록
   const {bottom} = useSafeAreaInsets();
 
@@ -18,7 +18,7 @@ export function CalendarEventList({posts}: ICalendarEventListProps) {
           marginBottom: bottom,
         }}
         className="p-4 items-center justify-center">
-        {posts?.map(post => <CalendarEvent key={post.id} post={post} />)}
+        {posts?.map(post => <PlanCalendarEvent key={post.id} post={post} />)}
       </View>
     </ScrollView>
   );

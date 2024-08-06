@@ -85,6 +85,15 @@ function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
         queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
       });
     },
+    onError: error => {
+      console.log(error.message);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
     throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });

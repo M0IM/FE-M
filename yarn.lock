@@ -6287,6 +6287,7 @@ __metadata:
     "@types/react": ^18.2.6
     "@types/react-native-vector-icons": ^6.4.18
     "@types/react-test-renderer": ^18.0.7
+    add: ^2.0.6
     axios: ^1.7.2
     babel-jest: ^29.6.3
     babel-loader: ^8.2.4
@@ -6314,6 +6315,7 @@ __metadata:
     react-native-gifted-charts: ^1.4.26
     react-native-linear-gradient: ^2.8.3
     react-native-pager-view: ^6.3.3
+    react-native-raw-bottom-sheet: ^3.0.0
     react-native-react-query-devtools: ^1.3.0
     react-native-reanimated: latest
     react-native-safe-area-context: ^4.10.8
@@ -6332,6 +6334,7 @@ __metadata:
     tailwindcss: 3.3.2
     typescript: 5.0.4
     typescript-eslint: ^7.17.0
+    yarn: ^1.22.22
     zustand: ^4.5.4
   languageName: unknown
   linkType: soft
@@ -6402,6 +6405,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: 677880034aee5bdf7434cc2d25b641d7bedb0b5ef47868a78dadabedccf58e1c5457526d9d8249cd253f2df087e081c3fe7d903b448d8e19e5131a3065b83c07
+  languageName: node
+  linkType: hard
+
+"add@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "add@npm:2.0.6"
+  checksum: e2d23d40494565dfed4acd65e478570c444db5ac6c053551ed429c39ea0f2c99d83df63e7befec936df601827d2254d06a2fb6f7dcfd2022e810b25eab818b8c
   languageName: node
   linkType: hard
 
@@ -14694,6 +14704,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-raw-bottom-sheet@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "react-native-raw-bottom-sheet@npm:3.0.0"
+  checksum: bd8cb9fff9240d1d09279910498efb26df80631f697fd7d93352f1247f30880d6ec6d1c978822f59d1cd375b03c9dad48d6f520935fde13b7ae35ec8305a2694
+  languageName: node
+  linkType: hard
+
 "react-native-react-query-devtools@npm:^1.3.0":
   version: 1.3.0
   resolution: "react-native-react-query-devtools@npm:1.3.0"
@@ -17654,6 +17671,16 @@ react-native-reanimated@latest:
     y18n: ^5.0.5
     yargs-parser: ^21.1.1
   checksum: 73b572e863aa4a8cbef323dd911d79d193b772defd5a51aab0aca2d446655216f5002c42c5306033968193bdbf892a7a4c110b0d77954a7fdf563e653967b56a
+  languageName: node
+  linkType: hard
+
+"yarn@npm:^1.22.22":
+  version: 1.22.22
+  resolution: "yarn@npm:1.22.22"
+  bin:
+    yarn: bin/yarn.js
+    yarnpkg: bin/yarn.js
+  checksum: 59aeef5ccfd3347287f939448e6d3594f0a42f74025b9bdc2a277641c1d4070c07a38b6e7c35e695f77410b0269a5a43c78535786564f86f39c9f781e6efa311
   languageName: node
   linkType: hard
 

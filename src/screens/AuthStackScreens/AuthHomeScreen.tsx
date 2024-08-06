@@ -160,6 +160,7 @@ export default function AuthHomeScreen({
   const handlePressGoogleLoginButton = async () => {
     await GoogleSignin.hasPlayServices();
     const response: User = await GoogleSignin.signIn();
+    console.log(response);
 
     socialIdTokenMutation.mutate(
       {

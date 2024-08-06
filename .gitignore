@@ -75,3 +75,4 @@ env
 ios/tmp.xcconfig
 
 .yarn
+.yarn/install-state.gz

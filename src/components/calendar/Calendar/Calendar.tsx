@@ -2,14 +2,12 @@ import {FlatList, Pressable, Text, View} from 'react-native';
 import {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import DatePicker from 'react-native-date-picker';
 
-import BottomSheet from '../../@common/BottomSheet/BottomSheet.tsx';
-import {CustomButton} from '../../@common/CustomButton/CustomButton.tsx';
 import {DayOfWeeks} from './DayOfWeeks.tsx';
 import {DateBox} from './DateBox.tsx';
 
 import {getMonthYearDetails, isSameAsCurrentDate, MonthYear} from 'utils';
+import DateBottomSheet from '../../DateBottomSheet/DateBottomSheet.tsx';
 
 interface ICalendarProps<T> {
   monthYear: MonthYear;
@@ -27,7 +25,9 @@ export function Calendar<T>({
   schedules,
 }: ICalendarProps<T>) {
   const {month, year, lastDate, firstDOW} = monthYear;
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
   const [pickerDate, setPickerDate] = useState(
     new Date(year, month - 1, selectedDate || 1),
   );
@@ -43,7 +43,7 @@ export function Calendar<T>({
       );
     }
 
-    setIsBottomSheetOpen(false);
+    close();
   };
 
   return (
@@ -53,13 +53,11 @@ export function Calendar<T>({
           <Pressable className="p-3" onPress={() => onChangeMonth(-1)}>
             <Ionicons name="chevron-back" size={25} color={'#E9ECEF'} />
           </Pressable>
-          <Pressable
-            className="flex-row items-center p-2"
-            onPress={() => setIsBottomSheetOpen(true)}>
+          <Pressable className="flex-row items-center p-2" onPress={open}>
             <Text className="text-base font-light text-gray-500">
               {year}년 {month}월
             </Text>
-            {isBottomSheetOpen ? (
+            {isOpen ? (
               <MaterialIcons
                 name={'keyboard-arrow-up'}
                 size={20}
@@ -101,25 +99,14 @@ export function Calendar<T>({
         />
       </View>
       {/*바텀 시트*/}
-      <BottomSheet
-        isBottomSheetOpen={isBottomSheetOpen}
-        onOpen={() => setIsBottomSheetOpen(true)}
-        onClose={() => setIsBottomSheetOpen(false)}
-        setInputState={setIsBottomSheetOpen}
-        height={350}>
-        <DatePicker
-          date={pickerDate}
-          onDateChange={setPickerDate}
-          locale={'KO'}
-          mode={'date'}
-        />
-        <CustomButton
-          variant={'outlined'}
-          label={'날짜 선택하기'}
-          textStyle={'font-bold text-lg'}
-          onPress={() => handleDateChange(pickerDate)}
-        />
-      </BottomSheet>
+      <DateBottomSheet
+        isOpen={isOpen}
+        onOpen={open}
+        onClose={close}
+        date={pickerDate}
+        onDateChange={setPickerDate}
+        onPress={() => handleDateChange(pickerDate)}
+      />
     </>
   );
 }

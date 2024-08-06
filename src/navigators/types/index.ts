@@ -82,6 +82,7 @@ export type MoimTopTabParamList = {
 
 export type MoimPlanStackParamList = {
   MOIM_PLAN_HOME: undefined;
+  MOIM_PLAN_DETAIL: {id: number};
 };
 
 export type MoimPostStackParamList = {

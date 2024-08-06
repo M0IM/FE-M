@@ -4,7 +4,7 @@ import MoimBoardScreen from "screens/MoimBoardStackScreens/MoimBoardScreen";
 export default function MoimPostStackNavigator() {
     return (
         <MoimPostStack.Navigator
-            initialRouteName={'MOIM_BOARD'}
+            initialRouteName={'MOIM_BOARD_HOME'}
             screenOptions={{
                 cardStyle: {
                     backgroundColor: 'white',
@@ -12,7 +12,7 @@ export default function MoimPostStackNavigator() {
                 headerShown: false,
             }}
         >
-            <MoimPostStack.Screen name={'MOIM_BOARD'} component={MoimBoardScreen} />
+            <MoimPostStack.Screen name={'MOIM_BOARD_HOME'} component={MoimBoardScreen} />
         </MoimPostStack.Navigator>
     );
 }

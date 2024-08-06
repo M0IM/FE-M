@@ -48,7 +48,6 @@ export default function BottomSheet({
       ref={bottomSheetRef}
       onOpen={handleOpenBottomSheet}
       onClose={handleCloseBottomSheet}
-      keyboardAvoidingViewEnabled={true}
       height={height ?? 200}
       customStyles={bottomSheetStyles}>
       {children}
@@ -59,6 +58,7 @@ export default function BottomSheet({
 const bottomSheetStyles = StyleSheet.create({
   container: {
     justifyContent: 'center',
+    alignItems: 'center',
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     backgroundColor: 'white',

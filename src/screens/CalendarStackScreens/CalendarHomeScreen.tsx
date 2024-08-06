@@ -14,7 +14,7 @@ export type CalendarPost = {
   address: string;
 };
 
-const posts: Record<number, CalendarPost[]> = {
+export const posts: Record<number, CalendarPost[]> = {
   8: [
     {
       id: 1,

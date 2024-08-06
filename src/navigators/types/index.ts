@@ -76,16 +76,16 @@ export type MyStackParamList = {
 
 export type MoimTopTabParamList = {
   MOIM_SPACE: {id: number};
-  MOIM_PLAN: {id: number};
-  MOIM_BOARD: {id: number};
+  MOIM_TOP_PLAN: {id: number};
+  MOIM_TOP_BOARD: {id: number};
 };
 
 export type MoimPlanStackParamList = {
-  MOIM_PLAN_HOME: undefined
+  MOIM_PLAN_HOME: undefined;
 };
 
 export type MoimPostStackParamList = {
-  MOIM_BOARD: undefined
+  MOIM_BOARD: undefined;
 };
 
 /** screen name */
@@ -122,8 +122,14 @@ export type MoimTopTabRouteProp = RouteProp<
   MoimTopTabParamList,
   MoimTopTabScreenName
 >;
-export type MoimPlanStackRouteProp = RouteProp<MoimPlanStackParamList, MoimPlanStackScreenName>;
-export type MoimPostStackRouteProp = RouteProp<MoimPostStackParamList, MoimPostStackScreenName>;
+export type MoimPlanStackRouteProp = RouteProp<
+  MoimPlanStackParamList,
+  MoimPlanStackScreenName
+>;
+export type MoimPostStackRouteProp = RouteProp<
+  MoimPostStackParamList,
+  MoimPostStackScreenName
+>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -136,5 +142,7 @@ export type MoimStackNavigationProp = StackNavigationProp<MoimStackParamList>;
 export type MyStackNavigationProp = StackNavigationProp<MyStackParamList>;
 export type MoimTopTabNavigationProp =
   MaterialTopTabNavigationProp<MoimTopTabParamList>;
-export type MoimPlanStackNavigationProp = StackNavigationProp<MoimPlanStackParamList>;
-export type MoimPostStackNavigationProp = StackNavigationProp<MoimPostStackParamList>;
+export type MoimPlanStackNavigationProp =
+  StackNavigationProp<MoimPlanStackParamList>;
+export type MoimPostStackNavigationProp =
+  StackNavigationProp<MoimPostStackParamList>;

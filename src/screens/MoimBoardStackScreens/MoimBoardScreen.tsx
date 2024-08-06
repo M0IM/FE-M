@@ -1,7 +1,8 @@
-import Avatar from 'components/@common/Avatar/Avatar';
-import Label from 'components/@common/Label/Label';
+import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
+import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import { Typography } from 'components/@common/Typography/Typography';
-import { ScreenContainer } from 'components/ScreenContainer';
+import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPostPreview';
+import usePopover from 'hooks/usePopover';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -15,8 +16,37 @@ const BOARD_TITLES = [
 
 type BoardTitle = typeof BOARD_TITLES[number]['key'];
 
+const MENU_LIST = [
+  {
+    id: 0,
+    title: BOARD_TITLES[0].label,
+    onPress: () => console.log(BOARD_TITLES[0].label),
+  },
+  {
+    id: 1,
+    title: BOARD_TITLES[1].label,
+    onPress: () => console.log(BOARD_TITLES[1].label),
+  },
+  {
+    id: 2,
+    title: BOARD_TITLES[2].label,
+    onPress: () => console.log(BOARD_TITLES[2].label),
+  },
+  {
+    id: 3,
+    title: BOARD_TITLES[3].label,
+    onPress: () => console.log(BOARD_TITLES[3].label),
+  },
+  {
+    id: 4,
+    title: BOARD_TITLES[4].label,
+    onPress: () => console.log(BOARD_TITLES[4].label),
+  },
+];
+
 const MoimBoardScreen = () => {
   const [isSelected, setIsSelected] = useState<BoardTitle>('ALL');
+  const { isPopover, handlePopover } = usePopover();
 
   const handleSelect = (selectMenu: BoardTitle) => {
     setIsSelected(selectMenu);
@@ -37,28 +67,11 @@ const MoimBoardScreen = () => {
           </Pressable>
         ))}
       </View>
-      <ScreenContainer>
-        {Array(8).fill(null).map((item, index) => (
-          <View key={index} className='flex flex-col border-gray-200 border-[0.5px] p-4 rounded-lg'>
-            <View className='flex flex-row items-center'>
-              <Avatar size='XS' />
-              <Typography fontWeight='MEDIUM' className='text-dark-800 text-xs ml-2'>새로운 부회장</Typography>
-              <Label label='가입 인사' style='ml-auto' color='main' />
-            </View>
-            <View className='flex flex-col mt-3'>
-              <Typography fontWeight='BOLD' className='text-dark-800 text-sm'>매주 월요일 정기 스터디</Typography>
-              <Typography fontWeight='LIGHT' className='text-dark-800 text-sm mt-1'>여러분 무조건 참여해야 하는 활동 중 하나입니다. 따라서 워크북을 꾸준히
-              하시길 바랍니다.</Typography>
-            </View>
-
-            <View className='flex flex-row items-end mt-3'>
-              <Typography fontWeight='MEDIUM' className='text-gray-400 text-xs'>2024년 5월 17일 오후 2:00</Typography>
-              <Typography fontWeight='MEDIUM' className='text-gray-400 text-xs ml-3'>댓글 0</Typography>
-              <Typography fontWeight='MEDIUM' className='text-gray-400 text-xs ml-3'>좋아요 10</Typography>
-            </View>
-          </View>
-        ))}
-      </ScreenContainer>
+      <BoardPostPreview />
+      <FloatingButton type='add' onPress={handlePopover} />
+      <View className='w-[120px] absolute bottom-28 right-5'>
+        <PopoverMenu menu={MENU_LIST} isPopover={isPopover} />
+      </View>
     </>
   );
 };

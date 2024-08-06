@@ -85,7 +85,9 @@ export type MoimPlanStackParamList = {
 };
 
 export type MoimPostStackParamList = {
-  MOIM_BOARD_HOME: undefined
+  MOIM_BOARD_HOME: undefined,
+  MOIM_POST_DETAIL: {id: number},
+  MOIM_POST_WRITE: undefined;
 };
 
 /** screen name */

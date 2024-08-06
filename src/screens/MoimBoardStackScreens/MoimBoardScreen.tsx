@@ -3,6 +3,7 @@ import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import { Typography } from 'components/@common/Typography/Typography';
 import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPostPreview';
 import usePopover from 'hooks/usePopover';
+import { MoimPostStackNavigationProp } from 'navigators/types';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -16,41 +17,45 @@ const BOARD_TITLES = [
 
 type BoardTitle = typeof BOARD_TITLES[number]['key'];
 
-const MENU_LIST = [
-  {
-    id: 0,
-    title: BOARD_TITLES[0].label,
-    onPress: () => console.log(BOARD_TITLES[0].label),
-  },
-  {
-    id: 1,
-    title: BOARD_TITLES[1].label,
-    onPress: () => console.log(BOARD_TITLES[1].label),
-  },
-  {
-    id: 2,
-    title: BOARD_TITLES[2].label,
-    onPress: () => console.log(BOARD_TITLES[2].label),
-  },
-  {
-    id: 3,
-    title: BOARD_TITLES[3].label,
-    onPress: () => console.log(BOARD_TITLES[3].label),
-  },
-  {
-    id: 4,
-    title: BOARD_TITLES[4].label,
-    onPress: () => console.log(BOARD_TITLES[4].label),
-  },
-];
+interface MoimBoardScreenProps {
+  navigation: MoimPostStackNavigationProp
+}
 
-const MoimBoardScreen = () => {
+const MoimBoardScreen = ({navigation}: MoimBoardScreenProps) => {
   const [isSelected, setIsSelected] = useState<BoardTitle>('ALL');
   const { isPopover, handlePopover } = usePopover();
 
   const handleSelect = (selectMenu: BoardTitle) => {
     setIsSelected(selectMenu);
   };
+
+  const MENU_LIST = [
+    {
+      id: 0,
+      title: BOARD_TITLES[0].label,
+      onPress: () => navigation.navigate('MOIM_POST_WRITE'),
+    },
+    {
+      id: 1,
+      title: BOARD_TITLES[1].label,
+      onPress: () => console.log(BOARD_TITLES[1].label),
+    },
+    {
+      id: 2,
+      title: BOARD_TITLES[2].label,
+      onPress: () => console.log(BOARD_TITLES[2].label),
+    },
+    {
+      id: 3,
+      title: BOARD_TITLES[3].label,
+      onPress: () => console.log(BOARD_TITLES[3].label),
+    },
+    {
+      id: 4,
+      title: BOARD_TITLES[4].label,
+      onPress: () => console.log(BOARD_TITLES[4].label),
+    },
+  ];
 
   return (
     <>
@@ -67,7 +72,7 @@ const MoimBoardScreen = () => {
           </Pressable>
         ))}
       </View>
-      <BoardPostPreview />
+      <BoardPostPreview navigation={navigation} />
       <FloatingButton type='add' onPress={handlePopover} />
       <View className='w-[120px] absolute bottom-28 right-5'>
         <PopoverMenu menu={MENU_LIST} isPopover={isPopover} />

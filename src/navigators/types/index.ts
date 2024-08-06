@@ -88,6 +88,11 @@ export type MoimPostStackParamList = {
   MOIM_BOARD: undefined;
 };
 
+export type ChatStackParamList = {
+  CHAT_LIST: undefined;
+  CHAT_ROOM: {id: number};
+};
+
 /** screen name */
 export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
@@ -98,6 +103,7 @@ export type MyStackScreenName = keyof MyStackParamList;
 export type MoimTopTabScreenName = keyof MoimTopTabParamList;
 export type MoimPlanStackScreenName = keyof MoimPlanStackParamList;
 export type MoimPostStackScreenName = keyof MoimPostStackParamList;
+export type ChatStackScreenName = keyof ChatStackParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -130,6 +136,10 @@ export type MoimPostStackRouteProp = RouteProp<
   MoimPostStackParamList,
   MoimPostStackScreenName
 >;
+export type ChatStackRouteProp = RouteProp<
+  ChatStackParamList,
+  ChatStackScreenName
+>;
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -146,3 +156,4 @@ export type MoimPlanStackNavigationProp =
   StackNavigationProp<MoimPlanStackParamList>;
 export type MoimPostStackNavigationProp =
   StackNavigationProp<MoimPostStackParamList>;
+export type ChatStackNavigationProp = StackNavigationProp<ChatStackParamList>;

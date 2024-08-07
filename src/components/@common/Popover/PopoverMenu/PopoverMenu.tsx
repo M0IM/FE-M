@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, View, Pressable, FlatList, Platform } from 'react-native';
+import { Animated, View, Pressable, Platform } from 'react-native';
 import { Typography } from 'components/@common/Typography/Typography';
 import { cva } from 'class-variance-authority';
 import { cn } from 'utils';
 
 type MenuType = {
-    id: number;
+    id?: number;
     title: string;
     onPress: Function;
 }
@@ -49,15 +49,11 @@ const PopoverMenu = ({
             }}
         >
             <View className={cn(PopoverVariant({platform}))}>
-                <FlatList 
-                    data={menu}
-                    renderItem={({item}) => (
-                        <Pressable onPress={() => item.onPress()} className='active:bg-gray-100 p-[5px] pl-[10px] pr-[10px] rounded-lg'>
-                            <Typography fontWeight='MEDIUM' className='text-base text-dark-800'>{item.title}</Typography>
-                        </Pressable>
-                    )}
-                    ItemSeparatorComponent={() => <View className='h-1' />}
-                />
+                {menu.map((item, index) => (
+                    <Pressable key={index} onPress={() => item.onPress()} className='active:bg-gray-100 p-[5px] pl-[10px] pr-[10px] rounded-lg'>
+                        <Typography fontWeight='MEDIUM' className='text-base text-dark-800 p-1'>{item.title}</Typography>
+                    </Pressable>
+                ))}
             </View>
         </Animated.View>
     );

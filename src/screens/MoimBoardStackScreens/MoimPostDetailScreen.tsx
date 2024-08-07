@@ -58,7 +58,7 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
                 <PostInfoContainer postImages={testImages} />
                 {/* 댓글 리스트 */}
                 {Array(10).fill(null).map((item, index) => (
-                    <PostCommentContainer key={index} />
+                    <PostCommentContainer key={index} id={index} />
                 ))}
                 {/* 게시글 메뉴 */}
                 <View className='absolute top-14 right-6'>

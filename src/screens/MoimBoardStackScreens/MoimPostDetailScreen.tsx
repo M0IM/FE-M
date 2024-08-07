@@ -8,7 +8,7 @@ import { InputField } from 'components/@common/InputField/InputField';
 import PostUserProfile from 'components/screens/MoimBoardStackScreens/postDetail/PostUserProfile';
 import PostInfoContainer from 'components/screens/MoimBoardStackScreens/postDetail/PostInfoContainer';
 import PostCommentContainer from 'components/screens/MoimBoardStackScreens/postDetail/PostCommentContainer';
-import { MoimPostStackRouteProp } from 'navigators/types';
+import { MoimPostStackNavigationProp, MoimPostStackRouteProp } from 'navigators/types';
 
 const testImages = [
      "https://images.unsplash.com/photo-1704304660865-4c2ba1514289?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8",
@@ -18,11 +18,14 @@ const testImages = [
 
 interface MoimPostDetailScreenProps {
     route: MoimPostStackRouteProp;
+    navigation: MoimPostStackNavigationProp;
 }
 
-const MoimPostDetailScreen = ({route}: MoimPostDetailScreenProps) => {
-    console.log(route.params?.id);
+const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) => {
+    const id = route.params?.id;
     const { isPopover, handlePopover } = usePopover();
+
+    // TODO: 본인이 작성한 글인지 확인 가능해지면 수정
     const PostMenuList = [
         {
             title: '신고하기',
@@ -35,6 +38,10 @@ const MoimPostDetailScreen = ({route}: MoimPostDetailScreenProps) => {
         {
             title: '차단하기',
             onPress: () => {}            
+        },
+        {
+            title: '수정하기',
+            onPress: () => navigation.navigate('MOIM_POST_EDIT', {id})            
         }
     ];
 

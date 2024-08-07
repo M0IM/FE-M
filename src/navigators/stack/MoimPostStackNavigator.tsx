@@ -1,7 +1,8 @@
-import { MoimPostStack } from "navigators/constants";
 import React from "react";
+import { MoimPostStack } from "navigators/constants";
 import MoimBoardScreen from "screens/MoimBoardStackScreens/MoimBoardScreen";
 import MoimPostDetailScreen from "screens/MoimBoardStackScreens/MoimPostDetailScreen";
+import MoimPostEditScreen from "screens/MoimBoardStackScreens/MoimPostEditScreen";
 import MoimPostWriteScreen from "screens/MoimBoardStackScreens/MoimPostWriteScreen";
 
 export default function MoimPostStackNavigator() {
@@ -28,7 +29,15 @@ export default function MoimPostStackNavigator() {
                 name={'MOIM_POST_WRITE'}
                 component={MoimPostWriteScreen}
                 options={{
-                    headerTitle: '글쓰기',
+                    headerTitle: '게시글 작성',
+                    headerShown: true,
+                }}
+            />
+            <MoimPostStack.Screen 
+                name={'MOIM_POST_EDIT'}
+                component={MoimPostEditScreen}
+                options={{
+                    headerTitle: '게시글 수정',
                     headerShown: true,
                 }}
             />

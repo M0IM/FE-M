@@ -11,7 +11,8 @@ export default function MoimTopTabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName={'MOIM_SPACE'}
-      tabBar={props => <CustomTabBar {...props} />}>
+      tabBar={props => <CustomTabBar {...props} 
+      />}>
       <Tab.Screen
         name={'MOIM_SPACE'}
         component={MoimDetailScreen}

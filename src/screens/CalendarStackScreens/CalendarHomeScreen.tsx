@@ -7,6 +7,7 @@ import {CalendarEventList} from 'components/@common/CalendarEventList/CalendarEv
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
 import {CalendarStackNavigationProp} from '../../navigators/types';
+import MyCalendarBottomSheet from '../../components/myCalendarBottomSheet/myCalendarBottomSheet.tsx';
 
 export type CalendarPost = {
   id: number;
@@ -86,7 +87,9 @@ export default function CalendarHomeScreen({
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
   const handleUpdateMonth = (increment: number) => {
     setMonthYear(prev => getNewMonthYear(prev, increment));
   };
@@ -104,10 +107,8 @@ export default function CalendarHomeScreen({
         onPressDate={handlePressDate}
       />
       <CalendarEventList posts={posts[selectedDate]} />
-      <FloatingButton
-        type={'add'}
-        onPress={() => navigation.navigate('CALENDAR_WRITE')}
-      />
+      <FloatingButton type={'add'} onPress={open} />
+      <MyCalendarBottomSheet isOpen={isOpen} onOpen={open} onClose={close} />
     </SafeAreaView>
   );
 }

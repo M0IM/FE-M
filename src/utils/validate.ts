@@ -1,4 +1,4 @@
-import {TJoinRequestDto} from '../types/dtos/auth.ts';
+import {TSignup} from '../types/dtos/auth.ts';
 
 type UserInformation = {
   email: string;
@@ -33,9 +33,7 @@ function validateLogin(values: UserInformation) {
   return validateUser(values);
 }
 
-function validateSignUpStep3(
-  values: Pick<TJoinRequestDto, 'nickname' | 'email'>,
-) {
+function validateSignUpStep3(values: Pick<TSignup, 'nickname' | 'email'>) {
   const errors = {
     nickname: '',
     email: '',
@@ -52,7 +50,9 @@ function validateSignUpStep3(
   return errors;
 }
 
-type TSignUpValues = Pick<TJoinRequestDto, 'password' | 'passwordCheck'>;
+type TSignUpValues = Pick<TSignup, 'password'> & {
+  passwordCheck: string;
+};
 
 function validateSignUpStep4(values: TSignUpValues) {
   const errors = {
@@ -106,9 +106,32 @@ function validateSignUpStep5(
   return errors;
 }
 
+type TvalidateCalendarWrite = {
+  title: string;
+  date: string;
+};
+
+function validateCalendarWrite(values: TvalidateCalendarWrite) {
+  const errors = {
+    title: '',
+    date: '',
+  };
+
+  if (!values.title.trim()) {
+    errors.title = '일정을 입력해주세요.';
+  }
+
+  if (!values.date) {
+    errors.date = '날짜를 선택해주세요.';
+  }
+
+  return errors;
+}
+
 export {
   validateLogin,
   validateSignUpStep3,
   validateSignUpStep4,
   validateSignUpStep5,
+  validateCalendarWrite,
 };

@@ -19,7 +19,9 @@ export default function HomeStackNavigator() {
                 name={'MOIM_CREATE'}
                 component={MoimCreateScreen}
                 options={{
-                    headerShown: false
+                    headerTitle: '모임 생성',
+                    headerTintColor: '#000',
+                    headerLeftLabelVisible: false
                 }}
             />
             <HomeStack.Screen 

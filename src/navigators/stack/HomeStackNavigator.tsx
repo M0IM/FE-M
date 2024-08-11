@@ -28,7 +28,9 @@ export default function HomeStackNavigator() {
                 name={'MOIM_SEARCH'}
                 component={MoimSearchScreen}
                 options={{
-                    headerShown: false
+                    headerTitle: '모임 찾기',
+                    headerTintColor: '#000',
+                    headerLeftLabelVisible: false
                 }}
             />
         </HomeStack.Navigator>

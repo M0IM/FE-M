@@ -13,6 +13,7 @@ import MyPrivacyPolicyScreen from 'screens/MyStackScreens/MyPrivacyPolicyScreen.
 import MyServiceTermScreen from 'screens/MyStackScreens/MyServiceTermScreen.tsx';
 import MyContactScreen from 'screens/MyStackScreens/MyContactScreen.tsx';
 import MyReviewScreen from 'screens/MyStackScreens/MyReviewScreen.tsx';
+import MyPasswordChangeScreen from 'screens/MyStackScreens/MyPasswordChangeScreen';
 
 export default function MyStackNavigator() {
   return (
@@ -119,7 +120,7 @@ export default function MyStackNavigator() {
       />
       <MyStack.Screen
         name={'MY_PASSWORD_CHANGE'}
-        component={MyServiceTermScreen}
+        component={MyPasswordChangeScreen}
         options={{
           headerTitle: '비밀번호 변경',
         }}

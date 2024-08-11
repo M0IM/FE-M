@@ -4,16 +4,16 @@ import MyHomeScreen from 'screens/MyStackScreens/MyHomeScreen.tsx';
 import MyDetailProfileScreen from 'screens/MyStackScreens/MyDetailProfileScreen.tsx';
 import ProfilesScreen from 'screens/MyStackScreens/ProfilesScreen.tsx';
 import MyProfileEditScreen from 'screens/MyStackScreens/MyProfileEditScreen.tsx';
-import RevokeMoimScreen from 'screens/MyStackScreens/RevokeMoimScreen.tsx';
 import MyMoimJoinStatusScreen from 'screens/MyStackScreens/MyMoimJoinStatusScreen.tsx';
 import EditMoimInfoScreen from 'screens/MyStackScreens/EditMoimInfoScreen.tsx';
 import EditAlertScreen from 'screens/MyStackScreens/EditAlertScreen.tsx';
-import AppInfoScreen from 'screens/MyStackScreens/AppInfoScreen.tsx';
 import MyPrivacyPolicyScreen from 'screens/MyStackScreens/MyPrivacyPolicyScreen.tsx';
 import MyServiceTermScreen from 'screens/MyStackScreens/MyServiceTermScreen.tsx';
 import MyContactScreen from 'screens/MyStackScreens/MyContactScreen.tsx';
 import MyReviewScreen from 'screens/MyStackScreens/MyReviewScreen.tsx';
 import MyPasswordChangeScreen from 'screens/MyStackScreens/MyPasswordChangeScreen';
+import RevokeMoimStackNavigator from './my/RevokeMoimStackNavigator';
+import AppInfoStackNavigator from './my/AppInfoStackNavigator';
 
 export default function MyStackNavigator() {
   return (
@@ -71,9 +71,9 @@ export default function MyStackNavigator() {
       />
       <MyStack.Screen
         name={'MY_REVOKE_MOIM'}
-        component={RevokeMoimScreen}
+        component={RevokeMoimStackNavigator}
         options={{
-          headerTitle: '회원 탈퇴',
+          headerShown: false
         }}
       />
       <MyStack.Screen
@@ -99,9 +99,9 @@ export default function MyStackNavigator() {
       />
       <MyStack.Screen
         name={'MY_APP_INFO'}
-        component={AppInfoScreen}
+        component={AppInfoStackNavigator}
         options={{
-          headerTitle: '앱 정보',
+          headerShown: false
         }}
       />
       <MyStack.Screen

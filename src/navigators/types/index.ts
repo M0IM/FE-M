@@ -43,6 +43,7 @@ export type MoimStackParamList = {
   };
 };
 
+
 export type MyStackParamList = {
   // 세팅 페이지
   MY_SETTING_HOME: undefined;
@@ -91,6 +92,16 @@ export type MoimPostStackParamList = {
   MOIM_POST_EDIT: {id: number | undefined}
 };
 
+export type RevokeMoimStackParamList = {
+  REVOKE_MOIM_LIST: undefined;
+  REVOKE_MOIM_DETAIL: { id: number };
+}
+
+export type AppInfoStackParamList = {
+  APP_INFO_LIST: undefined;
+  APP_INFO_DETAIL: { id: number };
+}
+
 /** screen name */
 export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
@@ -101,6 +112,8 @@ export type MyStackScreenName = keyof MyStackParamList;
 export type MoimTopTabScreenName = keyof MoimTopTabParamList;
 export type MoimPlanStackScreenName = keyof MoimPlanStackParamList;
 export type MoimPostStackScreenName = keyof MoimPostStackParamList;
+export type RevokeMoimStackScreenName = keyof RevokeMoimStackParamList;
+export type AppInfoStackScreenName = keyof AppInfoStackParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -127,6 +140,9 @@ export type MoimTopTabRouteProp = RouteProp<
 >;
 export type MoimPlanStackRouteProp = RouteProp<MoimPlanStackParamList, MoimPlanStackScreenName>;
 export type MoimPostStackRouteProp = RouteProp<MoimPostStackParamList, MoimPostStackScreenName>;
+export type RevokeMoimStackRouteProp = RouteProp<RevokeMoimStackParamList, RevokeMoimStackScreenName>;
+export type AppInfoStackRouteProp = RouteProp<AppInfoStackParamList, AppInfoStackScreenName>;
+
 
 /** navigation props */
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
@@ -141,3 +157,5 @@ export type MoimTopTabNavigationProp =
   MaterialTopTabNavigationProp<MoimTopTabParamList>;
 export type MoimPlanStackNavigationProp = StackNavigationProp<MoimPlanStackParamList>;
 export type MoimPostStackNavigationProp = StackNavigationProp<MoimPostStackParamList>;
+export type RevokeMoimStackNavigatorProp = StackNavigationProp<RevokeMoimStackParamList>;
+export type AppInfoStackNavigatorProp = StackNavigationProp<AppInfoStackParamList>;

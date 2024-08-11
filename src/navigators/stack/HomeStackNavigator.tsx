@@ -21,7 +21,8 @@ export default function HomeStackNavigator() {
                 options={{
                     headerTitle: '모임 생성',
                     headerTintColor: '#000',
-                    headerLeftLabelVisible: false
+                    headerLeftLabelVisible: false,
+                    headerTitleAlign: 'center'
                 }}
             />
             <HomeStack.Screen 
@@ -30,7 +31,8 @@ export default function HomeStackNavigator() {
                 options={{
                     headerTitle: '모임 찾기',
                     headerTintColor: '#000',
-                    headerLeftLabelVisible: false
+                    headerLeftLabelVisible: false,
+                    headerTitleAlign: 'center'
                 }}
             />
         </HomeStack.Navigator>

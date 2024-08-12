@@ -80,7 +80,7 @@ export default function MyCalendarBottomSheet({
           variant={'filled'}
           label={'작성 완료'}
           textStyle={'font-bold text-white text-lg'}
-          onPress={handlePressWriteCalendar} // Connect button to form submission
+          onPress={handlePressWriteCalendar}
         />
       </View>
     </BottomSheet>

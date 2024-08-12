@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {Pressable, Text, PressableProps, View} from 'react-native';
 
-type CustomButtonVariant = 'filled' | 'outlined';
+type CustomButtonVariant = 'filled' | 'outlined' | 'gray';
 type CustomButtonSize = 'large' | 'medium';
 
 interface CustomButtonProps extends PressableProps {
@@ -15,12 +15,14 @@ interface CustomButtonProps extends PressableProps {
 
 const filled = 'bg-main active:bg-hover';
 const outlined = 'bg-white active:bg-hover';
+const gray = 'bg-gray-100 active:bg-hover';
 const large = `w-full flex-row items-center justify-center h-14`;
 const medium = `w-1/2 flex-row items-center justify-center h-14`;
 
 const buttonVariant: Record<CustomButtonVariant, string> = {
   filled,
   outlined,
+  gray,
 };
 
 const buttonSize: Record<CustomButtonSize, string> = {

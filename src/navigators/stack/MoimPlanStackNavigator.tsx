@@ -1,6 +1,6 @@
 import {MoimPlanStack} from 'navigators/constants';
 import MoimPlanHomeScreen from 'screens/MoimCalenderStackScreens/MoimPlanHomeScreen';
-import MoimPlanDetailScreen from '../../screens/MoimCalenderStackScreens/MoimPlanDetailScreen.tsx';
+import MoimPlanDetailScreen from 'screens/MoimCalenderStackScreens/MoimPlanDetailScreen.tsx';
 
 export default function MoimPlanStackNavigator() {
   return (

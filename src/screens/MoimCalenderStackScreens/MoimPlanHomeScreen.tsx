@@ -1,15 +1,25 @@
-import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import {getMonthYearDetails, getNewMonthYear} from '../../utils';
 import {useState} from 'react';
-import {Calendar} from '../../components/calendar/Calendar/Calendar.tsx';
-import {posts} from '../CalendarStackScreens/CalendarHomeScreen.tsx';
-import {CalendarEventList} from '../../components/@common/CalendarEventList/CalendarEventList.tsx';
 import {SafeAreaView} from 'react-native';
-import FloatingButton from '../../components/@common/FloatingButton/FloatingButton.tsx';
-import {PlanCalendarEventList} from '../../components/@common/CalendarEventList/PlanCalendarEventList.tsx';
 
-const MoimPlanHomeScreen = () => {
+import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
+import {posts} from '../CalendarStackScreens/CalendarHomeScreen.tsx';
+import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
+import {PlanCalendarEventList} from 'components/@common/CalendarEventList/PlanCalendarEventList.tsx';
+import {getMonthYearDetails, getNewMonthYear} from 'utils';
+import {
+  MoimPlanStackNavigationProp,
+  MoimStackNavigationProp,
+} from 'navigators/types';
+import {CompositeNavigationProp} from '@react-navigation/native';
+
+interface IMoimPlanHomeScreenProps {
+  navigation: CompositeNavigationProp<
+    MoimPlanStackNavigationProp,
+    MoimStackNavigationProp
+  >;
+}
+
+const MoimPlanHomeScreen = ({navigation}: IMoimPlanHomeScreenProps) => {
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
@@ -31,7 +41,14 @@ const MoimPlanHomeScreen = () => {
         onPressDate={handlePressDate}
       />
       <PlanCalendarEventList posts={posts[selectedDate]} />
-      <FloatingButton type={'add'} onPress={() => {}} />
+      <FloatingButton
+        type={'add'}
+        onPress={() => {
+          navigation.navigate('MOIM_WRITE', {
+            id: 1,
+          });
+        }}
+      />
     </SafeAreaView>
   );
 };

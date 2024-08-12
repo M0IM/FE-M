@@ -9,7 +9,7 @@ import {
 
 import {Typography} from '../Typography/Typography.tsx';
 
-import {mergeRefs} from '../../../utils/mergeRefs.ts';
+import {mergeRefs} from 'utils/mergeRefs.ts';
 
 interface IInputFieldProps extends TextInputProps {
   disabled?: boolean;
@@ -44,10 +44,9 @@ export const InputField = forwardRef(
             className={`
           ${Boolean(icon) && 'flex flex-row items-center gap-1'}
           `}>
-            {icon}
             <TextInput
               className={`
-                text-sm text-black p-0
+                text-sm text-black p-0 
                 ${disabled && 'bg-gray-200 text-gray-600'}
               `}
               ref={ref ? mergeRefs(innerRef, ref) : innerRef}
@@ -57,6 +56,7 @@ export const InputField = forwardRef(
               autoCorrect={false}
               {...props}
             />
+            {icon}
           </View>
           {touched && Boolean(error) && (
             <Typography className="text-error" fontWeight={'MEDIUM'}>

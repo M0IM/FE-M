@@ -41,6 +41,7 @@ export type MoimStackParamList = {
       id: number;
     };
   };
+  MOIM_WRITE: {id: number};
 };
 
 export type MyStackParamList = {

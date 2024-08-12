@@ -10,6 +10,9 @@ export default function RevokeMoimStackNavigator() {
                 component={RevokeMoimScreen}
                 options={{
                     headerTitle: '모임 탈퇴',
+                    headerTintColor: '#000',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'center'
                 }}
             />
             <RevokeMoimStack.Screen 
@@ -17,6 +20,9 @@ export default function RevokeMoimStackNavigator() {
                 component={RevokeMoimDetailScreen}
                 options={{
                     headerTitle: '모임 탈퇴',
+                    headerTintColor: '#000',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'center'
                 }}
             />
         </RevokeMoimStack.Navigator>

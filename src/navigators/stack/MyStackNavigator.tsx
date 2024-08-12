@@ -129,6 +129,9 @@ export default function MyStackNavigator() {
         component={MyPasswordChangeScreen}
         options={{
           headerTitle: '비밀번호 변경',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center'
         }}
       />
     </MyStack.Navigator>

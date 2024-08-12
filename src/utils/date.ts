@@ -70,4 +70,9 @@ function isSameAsCurrentDate(year: number, month: number, date: number) {
 }
 
 export type {MonthYear};
-export {getMonthYearDetails, getNewMonthYear, isSameAsCurrentDate};
+export {
+  getMonthYearDetails,
+  getDateWithSeparator,
+  getNewMonthYear,
+  isSameAsCurrentDate,
+};

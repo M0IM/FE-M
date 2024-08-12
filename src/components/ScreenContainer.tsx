@@ -41,7 +41,7 @@ export function ScreenContainer({
           )}
           <ScrollView
             contentContainerStyle={{
-              paddingBottom: 30,
+              paddingBottom: 40,
               paddingHorizontal: 20,
               flexGrow: 1,
               gap: 20,

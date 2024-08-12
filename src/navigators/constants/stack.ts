@@ -6,6 +6,7 @@ import {
   MyStackParamList,
   MoimPlanStackParamList,
   MoimPostStackParamList,
+  ChatStackParamList,
 } from '../types';
 
 // 1. AuthStack
@@ -27,4 +28,4 @@ export const MoimPlanStack = createStackNavigator<MoimPlanStackParamList>();
 export const MoimPostStack = createStackNavigator<MoimPostStackParamList>();
 
 // 7. ChatStack
-export const ChatStack = createStackNavigator<CalendarStackParamList>();
+export const ChatStack = createStackNavigator<ChatStackParamList>();

@@ -109,6 +109,9 @@ export default function MyStackNavigator() {
         component={MyPrivacyPolicyScreen}
         options={{
           headerTitle: '개인정보 처리 방침',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center'
         }}
       />
       <MyStack.Screen
@@ -116,6 +119,9 @@ export default function MyStackNavigator() {
         component={MyServiceTermScreen}
         options={{
           headerTitle: '서비스 이용 약관',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center'
         }}
       />
       <MyStack.Screen

@@ -1,4 +1,4 @@
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {Typography} from '../@common/Typography/Typography.tsx';
 
 function AddPostHeaderRight(onSubmit: () => void) {

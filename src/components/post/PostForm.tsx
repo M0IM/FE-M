@@ -1,4 +1,4 @@
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {MoimStackParamList} from 'navigators/types';
@@ -8,22 +8,22 @@ import {ScreenContainer} from '../ScreenContainer.tsx';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import {InputField} from '../@common/InputField/InputField.tsx';
 import useForm from '../../hooks/useForm.ts';
-import {
-  formatTime,
-  getDateWithSeparator,
-  validateAddMoimPosts,
-} from '../../utils';
+import {formatTime, getDateWithSeparator, validateAddMoimPosts} from 'utils';
 import {CustomButton} from '../@common/CustomButton/CustomButton.tsx';
 import useModal from '../../hooks/useModal.ts';
 import {DatePickerOption} from '../@common/DatePickerOption/DatePickerOption.tsx';
 import {TimePickerOption} from '../@common/TimePickerOption/TimePickerOption.tsx'; // Import the TimePickerOption
 import Octicons from 'react-native-vector-icons/Octicons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import ScheduleEditEvent from '../screens/MoimWriteScreen/ScheduleEditEvent.tsx';
+import ScheduleEvent from '../screens/MoimWriteScreen/ScheduleEvent.tsx';
 
 interface IPostForm {
   moimId?: number;
 }
+
 type TNavigationProps = StackNavigationProp<MoimStackParamList, 'MOIM_WRITE'>;
+
 type TSchedules = {
   title: string;
   startTime: string;
@@ -48,8 +48,6 @@ export default function PostForm({moimId}: IPostForm) {
     },
     validate: validateAddMoimPosts,
   });
-
-  console.log(date);
 
   const handleSubmit = () => {
     console.log({
@@ -236,66 +234,19 @@ export default function PostForm({moimId}: IPostForm) {
         <View
           key={index}
           className="flex-col p-5 border-gray-300 border-2 rounded-2xl mt-3">
-          <View className="gap-y-4">
-            {isEditing === index ? (
-              <>
-                <View className="flex-row">
-                  <TextInput
-                    className="flex-1"
-                    placeholder="스케줄 제목을 작성해주세요."
-                    value={schedule.title}
-                    onChangeText={text =>
-                      handleScheduleChange(index, 'title', text)
-                    }
-                  />
-                  <TouchableOpacity
-                    className="border-b-2 border-b-black"
-                    onPress={saveSchedule}>
-                    <Typography fontWeight={'BOLD'}>저장</Typography>
-                  </TouchableOpacity>
-                </View>
-                <View className="flex-row">
-                  <Typography
-                    fontWeight={'LIGHT'}
-                    className="text-gray-300 basis-1/5">
-                    시간
-                  </Typography>
-                  <TextInput
-                    className="basis-4/5"
-                    placeholder="스케줄 시작 시간을 입력해주세요."
-                    value={schedule.startTime}
-                    onChangeText={text =>
-                      handleScheduleChange(index, 'startTime', text)
-                    }
-                  />
-                </View>
-              </>
-            ) : (
-              <>
-                <View className="flex-row justify-between items-center">
-                  <Typography fontWeight={'BOLD'}>{schedule.title}</Typography>
-                  <View className="flex-row items-center justify-center gap-x-3">
-                    <TouchableOpacity onPress={() => editSchedule(index)}>
-                      <IonIcons name={'pencil'} size={24} color="lightgray" />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => deleteSchedule(index)}>
-                      <IonIcons name={'trash'} size={24} color="lightgray" />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <View className="flex-row items-center">
-                  <Typography
-                    fontWeight={'LIGHT'}
-                    className="text-gray-300 basis-1/5">
-                    시간
-                  </Typography>
-                  <Typography fontWeight={'LIGHT'} className="basis-4/5">
-                    {schedule.startTime}
-                  </Typography>
-                </View>
-              </>
-            )}
-          </View>
+          {isEditing === index ? (
+            <ScheduleEditEvent
+              schedule={schedule}
+              onSave={saveSchedule}
+              onChange={(key, value) => handleScheduleChange(index, key, value)}
+            />
+          ) : (
+            <ScheduleEvent
+              schedule={schedule}
+              onEdit={() => editSchedule(index)}
+              onDelete={() => deleteSchedule(index)}
+            />
+          )}
         </View>
       ))}
     </ScreenContainer>

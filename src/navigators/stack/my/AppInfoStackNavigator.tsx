@@ -9,14 +9,20 @@ export default function AppInfoStackNavigator() {
                 name={'APP_INFO_LIST'}
                 component={AppInfoScreen}
                 options={{
-                    headerTitle: '앱 정보'
+                    headerTitle: '앱 정보',
+                    headerTintColor: '#000',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'center'
                 }}
             />
             <AppInfoStack.Screen 
                 name={'APP_INFO_DETAIL'}
                 component={AppInfoDetailScreen}
                 options={{
-                    headerTitle: '앱 정보'
+                    headerTitle: '앱 정보',
+                    headerTintColor: '#000',
+                    headerBackTitleVisible: false,
+                    headerTitleAlign: 'center'
                 }}
             />
         </AppInfoStack.Navigator>

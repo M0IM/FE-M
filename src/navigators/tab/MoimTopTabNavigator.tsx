@@ -20,14 +20,14 @@ export default function MoimTopTabNavigator() {
         }}
       />
       <Tab.Screen
-        name={'MOIM_PLAN'}
+        name={'MOIM_TOP_PLAN'}
         component={MoimPlanStackNavigator}
         options={{
           tabBarLabel: '일정',
         }}
       />
       <Tab.Screen
-        name={'MOIM_BOARD'}
+        name={'MOIM_TOP_BOARD'}
         component={MoimPostStackNavigator}
         options={{
           tabBarLabel: '게시판',

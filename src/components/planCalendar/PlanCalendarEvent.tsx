@@ -1,22 +1,22 @@
 import {Platform, Pressable, PressableProps, Text, View} from 'react-native';
-import {CalendarPost} from '../../../screens/CalendarStackScreens/CalendarHomeScreen.tsx';
+import {CalendarPost} from 'screens/CalendarStackScreens/CalendarHomeScreen.tsx';
 import {useNavigation} from '@react-navigation/native';
-import {CalendarStackNavigationProp} from '../../../navigators/types';
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils/cn.ts';
+import {MoimPlanStackNavigationProp} from '../../navigators/types';
 
 interface ICalendarEventProps extends PressableProps {
   post: CalendarPost;
 }
 
-export function CalendarEvent({post, ...props}: ICalendarEventProps) {
-  const navigation = useNavigation<CalendarStackNavigationProp>();
+export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
+  const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const platform = Platform.OS;
   return (
     <Pressable
       {...props}
       onPress={() =>
-        navigation.navigate('CALENDAR_DETAIL', {
+        navigation.navigate('MOIM_PLAN_DETAIL', {
           id: post.id,
         })
       }

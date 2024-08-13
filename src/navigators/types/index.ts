@@ -41,6 +41,7 @@ export type MoimStackParamList = {
       id: number;
     };
   };
+  MOIM_WRITE: {id: number};
 };
 
 
@@ -77,19 +78,22 @@ export type MyStackParamList = {
 
 export type MoimTopTabParamList = {
   MOIM_SPACE: {id: number};
-  MOIM_PLAN: {id: number};
-  MOIM_BOARD: {id: number};
+  MOIM_TOP_PLAN: {id: number};
+  MOIM_TOP_BOARD: {id: number};
 };
 
 export type MoimPlanStackParamList = {
-  MOIM_PLAN_HOME: undefined
+  MOIM_PLAN_HOME: undefined;
+  MOIM_PLAN_DETAIL: {id: number};
 };
 
 export type MoimPostStackParamList = {
-  MOIM_BOARD_HOME: undefined,
-  MOIM_POST_DETAIL: {id: number},
-  MOIM_POST_WRITE: undefined;
-  MOIM_POST_EDIT: {id: number | undefined}
+  MOIM_BOARD: undefined;
+};
+
+export type ChatStackParamList = {
+  CHAT_LIST: undefined;
+  CHAT_ROOM: {id: number};
 };
 
 export type RevokeMoimStackParamList = {
@@ -114,6 +118,7 @@ export type MoimPlanStackScreenName = keyof MoimPlanStackParamList;
 export type MoimPostStackScreenName = keyof MoimPostStackParamList;
 export type RevokeMoimStackScreenName = keyof RevokeMoimStackParamList;
 export type AppInfoStackScreenName = keyof AppInfoStackParamList;
+export type ChatStackScreenName = keyof ChatStackParamList;
 
 /** route props */
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
@@ -138,10 +143,23 @@ export type MoimTopTabRouteProp = RouteProp<
   MoimTopTabParamList,
   MoimTopTabScreenName
 >;
+
 export type MoimPlanStackRouteProp = RouteProp<MoimPlanStackParamList, MoimPlanStackScreenName>;
 export type MoimPostStackRouteProp = RouteProp<MoimPostStackParamList, MoimPostStackScreenName>;
 export type RevokeMoimStackRouteProp = RouteProp<RevokeMoimStackParamList, RevokeMoimStackScreenName>;
 export type AppInfoStackRouteProp = RouteProp<AppInfoStackParamList, AppInfoStackScreenName>;
+export type MoimPlanStackRouteProp = RouteProp<
+  MoimPlanStackParamList,
+  MoimPlanStackScreenName
+>;
+export type MoimPostStackRouteProp = RouteProp<
+  MoimPostStackParamList,
+  MoimPostStackScreenName
+>;
+export type ChatStackRouteProp = RouteProp<
+  ChatStackParamList,
+  ChatStackScreenName
+>;
 
 
 /** navigation props */
@@ -159,3 +177,8 @@ export type MoimPlanStackNavigationProp = StackNavigationProp<MoimPlanStackParam
 export type MoimPostStackNavigationProp = StackNavigationProp<MoimPostStackParamList>;
 export type RevokeMoimStackNavigatorProp = StackNavigationProp<RevokeMoimStackParamList>;
 export type AppInfoStackNavigatorProp = StackNavigationProp<AppInfoStackParamList>;
+export type MoimPlanStackNavigationProp =
+  StackNavigationProp<MoimPlanStackParamList>;
+export type MoimPostStackNavigationProp =
+  StackNavigationProp<MoimPostStackParamList>;
+export type ChatStackNavigationProp = StackNavigationProp<ChatStackParamList>;

@@ -140,7 +140,7 @@ export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
     <>
       <ScreenContainer loading={false}>
         <MoimScheduleEvent />
-        <MoimMyEvent />
+        <MoimMyEvent navigation={navigation} />
         <RecommendBar username={'매튜'} />
         <MoimHappeningEvent />
         <MoimRecommendationEvent />

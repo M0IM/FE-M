@@ -2,6 +2,7 @@ import { HomeStack } from 'navigators/constants';
 import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimSearchScreen from 'screens/MoimSearchScreens/MoimSearchScreen';
+import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
 
 export default function HomeStackNavigator() {
     return (
@@ -33,6 +34,14 @@ export default function HomeStackNavigator() {
                     headerTintColor: '#000',
                     headerLeftLabelVisible: false,
                     headerTitleAlign: 'center'
+                }}
+            />
+            <HomeStack.Screen 
+                name={'MOIM_STACK'}
+                component={MoimTopTabNavigator}
+                options={{
+                    headerTitle: '모임 홈',
+                    headerLeft: () => <></>
                 }}
             />
         </HomeStack.Navigator>

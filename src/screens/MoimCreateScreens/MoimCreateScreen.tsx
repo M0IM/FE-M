@@ -1,4 +1,4 @@
-import {Platform, TouchableOpacity, View} from 'react-native';
+import {Image, Platform, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {InputField} from 'components/@common/InputField/InputField';
@@ -10,11 +10,17 @@ import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContain
 import useTags from 'hooks/useTags';
 import {ImageInput} from '../../components/@common/ImageInput/ImageInput.tsx';
 import usePermission from '../../hooks/usePermission.ts';
+import useImagePicker from '../../hooks/useImagePicker.ts';
 
 const MoimCreateScreen = () => {
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const platform = Platform.OS;
+  const imagePicker = useImagePicker({
+    initialImages: [],
+  });
   usePermission('PHOTO');
+
+  console.log('image', imagePicker.imageUris);
 
   return (
     <ScreenContainer
@@ -71,7 +77,20 @@ const MoimCreateScreen = () => {
           className="text-sm text-gray-500 mb-2">
           대표 이미지
         </Typography>
-        <ImageInput onChange={() => {}} />
+        <ImageInput onChange={imagePicker.handleChange} />
+        {/* TODO: PreviewImage Component 분리 (실제 DB 연결이후) */}
+        <View>
+          {imagePicker.imageUris.map(({uri}, index) => {
+            return (
+              <Image
+                key={index}
+                source={{
+                  uri: `http:s3address/${uri}`,
+                }}
+              />
+            );
+          })}
+        </View>
       </View>
 
       <View className="flex flex-col">

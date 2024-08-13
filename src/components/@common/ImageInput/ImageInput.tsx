@@ -5,9 +5,9 @@ interface ImageInputProps {
   onChange: () => void;
 }
 
-export function ImageInput({onChnage}: ImageInputProps) {
+export function ImageInput({onChange}: ImageInputProps) {
   return (
-    <TouchableOpacity activeOpacity={0.8}>
+    <TouchableOpacity activeOpacity={0.8} onPress={onChange}>
       <Ionicons
         name="camera"
         size={40}

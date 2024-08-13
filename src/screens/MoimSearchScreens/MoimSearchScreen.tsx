@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import {useState} from 'react';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { InputField } from 'components/@common/InputField/InputField';
+import {InputField} from 'components/@common/InputField/InputField';
 import Label from 'components/@common/Label/Label';
-import { Typography } from 'components/@common/Typography/Typography';
-import { ActiveMoimCard } from 'components/calendar/ActiveMoimCard';
-import { ScreenContainer } from 'components/ScreenContainer';
-import { CATEGORY_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
+import {Typography} from 'components/@common/Typography/Typography';
+import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard';
+import {ScreenContainer} from 'components/ScreenContainer';
+import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
 
 const ActiveMoimData = [
   {
@@ -43,33 +43,49 @@ const MoimSearchScreen = () => {
 
   return (
     <ScreenContainer>
-      <View className='flex flex-row items-center gap-x-2 mt-5'>
-        <View className='flex-1'>
-          <InputField touched placeholder='검색어 입력' value={value} onChangeText={value => setValue(value)} />
-        </View>
-        <TouchableOpacity onPress={handleSearch} disabled={!value}>
-          <Ionicons name="search" size={30} color={value ? "#1D2002" : "#E9ECEF"} />
-        </TouchableOpacity>
-      </View>
-      <View className='flex flex-col gap-y-10'>
-        <FlatList
-            horizontal
-            data={CATEGORY_LIST}
-            renderItem={({item}) => (
-              <TouchableOpacity onPress={() => handleSelect(item)}>
-                <Label 
-                  label={item} 
-                  color={select === item ? 'main' : 'gray'} 
-                  variant={select === item ? 'filled' : 'outlined'} 
+      <View className="flex flex-row items-center gap-x-2 mt-5">
+        <View className="flex-1">
+          <InputField
+            className="flex-1"
+            icon={
+              <TouchableOpacity onPress={handleSearch} disabled={!value}>
+                <Ionicons
+                  name="search"
+                  size={30}
+                  color={value ? '#1D2002' : '#E9ECEF'}
                 />
               </TouchableOpacity>
-            )}
-            ItemSeparatorComponent={() => <View className='w-1' />}
+            }
+            touched
+            placeholder="검색어 입력"
+            value={value}
+            onChangeText={value => setValue(value)}
           />
-        <View className='flex flex-col'>
-          <View className='flex flex-row items-center gap-x-2'>
-            <Typography fontWeight='BOLD' className='text-dark-800 text-base'>{value} 검색 결과</Typography>
-            <Typography fontWeight='MEDIUM' className='text-gray-400 text-xs'>(3)</Typography>
+        </View>
+      </View>
+      <View className="flex flex-col gap-y-10">
+        <FlatList
+          horizontal
+          data={CATEGORY_LIST}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => handleSelect(item)}>
+              <Label
+                label={item}
+                color={select === item ? 'main' : 'gray'}
+                variant={select === item ? 'filled' : 'outlined'}
+              />
+            </TouchableOpacity>
+          )}
+          ItemSeparatorComponent={() => <View className="w-1" />}
+        />
+        <View className="flex flex-col">
+          <View className="flex flex-row items-center gap-x-2">
+            <Typography fontWeight="BOLD" className="text-dark-800 text-base">
+              {value} 검색 결과
+            </Typography>
+            <Typography fontWeight="MEDIUM" className="text-gray-400 text-xs">
+              (3)
+            </Typography>
           </View>
         </View>
       </View>

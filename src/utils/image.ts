@@ -10,7 +10,7 @@ function getFormDataImages(images: Image[]) {
       name: path.split('/').pop(),
     };
 
-    formData.append('images', file);
+    formData.append('filename', file);
   });
 
   return formData;

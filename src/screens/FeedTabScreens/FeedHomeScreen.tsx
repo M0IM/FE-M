@@ -6,7 +6,7 @@ import MoimHappeningEvent from 'components/screens/FeedTabScreens/MoimHappeningE
 import MoimRecommendationEvent from 'components/screens/FeedTabScreens/MoimRecommendationEvent.tsx';
 import MoimIntroduceEvent from 'components/screens/FeedTabScreens/MoimIntroduceEvent.tsx';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
-import { HomeStackNavigationProp } from 'navigators/types';
+import {HomeStackNavigationProp} from 'navigators/types';
 
 export const schedules = [
   {
@@ -132,7 +132,7 @@ export const introduceMoim = [
 ];
 
 interface FeedHomeScreenProps {
-  navigation: HomeStackNavigationProp
+  navigation: HomeStackNavigationProp;
 }
 
 export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {

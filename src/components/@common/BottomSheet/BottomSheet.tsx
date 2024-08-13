@@ -59,6 +59,7 @@ export default function BottomSheet({
 const bottomSheetStyles = StyleSheet.create({
   container: {
     justifyContent: 'center',
+    alignItems: 'center',
     borderTopStartRadius: 20,
     borderTopEndRadius: 20,
     backgroundColor: 'white',

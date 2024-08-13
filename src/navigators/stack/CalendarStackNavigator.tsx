@@ -1,7 +1,7 @@
-import {CalendarStack} from '../constants';
 import CalendarHomeScreen from 'screens/CalendarStackScreens/CalendarHomeScreen.tsx';
 import CalendarDetailScreen from 'screens/CalendarStackScreens/CalendarDetailScreen.tsx';
-import CalendarWriteScreen from '../../screens/CalendarStackScreens/CalendarWriteScreen.tsx';
+
+import {CalendarStack} from '../constants';
 
 export default function CalendarStackNavigator() {
   return (
@@ -25,16 +25,6 @@ export default function CalendarStackNavigator() {
           headerTitle: '',
           headerBackTitleVisible: false,
         }}
-      />
-      <CalendarStack.Screen
-        name={'CALENDAR_WRITE'}
-        options={{
-          presentation: 'transparentModal',
-          headerShown: true,
-          headerTitle: '',
-          headerBackTitleVisible: false,
-        }}
-        component={CalendarWriteScreen}
       />
     </CalendarStack.Navigator>
   );

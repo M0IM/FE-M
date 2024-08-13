@@ -3,11 +3,18 @@ import {MaterialTopTabNavigationProp} from '@react-navigation/material-top-tabs'
 import {StackNavigationProp} from '@react-navigation/stack';
 
 /** param list */
+export type HomeStackParamList = {
+  HOME: undefined;
+  MOIM_CREATE: undefined;
+  MOIM_SEARCH: undefined;
+}
+
 export type FeedTabParamList = {
   FEED_HOME: undefined;
   MOIM_HOME: undefined;
   CHAT_HOME: undefined;
   MY_HOME: undefined;
+  MOIM_SEARCH: undefined;
 };
 
 export type FeedTopTabParamList = {
@@ -41,6 +48,7 @@ export type MoimStackParamList = {
       id: number;
     };
   };
+  MOIM_PARTICIPATE: undefined;
   MOIM_WRITE: {id: number};
 };
 
@@ -107,6 +115,7 @@ export type AppInfoStackParamList = {
 }
 
 /** screen name */
+export type HomeStackScreenName = keyof HomeStackParamList;
 export type FeedTabScreenName = keyof FeedTabParamList;
 export type FeedTopTabScreenName = keyof FeedTopTabParamList;
 export type AuthStackScreenName = keyof AuthStackParamList;
@@ -121,6 +130,7 @@ export type AppInfoStackScreenName = keyof AppInfoStackParamList;
 export type ChatStackScreenName = keyof ChatStackParamList;
 
 /** route props */
+export type HomeStackRouteProp = RouteProp<HomeStackParamList, HomeStackScreenName>;
 export type FeedTabRouteProp = RouteProp<FeedTabParamList, FeedTabScreenName>;
 export type FeedTopTabRouteProp = RouteProp<
   FeedTopTabParamList,
@@ -163,6 +173,7 @@ export type ChatStackRouteProp = RouteProp<
 
 
 /** navigation props */
+export type HomeStackNavigationProp = NavigationProp<HomeStackParamList>;
 export type FeedTabNavigationProp = NavigationProp<FeedTabParamList>;
 export type FeedTopTabNavigationProp =
   MaterialTopTabNavigationProp<FeedTopTabParamList>;

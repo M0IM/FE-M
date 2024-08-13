@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {FeedTabHeaderLogo} from 'components/feedTab/FeedTabHeaderLogo.tsx';
 import {FeedTabHeaderRight} from 'components/feedTab/FeedTabHeaderRight.tsx';
 
-import {FeedTabRouteProp} from '../types';
+import {FeedTabRouteProp, HomeStackNavigationProp} from '../types';
 import {FeedTabParamList} from '../types';
 import FeedHomeTopTabNavigator from './FeedHomeTopTabNavigator.tsx';
 import MyStackNavigator from '../stack/MyStackNavigator.tsx';
@@ -41,14 +41,18 @@ function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
 
 const Tab = createBottomTabNavigator<FeedTabParamList>();
 
-export default function FeedTabNavigator() {
+interface FeedTabNavigatorProps {
+  navigation: HomeStackNavigationProp; 
+}
+
+export default function FeedTabNavigator({navigation: homeNavigation}: FeedTabNavigatorProps) {
   return (
     <Tab.Navigator
       screenOptions={({route, navigation}) => ({
         headerShown: true,
         headerTitle: '',
         headerLeft: () => FeedTabHeaderLogo(navigation),
-        headerRight: () => FeedTabHeaderRight(navigation),
+        headerRight: () => FeedTabHeaderRight(homeNavigation),
         headerStyle: {
           backgroundColor: '#fff',
           borderBottomColor: '#000',
@@ -79,7 +83,7 @@ export default function FeedTabNavigator() {
           headerShown: false,
         }}
         component={MyStackNavigator}
-      />
+      />      
     </Tab.Navigator>
   );
 }

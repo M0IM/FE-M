@@ -5,6 +5,8 @@ import MoimMyEvent from 'components/screens/FeedTabScreens/MoimMyEvent.tsx';
 import MoimHappeningEvent from 'components/screens/FeedTabScreens/MoimHappeningEvent.tsx';
 import MoimRecommendationEvent from 'components/screens/FeedTabScreens/MoimRecommendationEvent.tsx';
 import MoimIntroduceEvent from 'components/screens/FeedTabScreens/MoimIntroduceEvent.tsx';
+import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
+import { HomeStackNavigationProp } from 'navigators/types';
 
 export const schedules = [
   {
@@ -129,15 +131,22 @@ export const introduceMoim = [
   },
 ];
 
-export default function FeedHomeScreen() {
+interface FeedHomeScreenProps {
+  navigation: HomeStackNavigationProp
+}
+
+export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
   return (
-    <ScreenContainer loading={false}>
-      <MoimScheduleEvent />
-      <MoimMyEvent />
-      <RecommendBar username={'매튜'} />
-      <MoimHappeningEvent />
-      <MoimRecommendationEvent />
-      <MoimIntroduceEvent />
-    </ScreenContainer>
+    <>
+      <ScreenContainer loading={false}>
+        <MoimScheduleEvent />
+        <MoimMyEvent />
+        <RecommendBar username={'매튜'} />
+        <MoimHappeningEvent />
+        <MoimRecommendationEvent />
+        <MoimIntroduceEvent />
+      </ScreenContainer>
+      <FloatingButton onPress={() => navigation.navigate('MOIM_CREATE')} />
+    </>
   );
 }

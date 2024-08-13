@@ -8,7 +8,12 @@ import {ScreenContainer} from '../ScreenContainer.tsx';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import {InputField} from '../@common/InputField/InputField.tsx';
 import useForm from '../../hooks/useForm.ts';
-import {formatTime, getDateWithSeparator, validateAddMoimPosts} from 'utils';
+import {
+  formatTime,
+  getDateWithSeparator,
+  parseTimeStringToDate,
+  validateAddMoimPosts,
+} from 'utils';
 import {CustomButton} from '../@common/CustomButton/CustomButton.tsx';
 import useModal from '../../hooks/useModal.ts';
 import {DatePickerOption} from '../@common/DatePickerOption/DatePickerOption.tsx';
@@ -34,6 +39,7 @@ export default function PostForm({moimId}: IPostForm) {
   const datePickerModal = useModal();
   const timePickerModal = useModal(); // Time picker modal for managing time selection
   const [isPicked, setIsPicked] = useState(false);
+  const [isPickedTime, setIsPickedTime] = useState(false);
   const [date, setDate] = useState(new Date());
   const [isEdit, setIsEdit] = useState(false);
   const [schedules, setSchedules] = useState<TSchedules[]>([]);
@@ -58,10 +64,15 @@ export default function PostForm({moimId}: IPostForm) {
       locationDetail: addPost.values.locationDetail,
       startTime: selectedTime,
       cost: addPost.values.cost,
-      schedules,
+      schedules: schedules.map(schedule => {
+        const dateObject = parseTimeStringToDate(schedule.startTime);
+        return {
+          ...schedule,
+          startTime: dateObject.toISOString(),
+        };
+      }),
     });
   };
-  console.log(selectedTime);
 
   const handleChangeDate = (pickedDate: Date) => {
     setDate(pickedDate);
@@ -84,6 +95,7 @@ export default function PostForm({moimId}: IPostForm) {
       return schedule;
     });
     setSchedules(updatedSchedules);
+    setIsPickedTime(true);
     timePickerModal.hide();
   };
 
@@ -206,11 +218,13 @@ export default function PostForm({moimId}: IPostForm) {
       </View>
       <View className="mt-2">
         <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
-          날짜
+          시작 시간
         </Typography>
         <CustomButton
           variant={'gray'}
-          label={isPicked || isEdit ? formatTime(selectedTime) : '시작 시간'}
+          label={
+            isPickedTime || isEdit ? formatTime(selectedTime) : '시작 시간'
+          }
           onPress={timePickerModal.show}
         />
       </View>
@@ -224,7 +238,7 @@ export default function PostForm({moimId}: IPostForm) {
       />
       <View className="flex-row items-center">
         <Typography className="text-gray-500 flex-1" fontWeight={'BOLD'}>
-          시간별 스케쥴
+          시간별 스케줄
         </Typography>
         <TouchableOpacity onPress={addSchedule}>
           <IonIcons name={'add'} size={24} color="lightgray" />

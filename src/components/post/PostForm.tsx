@@ -22,6 +22,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import ScheduleEditEvent from '../screens/MoimWriteScreen/ScheduleEditEvent.tsx';
 import ScheduleEvent from '../screens/MoimWriteScreen/ScheduleEvent.tsx';
+import usePermission from '../../hooks/usePermission.ts';
 
 interface IPostForm {
   moimId?: number;

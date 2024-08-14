@@ -7,6 +7,11 @@ export type HomeStackParamList = {
   HOME: undefined;
   MOIM_CREATE: undefined;
   MOIM_SEARCH: undefined;
+  MOIM_STACK: {
+    screen: MoimTopTabScreenName;
+    params: {
+      id: number;
+    };};
 };
 
 export type FeedTabParamList = {

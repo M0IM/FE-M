@@ -1184,10 +1184,21 @@ PODS:
   - RNGoogleSignin (12.2.1):
     - GoogleSignIn (~> 7.1)
     - React-Core
+  - RNImageCropPicker (0.41.2):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.41.2)
+    - TOCropViewController (~> 2.7.4)
+  - RNImageCropPicker/QBImagePickerController (0.41.2):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController (~> 2.7.4)
   - RNNaverLogin (4.0.1):
     - glog
     - naveridlogin-sdk-ios (= 4.2.1)
     - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+  - RNPermissions (4.1.5):
     - React-Core
   - RNReanimated (3.15.0):
     - glog
@@ -1214,6 +1225,7 @@ PODS:
   - RNSVG (15.5.0):
     - React-Core
   - SocketRocket (0.6.1)
+  - TOCropViewController (2.7.4)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -1306,7 +1318,9 @@ DEPENDENCIES:
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - "RNNaverLogin (from `../node_modules/@react-native-seoul/naver-login`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1337,6 +1351,7 @@ SPEC REPOS:
     - naveridlogin-sdk-ios
     - OpenSSL-Universal
     - SocketRocket
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   boost:
@@ -1466,8 +1481,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNNaverLogin:
     :path: "../node_modules/@react-native-seoul/naver-login"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -1563,13 +1582,16 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 4f3c4dbd4f908be32ec8c93f086e8924bd4a2e07
   RNGestureHandler: 1155b1898ceddefeebf77792927360d44fe11e77
   RNGoogleSignin: 08dc4ba7eac2096c7fecfe109f0950fa4683c803
+  RNImageCropPicker: 771e2ca319d2cf92e04ebf334ece892ee9a6728f
   RNNaverLogin: d4bad65d55062561d22bec8cb43191f86ba9e47f
+  RNPermissions: fbf830fb531d663a6daa1369f4c624317018bd64
   RNReanimated: ba95f6d26ca4b8a8f7f2b15f62a3513750762f6b
   RNScreens: 29418ceffb585b8f0ebd363de304288c3dce8323
   RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   Yoga: 57d2ffe418d024d56f8b0047f335c677e4c4d9ac
 
-PODFILE CHECKSUM: 6747a046a0e1ffe2562119007f9eb0f58df1aa8d
+PODFILE CHECKSUM: 5bc5c0ff24b00e0be69dd803aab5b1ee9299d39e
 
 COCOAPODS: 1.15.2

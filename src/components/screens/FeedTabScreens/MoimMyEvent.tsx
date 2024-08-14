@@ -1,10 +1,14 @@
 import {FlatList, View} from 'react-native';
-
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import SpaceCard from '../../home/SpaceCard/SpaceCard.tsx';
 import {myMoim} from 'screens/FeedTabScreens/FeedHomeScreen.tsx';
+import { HomeStackNavigationProp } from 'navigators/types/index.ts';
 
-export default function MoimMyEvent() {
+interface MoimMyEventProps {
+  navigation: HomeStackNavigationProp;
+}
+
+export default function MoimMyEvent({ navigation }: MoimMyEventProps) {
   return (
     <View className='flex flex-col'>
       <Typography className="text-lg mb-4" fontWeight={'BOLD'}>
@@ -14,7 +18,18 @@ export default function MoimMyEvent() {
         data={myMoim}
         horizontal={true}
         renderItem={({item}) => (
-          <SpaceCard spaceName={item.spaceName} uri={item.uri} />
+          <SpaceCard
+            onPress={() =>
+              navigation.navigate('MOIM_STACK', {
+                screen: 'MOIM_SPACE',
+                params: {
+                  id: item.id,
+                },
+              })
+            }
+            spaceName={item.spaceName}
+            uri={item.uri} 
+          />
         )}
         keyExtractor={item => String(item.id)}
         contentContainerStyle={{

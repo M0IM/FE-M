@@ -25,6 +25,8 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
     const id = route.params?.id;
     const { isPopover, handlePopover } = usePopover();
 
+    console.log('post Id: ', route.params);
+
     // TODO: 본인이 작성한 글인지 확인 가능해지면 수정
     const PostMenuList = [
         {
@@ -41,7 +43,7 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         },
         {
             title: '수정하기',
-            onPress: () => navigation.navigate('MOIM_POST_EDIT', {id})            
+            onPress: () => navigation.navigate('MOIM_POST_EDIT', { id })            
         }
     ];
 

@@ -25,12 +25,12 @@ const CustomTabBar = ({
   navigation,
   position,
 }: CustomTabBarProps) => {
-  const currentRouteName = state.routes[state.index]?.name;
+  const currentRouteName = state.routes[state.index].name;
 
   const shouldHideTabs = () => {
-    if (currentRouteName === 'MOIM_BOARD') {
+    if (currentRouteName === 'MOIM_TOP_BOARD') {
       const hiddenRoutes = ['MOIM_POST_DETAIL', 'MOIM_POST_WRITE', 'MOIM_POST_EDIT'];
-      const moimBoardState = state.routes.find(route => route.name === 'MOIM_BOARD')?.state;
+      const moimBoardState = state.routes.find(route => route.name === 'MOIM_TOP_BOARD')?.state;
       if (moimBoardState) {
         return moimBoardState.routes.some((route: any) => hiddenRoutes.includes(route.name));
       }
@@ -42,7 +42,7 @@ const CustomTabBar = ({
 
   return (
     <View className='flex-row items-center justify-start p-2 bg-white'>
-      {(currentRouteName !== 'FEED_HOME_FEED') && (currentRouteName !== 'FEED_HOME_CALENDAR') &&       
+      {(currentRouteName !== 'FEED_HOME_FEED') && (currentRouteName !== 'FEED_HOME_CALENDAR') && !hideTabs &&
         <TouchableOpacity onPress={()=> navigation.goBack()}>
           <Ionicons name='chevron-back-sharp' size={25}/>
         </TouchableOpacity>}

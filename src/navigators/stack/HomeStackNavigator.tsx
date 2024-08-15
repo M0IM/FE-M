@@ -4,8 +4,14 @@ import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimSearchScreen from 'screens/MoimSearchScreens/MoimSearchScreen';
 import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
 import PushAlertScreen from 'screens/PushAlertScreens/PushAlertScreen';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform } from 'react-native';
 
 export default function HomeStackNavigator() {
+    const insets = useSafeAreaInsets();
+    const statusBarHeight = insets.top;
+    const platform = Platform.OS;
+
     return (
         <HomeStack.Navigator
             initialRouteName={'HOME'}
@@ -51,8 +57,9 @@ export default function HomeStackNavigator() {
                 name={'MOIM_STACK'}
                 component={MoimTopTabNavigator}
                 options={{
-                    headerTitle: '모임 홈',
-                    headerLeft: () => <></>
+                    headerTitle: '',
+                    headerLeft: () => <></>,
+                    headerStyle: { shadowOpacity: 0, height: platform === 'ios' ? statusBarHeight : statusBarHeight + 10, elevation: 0 }
                 }}
             />
         </HomeStack.Navigator>

@@ -11,7 +11,8 @@ export type HomeStackParamList = {
     screen: MoimTopTabScreenName;
     params: {
       id: number;
-    };};
+    };
+  };
 };
 
 export type FeedTabParamList = {
@@ -67,9 +68,9 @@ export type MyStackParamList = {
   // 내 후기 확인
   MY_REVIEW: undefined;
   // 내 프로필 페이지
-  MY_DETAIL_PROFILE: {id: number};
+  MY_DETAIL_PROFILE: undefined;
   // 프로필 수정 페이지
-  MY_PROFILE_EDIT: {id: number};
+  MY_PROFILE_EDIT: undefined;
   // 모임 탈퇴 신청하기 페이지
   MY_REVOKE_MOIM: undefined;
   // 가입 신청 상태 확인하기 페이지

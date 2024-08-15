@@ -3,6 +3,7 @@ import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimSearchScreen from 'screens/MoimSearchScreens/MoimSearchScreen';
 import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
+import PushAlertScreen from 'screens/PushAlertScreens/PushAlertScreen';
 
 export default function HomeStackNavigator() {
     return (
@@ -31,6 +32,16 @@ export default function HomeStackNavigator() {
                 component={MoimSearchScreen}
                 options={{
                     headerTitle: '모임 찾기',
+                    headerTintColor: '#000',
+                    headerLeftLabelVisible: false,
+                    headerTitleAlign: 'center'
+                }}
+            />
+            <HomeStack.Screen 
+                name={'PUSH_ALERT'}
+                component={PushAlertScreen}
+                options={{
+                    headerTitle: '알림',
                     headerTintColor: '#000',
                     headerLeftLabelVisible: false,
                     headerTitleAlign: 'center'

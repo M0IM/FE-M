@@ -11,7 +11,9 @@ export type HomeStackParamList = {
     screen: MoimTopTabScreenName;
     params: {
       id: number;
-    };};
+    };
+  };
+  PUSH_ALERT: undefined;
 };
 
 export type FeedTabParamList = {

@@ -13,6 +13,7 @@ export type HomeStackParamList = {
       id: number;
     };
   };
+  PUSH_ALERT: undefined;
 };
 
 export type FeedTabParamList = {
@@ -102,6 +103,10 @@ export type MoimPlanStackParamList = {
 
 export type MoimPostStackParamList = {
   MOIM_BOARD: undefined;
+  MOIM_BOARD_HOME: undefined;
+  MOIM_POST_DETAIL: {id: number};
+  MOIM_POST_WRITE: undefined;
+  MOIM_POST_EDIT: {id: number | undefined};
 };
 
 export type ChatStackParamList = {

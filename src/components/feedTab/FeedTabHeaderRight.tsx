@@ -9,7 +9,7 @@ export function FeedTabHeaderRight(navigation: HomeStackNavigationProp) {
       <Pressable className="active:bg-hover p-1 rounded-2xl mr-3" >
         <Ionicons name="search" size={24} color="#1D2002" onPress={() => navigation.navigate('MOIM_SEARCH')} />
       </Pressable>
-      <Pressable className="active:bg-hover p-1 rounded-2xl mr-3">
+      <Pressable className="active:bg-hover p-1 rounded-2xl mr-3" onPress={() => navigation.navigate('PUSH_ALERT')}>
         <Ionicons name="notifications-outline" size={24} color="#1D2002" />
       </Pressable>
     </View>

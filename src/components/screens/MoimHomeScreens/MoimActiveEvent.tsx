@@ -1,6 +1,7 @@
 import {View} from 'react-native';
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import {ActiveMoimCard} from '../../calendar/ActiveMoimCard.tsx';
+import { HomeStackNavigationProp } from 'navigators/types/index.ts';
 
 const ActiveMoimData = [
   {
@@ -45,7 +46,7 @@ const ActiveMoimData = [
   },
 ];
 
-export default function MoimActiveEvent() {
+export default function MoimActiveEvent({navigation}: {navigation: HomeStackNavigationProp} ) {
   return (
     <>
       <View className="flex-row gap-x-3 mt-5 items-center">
@@ -60,6 +61,7 @@ export default function MoimActiveEvent() {
         ({id, title, subTitle, category, region, memberCount}) => {
           return (
             <ActiveMoimCard
+              navigation={navigation}
               key={id}
               id={String(id)}
               title={title}

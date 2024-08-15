@@ -2,11 +2,7 @@ import {Image, Pressable, PressableProps, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from 'react';
 import {Typography} from '../@common/Typography/Typography.tsx';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import {
-  MoimStackNavigationProp,
-  MoimTopTabNavigationProp,
-} from 'navigators/types';
+import {HomeStackNavigationProp} from 'navigators/types';
 
 interface IActiveMoimCardProps extends PressableProps {
   id: string;
@@ -16,6 +12,7 @@ interface IActiveMoimCardProps extends PressableProps {
   region: string;
   category: string;
   memberCount: number;
+  navigation: HomeStackNavigationProp
 }
 
 export function ActiveMoimCard({
@@ -26,21 +23,17 @@ export function ActiveMoimCard({
   category,
   region,
   memberCount,
+  navigation,
   ...props
 }: IActiveMoimCardProps) {
-  const navigation =
-    useNavigation<
-      CompositeNavigationProp<MoimStackNavigationProp, MoimTopTabNavigationProp>
-    >();
-
   return (
     <Pressable
       {...props}
       onPress={() =>
-        navigation.navigate('MOIM_DETAIL', {
+        navigation.navigate('MOIM_STACK', {
           screen: 'MOIM_SPACE',
           params: {
-            id: Number(id),
+            id: Number(id)
           },
         })
       }

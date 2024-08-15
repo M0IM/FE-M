@@ -19,6 +19,7 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
   const handlePressLogout = () => {
     logoutMutation.mutate(null);
   };
+
   return (
     <ScreenContainer>
       <MyProfileCard navigation={navigation} profile={profile} />

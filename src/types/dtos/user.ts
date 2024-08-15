@@ -8,4 +8,22 @@ type TMyProfile = {
 
 type TMyProfileResponse = CommonResponse<TMyProfile>;
 
-export type {TMyProfileResponse};
+type TMembersReviewDTO = {
+  reviewId: number;
+  content: string;
+  rating: number;
+};
+
+type TMembersReviewDetail = {
+  reviewDTOList: TMembersReviewDTO[];
+  totalReviewCnt: number;
+};
+
+type TMembersReviewDetailResponse = CommonResponse<TMembersReviewDetail>;
+
+export type {
+  TMyProfileResponse,
+  TMembersReviewDetail,
+  TMembersReviewDTO,
+  TMembersReviewDetailResponse,
+};

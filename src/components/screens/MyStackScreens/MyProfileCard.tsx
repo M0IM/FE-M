@@ -15,6 +15,7 @@ interface IMyProfileCard {
 }
 
 export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
+  console.log(profile);
   return (
     <>
       <View className={'flex-row items-center mt-5'}>

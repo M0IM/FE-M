@@ -127,6 +127,7 @@ export default function AuthHomeScreen({
     const {user, identityToken: idToken} = await appleClient.fetchLogin();
 
     const authState = await appleClient.getUserAuthState(user);
+    console.log(idToken);
 
     if (idToken && authState === appleAuth.State.AUTHORIZED) {
       socialIdTokenMutation.mutate(
@@ -160,7 +161,6 @@ export default function AuthHomeScreen({
   const handlePressGoogleLoginButton = async () => {
     await GoogleSignin.hasPlayServices();
     const response: User = await GoogleSignin.signIn();
-    console.log(response);
 
     socialIdTokenMutation.mutate(
       {

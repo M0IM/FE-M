@@ -7,19 +7,21 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 
 import {MyStackNavigationProp} from 'navigators/types';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+import {useGetMyProfile} from '../../hooks/queries/MyScreen/useGetProfile.ts';
 
 interface IMyHomeScreenProps {
   navigation: MyStackNavigationProp;
 }
 
 export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
+  const {data: profile} = useGetMyProfile();
   const {logoutMutation} = useAuth();
   const handlePressLogout = () => {
     logoutMutation.mutate(null);
   };
   return (
     <ScreenContainer>
-      <MyProfileCard navigation={navigation} />
+      <MyProfileCard navigation={navigation} profile={profile} />
       <View className="pt-8">
         <View className="flex-col gap-y-2">
           <Typography className="text-gray-400" fontWeight={'BOLD'}>

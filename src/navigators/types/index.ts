@@ -67,7 +67,7 @@ export type MyStackParamList = {
   // 문의 하기
   MY_CONTACT: undefined;
   // 내 후기 확인
-  MY_REVIEW: undefined;
+  MY_REVIEW: {id: number};
   // 내 프로필 페이지
   MY_DETAIL_PROFILE: undefined;
   // 프로필 수정 페이지

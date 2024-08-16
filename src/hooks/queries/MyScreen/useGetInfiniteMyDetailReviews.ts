@@ -9,6 +9,7 @@ import {TMembersReviewDTO} from 'types/dtos/user.ts';
 import {ResponseError} from 'types/mutations/common.ts';
 
 function useGetInfiniteMyDetailReviews(
+  userId: number,
   queryOptions?: UseInfiniteQueryOptions<
     TMembersReviewDTO[],
     ResponseError,
@@ -19,7 +20,7 @@ function useGetInfiniteMyDetailReviews(
   >,
 ) {
   return useSuspenseInfiniteQuery({
-    queryFn: ({pageParam}) => getMyDetailReview(pageParam),
+    queryFn: ({pageParam}) => getMyDetailReview(userId, pageParam),
     queryKey: ['review', 'myReviews'],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

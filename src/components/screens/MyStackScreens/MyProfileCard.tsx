@@ -15,7 +15,6 @@ interface IMyProfileCard {
 }
 
 export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
-  console.log(profile);
   return (
     <>
       <View className={'flex-row items-center mt-5'}>
@@ -35,7 +34,11 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
         </InfoSquareCard>
         <InfoSquareCard
           title={'내 후기 확인'}
-          onPress={() => navigation.navigate('MY_REVIEW')}>
+          onPress={() =>
+            navigation.navigate('MY_REVIEW', {
+              id: profile?.result.userId as number,
+            })
+          }>
           <Image source={Bubble} />
         </InfoSquareCard>
       </View>

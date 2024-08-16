@@ -4,15 +4,22 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {useGetInfiniteMyDetailReviews} from 'hooks/queries/MyScreen/useGetInfiniteMyDetailReviews.ts';
 import {ReviewCard} from '../../components/screens/MyStackScreens/ReviewCard.tsx';
 import {useState} from 'react';
+import {MyStackRouteProp} from '../../navigators/types';
 
-export default function MyReviewScreen() {
+export default function MyReviewScreen({route}: {route: MyStackRouteProp}) {
+  if (route.params === undefined) {
+    return;
+  }
+
+  const {id} = route.params;
   const {
     data: reviews,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useGetInfiniteMyDetailReviews();
+  } = useGetInfiniteMyDetailReviews(id);
+
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleEndReached = () => {

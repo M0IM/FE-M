@@ -25,14 +25,32 @@ const MoimManagementStackNavigator = () => {
             <MoimManagementStack.Screen 
                 name={'PERMISSION_MANAGEMENT'}
                 component={PermissionManageScreen}
+                options={{
+                    headerTitle: '권한 수정',
+                    headerTintColor: '#000',
+                    headerTitleAlign: 'center',
+                    headerLeftLabelVisible: false
+                }}
             />
             <MoimManagementStack.Screen 
                 name={'JOIN_MANAGEMENT'}
                 component={JoinManageScreen}
+                options={{
+                    headerTitle: '가입 관리',
+                    headerTintColor: '#000',
+                    headerTitleAlign: 'center',
+                    headerLeftLabelVisible: false
+                }}
             />
             <MoimManagementStack.Screen 
                 name={'MOIM_INFO_EDIT'}
                 component={MoimInfoEditScreen}
+                options={{
+                    headerTitle: '모임 정보 수정',
+                    headerTintColor: '#000',
+                    headerTitleAlign: 'center',
+                    headerLeftLabelVisible: false
+                }}
             />
         </MoimManagementStack.Navigator>
     );

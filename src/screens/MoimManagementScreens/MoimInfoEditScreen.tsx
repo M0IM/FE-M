@@ -1,5 +1,6 @@
 import { View, TouchableOpacity, Image, Platform } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useState } from 'react';
 import { CustomButton } from 'components/@common/CustomButton/CustomButton';
 import { ImageInput } from 'components/@common/ImageInput/ImageInput';
 import { InputField } from 'components/@common/InputField/InputField';
@@ -11,7 +12,6 @@ import useImagePicker from 'hooks/useImagePicker';
 import usePermission from 'hooks/usePermission';
 import useTags from 'hooks/useTags';
 import { MoimManagementRouteProp } from 'navigators/types';
-import { useState } from 'react';
 import { CATEGORY_MENU_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
 
 interface MoimInfoEditScreenProps {
@@ -34,6 +34,7 @@ const MoimInfoEditScreen = ({route}: MoimInfoEditScreenProps) => {
     setIsPressed(prev => !prev);
   };
 
+  // TODO: 최대 이미지 개수 변경 필요
   const imagePicker = useImagePicker({
     initialImages: [],
   });

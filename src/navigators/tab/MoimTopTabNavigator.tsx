@@ -1,5 +1,6 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import CustomTabBar from 'components/@common/CustomTabBar/CustomTabBar';
+import MoimManagementStackNavigator from 'navigators/stack/MoimManagementStackNavigator';
 import MoimPlanStackNavigator from 'navigators/stack/MoimPlanStackNavigator';
 import MoimPostStackNavigator from 'navigators/stack/MoimPostStackNavigator';
 import {MoimTopTabParamList} from 'navigators/types';
@@ -32,6 +33,13 @@ export default function MoimTopTabNavigator() {
         component={MoimPostStackNavigator}
         options={{
           tabBarLabel: '게시판',
+        }}
+      />
+      <Tab.Screen
+        name={'MOIM_MANAGEMENT'}
+        component={MoimManagementStackNavigator}
+        options={{
+          tabBarLabel: '모임 관리',
         }}
       />
     </Tab.Navigator>

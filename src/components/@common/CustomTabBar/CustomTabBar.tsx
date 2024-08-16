@@ -91,20 +91,20 @@ const CustomTabBar = ({
 
             return (
               <TouchableOpacity
-              key={index}
-              accessibilityRole="button"
-              accessibilityState={isFocused ? {selected: true} : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              className="flex ml-3 bg-white">
-              <Animated.Text
-                style={{opacity}}
-                className="text-2xl text-dark-800 font-bold">
-                {label}
-              </Animated.Text>
-            </TouchableOpacity>
+                key={index}
+                accessibilityRole="button"
+                accessibilityState={isFocused ? {selected: true} : {}}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarTestID}
+                onPress={onPress}
+                onLongPress={onLongPress}
+                className="flex ml-3 bg-white">
+                <Animated.Text
+                  style={{opacity}}
+                  className="text-2xl text-dark-800 font-bold">
+                  {label}
+                </Animated.Text>
+              </TouchableOpacity>
             );
           })}
         </View>

@@ -3,12 +3,14 @@ import CustomTabBar from 'components/@common/CustomTabBar/CustomTabBar';
 import MoimManagementStackNavigator from 'navigators/stack/MoimManagementStackNavigator';
 import MoimPlanStackNavigator from 'navigators/stack/MoimPlanStackNavigator';
 import MoimPostStackNavigator from 'navigators/stack/MoimPostStackNavigator';
-import {MoimTopTabParamList} from 'navigators/types';
+import {MoimTopTabParamList, MoimTopTabRouteProp} from 'navigators/types';
 import MoimDetailScreen from 'screens/MoimStackScreens/MoimDetailScreen';
 
 const Tab = createMaterialTopTabNavigator<MoimTopTabParamList>();
 
-export default function MoimTopTabNavigator() {
+export default function MoimTopTabNavigator({route}: {route: MoimTopTabRouteProp}) {
+  const id = route.params?.params?.id;
+
   return (
     <Tab.Navigator
       initialRouteName={'MOIM_SPACE'}
@@ -24,6 +26,7 @@ export default function MoimTopTabNavigator() {
       <Tab.Screen
         name={'MOIM_TOP_PLAN'}
         component={MoimPlanStackNavigator}
+        initialParams={{ id }}
         options={{
           tabBarLabel: '일정',
         }}
@@ -31,6 +34,7 @@ export default function MoimTopTabNavigator() {
       <Tab.Screen
         name={'MOIM_TOP_BOARD'}
         component={MoimPostStackNavigator}
+        initialParams={{ id }}
         options={{
           tabBarLabel: '게시판',
         }}
@@ -38,6 +42,7 @@ export default function MoimTopTabNavigator() {
       <Tab.Screen
         name={'MOIM_MANAGEMENT'}
         component={MoimManagementStackNavigator}
+        initialParams={{ id }}
         options={{
           tabBarLabel: '모임 관리',
         }}

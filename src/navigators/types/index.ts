@@ -56,7 +56,7 @@ export type MoimStackParamList = {
     };
   };
   MOIM_PARTICIPATE: undefined;
-  MOIM_WRITE: {id: number};
+  MOIM_WRITE: {id: number | undefined};
 };
 
 export type MyStackParamList = {
@@ -98,13 +98,12 @@ export type MoimTopTabParamList = {
 };
 
 export type MoimPlanStackParamList = {
-  MOIM_PLAN_HOME: undefined;
-  MOIM_PLAN_DETAIL: {id: number};
+  MOIM_PLAN_HOME: {id: number | undefined};
+  MOIM_PLAN_DETAIL: {id: number | undefined};
 };
 
 export type MoimPostStackParamList = {
-  MOIM_BOARD: undefined;
-  MOIM_BOARD_HOME: undefined;
+  MOIM_BOARD_HOME: {id: number | undefined};
   MOIM_POST_DETAIL: {id: number};
   MOIM_POST_WRITE: undefined;
   MOIM_POST_EDIT: {id: number | undefined};
@@ -126,10 +125,10 @@ export type AppInfoStackParamList = {
 };
 
 export type MoimManagementParamList = {
-  MOIM_MANAGE_LIST: undefined;
-  PERMISSION_MANAGEMENT: {id: number};
-  JOIN_MANAGEMENT: {id: number};
-  MOIM_INFO_EDIT: {id: number};
+  MOIM_MANAGE_LIST: {id: number | undefined};
+  PERMISSION_MANAGEMENT: {id: number | undefined};
+  JOIN_MANAGEMENT: {id: number | undefined};
+  MOIM_INFO_EDIT: {id: number | undefined};
 }
 
 /** screen name */

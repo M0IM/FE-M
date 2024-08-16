@@ -1,17 +1,28 @@
-import { CustomButton } from 'components/@common/CustomButton/CustomButton';
-import { MoimManagementNavigationProp } from 'navigators/types';
-import { View, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { Typography } from 'components/@common/Typography/Typography';
+import { ScreenContainer } from 'components/ScreenContainer';
+import { MoimManagementNavigationProp, MoimManagementRouteProp } from 'navigators/types';
 
 interface MoimManageListScreenProps {
+  route: MoimManagementRouteProp;
   navigation: MoimManagementNavigationProp;
 }
 
-const MoimManageListScreen = ({ navigation }: MoimManageListScreenProps) => {
+const MoimManageListScreen = ({ route, navigation }: MoimManageListScreenProps) => {
+  const id = route.params?.id;
+
   return (
-    <View>
-      <CustomButton label='권한 수정으로 이동' onPress={() => navigation.navigate('PERMISSION_MANAGEMENT', { id: 1 })} />
-      <Text>MoimManageListScreen</Text>
-    </View>
+    <ScreenContainer>
+      <TouchableOpacity className='m-3 mt-6' onPress={() => navigation.navigate('PERMISSION_MANAGEMENT', { id })}>
+        <Typography fontWeight='BOLD' className='text-lg text-dark-800 '>멤버 권한 수정</Typography>
+      </TouchableOpacity>
+      <TouchableOpacity className='m-3' onPress={() => navigation.navigate('JOIN_MANAGEMENT', { id })}>
+        <Typography fontWeight='BOLD' className='text-lg text-dark-800'>가입 관리</Typography>
+      </TouchableOpacity>
+      <TouchableOpacity className='m-3' onPress={() => navigation.navigate('MOIM_INFO_EDIT', { id })}>
+        <Typography fontWeight='BOLD' className='text-lg text-dark-800'>모임 정보 수정</Typography>
+      </TouchableOpacity>
+    </ScreenContainer>
   );
 };
 

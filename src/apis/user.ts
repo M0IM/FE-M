@@ -1,5 +1,9 @@
 import axiosInstance from './axiosInstance.ts';
-import {TMembersReviewDTO, TMyProfileResponse} from '../types/dtos/user.ts';
+import {
+  TMembersReviewDTO,
+  TMyProfileResponse,
+  TUserDTO,
+} from '../types/dtos/user.ts';
 
 const getUserProfile = async (): Promise<TMyProfileResponse> => {
   const {data} = await axiosInstance.get('/api/v1/users/profile');
@@ -18,4 +22,10 @@ const getMyDetailReview = async (
   return data.result.reviewDTOList;
 };
 
-export {getUserProfile, getMyDetailReview};
+const getUserDetailProfile = async (userId: number): Promise<TUserDTO> => {
+  const {data} = await axiosInstance.get(`/api/v1/users/profile/${userId}`);
+
+  return data.result;
+};
+
+export {getUserProfile, getMyDetailReview, getUserDetailProfile};

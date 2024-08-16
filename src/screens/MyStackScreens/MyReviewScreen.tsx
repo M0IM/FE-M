@@ -2,16 +2,12 @@ import {FlatList, SafeAreaView} from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {useGetInfiniteMyDetailReviews} from 'hooks/queries/MyScreen/useGetInfiniteMyDetailReviews.ts';
-import {ReviewCard} from '../../components/screens/MyStackScreens/ReviewCard.tsx';
+import {ReviewCard} from 'components/screens/MyStackScreens/ReviewCard.tsx';
 import {useState} from 'react';
-import {MyStackRouteProp} from '../../navigators/types';
+import {MyStackRouteProp} from 'navigators/types';
 
 export default function MyReviewScreen({route}: {route: MyStackRouteProp}) {
-  if (route.params === undefined) {
-    return;
-  }
-
-  const {id} = route.params;
+  const id = route.params?.id as number;
   const {
     data: reviews,
     fetchNextPage,

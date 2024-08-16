@@ -23,6 +23,7 @@ function getDateWithSeparator(
 function getMonthYearDetails(initialDate: Date) {
   const month = initialDate.getMonth() + 1;
   const year = initialDate.getFullYear();
+  const day = initialDate.getDate();
   // 매달 1일이 무슨 요일에서 시작하는지 알아야함
   const startDate = new Date(`${year}-${month}`);
   const firstDOW = startDate.getDay();
@@ -38,6 +39,7 @@ function getMonthYearDetails(initialDate: Date) {
   return {
     month,
     year,
+    day,
     startDate,
     firstDOW,
     lastDate,
@@ -93,5 +95,5 @@ export {
   getDateWithSeparator,
   getNewMonthYear,
   isSameAsCurrentDate,
-  detailDate
+  detailDate,
 };

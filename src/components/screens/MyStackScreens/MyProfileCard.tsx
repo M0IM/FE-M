@@ -23,8 +23,12 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
       </View>
       <View className={'flex-row items-center justify-center gap-x-5'}>
         <InfoSquareCard
-          title={'프로필 설정'}
-          onPress={() => navigation.navigate('MY_MANAGE_PROFILE')}>
+          title={'프로필 수정'}
+          onPress={() =>
+            navigation.navigate('MY_DETAIL_PROFILE', {
+              id: profile?.result.userId as number,
+            })
+          }>
           <Image source={Group} />
         </InfoSquareCard>
         <InfoSquareCard

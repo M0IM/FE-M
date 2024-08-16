@@ -14,16 +14,15 @@ type TMembersReviewDTO = {
   rating: number;
 };
 
-type TMembersReviewDetail = {
-  reviewDTOList: TMembersReviewDTO[];
-  totalReviewCnt: number;
+type TUserDTO = {
+  userId: number;
+  imageUrl?: string;
+  nickname: string;
+  residence: string;
+  birth: number;
+  createdAt: string;
+  rating: number;
+  introduction?: string;
 };
 
-type TMembersReviewDetailResponse = CommonResponse<TMembersReviewDetail>;
-
-export type {
-  TMyProfileResponse,
-  TMembersReviewDetail,
-  TMembersReviewDTO,
-  TMembersReviewDetailResponse,
-};
+export type {TMyProfileResponse, TMembersReviewDTO, TUserDTO};

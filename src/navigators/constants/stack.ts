@@ -10,6 +10,7 @@ import {
   AppInfoStackParamList,
   HomeStackParamList,
   ChatStackParamList,
+  MoimManagementParamList,
 } from '../types';
 
 // 1. AuthStack
@@ -41,3 +42,6 @@ export const HomeStack = createStackNavigator<HomeStackParamList>();
 
 // 10. ChatStack
 export const ChatStack = createStackNavigator<ChatStackParamList>();
+
+// 11. MoimManagementStack
+export const MoimManagementStack = createStackNavigator<MoimManagementParamList>();

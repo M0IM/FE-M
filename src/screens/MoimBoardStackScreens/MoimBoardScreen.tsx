@@ -3,7 +3,7 @@ import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import { Typography } from 'components/@common/Typography/Typography';
 import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPostPreview';
 import usePopover from 'hooks/usePopover';
-import { MoimPostStackNavigationProp } from 'navigators/types';
+import { MoimPostStackNavigationProp, MoimPostStackRouteProp } from 'navigators/types';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -18,12 +18,14 @@ const BOARD_TITLES = [
 type BoardTitle = typeof BOARD_TITLES[number]['key'];
 
 interface MoimBoardScreenProps {
+  route: MoimPostStackRouteProp;
   navigation: MoimPostStackNavigationProp
 }
 
-const MoimBoardScreen = ({navigation}: MoimBoardScreenProps) => {
+const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
   const [isSelected, setIsSelected] = useState<BoardTitle>('ALL');
   const { isPopover, handlePopover } = usePopover();
+  console.log('board route', route);
 
   const handleSelect = (selectMenu: BoardTitle) => {
     setIsSelected(selectMenu);

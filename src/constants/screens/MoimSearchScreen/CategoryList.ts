@@ -12,3 +12,17 @@ export const CATEGORY_LIST = [
     '음악',
     '자기 계발'
 ];
+
+export const CATEGORY_MENU_LIST = [
+    '스포츠',
+    'IT/서울',
+    '인문/책',
+    '외국/언어',
+    '공예',
+    '봉사활동',
+    '종교',
+    '사진/영상',
+    '동물',
+    '음악',
+    '자기 계발'
+];

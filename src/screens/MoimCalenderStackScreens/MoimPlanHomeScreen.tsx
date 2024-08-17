@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {SafeAreaView} from 'react-native';
-
 import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
 import {posts} from '../CalendarStackScreens/CalendarHomeScreen.tsx';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
@@ -8,21 +7,24 @@ import {PlanCalendarEventList} from 'components/@common/CalendarEventList/PlanCa
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {
   MoimPlanStackNavigationProp,
+  MoimPlanStackRouteProp,
   MoimStackNavigationProp,
 } from 'navigators/types';
 import {CompositeNavigationProp} from '@react-navigation/native';
 
 interface IMoimPlanHomeScreenProps {
+  route: MoimPlanStackRouteProp;
   navigation: CompositeNavigationProp<
     MoimPlanStackNavigationProp,
     MoimStackNavigationProp
   >;
 }
 
-const MoimPlanHomeScreen = ({navigation}: IMoimPlanHomeScreenProps) => {
+const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
+  const moimId = route.params.id;
 
   const handleUpdateMonth = (increment: number) => {
     setMonthYear(prev => getNewMonthYear(prev, increment));
@@ -45,7 +47,7 @@ const MoimPlanHomeScreen = ({navigation}: IMoimPlanHomeScreenProps) => {
         type={'add'}
         onPress={() => {
           navigation.navigate('MOIM_WRITE', {
-            id: 1,
+            id: moimId,
           });
         }}
       />

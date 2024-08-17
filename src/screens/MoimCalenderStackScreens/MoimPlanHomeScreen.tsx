@@ -11,6 +11,7 @@ import {
   MoimStackNavigationProp,
 } from 'navigators/types';
 import {CompositeNavigationProp} from '@react-navigation/native';
+import {useGetMoimCalendar} from '../../hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
@@ -24,7 +25,7 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
-  const moimId = route.params.id;
+  const moimId = route.params.id as number;
 
   const handleUpdateMonth = (increment: number) => {
     setMonthYear(prev => getNewMonthYear(prev, increment));
@@ -32,6 +33,13 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   const handlePressDate = (date: number) => {
     setSelectedDate(date);
   };
+
+  // TODO: CREATE 생성 시 데이터 연결.
+  const {data, isPending, isError} = useGetMoimCalendar({
+    moimId,
+    month: monthYear.month,
+    year: monthYear.year,
+  });
 
   return (
     <SafeAreaView className={'bg-white flex-1'}>

@@ -9,11 +9,17 @@ type TPlanList = {
   isParticipant: boolean;
 };
 
-type TCalendarPlanDTO = {
+type TCalendarPersonalPlanDTO = {
+  planList: TPlanList[];
+};
+
+type TCalendarMoimPlanDTO = {
   memberWithPlanCnt: number;
   planList: TPlanList[];
 };
 
-type TCalendarPersonalResponse = Record<number, TCalendarPlanDTO[]>;
+type TCalendarPersonalResponse = Record<number, TCalendarPersonalPlanDTO[]>;
 
-export type {TCalendarPersonalResponse};
+type TCalendarMoimResponse = Record<number, TCalendarMoimPlanDTO>;
+
+export type {TCalendarPersonalResponse, TCalendarMoimResponse};

@@ -1,20 +1,36 @@
 import axiosInstance from './axiosInstance.ts';
-import {TCalendarPersonalResponse} from '../types/dtos/calendar.ts';
+import {
+  TCalendarMoimResponse,
+  TCalendarPersonalResponse,
+} from '../types/dtos/calendar.ts';
 
-const getPersonalCalendar = async ({
-  year,
-  month,
-}: {
+export type TCalndarProps = {
+  moimId: number;
   year: number;
   month: number;
-}): Promise<TCalendarPersonalResponse> => {
-  const {data} = await axiosInstance.get(
-    `/api/v1/moim/calender/individual-plans?year=${year}&month=${month}`,
-  );
+};
 
-  console.log(data.result.planList);
+const getMoimCalendar = async ({
+  moimId,
+  year,
+  month,
+}: TCalndarProps): Promise<TCalendarMoimResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moim/${moimId}/calender?year=${year}&month=${month}`,
+  );
 
   return data.result.planList;
 };
 
-export {getPersonalCalendar};
+const getPersonalCalendar = async ({
+  year,
+  month,
+}: Omit<TCalndarProps, 'moimId'>): Promise<TCalendarPersonalResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moim/calender/individual-plans?year=${year}&month=${month}`,
+  );
+
+  return data.result.planList;
+};
+
+export {getMoimCalendar, getPersonalCalendar};

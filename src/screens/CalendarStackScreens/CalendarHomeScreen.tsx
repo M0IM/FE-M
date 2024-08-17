@@ -8,7 +8,7 @@ import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
 import {CalendarStackNavigationProp} from '../../navigators/types';
 import MyCalendarBottomSheet from '../../components/myCalendarBottomSheet/myCalendarBottomSheet.tsx';
-import {useGetPersonalCalendar} from '../../hooks/queries/CalendarHome/useGetPersonalCalendar.ts';
+import {useGetPersonalCalendar} from '../../hooks/queries/CalendarHomeScreen/useGetPersonalCalendar.ts';
 
 export type CalendarPost = {
   id: number;
@@ -97,6 +97,8 @@ export default function CalendarHomeScreen({
   const handlePressDate = (date: number) => {
     setSelectedDate(date);
   };
+
+  // TODO: CREATE 생성 시 데이터 연결.
   const {data, isPending, isError} = useGetPersonalCalendar({
     month: monthYear.month,
     year: monthYear.year,

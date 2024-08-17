@@ -6,7 +6,6 @@ import BottomSheet from '../@common/BottomSheet/BottomSheet.tsx';
 import {InputField} from '../@common/InputField/InputField.tsx';
 import useForm from '../../hooks/useForm.ts';
 import {validateCalendarWrite} from '../../utils';
-import DatePicker from 'react-native-date-picker';
 
 type TMyCalendarBottomSheet = {
   isOpen: boolean;

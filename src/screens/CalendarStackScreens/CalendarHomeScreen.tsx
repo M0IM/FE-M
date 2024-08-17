@@ -8,6 +8,7 @@ import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
 import {CalendarStackNavigationProp} from '../../navigators/types';
 import MyCalendarBottomSheet from '../../components/myCalendarBottomSheet/myCalendarBottomSheet.tsx';
+import {useGetPersonalCalendar} from '../../hooks/queries/CalendarHome/useGetPersonalCalendar.ts';
 
 export type CalendarPost = {
   id: number;
@@ -96,6 +97,10 @@ export default function CalendarHomeScreen({
   const handlePressDate = (date: number) => {
     setSelectedDate(date);
   };
+  const {data, isPending, isError} = useGetPersonalCalendar({
+    month: monthYear.month,
+    year: monthYear.year,
+  });
 
   return (
     <SafeAreaView className={'bg-white flex-1'}>

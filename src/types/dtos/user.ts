@@ -16,13 +16,26 @@ type TMembersReviewDTO = {
 
 type TUserDTO = {
   userId: number;
-  imageUrl?: string;
+  imageUrl: string;
   nickname: string;
   residence: string;
   birth: number;
   createdAt: string;
   rating: number;
-  introduction?: string;
+  introduction: string;
 };
 
-export type {TMyProfileResponse, TMembersReviewDTO, TUserDTO};
+type TUpdateUserParams = {
+  nickname: string;
+  imageKey: string;
+  residence: string;
+  introduction: string;
+  publicMoimList: number[];
+};
+
+export type {
+  TMyProfileResponse,
+  TMembersReviewDTO,
+  TUserDTO,
+  TUpdateUserParams,
+};

@@ -162,6 +162,34 @@ function validateAddMoimPosts(values: TValidateAddMoimPosts) {
   return errors;
 }
 
+type TValidateEditProfile = {
+  nickname: string;
+  residence: string;
+  introduction: string;
+};
+
+function validateEditProfile(values: TValidateEditProfile) {
+  const errors = {
+    nickname: '',
+    residence: '',
+    introduction: '',
+  };
+
+  if (values.nickname?.trim()) {
+    errors.nickname = '수정하실 닉네임을 입력해주세요.';
+  }
+
+  if (values.residence?.trim()) {
+    errors.residence = '수정하실 거주지역을 입력해주세요.';
+  }
+
+  if (values.introduction?.trim()) {
+    errors.introduction = '수정하실 소개 내용을 입력해주세요.';
+  }
+
+  return errors;
+}
+
 export {
   validateLogin,
   validateSignUpStep3,
@@ -169,4 +197,5 @@ export {
   validateSignUpStep5,
   validateCalendarWrite,
   validateAddMoimPosts,
+  validateEditProfile,
 };

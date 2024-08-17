@@ -46,10 +46,17 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
         const formData = getFormDataImages(images);
         // TODO: GET: /api/v0/s3/presigned/upload로 요청을 보내, url, keyname을 받는다.
         // TODO: GET: /api/v0/s3/presigned/download로 요청을 보내(위에서 받은 url을 보냄) 그래서 url을받는다.
-        uploadImages.mutate(formData, {
-          // 업로드 성공시 데이터를 옆에 보이게 해줌.
-          onSuccess: data => addImagesUris(data),
-        });
+        // console.log(formData, '야호');
+        uploadImages.mutate(
+          {url: formData.result.url, file: formData},
+          {
+            // 업로드 성공시 데이터를 옆에 보이게 해줌.
+            onSuccess: data => {
+              addImagesUris(data);
+              console.log(data, '야호');
+            },
+          },
+        );
       })
       .catch(error => {
         if (error.code !== 'E_PICKER_CANCELLED') {

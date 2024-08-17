@@ -1,15 +1,15 @@
+import {ActivityIndicator, View} from 'react-native';
+
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import {MyStackNavigationProp, MyStackRouteProp} from '../../navigators/types';
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
-import {useGetDetailProfile} from '../../hooks/queries/MyScreen/useGetDetailProfile.ts';
-import {View} from 'react-native';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
-import {useState} from 'react';
-import Badge from '@react-navigation/bottom-tabs/lib/typescript/src/views/Badge';
-import InfoSquareCard from '../../components/me/InfoSquareCard/InfoSquareCard.tsx';
-import {getMonthYearDetails} from '../../utils';
-import useDetailProfileStore from '../../stores/useDetailProfileStore.ts';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
+import InfoSquareCard from 'components/me/InfoSquareCard/InfoSquareCard.tsx';
+
+import {MyStackNavigationProp, MyStackRouteProp} from 'navigators/types';
+import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts';
+import {getMonthYearDetails} from 'utils';
+import useDetailProfileStore from 'stores/useDetailProfileStore.ts';
 
 interface IMyDetailProfileScreenProps {
   route: MyStackRouteProp;
@@ -20,23 +20,13 @@ export default function MyDetailProfileScreen({
   route,
   navigation,
 }: IMyDetailProfileScreenProps) {
-  const [isEditing, setIsEditing] = useState(false);
   const userId = route.params?.id as number;
   const {data: userInfo, isPending, isError} = useGetDetailProfile(userId);
   const {setDetailProfile} = useDetailProfileStore();
-  if (!userInfo) return;
 
-  const {
-    birth,
-    createdAt,
-    imageUrl,
-    introduction,
-    nickname,
-    rating,
-    residence,
-  } = userInfo;
-
-  const {year, month, day} = getMonthYearDetails(new Date(createdAt));
+  const {year, month, day} = getMonthYearDetails(
+    new Date(userInfo?.createdAt as string),
+  );
 
   const handleEditPost = () => {
     if (!userInfo) {
@@ -48,34 +38,41 @@ export default function MyDetailProfileScreen({
     });
   };
 
+  if (isPending) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#00F0A1" />
+      </View>
+    );
+  }
+
   return (
     <ScreenContainer
-      loading={isPending}
       fixedBottomComponent={
         <CustomButton onPress={handleEditPost} label={'수정하기'} />
       }>
       <View className="px-4 py-2">
         <View className="flex flex-row items-center gap-x-2">
-          <Avatar size={'LG'} source={{uri: imageUrl || ''}} />
+          <Avatar size={'LG'} source={{uri: userInfo?.imageUrl || ''}} />
           <View className="flex-col gap-y-2">
             <Typography
               numberOfLines={1}
               fontWeight={'BOLD'}
               className="text-lg">
-              {nickname}
+              {userInfo?.nickname}
             </Typography>
             <View className="w-full flex flex-row items-center gap-x-2">
               <Typography
                 numberOfLines={1}
                 fontWeight={'MEDIUM'}
                 className="text-gray-500">
-                {residence}
+                {userInfo?.residence}
               </Typography>
               <Typography
                 numberOfLines={1}
                 fontWeight={'MEDIUM'}
                 className="text-gray-500">
-                {birth}
+                {userInfo?.birth}
               </Typography>
             </View>
           </View>
@@ -88,7 +85,7 @@ export default function MyDetailProfileScreen({
             </Typography>
           </InfoSquareCard>
           <InfoSquareCard title="모임 평가">
-            <Typography fontWeight={'BOLD'}>{rating}</Typography>
+            <Typography fontWeight={'BOLD'}>{userInfo?.rating}</Typography>
           </InfoSquareCard>
           <InfoSquareCard title="가입 모임">
             <Typography fontWeight={'BOLD'}>API없음</Typography>
@@ -104,7 +101,8 @@ export default function MyDetailProfileScreen({
             소개
           </Typography>
           <Typography className="mt-5" fontWeight={'BOLD'}>
-            {introduction || '아래 수정하기 버튼을 눌러, 소개를 작성해주세요.'}
+            {userInfo?.introduction ||
+              '아래 수정하기 버튼을 눌러, 소개를 작성해주세요.'}
           </Typography>
         </View>
       </View>

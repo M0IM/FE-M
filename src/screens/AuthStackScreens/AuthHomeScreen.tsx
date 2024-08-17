@@ -95,7 +95,6 @@ export default function AuthHomeScreen({
   const handlePressKakaoLoginButton = async () => {
     const {idToken} = await loginWithKakaoAccount();
     const {nickname, email, id} = await getProfile();
-    console.log(id);
     socialIdTokenMutation.mutate(
       {
         type: 'KAKAO',
@@ -127,7 +126,6 @@ export default function AuthHomeScreen({
     const {user, identityToken: idToken} = await appleClient.fetchLogin();
 
     const authState = await appleClient.getUserAuthState(user);
-    console.log(idToken);
 
     if (idToken && authState === appleAuth.State.AUTHORIZED) {
       socialIdTokenMutation.mutate(

@@ -12,7 +12,6 @@ interface IMoimDetailScreenProps {
 }
 
 export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
-  console.log('hi', route.params.id);
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>

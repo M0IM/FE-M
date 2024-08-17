@@ -3,8 +3,9 @@ import {getUserProfile} from '../../../apis';
 
 function useGetMyProfile() {
   const {data, isPending, isError} = useQuery({
-    queryKey: ['me'],
+    queryKey: ['profile'],
     queryFn: getUserProfile,
+    staleTime: Infinity,
   });
 
   return {data, isPending, isError};

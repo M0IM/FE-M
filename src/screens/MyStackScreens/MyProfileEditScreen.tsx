@@ -1,23 +1,156 @@
-import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {View} from 'react-native';
+import {useState} from 'react';
+import ImagePicker from 'react-native-image-crop-picker';
+import {useNavigation} from '@react-navigation/native';
 
-import {MyStackRouteProp} from '../../navigators/types';
-import useDetailProfileStore from '../../stores/useDetailProfileStore.ts';
+import {ScreenContainer} from 'components/ScreenContainer';
+import {Typography} from 'components/@common/Typography/Typography';
+import {InputField} from 'components/@common/InputField/InputField';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton';
+import Avatar from 'components/@common/Avatar/Avatar';
 
-interface IMyProfileEditScreenProps {
-  route: MyStackRouteProp;
-}
+import useForm from 'hooks/useForm';
+import useUpdateMyProfile from 'hooks/queries/MyScreen/useUpdateMyProfile';
+import usePermission from 'hooks/usePermission';
+import useMutateImages from 'hooks/queries/MoimCreateScreen/useMutateImages';
+import useCreatePresignedURL from 'hooks/queries/MyScreen/useCreatePresignedURL';
+import {getFormDataImage, validateEditProfile} from 'utils';
+import useDetailProfileStore from 'stores/useDetailProfileStore';
+import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 
-export default function MyProfileEditScreen({
-  route,
-}: IMyProfileEditScreenProps) {
+export default function MyProfileEditScreen() {
   const {detailProfile} = useDetailProfileStore();
-  const userId = route.params?.id;
+  const [isEdit, setIsEdit] = useState(true);
+  const {mutate} = useUpdateMyProfile();
+  const [moimList, setMoimList] = useState([]);
+  const uploadImages = useMutateImages();
+  const {mutate: createPresignedUrl} = useCreatePresignedURL();
+  const [keyName, setKeyName] = useState<string>('');
+  const navigation = useNavigation();
+  const isEditMode = isEdit && detailProfile;
+  usePermission('PHOTO');
 
-  console.log(detailProfile);
+  const editProfile = useForm({
+    initialValue: {
+      nickname: isEditMode ? detailProfile.nickname : '',
+      residence: isEditMode ? detailProfile.residence : '',
+      introduction: isEditMode ? detailProfile.introduction : '',
+    },
+    validate: validateEditProfile,
+  });
+
+  const handleSubmit = () => {
+    mutate(
+      {
+        imageKey: keyName,
+        nickname: editProfile.values.nickname,
+        residence: editProfile.values.residence,
+        introduction: editProfile.values.introduction,
+        publicMoimList: moimList,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({queryKey: ['profile']});
+          navigation.goBack();
+        },
+        onError: error => {
+          console.log(error);
+        },
+      },
+    );
+  };
+
   return (
-    <ScreenContainer>
-      <Typography fontWeight={'BOLD'}>{route.params?.id}</Typography>
+    <ScreenContainer
+      fixedBottomComponent={
+        <CustomButton label={'수정 완료'} onPress={handleSubmit} />
+      }>
+      <View className="flex items-center justify-center mt-4">
+        <Avatar
+          size={'LG'}
+          onPress={async () => {
+            try {
+              const image = await ImagePicker.openPicker({
+                mediaType: 'photo',
+                multiple: false,
+                includeBase64: true,
+                maxFiles: 1,
+                cropperChooseText: '완료',
+                cropperCancelText: '취소',
+              });
+              const {formData, fileName} = getFormDataImage(image);
+              createPresignedUrl(fileName, {
+                onSuccess: data => {
+                  setKeyName(data.keyName);
+                  console.log(data.keyName);
+                  uploadImages.mutate(
+                    {
+                      url: data.url,
+                      file: formData,
+                    },
+                    {
+                      onSuccess: () => {
+                        queryClient.invalidateQueries({
+                          queryKey: ['profile'],
+                        });
+                        queryClient.refetchQueries({
+                          queryKey: ['profile'],
+                        });
+                      },
+                      onError: error => {
+                        console.log(error);
+                      },
+                    },
+                  );
+                },
+              });
+            } catch (error) {
+              console.log('Error picking image: ', error);
+            }
+          }}
+        />
+        <View className="flex flex-col">
+          <Typography
+            fontWeight={'MEDIUM'}
+            className="text-sm text-gray-500 mb-2">
+            대표 이미지
+          </Typography>
+        </View>
+      </View>
+      <View className="mt-5">
+        <Typography className="mb-3" fontWeight={'BOLD'}>
+          닉네임
+        </Typography>
+        <InputField
+          {...editProfile.getTextInputProps('nickname')}
+          error={editProfile.errors.nickname}
+          touched={editProfile.touched.nickname}
+          returnKeyType="next"
+        />
+      </View>
+      <View>
+        <Typography className="mb-3" fontWeight={'BOLD'}>
+          거주지역
+        </Typography>
+        <InputField
+          {...editProfile.getTextInputProps('residence')}
+          error={editProfile.errors.residence}
+          touched={editProfile.touched.residence}
+          returnKeyType="next"
+        />
+      </View>
+      <View>
+        <Typography className="mb-3" fontWeight={'BOLD'}>
+          소개
+        </Typography>
+        <InputField
+          {...editProfile.getTextInputProps('introduction')}
+          error={editProfile.errors.introduction}
+          touched={editProfile.touched.introduction}
+          returnKeyType="next"
+          multiline={true}
+        />
+      </View>
     </ScreenContainer>
   );
 }

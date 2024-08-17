@@ -13,10 +13,23 @@ import {ImageInput} from 'components/@common/ImageInput/ImageInput';
 import useTags from 'hooks/useTags';
 import usePermission from 'hooks/usePermission';
 import useImagePicker from 'hooks/useImagePicker';
+import { useState } from 'react';
+import { CATEGORY_MENU_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
 
 const MoimCreateScreen = () => {
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const platform = Platform.OS;
+  const [isPressed, setIsPressed] = useState(false);
+  const [category, setCategory] = useState('');
+
+  const handleSelectedCategory = (selected: any) => {
+    setCategory(selected);
+  };
+
+  const handleCategory = () => {
+    setIsPressed(prev => !prev);
+  };
+
   const imagePicker = useImagePicker({
     initialImages: [],
   });
@@ -68,7 +81,14 @@ const MoimCreateScreen = () => {
       </View>
 
       {/* 카테고리 드롭다운 */}
-      <CategoryDropdown />
+      <CategoryDropdown 
+        onPress={handleCategory} 
+        isPressed={isPressed} 
+        menuList={CATEGORY_MENU_LIST}
+        handleSelect={handleSelectedCategory}
+        selectedMenu={category}
+        placeholder='카테고리'
+      />
 
       {/* 카메라 연결 */}
       <View className="flex flex-col">

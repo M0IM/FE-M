@@ -2,7 +2,7 @@ import { useRoute } from '@react-navigation/native';
 import { MoimManagementStack } from 'navigators/constants';
 import { MoimManagementRouteProp } from 'navigators/types';
 import JoinManageScreen from 'screens/MoimManagementScreens/JoinManageScreen';
-import MoimInfoEditScreen from 'screens/MoimManagementScreens/MoimInfoEditScreen';
+import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
 import MoimManageListScreen from 'screens/MoimManagementScreens/MoimManageListScreen';
 import PermissionManageScreen from 'screens/MoimManagementScreens/PermissionManageScreen';
 
@@ -44,7 +44,7 @@ const MoimManagementStackNavigator = () => {
             />
             <MoimManagementStack.Screen 
                 name={'MOIM_INFO_EDIT'}
-                component={MoimInfoEditScreen}
+                component={MoimEditInfoScreen}
                 options={{
                     headerTitle: '모임 정보 수정',
                     headerTintColor: '#000',

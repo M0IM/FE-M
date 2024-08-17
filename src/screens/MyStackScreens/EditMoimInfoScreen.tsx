@@ -2,6 +2,7 @@ import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import { Image, Pressable, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { MyStackNavigationProp } from 'navigators/types';
 
 const ActiveMoimData = [
   {
@@ -48,7 +49,7 @@ const ActiveMoimData = [
 ];
 
 interface EditMoimInfoScreenProps {
-  navigation: any
+  navigation: MyStackNavigationProp
 }
 
 export default function EditMoimInfoScreen({
@@ -60,10 +61,7 @@ export default function EditMoimInfoScreen({
         <Pressable
           key={item.id} 
           className='flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg'
-          onPress={() => navigation.navigate('MOIM_STACK', {
-            screen: 'MOIM_SPACE',
-            params: { id: item.id }
-          })}
+          onPress={() => navigation.navigate('MOIM_EDIT_INFO', { id : 4 })}
         >
           {item.spaceImg ? (
             <Image

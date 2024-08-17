@@ -76,8 +76,10 @@ export type MyStackParamList = {
   MY_REVOKE_MOIM: undefined;
   // 가입 신청 상태 확인하기 페이지
   MY_MOIM_JOIN_STATUS: undefined;
-  // 모임 정보 수정하기
+  // 모임 정보 수정 리스트
   MY_EDIT_MOIM_INFO: undefined;
+  // 모임 정보 수정화면
+  MOIM_EDIT_INFO: {id:number};
   // 알림 설정
   MY_EDIT_ALERT: undefined;
   // 앱 정보

@@ -13,12 +13,10 @@ import usePermission from 'hooks/usePermission';
 import useTags from 'hooks/useTags';
 import { MoimManagementRouteProp } from 'navigators/types';
 import { CATEGORY_MENU_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
+import { useRoute } from '@react-navigation/native';
 
-interface MoimInfoEditScreenProps {
-  route: MoimManagementRouteProp;
-}
-
-const MoimInfoEditScreen = ({route}: MoimInfoEditScreenProps) => {
+const MoimInfoEditScreen = () => {
+  const route = useRoute<MoimManagementRouteProp>();
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const platform = Platform.OS;
   const moimdId = route.params.id;

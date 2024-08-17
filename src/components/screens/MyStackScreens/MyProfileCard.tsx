@@ -15,7 +15,6 @@ interface IMyProfileCard {
 }
 
 export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
-  console.log(profile);
   return (
     <>
       <View className={'flex-row items-center mt-5'}>
@@ -24,8 +23,12 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
       </View>
       <View className={'flex-row items-center justify-center gap-x-5'}>
         <InfoSquareCard
-          title={'프로필 설정'}
-          onPress={() => navigation.navigate('MY_MANAGE_PROFILE')}>
+          title={'프로필 수정'}
+          onPress={() =>
+            navigation.navigate('MY_DETAIL_PROFILE', {
+              id: profile?.result.userId as number,
+            })
+          }>
           <Image source={Group} />
         </InfoSquareCard>
         <InfoSquareCard
@@ -35,7 +38,11 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
         </InfoSquareCard>
         <InfoSquareCard
           title={'내 후기 확인'}
-          onPress={() => navigation.navigate('MY_REVIEW')}>
+          onPress={() =>
+            navigation.navigate('MY_REVIEW', {
+              id: profile?.result.userId as number,
+            })
+          }>
           <Image source={Bubble} />
         </InfoSquareCard>
       </View>

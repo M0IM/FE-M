@@ -1,5 +1,6 @@
 import {Image, Platform, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
@@ -7,10 +8,11 @@ import {ScreenContainer} from 'components/ScreenContainer';
 import CategoryDropdown from 'components/screens/MoimCreateScreen/CategoryDropdown';
 import MoimIntroVideo from 'components/screens/MoimCreateScreen/MoimIntroVideo';
 import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
+import {ImageInput} from 'components/@common/ImageInput/ImageInput';
+
 import useTags from 'hooks/useTags';
-import {ImageInput} from '../../components/@common/ImageInput/ImageInput.tsx';
-import usePermission from '../../hooks/usePermission.ts';
-import useImagePicker from '../../hooks/useImagePicker.ts';
+import usePermission from 'hooks/usePermission';
+import useImagePicker from 'hooks/useImagePicker';
 
 const MoimCreateScreen = () => {
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
@@ -19,8 +21,6 @@ const MoimCreateScreen = () => {
     initialImages: [],
   });
   usePermission('PHOTO');
-
-  console.log('image', imagePicker.imageUris);
 
   return (
     <ScreenContainer

@@ -28,7 +28,12 @@ export default function LoginScreen() {
       },
       {
         onSuccess: data => {
-          console.log(data);
+          Toast.show({
+            type: 'success',
+            text1: data.message || '로그인 성공',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
         },
         onError: error => {
           console.log(error);

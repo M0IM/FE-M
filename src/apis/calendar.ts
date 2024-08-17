@@ -2,7 +2,8 @@ import axiosInstance from './axiosInstance.ts';
 import {
   TCalendarMoimResponse,
   TCalendarPersonalResponse,
-} from '../types/dtos/calendar.ts';
+  TDetailMoimCalendarDTO,
+} from 'types/dtos/calendar.ts';
 
 export type TCalndarProps = {
   moimId: number;
@@ -33,4 +34,20 @@ const getPersonalCalendar = async ({
   return data.result.planList;
 };
 
-export {getMoimCalendar, getPersonalCalendar};
+export type TDetailCalendarProps = {
+  moimId: number;
+  planId: number;
+};
+
+const getDetailMoimCalendar = async ({
+  moimId,
+  planId,
+}: TDetailCalendarProps): Promise<TDetailMoimCalendarDTO> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moim/${moimId}/plan/${planId}?scheduleCntLimit=5`,
+  );
+
+  return data.result;
+};
+
+export {getMoimCalendar, getPersonalCalendar, getDetailMoimCalendar};

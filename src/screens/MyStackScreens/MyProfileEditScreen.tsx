@@ -16,7 +16,7 @@ import useMutateImages from 'hooks/queries/MoimCreateScreen/useMutateImages';
 import useCreatePresignedURL from 'hooks/queries/MyScreen/useCreatePresignedURL';
 import {getFormDataImage, validateEditProfile} from 'utils';
 import useDetailProfileStore from 'stores/useDetailProfileStore';
-import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 
 export default function MyProfileEditScreen() {
   const {detailProfile} = useDetailProfileStore();
@@ -79,10 +79,10 @@ export default function MyProfileEditScreen() {
                 cropperCancelText: '취소',
               });
               const {formData, fileName} = getFormDataImage(image);
+              console.log(formData, '폼');
               createPresignedUrl(fileName, {
                 onSuccess: data => {
                   setKeyName(data.keyName);
-                  console.log(data.keyName);
                   uploadImages.mutate(
                     {
                       url: data.url,

@@ -1,25 +1,49 @@
-// Record<number, CalendarPost[]>
-
-type TPlanList = {
-  planId: string;
+type TPlanListDTO = {
+  planId: number;
   title: string;
   location: string;
   locationDetail: string;
-  time: Date;
-  isParticipant: boolean;
+  time: string;
 };
 
-type TCalendarPersonalPlanDTO = {
-  planList: TPlanList[];
+type TMoimPlanListDTO = {
+  planId: number;
+  title: string;
+  location: string;
+  locationDetail: string;
+  time: string;
+  isParticipant: boolean;
 };
 
 type TCalendarMoimPlanDTO = {
   memberWithPlanCnt: number;
-  planList: TPlanList[];
+  planList: TPlanListDTO[];
 };
 
-type TCalendarPersonalResponse = Record<number, TCalendarPersonalPlanDTO[]>;
+type TCalendarPersonalResponse = Record<string, TPlanListDTO[]>;
 
-type TCalendarMoimResponse = Record<number, TCalendarMoimPlanDTO>;
+type TCalendarMoimResponse = Record<string, TMoimPlanListDTO[]>;
 
-export type {TCalendarPersonalResponse, TCalendarMoimResponse};
+type TScheduleDTO = {
+  title: string;
+  startTime: string;
+};
+
+type TDetailMoimCalendarDTO = {
+  planId: number;
+  title: string;
+  date: string;
+  location: string;
+  cost: string;
+  participant: number;
+  schedules: TScheduleDTO[];
+  isParticipant: boolean;
+};
+
+export type {
+  TPlanListDTO,
+  TMoimPlanListDTO,
+  TCalendarPersonalResponse,
+  TCalendarMoimResponse,
+  TDetailMoimCalendarDTO,
+};

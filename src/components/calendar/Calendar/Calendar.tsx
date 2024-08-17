@@ -11,7 +11,7 @@ import DateBottomSheet from '../../DateBottomSheet/DateBottomSheet.tsx';
 
 interface ICalendarProps<T> {
   monthYear: MonthYear;
-  schedules: Record<number, T>;
+  schedules: Record<string, T>;
   onChangeMonth: (increment: number) => void;
   onPressDate: (date: number) => void;
   selectedDate: number;

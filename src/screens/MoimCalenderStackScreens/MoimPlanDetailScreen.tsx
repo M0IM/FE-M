@@ -8,6 +8,7 @@ import DetailSchedules from 'components/space/DetailSchedules/DetailSchedules.ts
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
 
 import {MoimPlanStackRouteProp} from 'navigators/types';
+import useGetDetailMoimCalendar from 'hooks/queries/MoimPlanHomeScreen/useGetDetailMoimCalendar.ts';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
@@ -84,6 +85,19 @@ export const detailSchedules = [
 export default function MoimPlanDetailScreen({
   route,
 }: IMoimPlanDetailScreenProps) {
+  const planId = route.params.id as number;
+
+  const {data, isPending, isError} = useGetDetailMoimCalendar({
+    moimId: 1,
+    planId,
+  });
+
+  console.log(data);
+
+  if (isPending || isError) {
+    return <></>;
+  }
+
   return (
     <ScreenContainer>
       <View className="flex flex-col items-center justify-center mb-4">

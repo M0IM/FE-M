@@ -1,16 +1,18 @@
 import {useState} from 'react';
 import {SafeAreaView} from 'react-native';
-import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
-import {posts} from '../CalendarStackScreens/CalendarHomeScreen.tsx';
+import {CompositeNavigationProp} from '@react-navigation/native';
+
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
 import {PlanCalendarEventList} from 'components/@common/CalendarEventList/PlanCalendarEventList.tsx';
+import {MoimCalendar} from 'components/calendar/Calendar/MoimCalendar.tsx';
+
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {
   MoimPlanStackNavigationProp,
   MoimPlanStackRouteProp,
   MoimStackNavigationProp,
 } from 'navigators/types';
-import {CompositeNavigationProp} from '@react-navigation/native';
+import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
@@ -24,7 +26,21 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
-  const moimId = route.params.id;
+  const moimId = route.params.id as number;
+
+  const {
+    data: posts,
+    isPending,
+    isError,
+  } = useGetMoimCalendar({
+    moimId,
+    month: monthYear.month,
+    year: monthYear.year,
+  });
+
+  if (isPending || isError) {
+    return <></>;
+  }
 
   const handleUpdateMonth = (increment: number) => {
     setMonthYear(prev => getNewMonthYear(prev, increment));
@@ -35,14 +51,17 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
 
   return (
     <SafeAreaView className={'bg-white flex-1'}>
-      <Calendar
+      <MoimCalendar
         monthYear={monthYear}
         schedules={posts}
         onChangeMonth={handleUpdateMonth}
         selectedDate={selectedDate}
         onPressDate={handlePressDate}
       />
-      <PlanCalendarEventList posts={posts[selectedDate]} />
+      <PlanCalendarEventList
+        moimId={moimId}
+        posts={posts[selectedDate]?.planList}
+      />
       <FloatingButton
         type={'add'}
         onPress={() => {

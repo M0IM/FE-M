@@ -1,27 +1,33 @@
 import {Platform, Pressable, PressableProps, Text, View} from 'react-native';
-import {CalendarPost} from 'screens/CalendarStackScreens/CalendarHomeScreen.tsx';
 import {useNavigation} from '@react-navigation/native';
+
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils/cn.ts';
-import {MoimPlanStackNavigationProp} from '../../navigators/types';
+import {MoimPlanStackNavigationProp} from 'navigators/types';
+import {TMoimPlanListDTO} from 'types/dtos/calendar.ts';
 
 interface ICalendarEventProps extends PressableProps {
-  post: CalendarPost;
+  post: TMoimPlanListDTO;
 }
 
-export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
+export function PlanCalendarEvent({
+  post,
+
+  ...props
+}: ICalendarEventProps) {
   const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const platform = Platform.OS;
+
   return (
     <Pressable
       {...props}
       onPress={() =>
         navigation.navigate('MOIM_PLAN_DETAIL', {
-          id: post.id,
+          planId: post.planId,
         })
       }
       className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"
-      key={post.id}>
+      key={post.planId}>
       <View className="bg-main w-1 rounded-l-full h-full z-10" />
       <View className={cn(CalenderEventVariant({platform}))}>
         <Text
@@ -31,8 +37,15 @@ export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
           {post.title}
         </Text>
         <View className="mt-1">
-          <Text className="text-xs text-gray-400">{post.date}</Text>
-          <Text className="text-xs text-gray-400">{post.address}</Text>
+          <Text className="text-xs text-gray-400">{post.time}</Text>
+          <View className="flex-row gap-x-2">
+            <Text className="text-xs text-gray-400">
+              {post.location ?? '장소가 표기되지 않았습니다.'}
+            </Text>
+            <Text className="text-xs text-gray-400">
+              {post.locationDetail ?? '세부 장소가 표기되지 않았습니다.'}
+            </Text>
+          </View>
         </View>
       </View>
     </Pressable>

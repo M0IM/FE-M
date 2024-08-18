@@ -6,6 +6,7 @@ interface IDateBoxProps {
   onPressDate: (date: number) => void;
   isToday: boolean;
   hasSchedule: boolean;
+  isMemberBusy?: number;
 }
 
 const deviceWidth = Dimensions.get('window').width;
@@ -16,6 +17,7 @@ export function DateBox({
   onPressDate,
   hasSchedule,
   isToday,
+  isMemberBusy,
 }: IDateBoxProps) {
   return (
     <Pressable
@@ -32,7 +34,7 @@ export function DateBox({
       {date > 0 && (
         <>
           <View
-            className={`absolute bottom-5 mt-5 items-center justify-center w-6 h-6 rounded-full
+            className={`absolute flex-col bottom-5 mt-5 items-center justify-center w-6 h-6 rounded-full
             ${selectedDate === date && 'bg-main'}`}>
             <Text
               style={{
@@ -44,8 +46,17 @@ export function DateBox({
               `}>
               {date}
             </Text>
-            {hasSchedule && (
+            {hasSchedule && !isMemberBusy && (
               <View className="absolute top-7 left-[40%] mt-1 w-1 h-1 rounded-sm bg-main" />
+            )}
+            {!hasSchedule && isMemberBusy && (
+              <View className="absolute top-7 left-[40%] mt-1 w-1 h-1 rounded-sm bg-error" />
+            )}
+            {hasSchedule && isMemberBusy && (
+              <View className="m-0 flex-col items-center justify-center absolute top-7 left-[40%] mt-1">
+                <View className="w-1 h-1 rounded-sm bg-main" />
+                <View className="mt-0.5 w-1 h-1 rounded-sm bg-error" />
+              </View>
             )}
           </View>
         </>

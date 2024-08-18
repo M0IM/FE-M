@@ -100,8 +100,8 @@ export type MoimTopTabParamList = {
 };
 
 export type MoimPlanStackParamList = {
-  MOIM_PLAN_HOME: {id: number | undefined};
-  MOIM_PLAN_DETAIL: {id: number | undefined};
+  MOIM_PLAN_HOME: {id: number};
+  MOIM_PLAN_DETAIL: {planId: number};
 };
 
 export type MoimPostStackParamList = {
@@ -131,7 +131,7 @@ export type MoimManagementParamList = {
   PERMISSION_MANAGEMENT: {id: number | undefined};
   JOIN_MANAGEMENT: {id: number | undefined};
   MOIM_INFO_EDIT: {id: number | undefined};
-}
+};
 
 /** screen name */
 export type HomeStackScreenName = keyof HomeStackParamList;
@@ -199,7 +199,7 @@ export type ChatStackRouteProp = RouteProp<
 export type MoimManagementRouteProp = RouteProp<
   MoimManagementParamList,
   MoimManagementScreenName
->
+>;
 
 /** navigation props */
 export type HomeStackNavigationProp = NavigationProp<HomeStackParamList>;
@@ -223,4 +223,5 @@ export type MoimPlanStackNavigationProp =
 export type MoimPostStackNavigationProp =
   StackNavigationProp<MoimPostStackParamList>;
 export type ChatStackNavigationProp = StackNavigationProp<ChatStackParamList>;
-export type MoimManagementNavigationProp = StackNavigationProp<MoimManagementParamList>;
+export type MoimManagementNavigationProp =
+  StackNavigationProp<MoimManagementParamList>;

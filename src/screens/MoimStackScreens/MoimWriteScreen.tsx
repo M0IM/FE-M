@@ -7,5 +7,7 @@ interface IMoimWriteScreenProps {
 }
 
 export default function MoimWriteScreen({route}: IMoimWriteScreenProps) {
-  return <PostForm moimId={route.params.id} />;
+  const moimId = route.params.id as number;
+
+  return <PostForm moimId={moimId} />;
 }

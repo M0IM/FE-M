@@ -18,7 +18,7 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
   return (
     <>
       <View className={'flex-row items-center mt-5'}>
-        <Avatar size="LG" src={profile?.result.imageUrl} alt="Avatar" />
+        <Avatar size="LG" uri={profile?.result.imageUrl} alt="Avatar" />
         <Typography fontWeight={'BOLD'}>{profile?.result.nickname}</Typography>
       </View>
       <View className={'flex-row items-center justify-center gap-x-5'}>

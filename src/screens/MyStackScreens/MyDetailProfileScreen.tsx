@@ -53,7 +53,7 @@ export default function MyDetailProfileScreen({
       }>
       <View className="px-4 py-2">
         <View className="flex flex-row items-center gap-x-2">
-          <Avatar size={'LG'} source={{uri: userInfo?.imageUrl || ''}} />
+          <Avatar size={'LG'} uri={userInfo?.imageUrl} />
           <View className="flex-col gap-y-2">
             <Typography
               numberOfLines={1}

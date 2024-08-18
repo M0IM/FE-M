@@ -14,6 +14,7 @@ declare module 'react-native-config' {
     GOOGLE_IOS_CLIENT_ID?: string;
     GOOGLE_AOS_CLIENT_ID?: string;
     SERVER_URL: string;
+    AWS_S3_URL: string;
   }
 
   export const Config: NativeConfig;

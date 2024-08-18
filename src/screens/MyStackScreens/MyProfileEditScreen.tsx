@@ -2,6 +2,7 @@ import {View} from 'react-native';
 import {useState} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useNavigation} from '@react-navigation/native';
+import Config from 'react-native-config';
 
 import {ScreenContainer} from 'components/ScreenContainer';
 import {Typography} from 'components/@common/Typography/Typography';
@@ -28,6 +29,7 @@ export default function MyProfileEditScreen() {
   const [keyName, setKeyName] = useState<string>('');
   const navigation = useNavigation();
   const isEditMode = isEdit && detailProfile;
+  const [imageUrl, setImageUrl] = useState(detailProfile?.imageUrl);
   usePermission('PHOTO');
 
   const editProfile = useForm({
@@ -60,6 +62,8 @@ export default function MyProfileEditScreen() {
     );
   };
 
+  console.log(Config.AWS_S3_URL);
+
   return (
     <ScreenContainer
       fixedBottomComponent={
@@ -68,6 +72,7 @@ export default function MyProfileEditScreen() {
       <View className="flex items-center justify-center mt-4">
         <Avatar
           size={'LG'}
+          uri={imageUrl}
           onPress={async () => {
             try {
               const image = await ImagePicker.openPicker({
@@ -78,27 +83,25 @@ export default function MyProfileEditScreen() {
                 cropperChooseText: '완료',
                 cropperCancelText: '취소',
               });
-              const {formData, fileName} = getFormDataImage(image);
-              console.log(formData, '폼');
+              const {formData, fileName, fileType, fileUri} =
+                getFormDataImage(image);
+              console.log(formData);
               createPresignedUrl(fileName, {
                 onSuccess: data => {
-                  setKeyName(data.keyName);
+                  const {keyName} = data;
+                  console.log('받은 키네임', keyName);
+                  setKeyName(keyName);
+
                   uploadImages.mutate(
                     {
                       url: data.url,
                       file: formData,
+                      fileType,
+                      fileUri: fileUri,
                     },
                     {
                       onSuccess: () => {
-                        queryClient.invalidateQueries({
-                          queryKey: ['profile'],
-                        });
-                        queryClient.refetchQueries({
-                          queryKey: ['profile'],
-                        });
-                      },
-                      onError: error => {
-                        console.log(error);
+                        setImageUrl(`${Config.AWS_S3_URL}${keyName}`);
                       },
                     },
                   );

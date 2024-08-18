@@ -33,8 +33,10 @@ function getFormDataImage(image: Image) {
   };
   formData.append('file', file);
   const fileName = file.name as string;
+  const fileType = file.type as string;
+  const fileUri = file.uri as string;
 
-  return {formData, fileName};
+  return {formData, fileName, fileType, fileUri};
 }
 
 export {getFormDataImages, getFormDataImage};

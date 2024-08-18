@@ -30,7 +30,7 @@ function useGetSearchInfiniteMoimList(
     getNextPageParam: (lastPage, _) => {
       return lastPage.hasNext ? lastPage.nextCursor : undefined;
     },
-    staleTime: Infinity,
+    staleTime: 3000,
     ...queryOptions,
   });
 }

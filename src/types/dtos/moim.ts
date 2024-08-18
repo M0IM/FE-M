@@ -22,4 +22,15 @@ type TMoimParticipantList = {
   imageUrl: string;
 };
 
-export type {TMoimDTOResponse, TGetMyActiveMoimResponse, TMoimParticipantList};
+type TMoimSearchResultDTO = {
+  moimPreviewList: TMoimDTOResponse[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
+export type {
+  TMoimDTOResponse,
+  TGetMyActiveMoimResponse,
+  TMoimParticipantList,
+  TMoimSearchResultDTO,
+};

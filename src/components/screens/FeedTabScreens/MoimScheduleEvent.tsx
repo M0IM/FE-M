@@ -2,8 +2,8 @@ import {FlatList, View} from 'react-native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
-import {useGetMyProfile} from '../../../hooks/queries/MyScreen/useGetProfile.ts';
-import {useGetPersonalCalendar} from '../../../hooks/queries/CalendarHomeScreen/useGetPersonalCalendar.ts';
+import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
+import {useGetPersonalCalendar} from 'hooks/queries/CalendarHomeScreen/useGetPersonalCalendar.ts';
 import {useState} from 'react';
 
 export default function MoimScheduleEvent() {
@@ -14,7 +14,7 @@ export default function MoimScheduleEvent() {
     isPending,
     isError,
   } = useGetPersonalCalendar({
-    month: new Date().getMonth(),
+    month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),
   });
 

@@ -6,6 +6,7 @@ import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import usePopover from 'hooks/usePopover';
 import { TPostCommentDto } from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
+import { useGetMyProfile } from 'hooks/queries/MyScreen/useGetProfile';
 
 interface PostCommentContainerProps {
     commentData: TPostCommentDto;
@@ -21,6 +22,7 @@ const PostCommentContainer = ({
     handleMoimPostCommentLike
 }: PostCommentContainerProps) => {
     const { isPopover, handlePopover } = usePopover();
+    const { data: userInfo } = useGetMyProfile();
 
     // TODO: 본인이 작성한 글인지 확인 가능해지면 수정
     const PostMenuList = [
@@ -29,11 +31,14 @@ const PostCommentContainer = ({
             onPress: () => console.log(1)          
         },
         {
-            title: '채팅하기',
-            onPress: () => console.log(2)            
-        },
-        {
             title: '차단하기',
+            onPress: () => console.log(3)            
+        },
+    ];
+
+    const PostMyMenuList = [
+        {
+            title: '삭제하기',
             onPress: () => console.log(3)            
         },
     ];
@@ -70,8 +75,8 @@ const PostCommentContainer = ({
                     <PostRecommentContainer recommentData={item} />
                 )}
             />
-            <View className='absolute top-[-160] right-10'>
-                <PopoverMenu menu={PostMenuList} isPopover={isPopover} />
+            <View className='absolute top-[-110] right-10'>
+                <PopoverMenu menu={userInfo?.result.nickname === commentData?.writer ? PostMyMenuList : PostMenuList} isPopover={isPopover} />
             </View>
         </View>
     );

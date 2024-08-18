@@ -1,6 +1,7 @@
 import Avatar from 'components/@common/Avatar/Avatar';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import { Typography } from 'components/@common/Typography/Typography';
+import { useGetMyProfile } from 'hooks/queries/MyScreen/useGetProfile';
 import usePopover from 'hooks/usePopover';
 import { View, Pressable, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,19 +15,23 @@ const PostRecommentContainer = ({
     recommentData
 }: PostRecommentContainerProps) => {
     const { isPopover, handlePopover } = usePopover();
+    const { data: userInfo } = useGetMyProfile();
 
     const PostMenuList = [
         {
             title: '신고하기',
-            onPress: () => {}            
-        },
-        {
-            title: '채팅하기',
-            onPress: () => {}            
+            onPress: () => console.log(1)          
         },
         {
             title: '차단하기',
-            onPress: () => {}            
+            onPress: () => console.log(3)            
+        },
+    ];
+
+    const PostMyMenuList = [
+        {
+            title: '삭제하기',
+            onPress: () => console.log(3)            
         },
     ];
 
@@ -50,8 +55,8 @@ const PostRecommentContainer = ({
                 </View>
                 <Typography fontWeight='MEDIUM' className='text-dark-800 text-sm mt-3 pl-1'>{recommentData.content}</Typography>
                 <Typography fontWeight='MEDIUM' className='text-gray-300 text-sm ml-auto'>좋아요 {recommentData.likeCount}</Typography>
-                <View className='absolute top-[-140] right-10 z-[10000]'>
-                    <PopoverMenu menu={PostMenuList} isPopover={isPopover} />
+                <View className='absolute top-[-100] right-7 z-[10000]'>
+                    <PopoverMenu menu={userInfo?.result.nickname === recommentData.writer ? PostMyMenuList : PostMenuList} isPopover={isPopover} />
                 </View>
             </View>
         </TouchableWithoutFeedback>

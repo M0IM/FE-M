@@ -16,4 +16,10 @@ type TGetMyActiveMoimResponse = {
   hasNext: boolean;
 };
 
-export type {TMoimDTOResponse, TGetMyActiveMoimResponse};
+type TMoimParticipantList = {
+  userId: number;
+  nickname: string;
+  imageUrl: string;
+};
+
+export type {TMoimDTOResponse, TGetMyActiveMoimResponse, TMoimParticipantList};

@@ -10,7 +10,11 @@ interface ICalendarEventProps extends PressableProps {
   post: TMoimPlanListDTO;
 }
 
-export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
+export function PlanCalendarEvent({
+  post,
+
+  ...props
+}: ICalendarEventProps) {
   const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const platform = Platform.OS;
 
@@ -19,7 +23,7 @@ export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
       {...props}
       onPress={() =>
         navigation.navigate('MOIM_PLAN_DETAIL', {
-          id: post.planId,
+          planId: post.planId,
         })
       }
       className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"

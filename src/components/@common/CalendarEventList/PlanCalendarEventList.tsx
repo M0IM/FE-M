@@ -7,10 +7,14 @@ import {TMoimPlanListDTO} from 'types/dtos/calendar.ts';
 import {Typography} from '../Typography/Typography.tsx';
 
 interface IPlanCalendarEventListProps {
+  moimId?: number;
   posts: TMoimPlanListDTO[];
 }
 
-export function PlanCalendarEventList({posts}: IPlanCalendarEventListProps) {
+export function PlanCalendarEventList({
+  posts,
+  moimId,
+}: IPlanCalendarEventListProps) {
   const {bottom} = useSafeAreaInsets();
 
   if (!posts) {
@@ -29,7 +33,7 @@ export function PlanCalendarEventList({posts}: IPlanCalendarEventListProps) {
         }}
         className="p-4 items-center justify-center">
         {posts?.map(post => (
-          <PlanCalendarEvent key={post.planId} post={post} />
+          <PlanCalendarEvent key={post.planId} post={post} moimId={moimId} />
         ))}
       </View>
     </ScrollView>

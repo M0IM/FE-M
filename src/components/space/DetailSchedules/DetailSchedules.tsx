@@ -22,10 +22,10 @@ const DetailSchedules = ({
   return (
     <View className="flex flex-row">
       <View className="w-[4px] h-full rounded-md bg-main mr-5" />
-      <View>
+      <View className="flex-col gap-y-4">
         {(type === 'full' ? detailSchedules : scheduleList).map(
           (item, index) => (
-            <View key={index} className="flex flex-row mb-3">
+            <View key={index} className="flex flex-row">
               <Typography
                 fontWeight="MEDIUM"
                 className="text-gray-500 text-xs mr-5">

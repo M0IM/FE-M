@@ -30,7 +30,6 @@ export default function MoimTopTabNavigator({
       <Tab.Screen
         name={'MOIM_TOP_PLAN'}
         component={MoimPlanStackNavigator}
-        initialParams={{id}}
         options={{
           tabBarLabel: '일정',
         }}

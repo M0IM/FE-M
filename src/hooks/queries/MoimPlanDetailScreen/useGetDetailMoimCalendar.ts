@@ -1,8 +1,8 @@
 import {keepPreviousData, useQuery} from '@tanstack/react-query';
 
-import {getDetailMoimCalendar} from 'apis';
-import {UseQueryCustomOptions} from 'types/mutations/common.ts';
-import {TDetailMoimCalendarDTO} from 'types/dtos/calendar.ts';
+import {getDetailMoimCalendar} from '../../../apis';
+import {UseQueryCustomOptions} from '../../../types/mutations/common.ts';
+import {TDetailMoimCalendarDTO} from '../../../types/dtos/calendar.ts';
 
 type TUseGetDetailMoimCalendarProps = {
   moimId: number;

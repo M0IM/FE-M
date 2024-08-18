@@ -1,10 +1,10 @@
 import {useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import {CompositeNavigationProp} from '@react-navigation/native';
 
-import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
 import {PlanCalendarEventList} from 'components/@common/CalendarEventList/PlanCalendarEventList.tsx';
+import {MoimCalendar} from 'components/calendar/Calendar/MoimCalendar.tsx';
 
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {
@@ -13,8 +13,6 @@ import {
   MoimStackNavigationProp,
 } from 'navigators/types';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
-import {MoimCalendar} from '../../components/calendar/Calendar/MoimCalendar.tsx';
-import {TCalendarMoimPlanDTO} from '../../types/dtos/calendar.ts';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
@@ -51,18 +49,19 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
     setSelectedDate(date);
   };
 
-  console.log(posts);
-
   return (
     <SafeAreaView className={'bg-white flex-1'}>
-      <MoimCalendar<TCalendarMoimPlanDTO>
+      <MoimCalendar
         monthYear={monthYear}
         schedules={posts}
         onChangeMonth={handleUpdateMonth}
         selectedDate={selectedDate}
         onPressDate={handlePressDate}
       />
-      <PlanCalendarEventList posts={posts[selectedDate]?.planList} />
+      <PlanCalendarEventList
+        moimId={moimId}
+        posts={posts[selectedDate]?.planList}
+      />
       <FloatingButton
         type={'add'}
         onPress={() => {

@@ -17,7 +17,7 @@ export function ActiveMoimCard({
   navigation,
   ...props
 }: IActiveMoimCardProps) {
-  console.log(moim.moimId);
+  console.log(moim?.moimId);
   return (
     <Pressable
       {...props}
@@ -25,12 +25,12 @@ export function ActiveMoimCard({
         navigation.navigate('MOIM_STACK', {
           screen: 'MOIM_SPACE',
           params: {
-            id: moim.moimId,
+            id: moim?.moimId,
           },
         })
       }
       className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg">
-      {moim.profileImage ? (
+      {moim?.profileImage ? (
         <Image
           source={{uri: moim.profileImage}}
           width={55}
@@ -47,26 +47,26 @@ export function ActiveMoimCard({
           fontWeight="BOLD"
           className="text-dark-800 text-base w-[300]"
           numberOfLines={1}>
-          {moim.title}
+          {moim?.title}
         </Typography>
         <Typography
           fontWeight="BOLD"
           className="text-gray-400 text-xs w-[300]"
           numberOfLines={1}>
-          {moim.description}
+          {moim?.description}
         </Typography>
         <View className="flex flex-row gap-2">
           <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-            {moim.category}
+            {moim?.category}
           </Typography>
           <Typography
             fontWeight="LIGHT"
             className="text-gray-500 text-xs"
             numberOfLines={1}>
-            {moim.address}
+            {moim?.address}
           </Typography>
           <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-            참여 인원 {moim.memberCount}명
+            참여 인원 {moim?.memberCount}명
           </Typography>
         </View>
       </View>

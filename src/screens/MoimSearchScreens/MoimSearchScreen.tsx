@@ -7,6 +7,7 @@ import {Typography} from 'components/@common/Typography/Typography';
 import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard';
 import {ScreenContainer} from 'components/ScreenContainer';
 import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
+import useDebounce from '../../hooks/useDebounce.ts';
 
 const ActiveMoimData = [
   {
@@ -30,14 +31,15 @@ const ActiveMoimData = [
 const MoimSearchScreen = () => {
   const [value, setValue] = useState('');
   const [select, setSelect] = useState('');
+  const debouncedValue = useDebounce(value, 300);
 
   const handleSelect = (selectItem: string) => {
     setSelect(selectItem);
   };
 
   const handleSearch = () => {
-    if (value) {
-      console.log(value);
+    if (debouncedValue) {
+      console.log(debouncedValue);
     }
   };
 
@@ -81,7 +83,7 @@ const MoimSearchScreen = () => {
         <View className="flex flex-col">
           <View className="flex flex-row items-center gap-x-2">
             <Typography fontWeight="BOLD" className="text-dark-800 text-base">
-              {value} 검색 결과
+              {debouncedValue} 검색 결과
             </Typography>
             <Typography fontWeight="MEDIUM" className="text-gray-400 text-xs">
               (3)

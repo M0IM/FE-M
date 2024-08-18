@@ -2,6 +2,7 @@ import { FlatList, KeyboardAvoidingView, Platform, TouchableOpacity } from 'reac
 import { View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from 'react';
+import Toast from 'react-native-toast-message';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import usePopover from 'hooks/usePopover';
 import { InputField } from 'components/@common/InputField/InputField';
@@ -26,7 +27,7 @@ interface MoimPostDetailScreenProps {
 const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) => {
     const { id, postId } = route.params;
     const { isPopover, handlePopover } = usePopover();
-    const { useGetMoimPostDetail, useGetInfiniteMoimPostComment } = usePost();
+    const { useGetMoimPostDetail, useGetInfiniteMoimPostComment, postWriteCommentMutation } = usePost();
     const { data, isPending, isError } = useGetMoimPostDetail(id, postId);
     const { 
         data: comments,
@@ -36,7 +37,8 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         refetch
     } = useGetInfiniteMoimPostComment(id, postId);
     const [isRefreshing, setIsRefreshing] = useState(false);
-
+    const [comment, setComment] = useState('');
+    const [recomment, setRecomment] = useState('');
 
     const handleEndReached = () => {
         if (hasNextPage && !isFetchingNextPage) {
@@ -44,11 +46,34 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         }
       };
     
-      const handleRefresh = async () => {
+    const handleRefresh = async () => {
         setIsRefreshing(true);
         await refetch();
         setIsRefreshing(false);
-      };
+    };
+
+    const handleWriteComment = () => {
+        if (id && postId && comment) {
+            postWriteCommentMutation.mutate({
+                moimId: id,
+                postId: postId,
+                content: comment
+            }, {
+                onSuccess: data => {
+                    console.log(data);
+                    refetch();
+                },
+                onError: error => {
+                    Toast.show({
+                        type: 'error',
+                        text1: error?.response?.data.message || '댓글 작성 중 에러가 발생했습니다.',
+                        visibilityTime: 2000,
+                        position: 'bottom',
+                    });
+                }
+            });
+        }
+    };
 
     if (isPending) {
         return <Typography fontWeight='BOLD' className=''>로딩 중</Typography>;
@@ -126,9 +151,9 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
 
             <View className='items-center justify-between flex-row p-3'>
                 <View className='w-[90%]'>
-                    <InputField className='flex-3' placeholder='댓글을 입력해주세요.' touched />
+                    <InputField value={comment} onChangeText={text => setComment(text)} className='flex-3' placeholder='댓글을 입력해주세요.' touched />
                 </View>
-                <TouchableOpacity className='m-3'>
+                <TouchableOpacity className='m-3' onPress={handleWriteComment}>
                     <Ionicons name="send" size={25} color={'#00F0A1'} style={{ transform: [{ rotate: '-45deg' }] }} />
                 </TouchableOpacity>
             </View>

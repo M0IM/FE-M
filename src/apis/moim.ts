@@ -28,6 +28,10 @@ const getDetailMoimParticipantsList = async ({
     `/api/v1/moim/${moimId}/plan/${planId}/participants?page=${page}&size=5`,
   );
 
+  console.log(
+    `/api/v1/moim/${moimId}/plan/${planId}/participants?page=${page}&size=5`,
+  );
+
   return data.result.planParticipantList;
 };
 

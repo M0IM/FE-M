@@ -35,8 +35,6 @@ export default function ParticipantList({
     setIsRefreshing(false);
   };
 
-  console.log();
-
   return (
     <SafeAreaView>
       <Typography className="text-lg mb-3" fontWeight={'BOLD'}>

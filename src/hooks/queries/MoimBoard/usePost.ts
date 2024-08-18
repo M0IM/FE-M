@@ -1,5 +1,5 @@
 import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
-import { getMoimPostComments, getMoimPostDetail, getMoimPostList, likeMoimPost, writeMoimPost, writeMoimPostComment, writeMoimPostRecomment } from "apis/post";
+import { getMoimPostComments, getMoimPostDetail, getMoimPostList, likeMoimPost, likeMoimPostComment, writeMoimPost, writeMoimPostComment, writeMoimPostRecomment } from "apis/post";
 import { POST_LIST_TYPE, TPostCommentListDto, TPostListDto } from "types/dtos/post";
 import { ResponseError, UseMutationCustomOptions } from "types/mutations/common";
 
@@ -120,18 +120,33 @@ function useLikeMoimPost(mutationOptions?: UseMutationCustomOptions) {
     });
 }
 
+function useLikeMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
+    return useMutation({
+        mutationFn: likeMoimPostComment,
+        onSuccess: data => {
+            console.log(data);
+        },
+        onError: error => {
+            console.error(error);
+        },
+        ...mutationOptions
+    });
+}
+
 
 function usePost() {
     const moimPostMutation = useMoimPost();
     const postWriteCommentMutation = useWriteMoimPostComment();
     const postWriteRecommentMutation = useWriteMoimPostRecomment();
     const likeMoimPostMutation = useLikeMoimPost();
+    const likeMoimPostCommentMutation = useLikeMoimPostComment();
 
     return {
         moimPostMutation,
         postWriteCommentMutation,
         postWriteRecommentMutation,
         likeMoimPostMutation,
+        likeMoimPostCommentMutation,
         useGetInfiniteMoimPostList,
         useGetInfiniteMoimPostComment,
         useGetMoimPostDetail,

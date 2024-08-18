@@ -11,12 +11,14 @@ interface PostCommentContainerProps {
     commentData: TPostCommentDto;
     handleUpdateCommentId: (commentId: any) => void;
     targetCommentId?: number | null;
+    handleMoimPostCommentLike: (commentId: any) => void;
 }
 
 const PostCommentContainer = ({
     commentData,
     handleUpdateCommentId,
-    targetCommentId
+    targetCommentId,
+    handleMoimPostCommentLike
 }: PostCommentContainerProps) => {
     const { isPopover, handlePopover } = usePopover();
 
@@ -52,8 +54,10 @@ const PostCommentContainer = ({
                         <Pressable onPress={() => handleUpdateCommentId(commentData.commentId)}>
                             <Ionicons name='chatbubble-outline' size={15} color={'#C9CCD1'} />
                         </Pressable>
-                        <Pressable>
-                            <Ionicons name='heart' size={15} color={'#00F0A1'} />
+                        <Pressable onPress={() => handleMoimPostCommentLike(commentData.commentId)}>
+                            {commentData.isLike ? <Ionicons name='heart' size={15} color={'#00F0A1'} /> :
+                                <Ionicons name='heart-outline' size={15} color={'#C9CCD1'} />
+                            }
                         </Pressable>
                     </View>
                 </View>

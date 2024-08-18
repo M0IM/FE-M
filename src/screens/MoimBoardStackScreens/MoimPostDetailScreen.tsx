@@ -33,7 +33,8 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         useGetInfiniteMoimPostComment,
         postWriteCommentMutation,
         postWriteRecommentMutation,
-        likeMoimPostMutation
+        likeMoimPostMutation,
+        likeMoimPostCommentMutation
     } = usePost();
     const { data, isPending, isError, refetch: postRefetch } = useGetMoimPostDetail(id, postId);
     const { 
@@ -127,7 +128,26 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
                 console.error(error);
                 Toast.show({
                     type: 'error',
-                    text1: error?.response?.data.message || '대댓글 좋아요 중 에러가 발생했습니다.',
+                    text1: error?.response?.data.message || '게시글 좋아요 중 에러가 발생했습니다.',
+                    visibilityTime: 2000,
+                    position: 'bottom',
+                });
+            }
+        });
+    };
+
+    const handleMoimPostCommentLike = (commentId: number) => {
+        likeMoimPostCommentMutation.mutate({
+            commentId
+        },{
+            onSuccess: () => {
+                refetch();
+            },
+            onError: error => {
+                console.error(error);
+                Toast.show({
+                    type: 'error',
+                    text1: error?.response?.data.message || '댓글 좋아요 중 에러가 발생했습니다.',
                     visibilityTime: 2000,
                     position: 'bottom',
                 });
@@ -178,7 +198,12 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
                         <FlatList 
                             data={item.moimPreviewList}
                             renderItem={({item}) => (
-                                <PostCommentContainer targetCommentId={commentId} handleUpdateCommentId={handleUpdateCommentId} commentData={item} />
+                                <PostCommentContainer
+                                    targetCommentId={commentId}
+                                    handleUpdateCommentId={handleUpdateCommentId}
+                                    commentData={item}
+                                    handleMoimPostCommentLike={handleMoimPostCommentLike}
+                                />
                             )}
                         />
                     )}

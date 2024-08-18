@@ -1,8 +1,6 @@
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
-import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import { Typography } from 'components/@common/Typography/Typography';
 import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPostPreview';
-import usePopover from 'hooks/usePopover';
 import { MoimPostStackNavigationProp, MoimPostStackRouteProp } from 'navigators/types';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
@@ -24,40 +22,11 @@ interface MoimBoardScreenProps {
 
 const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
   const [isSelected, setIsSelected] = useState<BoardTitle>('ALL');
-  const { isPopover, handlePopover } = usePopover();
   console.log('board route', route);
 
   const handleSelect = (selectMenu: BoardTitle) => {
     setIsSelected(selectMenu);
   };
-
-  const MENU_LIST = [
-    {
-      id: 0,
-      title: BOARD_TITLES[0].label,
-      onPress: () => navigation.navigate('MOIM_POST_WRITE'),
-    },
-    {
-      id: 1,
-      title: BOARD_TITLES[1].label,
-      onPress: () => console.log(BOARD_TITLES[1].label),
-    },
-    {
-      id: 2,
-      title: BOARD_TITLES[2].label,
-      onPress: () => console.log(BOARD_TITLES[2].label),
-    },
-    {
-      id: 3,
-      title: BOARD_TITLES[3].label,
-      onPress: () => console.log(BOARD_TITLES[3].label),
-    },
-    {
-      id: 4,
-      title: BOARD_TITLES[4].label,
-      onPress: () => console.log(BOARD_TITLES[4].label),
-    },
-  ];
 
   return (
     <>
@@ -75,10 +44,7 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
         ))}
       </View>
       <BoardPostPreview navigation={navigation} />
-      <FloatingButton type='add' onPress={handlePopover} />
-      <View className='w-[120px] absolute bottom-28 right-5'>
-        <PopoverMenu menu={MENU_LIST} isPopover={isPopover} />
-      </View>
+      <FloatingButton type='add' onPress={() => navigation.navigate('MOIM_POST_WRITE', { id: route.params.id })} />
     </>
   );
 };

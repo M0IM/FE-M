@@ -5,10 +5,10 @@ import { Typography } from '../Typography/Typography';
 
 interface CustomDropdownProps extends TouchableOpacityProps {
     isPressed: boolean;
-    selectedMenu: string;
+    selectedMenu: any;
     placeholder?: string;
-    menuList: string[];
-    handleSelect: Function;
+    menuList: any[];
+    handleSelect: (item: any) => void;
     height?: number;
 }
 
@@ -48,7 +48,7 @@ const CustomDropdown = ({
                     fontWeight='MEDIUM' 
                     className={selectedMenu ? 'text-dark-800' : 'text-gray-500'}
                 >
-                    {selectedMenu ? selectedMenu : placeholder }
+                    {selectedMenu ? selectedMenu.label : placeholder }
                 </Typography>
                 <Ionicons name="chevron-expand" style={{marginLeft: 'auto'}} size={15} color={'#535353'} />
             </TouchableOpacity>

@@ -1,4 +1,4 @@
-enum POST_TYPE {
+export enum POST_TYPE {
     ANNOUNCEMENT = '공지사항',
     REVIEW = '활동 후기',
     WELCOME = '가입 인사',

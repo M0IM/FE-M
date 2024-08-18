@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const useDropdown = () => {
     const [isPressed, setIsPressed] = useState(false);
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState(null);
   
     const handleSelectedCategory = (selected: any) => {
       setCategory(selected);

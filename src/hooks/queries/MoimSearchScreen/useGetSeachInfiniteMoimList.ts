@@ -12,7 +12,7 @@ import {MOIM_REQUEST_TYPE} from 'types/enums';
 
 function useGetSearchInfiniteMoimList(
   name: string,
-  moimRequestType: MOIM_REQUEST_TYPE,
+  moimRequestType: MOIM_REQUEST_TYPE | null,
   queryOptions?: UseInfiniteQueryOptions<
     TMoimSearchResultDTO,
     ResponseError,
@@ -25,7 +25,7 @@ function useGetSearchInfiniteMoimList(
   return useSuspenseInfiniteQuery({
     queryFn: ({pageParam}) =>
       getSearchMoimList(pageParam, moimRequestType, name),
-    queryKey: ['searchMoim', name],
+    queryKey: ['searchMoim', name, moimRequestType],
     initialPageParam: 1,
     getNextPageParam: (lastPage, _) => {
       return lastPage.hasNext ? lastPage.nextCursor : undefined;

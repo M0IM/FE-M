@@ -3,6 +3,7 @@ import {
   TCalendarMoimResponse,
   TCalendarPersonalResponse,
   TDetailMoimCalendarDTO,
+  TPostDetailMoimCalendarDTO,
 } from 'types/dtos/calendar.ts';
 
 export type TCalndarProps = {
@@ -50,4 +51,31 @@ const getDetailMoimCalendar = async ({
   return data.result;
 };
 
-export {getMoimCalendar, getPersonalCalendar, getDetailMoimCalendar};
+const postDetailMoimCalendar = async ({
+  moimId,
+  title,
+  date,
+  location,
+  locationDetail,
+  cost,
+  schedules,
+}: TPostDetailMoimCalendarDTO) => {
+  const {data} = await axiosInstance.post(`/api/v1/moim/${moimId}/calender`, {
+    moimId,
+    title,
+    date,
+    location,
+    locationDetail,
+    cost,
+    schedules,
+  });
+
+  return data.result;
+};
+
+export {
+  getMoimCalendar,
+  getPersonalCalendar,
+  getDetailMoimCalendar,
+  postDetailMoimCalendar,
+};

@@ -1,31 +1,33 @@
 import {TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+
 import {MoimStackParamList} from 'navigators/types';
-import AddPostHeaderRight from './AddPostHeaderRight.tsx';
 import {StackNavigationProp} from '@react-navigation/stack';
+
+import {CustomButton} from '../@common/CustomButton/CustomButton.tsx';
+import {DatePickerOption} from '../@common/DatePickerOption/DatePickerOption.tsx';
+import {TimePickerOption} from '../@common/TimePickerOption/TimePickerOption.tsx';
+import AddPostHeaderRight from './AddPostHeaderRight.tsx';
 import {ScreenContainer} from '../ScreenContainer.tsx';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import {InputField} from '../@common/InputField/InputField.tsx';
-import useForm from '../../hooks/useForm.ts';
+import ScheduleEditEvent from '../screens/MoimWriteScreen/ScheduleEditEvent.tsx';
+import ScheduleEvent from '../screens/MoimWriteScreen/ScheduleEvent.tsx';
+import Octicons from 'react-native-vector-icons/Octicons';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import useForm from 'hooks/useForm.ts';
 import {
   formatTime,
   getDateWithSeparator,
   parseTimeStringToDate,
   validateAddMoimPosts,
 } from 'utils';
-import {CustomButton} from '../@common/CustomButton/CustomButton.tsx';
-import useModal from '../../hooks/useModal.ts';
-import {DatePickerOption} from '../@common/DatePickerOption/DatePickerOption.tsx';
-import {TimePickerOption} from '../@common/TimePickerOption/TimePickerOption.tsx'; // Import the TimePickerOption
-import Octicons from 'react-native-vector-icons/Octicons';
-import IonIcons from 'react-native-vector-icons/Ionicons';
-import ScheduleEditEvent from '../screens/MoimWriteScreen/ScheduleEditEvent.tsx';
-import ScheduleEvent from '../screens/MoimWriteScreen/ScheduleEvent.tsx';
-import usePermission from '../../hooks/usePermission.ts';
+import useModal from 'hooks/useModal.ts';
+import usePostDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/usePostDetailMoimCalendar.ts';
 
 interface IPostForm {
-  moimId?: number;
+  moimId: number;
 }
 
 type TNavigationProps = StackNavigationProp<MoimStackParamList, 'MOIM_WRITE'>;
@@ -56,23 +58,34 @@ export default function PostForm({moimId}: IPostForm) {
     validate: validateAddMoimPosts,
   });
 
+  const {mutate} = usePostDetailMoimCalendar();
+
   const handleSubmit = () => {
-    console.log({
-      moimId,
-      title: addPost.values.title,
-      date,
-      location: '주소나중에 추가됨',
-      locationDetail: addPost.values.locationDetail,
-      startTime: selectedTime,
-      cost: addPost.values.cost,
-      schedules: schedules.map(schedule => {
-        const dateObject = parseTimeStringToDate(schedule.startTime);
-        return {
-          ...schedule,
-          startTime: dateObject.toISOString(),
-        };
-      }),
-    });
+    mutate(
+      {
+        moimId,
+        title: addPost.values.title,
+        date,
+        // TODO: 지역 API 추가시, SelectBox 형태로 추가하기.
+        location: '주소나중에 추가됨',
+        locationDetail: addPost.values.locationDetail,
+        startTime: selectedTime,
+        cost: addPost.values.cost,
+        schedules: schedules.map(schedule => {
+          const dateObject = parseTimeStringToDate(schedule.startTime);
+          return {
+            ...schedule,
+            startTime: dateObject.toISOString(),
+          };
+        }),
+      },
+      {
+        onSuccess: () => {
+          // TODO: 글 작성 후 해당 게시글로 돌아갈지, 아니면 뒤로가기 할 시 상의 후 설정하기.
+          navigation.goBack();
+        },
+      },
+    );
   };
 
   const handleChangeDate = (pickedDate: Date) => {

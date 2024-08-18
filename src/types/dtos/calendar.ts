@@ -40,10 +40,21 @@ type TDetailMoimCalendarDTO = {
   isParticipant: boolean;
 };
 
+type TPostDetailMoimCalendarDTO = {
+  moimId: number;
+  title: string;
+  date: Date;
+  location: string;
+  locationDetail: string;
+  cost: number;
+  schedules: TScheduleDTO[];
+};
+
 export type {
   TPlanListDTO,
   TMoimPlanListDTO,
   TCalendarPersonalResponse,
   TCalendarMoimResponse,
   TDetailMoimCalendarDTO,
+  TPostDetailMoimCalendarDTO,
 };

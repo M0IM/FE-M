@@ -1,28 +1,19 @@
 import {Image, Pressable, PressableProps, View} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {Typography} from '../@common/Typography/Typography.tsx';
+
 import {HomeStackNavigationProp} from 'navigators/types';
+import {TMoimDTOResponse} from 'types/dtos/moim.ts';
 
 interface IActiveMoimCardProps extends PressableProps {
-  id: string;
-  spaceImg?: string;
-  title: string;
-  subTitle: string;
-  region: string;
-  category: string;
-  memberCount: number;
-  navigation: HomeStackNavigationProp
+  moim: TMoimDTOResponse;
+  navigation: HomeStackNavigationProp;
 }
 
 export function ActiveMoimCard({
-  id,
-  spaceImg,
-  title,
-  subTitle,
-  category,
-  region,
-  memberCount,
+  moim,
   navigation,
   ...props
 }: IActiveMoimCardProps) {
@@ -33,14 +24,14 @@ export function ActiveMoimCard({
         navigation.navigate('MOIM_STACK', {
           screen: 'MOIM_SPACE',
           params: {
-            id: Number(id)
+            id: moim.moimId,
           },
         })
       }
       className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg">
-      {spaceImg ? (
+      {moim.profileImage ? (
         <Image
-          source={{uri: spaceImg}}
+          source={{uri: moim.profileImage}}
           width={55}
           height={55}
           className="rounded-lg"
@@ -55,26 +46,26 @@ export function ActiveMoimCard({
           fontWeight="BOLD"
           className="text-dark-800 text-base w-[300]"
           numberOfLines={1}>
-          {title}
+          {moim.title}
         </Typography>
         <Typography
           fontWeight="BOLD"
           className="text-gray-400 text-xs w-[300]"
           numberOfLines={1}>
-          {subTitle}
+          {moim.description}
         </Typography>
         <View className="flex flex-row gap-2">
           <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-            {category}
+            {moim.category}
           </Typography>
           <Typography
             fontWeight="LIGHT"
             className="text-gray-500 text-xs"
             numberOfLines={1}>
-            {region}
+            {moim.address}
           </Typography>
           <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-            참여 인원 {memberCount}명
+            참여 인원 {moim.memberCount}명
           </Typography>
         </View>
       </View>

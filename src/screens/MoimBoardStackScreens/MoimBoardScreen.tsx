@@ -68,7 +68,7 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
           <FlatList 
             data={item.moimPreviewList}
             renderItem={({item}) => (
-              <BoardPostPreview postPreview={item} navigation={navigation} />
+              <BoardPostPreview moimId={route?.params.id} postPreview={item} navigation={navigation} />
             )}
             ItemSeparatorComponent={() => <View className='h-3' />}
             keyExtractor={item => String(item?.moimPostId)}

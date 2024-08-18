@@ -91,8 +91,7 @@ const getMoimPostDetail = async ({
     postId
 }: TMoimPostDetailParams): Promise<TPostDetailDto> => {
     const { data } = await axiosInstance.get(`/api/v1/moims/${moimId}/posts/${postId}`);
-    console.log(data);
-    return data;
+    return data?.result;
 };
 
 const getMoimPostComments = async ({
@@ -102,8 +101,7 @@ const getMoimPostComments = async ({
     take
 }: TMoimPostCommentsParams): Promise<TPostCommentListDto> => {
     const { data } = await axiosInstance.get(`/api/v1/moims/${moimId}/posts/${postId}/comments?cursor=${cursor}&take=${take}`);
-    console.log(data);
-    return data;
+    return data.result;
 };
 
 export {

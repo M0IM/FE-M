@@ -106,7 +106,10 @@ export type MoimPlanStackParamList = {
 
 export type MoimPostStackParamList = {
   MOIM_BOARD_HOME: {id: number | undefined};
-  MOIM_POST_DETAIL: {id: number};
+  MOIM_POST_DETAIL: {
+    id: number | undefined,
+    postId: number | undefined
+  };
   MOIM_POST_WRITE: {id: number | undefined};
   MOIM_POST_EDIT: {id: number | undefined};
 };

@@ -45,7 +45,7 @@ type TPostDetailDto = {
     createAt: string;
 }
 
-type TPostRecommentDto = {
+export type TPostRecommentDto = {
     commentId: number;
     content: string;
     likeCount: number;
@@ -56,7 +56,7 @@ type TPostRecommentDto = {
     createAt: string; 
 }
 
-type TPostCommentDto = {
+export type TPostCommentDto = {
     commentId: number;
     content: string;
     likeCount: number;
@@ -125,5 +125,5 @@ export type {
     TPostListDto,
     TPostDetailDto,
     TPostCommentListDto,
-    TMoimPreviewListDto
+    TMoimPreviewListDto,
 };

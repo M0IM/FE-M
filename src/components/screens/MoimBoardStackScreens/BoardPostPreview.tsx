@@ -8,18 +8,27 @@ import { MoimPostStackNavigationProp } from 'navigators/types';
 import { TMoimPreviewListDto } from 'types/dtos/post';
 
 interface BoardPostPreviewProps {
+  moimId: number | undefined;
   postPreview: TMoimPreviewListDto;
   navigation: MoimPostStackNavigationProp
 }
 
 const BoardPostPreview = ({
+  moimId,
   navigation,
   postPreview
 }: BoardPostPreviewProps) => {
   const postTypeLabel = POST_TYPES.find(type => type.key === postPreview.postType)?.label;
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('MOIM_POST_DETAIL', {id: 1})} activeOpacity={0.8} className='flex flex-col border-gray-200 border-[0.5px] p-4 rounded-lg'>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('MOIM_POST_DETAIL', {
+        id: moimId,
+        postId: postPreview.moimPostId
+      })}
+      activeOpacity={0.8}
+      className='flex flex-col border-gray-200 border-[0.5px] p-4 rounded-lg'
+    >
       <View className='flex flex-row items-center'>
         <Avatar size='XS' />
         <Typography fontWeight='MEDIUM' className='text-dark-800 text-xs ml-2'>{postPreview.writer}</Typography>

@@ -8,11 +8,15 @@ import { TPostCommentDto } from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
 
 interface PostCommentContainerProps {
-    commentData: TPostCommentDto
+    commentData: TPostCommentDto;
+    handleUpdateCommentId: (commentId: any) => void;
+    targetCommentId?: number | null;
 }
 
 const PostCommentContainer = ({
-    commentData
+    commentData,
+    handleUpdateCommentId,
+    targetCommentId
 }: PostCommentContainerProps) => {
     const { isPopover, handlePopover } = usePopover();
 
@@ -34,7 +38,7 @@ const PostCommentContainer = ({
 
     return (
         <View className='flex flex-col my-2'>
-            <View className='flex flex-col border-b-[0.5px] border-gray-200 pb-4'>
+            <View className='flex flex-col border-b-[0.5px] border-gray-200 pb-4' style={{ backgroundColor: targetCommentId === commentData.commentId ? 'rgba(255, 0, 0, 0.4)' : 'white' }}>
                 <View className='flex flex-row items-center'>
                     <Avatar size='XS' uri={commentData?.profileImage} />
                     <View className='flex flex-col justify-center ml-2'>
@@ -45,7 +49,7 @@ const PostCommentContainer = ({
                         <Pressable onPress={handlePopover}>
                             <Ionicons name='ellipsis-vertical' size={15} color={'#C9CCD1'} />
                         </Pressable>
-                        <Pressable>
+                        <Pressable onPress={() => handleUpdateCommentId(commentData.commentId)}>
                             <Ionicons name='chatbubble-outline' size={15} color={'#C9CCD1'} />
                         </Pressable>
                         <Pressable>

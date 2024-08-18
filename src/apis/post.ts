@@ -64,8 +64,7 @@ const writeMoimPostRecomment = async ({
         postId,
         content
     });
-    console.log(data);
-    return data;
+    return data?.result;
 };
 
 const likeMoimPostComment = async ({commentId}: {commentId: number}) => {

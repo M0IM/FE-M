@@ -27,7 +27,12 @@ interface MoimPostDetailScreenProps {
 const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) => {
     const { id, postId } = route.params;
     const { isPopover, handlePopover } = usePopover();
-    const { useGetMoimPostDetail, useGetInfiniteMoimPostComment, postWriteCommentMutation } = usePost();
+    const {
+        useGetMoimPostDetail, 
+        useGetInfiniteMoimPostComment,
+        postWriteCommentMutation,
+        postWriteRecommentMutation
+    } = usePost();
     const { data, isPending, isError } = useGetMoimPostDetail(id, postId);
     const { 
         data: comments,
@@ -39,6 +44,7 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
+    const [commentId, setCommentId] = useState(null);
 
     const handleEndReached = () => {
         if (hasNextPage && !isFetchingNextPage) {
@@ -52,6 +58,10 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         setIsRefreshing(false);
     };
 
+    const handleUpdateCommentId = (commentId: any) => {
+        setCommentId(commentId);
+    };
+
     const handleWriteComment = () => {
         if (id && postId && comment) {
             postWriteCommentMutation.mutate({
@@ -62,11 +72,39 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
                 onSuccess: data => {
                     console.log(data);
                     refetch();
+                    setComment('');
                 },
                 onError: error => {
                     Toast.show({
                         type: 'error',
                         text1: error?.response?.data.message || '댓글 작성 중 에러가 발생했습니다.',
+                        visibilityTime: 2000,
+                        position: 'bottom',
+                    });
+                }
+            });
+        }
+    };
+
+    const handleWriteRecomment = () => {
+        if (id && postId && recomment && commentId) {
+            postWriteRecommentMutation.mutate({
+                moimId: id,
+                commentId: commentId,
+                postId: postId,
+                content: recomment
+            },{
+                onSuccess: data => {
+                    console.log(data);
+                    refetch();
+                    setRecomment('');
+                    handleUpdateCommentId(null);
+                },
+                onError: error => {
+                    console.error(error);
+                    Toast.show({
+                        type: 'error',
+                        text1: error?.response?.data.message || '대댓글 작성 중 에러가 발생했습니다.',
                         visibilityTime: 2000,
                         position: 'bottom',
                     });
@@ -117,7 +155,7 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
                         <FlatList 
                             data={item.moimPreviewList}
                             renderItem={({item}) => (
-                                <PostCommentContainer commentData={item} />
+                                <PostCommentContainer targetCommentId={commentId} handleUpdateCommentId={handleUpdateCommentId} commentData={item} />
                             )}
                         />
                     )}
@@ -151,9 +189,9 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
 
             <View className='items-center justify-between flex-row p-3'>
                 <View className='w-[90%]'>
-                    <InputField value={comment} onChangeText={text => setComment(text)} className='flex-3' placeholder='댓글을 입력해주세요.' touched />
+                    <InputField value={commentId ? recomment : comment} onChangeText={text => commentId ? setRecomment(text) : setComment(text)} className='flex-3' placeholder='댓글을 입력해주세요.' touched />
                 </View>
-                <TouchableOpacity className='m-3' onPress={handleWriteComment}>
+                <TouchableOpacity className='m-3' onPress={commentId ? handleWriteRecomment : handleWriteComment}>
                     <Ionicons name="send" size={25} color={'#00F0A1'} style={{ transform: [{ rotate: '-45deg' }] }} />
                 </TouchableOpacity>
             </View>

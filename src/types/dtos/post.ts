@@ -5,6 +5,8 @@ export enum POST_TYPE {
     FREE = '자유'
 }
 
+export type POST_LIST_TYPE = "ALL" | "ANNOUNCEMENT" | "REVIEW" | "WELCOME" | "FREE"
+
 type TPostDto = {
     moimPostId: number;
     createAt: string;
@@ -19,7 +21,7 @@ type TMoimPreviewListDto = {
     writer: string;
     commentCount: number;
     likeCount: number;
-    postType: POST_TYPE;
+    postType: POST_LIST_TYPE;
     createAt: string;
 }
 
@@ -95,7 +97,7 @@ type TMoimPostRecommentParams = {
 
 type TMoimPostListParams = {
     moimId: number;
-    postType: POST_TYPE;
+    postType: POST_LIST_TYPE;
     cursor: number;
     take: number;
 }
@@ -122,5 +124,6 @@ export type {
     TPostDto,
     TPostListDto,
     TPostDetailDto,
-    TPostCommentListDto
+    TPostCommentListDto,
+    TMoimPreviewListDto
 };

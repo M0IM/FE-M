@@ -1,19 +1,13 @@
+import { useEffect, useState } from 'react';
+import { FlatList, Pressable, View } from 'react-native';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import { Typography } from 'components/@common/Typography/Typography';
 import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPostPreview';
+import { BOARD_TITLES } from 'constants/screens/MoimBoardStackScreens/PostList';
+import usePost from 'hooks/queries/MoimBoard/usePost';
 import { MoimPostStackNavigationProp, MoimPostStackRouteProp } from 'navigators/types';
-import { useState } from 'react';
-import { Pressable, View } from 'react-native';
 
-const BOARD_TITLES = [
-  { key: 'ALL', label: '전체' },
-  { key: 'NOTIFICATION', label: '공지' },
-  { key: 'REVIEW', label: '활동 후기' },
-  { key: 'GREET', label: '가입 인사' },
-  { key: 'FREE', label: '자유' }
-] as const;
-
-type BoardTitle = typeof BOARD_TITLES[number]['key'];
+type BoardTitleType = typeof BOARD_TITLES[number]['key'];
 
 interface MoimBoardScreenProps {
   route: MoimPostStackRouteProp;
@@ -21,12 +15,37 @@ interface MoimBoardScreenProps {
 }
 
 const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
-  const [isSelected, setIsSelected] = useState<BoardTitle>('ALL');
+  const [isSelected, setIsSelected] = useState<BoardTitleType>('ALL');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const { useGetInfiniteMoimPostList } = usePost();
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch
+  } = useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
   console.log('board route', route);
 
-  const handleSelect = (selectMenu: BoardTitle) => {
+  const handleEndReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
+
+  const handleSelect = (selectMenu: BoardTitleType) => {
     setIsSelected(selectMenu);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [isSelected]);
 
   return (
     <>
@@ -43,7 +62,27 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
           </Pressable>
         ))}
       </View>
-      <BoardPostPreview navigation={navigation} />
+      <FlatList 
+        data={data?.pages.flat()}
+        renderItem={({item}) => (
+          <FlatList 
+            data={item.moimPreviewList}
+            renderItem={({item}) => (
+              <BoardPostPreview postPreview={item} navigation={navigation} />
+            )}
+            ItemSeparatorComponent={() => <View className='h-3' />}
+            keyExtractor={item => String(item?.moimPostId)}
+            numColumns={1}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.5}
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
+          />
+        )}
+        contentContainerStyle={{
+          paddingHorizontal: 15,
+        }}
+      />
       <FloatingButton type='add' onPress={() => navigation.navigate('MOIM_POST_WRITE', { id: route.params.id })} />
     </>
   );

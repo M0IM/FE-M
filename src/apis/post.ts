@@ -8,7 +8,7 @@ import {
     TPostCommentListDto,
     TPostDetailDto,
     TPostDto,
-    TPostListDto
+    TPostListDto,
 } from "types/dtos/post";
 import axiosInstance from "./axiosInstance";
 
@@ -83,8 +83,7 @@ const getMoimPostList = async ({
     take
 }: TMoimPostListParams): Promise<TPostListDto> => {
     const { data } = await axiosInstance.get(`/api/v1/moims/${moimId}/posts?postType=${postType}&cursor=${cursor}&take=${take}`);
-    console.log(data);
-    return data;
+    return data?.result;
 };
 
 const getMoimPostDetail = async ({

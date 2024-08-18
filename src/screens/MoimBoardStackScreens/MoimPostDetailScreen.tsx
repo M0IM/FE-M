@@ -12,6 +12,7 @@ import PostCommentContainer from 'components/screens/MoimBoardStackScreens/postD
 import { MoimPostStackNavigationProp, MoimPostStackRouteProp } from 'navigators/types';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import { Typography } from 'components/@common/Typography/Typography';
+import { useGetMyProfile } from 'hooks/queries/MyScreen/useGetProfile';
 
 // const testImages = [
 //      "https://images.unsplash.com/photo-1704304660865-4c2ba1514289?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8",
@@ -31,9 +32,10 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         useGetMoimPostDetail, 
         useGetInfiniteMoimPostComment,
         postWriteCommentMutation,
-        postWriteRecommentMutation
+        postWriteRecommentMutation,
+        likeMoimPostMutation
     } = usePost();
-    const { data, isPending, isError } = useGetMoimPostDetail(id, postId);
+    const { data, isPending, isError, refetch: postRefetch } = useGetMoimPostDetail(id, postId);
     const { 
         data: comments,
         hasNextPage,
@@ -45,6 +47,7 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
     const [comment, setComment] = useState('');
     const [recomment, setRecomment] = useState('');
     const [commentId, setCommentId] = useState(null);
+    const { data: userInfo } = useGetMyProfile();
 
     const handleEndReached = () => {
         if (hasNextPage && !isFetchingNextPage) {
@@ -113,6 +116,25 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         }
     };
 
+    const handleMoimPostLike = () => {
+        likeMoimPostMutation.mutate({
+            postId: postId
+        }, {
+            onSuccess: () => {
+                postRefetch();
+            },
+            onError: error => {
+                console.error(error);
+                Toast.show({
+                    type: 'error',
+                    text1: error?.response?.data.message || '대댓글 좋아요 중 에러가 발생했습니다.',
+                    visibilityTime: 2000,
+                    position: 'bottom',
+                });
+            }
+        });
+    };
+
     if (isPending) {
         return <Typography fontWeight='BOLD' className=''>로딩 중</Typography>;
     }
@@ -121,26 +143,27 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
         return <Typography fontWeight='BOLD' className=''>에러입니다.</Typography>;
     }
 
-    // TODO: 본인이 작성한 글인지 확인 가능해지면 수정
     const PostMenuList = [
         {
             title: '신고하기',
             onPress: () => {}            
         },
         {
-            title: '채팅하기',
-            onPress: () => {}            
-        },
-        {
             title: '차단하기',
             onPress: () => {}            
         },
+    ];
+
+    const PostMyMenuList = [
         {
             title: '수정하기',
             onPress: () => navigation.navigate('MOIM_POST_EDIT', { id })            
-        }
+        },
+        {
+            title: '삭제하기',
+            onPress: () => {}       
+        },
     ];
-
 
     return (
         <KeyboardAvoidingView
@@ -175,6 +198,8 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
                                 content={data?.content}
                                 commentCount={data?.commentCount}
                                 likeCount={data?.likeCount}
+                                isLike={data?.isLike}
+                                handleMoimPostLike={handleMoimPostLike}
                             />
                         </>
                     )}
@@ -184,7 +209,7 @@ const MoimPostDetailScreen = ({route, navigation}: MoimPostDetailScreenProps) =>
                     onRefresh={handleRefresh}
                 />
                 <View className='absolute top-14 right-6'>
-                    <PopoverMenu menu={PostMenuList} isPopover={isPopover} />
+                    <PopoverMenu menu={userInfo?.result.nickname === data?.writer ? PostMyMenuList : PostMenuList} isPopover={isPopover} />
                 </View>
 
             <View className='items-center justify-between flex-row p-3'>

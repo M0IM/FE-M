@@ -1,5 +1,5 @@
 import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
-import { getMoimPostComments, getMoimPostDetail, getMoimPostList, writeMoimPost, writeMoimPostComment, writeMoimPostRecomment } from "apis/post";
+import { getMoimPostComments, getMoimPostDetail, getMoimPostList, likeMoimPost, writeMoimPost, writeMoimPostComment, writeMoimPostRecomment } from "apis/post";
 import { POST_LIST_TYPE, TPostCommentListDto, TPostListDto } from "types/dtos/post";
 import { ResponseError, UseMutationCustomOptions } from "types/mutations/common";
 
@@ -45,12 +45,12 @@ function useGetInfiniteMoimPostList(
 }
 
 function useGetMoimPostDetail(moimId: number, postId: number) {
-    const { data, isPending, isError } = useQuery({
+    const { data, isPending, isError, refetch } = useQuery({
         queryKey: ['moimPost', moimId, postId],
         queryFn: () => getMoimPostDetail({ moimId, postId }),
     });
 
-    return { data, isPending, isError };
+    return { data, isPending, isError, refetch };
 }
 
 function useGetInfiniteMoimPostComment(
@@ -107,16 +107,31 @@ function useWriteMoimPostRecomment(mutationOptions?: UseMutationCustomOptions) {
     });
 }
 
+function useLikeMoimPost(mutationOptions?: UseMutationCustomOptions) {
+    return useMutation({
+        mutationFn: likeMoimPost,
+        onSuccess: data => {
+            console.log(data);
+        },
+        onError: error => {
+            console.error(error);
+        },
+        ...mutationOptions
+    });
+}
+
 
 function usePost() {
     const moimPostMutation = useMoimPost();
     const postWriteCommentMutation = useWriteMoimPostComment();
     const postWriteRecommentMutation = useWriteMoimPostRecomment();
+    const likeMoimPostMutation = useLikeMoimPost();
 
     return {
         moimPostMutation,
         postWriteCommentMutation,
         postWriteRecommentMutation,
+        likeMoimPostMutation,
         useGetInfiniteMoimPostList,
         useGetInfiniteMoimPostComment,
         useGetMoimPostDetail,

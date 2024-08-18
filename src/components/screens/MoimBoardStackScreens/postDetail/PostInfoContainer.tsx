@@ -11,6 +11,8 @@ interface PostInfoContainerProps {
     content?: string | '';
     commentCount?: number;
     likeCount?: number;
+    isLike?: boolean;
+    handleMoimPostLike: () => void;
 }
 
 const PostInfoContainer = ({
@@ -18,7 +20,9 @@ const PostInfoContainer = ({
     title,
     content,
     commentCount,
-    likeCount
+    likeCount,
+    isLike,
+    handleMoimPostLike
 }: PostInfoContainerProps) => {
   return (
     <>
@@ -33,8 +37,10 @@ const PostInfoContainer = ({
         <View className='flex flex-row items-center py-3 border-gray-200 border-b-[0.5px] mt-2 px-1.5 mb-2'>
             <Typography fontWeight='LIGHT' className='text-gray-300 text-xs'>댓글 {commentCount}</Typography>
             <Typography fontWeight='LIGHT' className='text-gray-300 text-xs ml-3'>좋아요 {likeCount}</Typography>
-            <TouchableOpacity className='ml-auto'>
-                <Ionicons name='heart-outline' color={'#C9CCD1'} size={25} />
+            <TouchableOpacity className='ml-auto' onPress={handleMoimPostLike}>
+                {isLike ? <Ionicons name='heart' color={'#00F0A1'} size={25} /> : 
+                    <Ionicons name='heart-outline' color={'#C9CCD1'} size={25} />
+                }
             </TouchableOpacity>
         </View>
     </>

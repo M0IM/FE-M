@@ -5,25 +5,26 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {DayOfWeeks} from './DayOfWeeks.tsx';
 import {DateBox} from './DateBox.tsx';
-
-import {getMonthYearDetails, isSameAsCurrentDate, MonthYear} from 'utils';
 import DateBottomSheet from '../../DateBottomSheet/DateBottomSheet.tsx';
 
-interface ICalendarProps<T> {
+import {getMonthYearDetails, isSameAsCurrentDate, MonthYear} from 'utils';
+import {TCalendarMoimPlanDTO} from 'types/dtos/calendar.ts';
+
+interface IMoimCalendarProps {
   monthYear: MonthYear;
-  schedules: Record<string, T>;
+  schedules: Record<string, TCalendarMoimPlanDTO>;
   onChangeMonth: (increment: number) => void;
   onPressDate: (date: number) => void;
   selectedDate: number;
 }
 
-export function Calendar<T>({
+export function MoimCalendar({
   monthYear,
   onChangeMonth,
   onPressDate,
   selectedDate,
   schedules,
-}: ICalendarProps<T>) {
+}: IMoimCalendarProps) {
   const {month, year, lastDate, firstDOW} = monthYear;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const open = () => setIsOpen(true);
@@ -88,7 +89,11 @@ export function Calendar<T>({
           renderItem={({item}) => (
             <DateBox
               date={item.date}
-              hasSchedule={Boolean(schedules[item.date])}
+              hasSchedule={Boolean(
+                schedules[item.date]?.planList &&
+                  schedules[item.date]?.planList.length > 0,
+              )}
+              isMemberBusy={schedules[item.date]?.memberWithPlanCnt}
               selectedDate={selectedDate}
               isToday={isSameAsCurrentDate(year, month, item.date)}
               onPressDate={onPressDate}
@@ -98,6 +103,7 @@ export function Calendar<T>({
           numColumns={7}
         />
       </View>
+      {/*바텀 시트*/}
       <DateBottomSheet
         isOpen={isOpen}
         onOpen={open}

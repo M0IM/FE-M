@@ -34,7 +34,14 @@ export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
         </Text>
         <View className="mt-1">
           <Text className="text-xs text-gray-400">{post.time}</Text>
-          <Text className="text-xs text-gray-400">{post.location}</Text>
+          <View className="flex-row gap-x-2">
+            <Text className="text-xs text-gray-400">
+              {post.location ?? '장소가 표기되지 않았습니다.'}
+            </Text>
+            <Text className="text-xs text-gray-400">
+              {post.locationDetail ?? '세부 장소가 표기되지 않았습니다.'}
+            </Text>
+          </View>
         </View>
       </View>
     </Pressable>

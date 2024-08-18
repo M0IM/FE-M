@@ -12,7 +12,7 @@ type TMoimPlanListDTO = {
   location: string;
   locationDetail: string;
   time: string;
-  isParticipant: boolean;
+  isParticipant?: boolean;
 };
 
 type TCalendarMoimPlanDTO = {
@@ -22,7 +22,7 @@ type TCalendarMoimPlanDTO = {
 
 type TCalendarPersonalResponse = Record<string, TPlanListDTO[]>;
 
-type TCalendarMoimResponse = Record<string, TMoimPlanListDTO[]>;
+type TCalendarMoimResponse = Record<string, TCalendarMoimPlanDTO>;
 
 type TScheduleDTO = {
   title: string;
@@ -57,4 +57,5 @@ export type {
   TCalendarMoimResponse,
   TDetailMoimCalendarDTO,
   TPostDetailMoimCalendarDTO,
+  TCalendarMoimPlanDTO,
 };

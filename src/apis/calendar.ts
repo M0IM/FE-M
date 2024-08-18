@@ -21,6 +21,8 @@ const getMoimCalendar = async ({
     `/api/v1/moim/${moimId}/calender?year=${year}&month=${month}`,
   );
 
+  console.log(data.result.planList);
+
   return data.result.planList;
 };
 

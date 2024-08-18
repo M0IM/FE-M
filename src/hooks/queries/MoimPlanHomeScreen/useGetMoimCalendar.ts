@@ -20,7 +20,6 @@ function useGetMoimCalendar({
   return useQuery({
     queryFn: () => getMoimCalendar({moimId, month, year}),
     queryKey: ['moimCalendar', moimId, month, year],
-    placeholderData: keepPreviousData,
     ...queryOptions,
   });
 }

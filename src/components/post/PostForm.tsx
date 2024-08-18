@@ -25,6 +25,7 @@ import {
 } from 'utils';
 import useModal from 'hooks/useModal.ts';
 import usePostDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/usePostDetailMoimCalendar.ts';
+import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 
 interface IPostForm {
   moimId: number;
@@ -82,7 +83,13 @@ export default function PostForm({moimId}: IPostForm) {
       {
         onSuccess: () => {
           // TODO: 글 작성 후 해당 게시글로 돌아갈지, 아니면 뒤로가기 할 시 상의 후 설정하기.
-          navigation.goBack();
+          navigation.navigate('MOIM_DETAIL', {
+            screen: 'MOIM_SPACE',
+            params: {
+              id: moimId,
+            },
+          });
+          queryClient.invalidateQueries({queryKey: ['moimCalendar']});
         },
       },
     );

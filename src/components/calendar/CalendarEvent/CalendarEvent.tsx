@@ -35,10 +35,10 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
           <Text className="text-xs text-gray-400">{post.time}</Text>
           <View className="flex-row gap-x-2">
             <Text className="text-xs text-gray-400">
-              {post.location ?? 'hi'}
+              {post.location ?? '장소가 표기되지 않았습니다.'}
             </Text>
             <Text className="text-xs text-gray-400">
-              {post.locationDetail ?? 'hi'}
+              {post.locationDetail ?? '세부 장소가 표기되지 않았습니다.'}
             </Text>
           </View>
         </View>

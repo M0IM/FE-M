@@ -13,6 +13,8 @@ import {
   MoimStackNavigationProp,
 } from 'navigators/types';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
+import {MoimCalendar} from '../../components/calendar/Calendar/MoimCalendar.tsx';
+import {TCalendarMoimPlanDTO} from '../../types/dtos/calendar.ts';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
@@ -39,7 +41,7 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   });
 
   if (isPending || isError) {
-    return <View></View>;
+    return <></>;
   }
 
   const handleUpdateMonth = (increment: number) => {
@@ -49,16 +51,18 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
     setSelectedDate(date);
   };
 
+  console.log(posts);
+
   return (
     <SafeAreaView className={'bg-white flex-1'}>
-      <Calendar
+      <MoimCalendar<TCalendarMoimPlanDTO>
         monthYear={monthYear}
         schedules={posts}
         onChangeMonth={handleUpdateMonth}
         selectedDate={selectedDate}
         onPressDate={handlePressDate}
       />
-      <PlanCalendarEventList posts={posts[selectedDate]} />
+      <PlanCalendarEventList posts={posts[selectedDate]?.planList} />
       <FloatingButton
         type={'add'}
         onPress={() => {

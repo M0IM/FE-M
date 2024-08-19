@@ -1,5 +1,7 @@
 import {View, Pressable, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Toast from 'react-native-toast-message';
+
 import Avatar from 'components/@common/Avatar/Avatar';
 import {Typography} from 'components/@common/Typography/Typography';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
@@ -8,9 +10,10 @@ import {TPostCommentDto} from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
-import Toast from 'react-native-toast-message';
 
 interface PostCommentContainerProps {
+  moimId?: number;
+  postId?: number;
   commentData: TPostCommentDto;
   handleUpdateCommentId: (commentId: any) => void;
   targetCommentId?: number | null;
@@ -18,6 +21,8 @@ interface PostCommentContainerProps {
 }
 
 const PostCommentContainer = ({
+  moimId,
+  postId,
   commentData,
   handleUpdateCommentId,
   targetCommentId,
@@ -25,7 +30,39 @@ const PostCommentContainer = ({
 }: PostCommentContainerProps) => {
   const {isPopover, handlePopover} = usePopover();
   const {data: userInfo} = useGetMyProfile();
-  const {deleteMoimPostCommentMutation} = usePost();
+  const {deleteMoimPostCommentMutation, reportMoimPostCommentMutation} =
+    usePost();
+
+  const handleReportComment = () => {
+    if (moimId && postId) {
+      reportMoimPostCommentMutation.mutate(
+        {
+          moimId,
+          postId,
+          commentId: commentData.commentId,
+        },
+        {
+          onSuccess: () => {
+            handlePopover();
+            Toast.show({
+              type: 'success',
+              text1: '댓글이 신고되었습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+          onError: error => {
+            Toast.show({
+              type: 'error',
+              text1: error.message || '댓글 삭제 중 에러가 발생했습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+        },
+      );
+    }
+  };
 
   const handleDeleteComment = () => {
     deleteMoimPostCommentMutation.mutate(
@@ -33,7 +70,15 @@ const PostCommentContainer = ({
         commentId: commentData.commentId,
       },
       {
-        onSuccess: data => {},
+        onSuccess: data => {
+          handlePopover();
+          Toast.show({
+            type: 'success',
+            text1: '댓글이 삭제되었습니다.',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
+        },
         onError: error => {
           Toast.show({
             type: 'error',
@@ -46,11 +91,10 @@ const PostCommentContainer = ({
     );
   };
 
-  // TODO: 본인이 작성한 글인지 확인 가능해지면 수정
   const PostMenuList = [
     {
       title: '신고하기',
-      onPress: () => console.log(1),
+      onPress: () => handleReportComment(),
     },
     {
       title: '차단하기',

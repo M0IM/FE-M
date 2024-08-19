@@ -234,6 +234,8 @@ const MoimPostDetailScreen = ({
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
           <PostCommentContainer
+            moimId={id}
+            postId={postId}
             targetCommentId={commentId}
             handleUpdateCommentId={handleUpdateCommentId}
             commentData={item}

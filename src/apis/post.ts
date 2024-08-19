@@ -9,6 +9,7 @@ import {
   TPostDetailDto,
   TPostDto,
   TPostListDto,
+  TReportMoimPostCommentParams,
 } from 'types/dtos/post';
 import axiosInstance from './axiosInstance';
 
@@ -124,6 +125,19 @@ const deleteMoimPostComment = async ({
   return data?.result;
 };
 
+const reportMoimPostComment = async ({
+  moimId,
+  postId,
+  commentId,
+}: TReportMoimPostCommentParams): Promise<string> => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/comments/reports`, {
+    moimId,
+    postId,
+    commentId,
+  });
+  return data?.result;
+};
+
 export {
   writeMoimPost,
   likeMoimPost,
@@ -134,4 +148,5 @@ export {
   getMoimPostDetail,
   getMoimPostComments,
   deleteMoimPostComment,
+  reportMoimPostComment,
 };

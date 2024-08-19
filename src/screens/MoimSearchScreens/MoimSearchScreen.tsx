@@ -1,112 +1,112 @@
 import {useState} from 'react';
-import {FlatList, TouchableOpacity, View} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {InputField} from 'components/@common/InputField/InputField';
-import Label from 'components/@common/Label/Label';
-import {Typography} from 'components/@common/Typography/Typography';
+import {FlatList, Keyboard, TouchableOpacity, View} from 'react-native';
+
 import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard';
-import {ScreenContainer} from 'components/ScreenContainer';
-import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
+import {SearchInput} from 'components/@common/SearchInput/SearchInput.tsx';
+import Label from 'components/@common/Label/Label.tsx';
 
-const ActiveMoimData = [
-  {
-    id: 1,
-    title: '우리 동네 배드민턴',
-    subTitle: '배드민턴도 열심히 해서 대회도 나가 강사 활동도 해봐요',
-    category: '외국/언어',
-    region: '서울',
-    memberCount: 3,
-  },
-  {
-    id: 2,
-    title: '서울 영어 회화',
-    subTitle: '영어 실력을 키워보아요',
-    category: '외국/언어',
-    region: '서울',
-    memberCount: 10,
-  },
-];
+import {MOIM_REQUEST_TYPE} from 'types/enums';
+import useDebounce from 'hooks/useDebounce.ts';
+import {useGetSearchInfiniteMoimList} from 'hooks/queries/MoimSearchScreen/useGetSeachInfiniteMoimList.ts';
+import {HomeStackNavigationProp} from 'navigators/types';
+import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList.ts';
 
-const MoimSearchScreen = () => {
-  const [value, setValue] = useState('');
-  const [select, setSelect] = useState('');
+const MoimSearchScreen = ({
+  navigation,
+}: {
+  navigation: HomeStackNavigationProp;
+}) => {
+  const [keyword, setKeyword] = useState<string>('');
+  const debouncedValue = useDebounce(keyword, 1000);
+  const handleChangeKeyword = (text: string) => {
+    setKeyword(text);
+  };
+  const [selectedCategory, setSelectedCategory] =
+    useState<MOIM_REQUEST_TYPE | null>(null);
+  const categoryKeys = Object.keys(CATEGORY_LIST);
 
   const handleSelect = (selectItem: string) => {
-    setSelect(selectItem);
-  };
-
-  const handleSearch = () => {
-    if (value) {
-      console.log(value);
+    if (selectedCategory !== null) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(CATEGORY_LIST[selectItem] || null);
     }
   };
 
+  const {data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch} =
+    useGetSearchInfiniteMoimList(debouncedValue, selectedCategory);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleEndReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
+
   return (
-    <ScreenContainer>
-      <View className="flex flex-row items-center gap-x-2 mt-5">
-        <View className="flex-1">
-          <InputField
-            className="flex-1"
-            icon={
-              <TouchableOpacity onPress={handleSearch} disabled={!value}>
-                <Ionicons
-                  name="search"
-                  size={30}
-                  color={value ? '#1D2002' : '#E9ECEF'}
-                />
-              </TouchableOpacity>
-            }
-            touched
-            placeholder="검색어 입력"
-            value={value}
-            onChangeText={value => setValue(value)}
-          />
-        </View>
-      </View>
-      <View className="flex flex-col gap-y-10">
+    <View className="flex-1 bg-white p-4">
+      <SearchInput
+        autoFocus
+        value={keyword}
+        onChangeText={handleChangeKeyword}
+        onSubmit={() => Keyboard.dismiss()}
+        placeholder={'찾고싶은 모임을 검색해주세요.'}
+      />
+      <View className="flex my-3 flex-col">
         <FlatList
           horizontal
-          data={CATEGORY_LIST}
+          data={categoryKeys}
           renderItem={({item}) => (
             <TouchableOpacity onPress={() => handleSelect(item)}>
               <Label
                 label={item}
-                color={select === item ? 'main' : 'gray'}
-                variant={select === item ? 'filled' : 'outlined'}
+                color={
+                  CATEGORY_LIST[item] === selectedCategory ? 'main' : 'gray'
+                }
+                variant={
+                  CATEGORY_LIST[item] === selectedCategory
+                    ? 'filled'
+                    : 'outlined'
+                }
               />
             </TouchableOpacity>
           )}
-          ItemSeparatorComponent={() => <View className="w-1" />}
+          ItemSeparatorComponent={() => <View style={{width: 10}} />}
+          keyExtractor={item => item}
+          showsHorizontalScrollIndicator={false}
         />
-        <View className="flex flex-col">
-          <View className="flex flex-row items-center gap-x-2">
-            <Typography fontWeight="BOLD" className="text-dark-800 text-base">
-              {value} 검색 결과
-            </Typography>
-            <Typography fontWeight="MEDIUM" className="text-gray-400 text-xs">
-              (3)
-            </Typography>
-          </View>
-        </View>
       </View>
-      <View>
-        {ActiveMoimData.map(
-          ({id, title, subTitle, category, region, memberCount}) => {
-            return (
-              <ActiveMoimCard
-                key={id}
-                id={String(id)}
-                title={title}
-                subTitle={subTitle}
-                category={category}
-                region={region}
-                memberCount={memberCount}
-              />
-            );
-          },
-        )}
-      </View>
-    </ScreenContainer>
+      <FlatList
+        data={data.pages.flatMap(page => page.moimPreviewList)}
+        renderItem={({item}) => {
+          return (
+            <ActiveMoimCard
+              key={item.moimId}
+              moim={item}
+              navigation={navigation}
+            />
+          );
+        }}
+        keyExtractor={item => String(item.moimId)}
+        numColumns={1}
+        contentContainerStyle={{
+          paddingHorizontal: 30,
+          gap: 10,
+        }}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
+        scrollIndicatorInsets={{right: 1}}
+        indicatorStyle={'black'}
+      />
+    </View>
   );
 };
 

@@ -50,6 +50,11 @@ type TPostDetailMoimCalendarDTO = {
   schedules: TScheduleDTO[];
 };
 
+type TMyCalendarDTO = {
+  date: Date;
+  content: string;
+};
+
 export type {
   TPlanListDTO,
   TMoimPlanListDTO,
@@ -58,4 +63,5 @@ export type {
   TDetailMoimCalendarDTO,
   TPostDetailMoimCalendarDTO,
   TCalendarMoimPlanDTO,
+  TMyCalendarDTO,
 };

@@ -11,12 +11,11 @@ interface ICalendarEventListProps {
 }
 
 export function CalendarEventList({posts}: ICalendarEventListProps) {
-  // 아랫부분이 잘리지 않도록
   const {bottom} = useSafeAreaInsets();
 
   if (!posts) {
     return (
-      <View>
+      <View className="flex-col items-center justify-center">
         <Typography fontWeight={'BOLD'}>일정이 없습니다.</Typography>
       </View>
     );

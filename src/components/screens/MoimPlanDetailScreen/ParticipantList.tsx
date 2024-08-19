@@ -35,7 +35,7 @@ export default function ParticipantList({
     setIsRefreshing(false);
   };
 
-  console.log();
+  console.log(participants.pages.flat());
 
   return (
     <SafeAreaView>

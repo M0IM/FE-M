@@ -40,7 +40,6 @@ export function SwipableChatEvent({item}: IChatEventProps) {
   return (
     <Swipeable
       containerStyle={{
-        width: '100%',
         height: 80,
         justifyContent: 'center',
         marginTop: 10,

@@ -8,17 +8,22 @@ import {
 const uploadImages = async ({
   url,
   file,
+  fileType,
+  fileUri,
 }: {
   url: string;
   file: FormData;
-}): Promise<string[]> => {
-  const {data} = await axios.put(url, file, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  fileType: string;
+  fileUri: string;
+}): Promise<any> => {
+  const imageFile = await fetch(fileUri);
+  const imageBlob = await imageFile.blob();
 
-  return data;
+  await fetch(url, {
+    method: 'PUT',
+    headers: {'Content-Type': fileType},
+    body: imageBlob,
+  });
 };
 
 const createPresignedURL = async (

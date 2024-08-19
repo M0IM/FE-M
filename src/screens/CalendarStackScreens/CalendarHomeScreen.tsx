@@ -4,18 +4,19 @@ import {SafeAreaView} from 'react-native';
 import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
 import {CalendarEventList} from 'components/@common/CalendarEventList/CalendarEventList.tsx';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
-import MyCalendarBottomSheet from 'components/myCalendarBottomSheet/myCalendarBottomSheet.tsx';
 
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
+import {CalendarStackNavigationProp} from 'navigators/types';
 import {useGetPersonalCalendar} from 'hooks/queries/CalendarHomeScreen/useGetPersonalCalendar.ts';
 
-export default function CalendarHomeScreen() {
+export default function CalendarHomeScreen({
+  navigation,
+}: {
+  navigation: CalendarStackNavigationProp;
+}) {
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
-  const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
 
   const {
     data: posts,
@@ -48,8 +49,10 @@ export default function CalendarHomeScreen() {
         onPressDate={handlePressDate}
       />
       <CalendarEventList posts={posts[selectedDate]} />
-      <FloatingButton type={'add'} onPress={open} />
-      <MyCalendarBottomSheet isOpen={isOpen} onOpen={open} onClose={close} />
+      <FloatingButton
+        type={'add'}
+        onPress={() => navigation.navigate('CALENDAR_WRITE')}
+      />
     </SafeAreaView>
   );
 }

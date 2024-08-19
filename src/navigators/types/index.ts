@@ -43,8 +43,8 @@ export type AuthStackParamList = {
 
 export type CalendarStackParamList = {
   CALENDAR_HOME: undefined;
-  CALENDAR_DETAIL: {id: number};
   CALENDAR_WRITE: undefined;
+  CALENDAR_MODIFY: {id: number};
 };
 
 export type MoimStackParamList = {
@@ -79,7 +79,7 @@ export type MyStackParamList = {
   // 모임 정보 수정 리스트
   MY_EDIT_MOIM_INFO: undefined;
   // 모임 정보 수정화면
-  MOIM_EDIT_INFO: {id:number};
+  MOIM_EDIT_INFO: {id: number};
   // 알림 설정
   MY_EDIT_ALERT: undefined;
   // 앱 정보

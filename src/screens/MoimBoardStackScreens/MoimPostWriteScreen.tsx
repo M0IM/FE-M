@@ -54,7 +54,7 @@ const MoimPostWriteScreen = ({
         postType: category?.key
       }, {
         onSuccess: (data) => {
-          navigation.navigate('MOIM_POST_DETAIL', { id: data.moimPostId });
+          navigation.navigate('MOIM_POST_DETAIL', { id: moimId, postId: data.moimPostId });
           console.log('게시글 작성: ', data);
         },
         onError: (error) => {

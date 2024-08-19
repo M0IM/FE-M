@@ -6,8 +6,8 @@ import {postDetailMoimCalendar} from 'apis';
 function usePostDetailMoimCalendar(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: postDetailMoimCalendar,
-    ...mutationOptions,
     onError: error => console.log(error),
+    ...mutationOptions,
   });
 }
 

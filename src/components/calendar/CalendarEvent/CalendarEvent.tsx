@@ -8,6 +8,9 @@ import {getMonthYearDetails} from 'utils';
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import useDeleteMyCalendarSchedule from '../../../hooks/queries/CalendarHomeScreen/useDeleteMyCalendarSchedule.ts';
 import {queryClient} from '../../../containers/TanstackQueryContainer.tsx';
+import {useNavigation} from '@react-navigation/native';
+import {CalendarStackNavigationProp} from 'navigators/types';
+import useMyCalendarStore from '../../../stores/useMyCalendarStore.ts';
 
 interface ICalendarEventProps {
   post: TPlanListDTO;
@@ -17,12 +20,22 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
   const platform = Platform.OS;
   const {month, year, day} = getMonthYearDetails(new Date(post.time));
   const {mutate} = useDeleteMyCalendarSchedule();
+  const navigation = useNavigation<CalendarStackNavigationProp>();
+  const {setMyCalendar, setIsEditMode} = useMyCalendarStore();
 
   const handlePressDeleteButton = () => {
     mutate(post.planId, {
       onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ['myCalendar']});
       },
+    });
+  };
+
+  const handlePressModifyButton = () => {
+    setMyCalendar(post);
+    setIsEditMode(true);
+    navigation.navigate('CALENDAR_MODIFY', {
+      id: post.planId,
     });
   };
 
@@ -33,17 +46,16 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
           'flex-row w-[50%] h-full items-center justify-center gap-x-2'
         }>
         <TouchableOpacity
+          onPress={handlePressDeleteButton}
           className={
             'bg-error rounded-2xl flex-1 h-full items-center justify-center text-white'
           }>
-          <Typography
-            className={'text-white'}
-            fontWeight={'MEDIUM'}
-            onPress={handlePressDeleteButton}>
+          <Typography className={'text-white'} fontWeight={'MEDIUM'}>
             삭제
           </Typography>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={handlePressModifyButton}
           className={
             'bg-gray-400 rounded-2xl flex-1 h-full items-center justify-center text-white'
           }>

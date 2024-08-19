@@ -1,5 +1,6 @@
-import {TUserDTO} from '../types/dtos/user.ts';
 import {create} from 'zustand';
+
+import {TUserDTO} from 'types/dtos/user.ts';
 
 interface IDetailProfileStore {
   detailProfile: TUserDTO | null;

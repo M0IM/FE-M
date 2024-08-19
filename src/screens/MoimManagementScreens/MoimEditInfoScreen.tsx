@@ -1,6 +1,7 @@
 import { View, TouchableOpacity, Image, Platform } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from 'react';
+import { useRoute } from '@react-navigation/native';
 import { CustomButton } from 'components/@common/CustomButton/CustomButton';
 import { ImageInput } from 'components/@common/ImageInput/ImageInput';
 import { InputField } from 'components/@common/InputField/InputField';
@@ -13,15 +14,20 @@ import usePermission from 'hooks/usePermission';
 import useTags from 'hooks/useTags';
 import { MoimManagementRouteProp } from 'navigators/types';
 import { CATEGORY_MENU_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
-import { useRoute } from '@react-navigation/native';
+import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
 
 const MoimInfoEditScreen = () => {
   const route = useRoute<MoimManagementRouteProp>();
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
+  const { updateMoimInfoMutation } = useMoimManagment();
   const platform = Platform.OS;
   const moimdId = route.params.id;
   const [isPressed, setIsPressed] = useState(false);
   const [category, setCategory] = useState('');
+  const [data, setData] = useState({
+    title: '',
+    description: ''
+  });
   console.log('moimId: ', moimdId);
 
   const handleSelectedCategory = (selected: any) => {
@@ -40,6 +46,17 @@ const MoimInfoEditScreen = () => {
 
   const hahndleOnSubmit = () => {
     console.log(category);
+    const moimId = route?.params?.id;
+    if (moimId && category) {
+      updateMoimInfoMutation.mutate({
+        moimId,
+        title: data.title,
+        address: '',
+        category,
+        description: data.description,
+        imageKeyNames: []
+      });
+    }
   };
 
   return (
@@ -57,7 +74,7 @@ const MoimInfoEditScreen = () => {
           className="text-sm text-gray-500 mb-2 mt-4">
           모임 이름
         </Typography>
-        <InputField touched placeholder="모임 이름 입력" />
+        <InputField touched placeholder="모임 이름 입력" value={data.title} onChangeText={(text) => setData(prev => ({...prev, title: text}))} />
       </View>
       <View className="flex flex-col">
         <Typography
@@ -115,7 +132,7 @@ const MoimInfoEditScreen = () => {
           모임 소개
         </Typography>
         <View className="max-h-[800px]">
-          <InputField touched placeholder="모임 소개 입력" multiline />
+          <InputField touched placeholder="모임 소개 입력" multiline value={data.description} onChangeText={(text) => setData((prev) => ({...prev, description: text}))} />
         </View>
       </View>
 

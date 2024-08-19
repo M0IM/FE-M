@@ -43,11 +43,11 @@ type TDetailMoimCalendarDTO = {
 type TPostDetailMoimCalendarDTO = {
   moimId: number;
   title: string;
-  date: Date;
-  startTime: Date;
+  date: string;
+  startTime: string;
   location: string;
   locationDetail: string;
-  cost: number;
+  cost: string;
   schedules: TScheduleDTO[];
 };
 

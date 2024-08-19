@@ -1,6 +1,7 @@
 import {TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
 import {MoimStackParamList} from 'navigators/types';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -66,11 +67,11 @@ export default function PostForm({moimId}: IPostForm) {
       {
         moimId,
         title: addPost.values.title,
-        date,
+        date: moment(date).format('YYYY-MM-DD'),
         // TODO: 지역 API 추가시, SelectBox 형태로 추가하기.
         location: '주소나중에 추가됨',
         locationDetail: addPost.values.locationDetail,
-        startTime: selectedTime,
+        startTime: moment(selectedTime).format('HH:mm:ss'),
         cost: addPost.values.cost,
         schedules: schedules.map(schedule => {
           const dateObject = parseTimeStringToDate(schedule.startTime);

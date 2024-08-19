@@ -30,6 +30,7 @@ type TModifyChatRoomDTO = {
 };
 
 export type {
+  TChatRoomsDTO,
   TChatRoomResponse,
   TCreateChatRoomDTO,
   TCreateChatRoomResponse,

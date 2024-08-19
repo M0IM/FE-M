@@ -62,6 +62,21 @@ const reportMoimPost = async ({
   return data?.result;
 };
 
+// 게시글 차단
+const blockMoimPost = async ({
+  moimId,
+  postId,
+}: {
+  moimId: number;
+  postId: number;
+}) => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/posts/block`, {
+    moimId,
+    postId,
+  });
+  return data?.result;
+};
+
 // 게시글 댓글 작성
 const writeMoimPostComment = async ({
   moimId,
@@ -196,4 +211,5 @@ export {
   blockMoimPostComment,
   deleteMoimPost,
   reportMoimPost,
+  blockMoimPost,
 };

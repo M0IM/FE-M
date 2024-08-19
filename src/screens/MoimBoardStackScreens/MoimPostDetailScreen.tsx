@@ -42,6 +42,7 @@ const MoimPostDetailScreen = ({
     likeMoimPostMutation,
     deleteMoimPostMutation,
     reportMoimPostMutation,
+    blockMoimPostMutation,
   } = usePost();
   const {
     data,
@@ -195,6 +196,38 @@ const MoimPostDetailScreen = ({
     }
   };
 
+  const handleBlockMoimPost = () => {
+    if (id && postId) {
+      blockMoimPostMutation.mutate(
+        {
+          moimId: id,
+          postId,
+        },
+        {
+          onSuccess: () => {
+            navigation.goBack();
+            Toast.show({
+              type: 'success',
+              text1: '게시글이 차단되었습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+          onError: error => {
+            Toast.show({
+              type: 'error',
+              text1:
+                error?.response?.data.message ||
+                '게시글 차단 중 에러가 발생했습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+        },
+      );
+    }
+  };
+
   const handleReportMoimPost = () => {
     if (id && postId) {
       reportMoimPostMutation.mutate(
@@ -249,7 +282,7 @@ const MoimPostDetailScreen = ({
     },
     {
       title: '차단하기',
-      onPress: () => {},
+      onPress: () => handleBlockMoimPost(),
     },
   ];
 

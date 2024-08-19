@@ -1,4 +1,6 @@
 import { 
+    TGetMoimMembers,
+    TMoimMembersParams,
     TMoimRequestUsers,
     TMoimRequestUsersParams, 
     TUpdateMoimAuthorities,
@@ -53,9 +55,20 @@ const updateMoimInfo = async ({
     return data?.result;
 };
 
+const getMoimMembers = async ({
+    moimId,
+    cursor,
+    take
+}: TMoimMembersParams): Promise<TGetMoimMembers> => {
+    const { data } = await axiosInstance.get(`/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}`);
+    console.log(data);
+    return data?.result;
+};
+
 export {
     getMoimRequestUsers,
     updateMoimAuthorities,
     acceptMoimJoinRequest,
-    updateMoimInfo
+    updateMoimInfo,
+    getMoimMembers
 };

@@ -18,8 +18,20 @@ type TUpdateMoimAuthorities = {
     moimRole: TMoimRole;
 }
 
+type TGetMoimMembers = {
+    userPreviewDTOList: TUserPreviewDTOList[];
+    hasNext: boolean;
+    nextCursor: number;
+}
+
 type TMoimRequestUsersParams = {
     moimId: number;
+    cursor: number;
+    take: number;
+}
+
+type TMoimMembersParams = {
+    moimId: number,
     cursor: number;
     take: number;
 }
@@ -43,6 +55,8 @@ export type {
     TMoimRequestUsersParams,
     TUpdateMoimAuthoritiesParams,
     TUpdateMoimInfoParams,
+    TMoimMembersParams,
     TMoimRequestUsers,
-    TUpdateMoimAuthorities
+    TUpdateMoimAuthorities,
+    TGetMoimMembers
 };

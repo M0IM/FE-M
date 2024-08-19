@@ -68,6 +68,7 @@ const socialLogin = async ({
   type,
   idToken,
 }: TSocial): Promise<TResponseSignup> => {
+  console.log(idToken);
   const {data} = await axiosInstance.post(`/api/v1/auth/oAuth`, {
     provider: type,
     token: idToken,

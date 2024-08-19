@@ -1,6 +1,6 @@
 import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions, useMutation } from "@tanstack/react-query";
-import { acceptMoimJoinRequest, getMoimRequestUsers, updateMoimAuthorities, updateMoimInfo } from "apis/moimManage";
-import { TMoimRequestUsers } from "types/dtos/moimManage";
+import { acceptMoimJoinRequest, getMoimMembers, getMoimRequestUsers, updateMoimAuthorities, updateMoimInfo } from "apis/moimManage";
+import { TGetMoimMembers, TMoimRequestUsers } from "types/dtos/moimManage";
 import { ResponseError, UseMutationCustomOptions } from "types/mutations/common";
 
 function useGetInfinityMoimRequest (
@@ -21,6 +21,32 @@ function useGetInfinityMoimRequest (
             take: 10
         }),
         queryKey: ['moimRequests'],
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => {
+            return lastPage.hasNext ? lastPage.nextCursor : undefined;
+        },
+        ...queryOptions
+    });
+}
+
+function useGetInfinityMoimMembers(
+    moimId: number,
+    queryOptions?: UseInfiniteQueryOptions<
+        TGetMoimMembers,
+        ResponseError,
+        InfiniteData<TGetMoimMembers, number>,
+        TGetMoimMembers,
+        QueryKey,
+        number
+    >
+) {
+    return useInfiniteQuery({
+        queryFn: ({pageParam}) => getMoimMembers({
+            moimId,
+            cursor: pageParam,
+            take: 30
+        }),
+        queryKey: ['moimMembers'],
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {
             return lastPage.hasNext ? lastPage.nextCursor : undefined;
@@ -75,6 +101,7 @@ function useMoimManagment() {
 
     return {
         useGetInfinityMoimRequest,
+        useGetInfinityMoimMembers,
         updateMoimAuthoritiesMutation,
         acceptMoimJoinRequestMutation,
         updateMoimInfoMutation

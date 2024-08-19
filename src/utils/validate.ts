@@ -108,21 +108,15 @@ function validateSignUpStep5(
 
 type TvalidateCalendarWrite = {
   title: string;
-  date: string;
 };
 
 function validateCalendarWrite(values: TvalidateCalendarWrite) {
   const errors = {
     title: '',
-    date: '',
   };
 
   if (!values.title.trim()) {
     errors.title = '일정을 입력해주세요.';
-  }
-
-  if (!values.date) {
-    errors.date = '날짜를 선택해주세요.';
   }
 
   return errors;

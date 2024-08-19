@@ -25,6 +25,8 @@ export default function MoimScheduleEvent() {
   // TODO: 백엔드한테, 개인일정과, 모임에 신청한 내 일정등을 다 보여주는 API 받기
   const todayScehdules = calendars[selectedDate];
 
+  console.log(todayScehdules);
+
   return (
     <View className="flex flex-col gap-2 mt-1">
       <Typography className="text-2xl mt-5" fontWeight={'BOLD'}>

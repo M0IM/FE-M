@@ -2,6 +2,7 @@ import CalendarHomeScreen from 'screens/CalendarStackScreens/CalendarHomeScreen.
 import CalendarDetailScreen from 'screens/CalendarStackScreens/CalendarDetailScreen.tsx';
 
 import {CalendarStack} from '../constants';
+import CalendarWriteScreen from '../../screens/CalendarStackScreens/CalendarWriteScreen.tsx';
 
 export default function CalendarStackNavigator() {
   return (
@@ -25,6 +26,10 @@ export default function CalendarStackNavigator() {
           headerTitle: '',
           headerBackTitleVisible: false,
         }}
+      />
+      <CalendarStack.Screen
+        name={'CALENDAR_WRITE'}
+        component={CalendarWriteScreen}
       />
     </CalendarStack.Navigator>
   );

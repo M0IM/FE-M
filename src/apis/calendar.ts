@@ -26,6 +26,15 @@ const getMoimCalendar = async ({
   return data.result.planList;
 };
 
+const postMyCalendarScheule = async ({date, content}) => {
+  const {data} = await axiosInstance.post('/api/v1/users/calender', {
+    date,
+    content,
+  });
+
+  return data;
+};
+
 const getPersonalCalendar = async ({
   year,
   month,
@@ -80,4 +89,5 @@ export {
   getPersonalCalendar,
   getDetailMoimCalendar,
   postDetailMoimCalendar,
+  postMyCalendarScheule,
 };

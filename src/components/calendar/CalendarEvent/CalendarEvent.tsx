@@ -1,26 +1,21 @@
 import {Platform, Pressable, PressableProps, Text, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 
-import {CalendarStackNavigationProp} from 'navigators/types';
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils/cn.ts';
 import {TPlanListDTO} from 'types/dtos/calendar.ts';
+import {getMonthYearDetails} from 'utils';
 
 interface ICalendarEventProps extends PressableProps {
   post: TPlanListDTO;
 }
 
 export function CalendarEvent({post, ...props}: ICalendarEventProps) {
-  const navigation = useNavigation<CalendarStackNavigationProp>();
   const platform = Platform.OS;
+  const {month, year, day} = getMonthYearDetails(new Date(post.time));
+
   return (
     <Pressable
       {...props}
-      onPress={() =>
-        navigation.navigate('CALENDAR_DETAIL', {
-          id: post.planId,
-        })
-      }
       className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"
       key={post.planId}>
       <View className="bg-main w-1 rounded-l-full h-full z-10" />
@@ -32,15 +27,9 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
           {post.title}
         </Text>
         <View className="mt-1">
-          <Text className="text-xs text-gray-400">{post.time}</Text>
-          <View className="flex-row gap-x-2">
-            <Text className="text-xs text-gray-400">
-              {post.location ?? '장소가 표기되지 않았습니다.'}
-            </Text>
-            <Text className="text-xs text-gray-400">
-              {post.locationDetail ?? '세부 장소가 표기되지 않았습니다.'}
-            </Text>
-          </View>
+          <Text className="text-xs text-gray-400">
+            {year}년 {month}월 {day}일
+          </Text>
         </View>
       </View>
     </Pressable>

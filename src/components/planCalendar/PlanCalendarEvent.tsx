@@ -10,11 +10,7 @@ interface ICalendarEventProps extends PressableProps {
   post: TMoimPlanListDTO;
 }
 
-export function PlanCalendarEvent({
-  post,
-
-  ...props
-}: ICalendarEventProps) {
+export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
   const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const platform = Platform.OS;
 

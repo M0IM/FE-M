@@ -8,4 +8,16 @@ const getAlertStatus = async (): Promise<TAlertStatusDTO> => {
   return data.result;
 };
 
-export {getAlertStatus};
+const postEventAlertStatus = async (): Promise<TAlertStatusDTO> => {
+  const {data} = await axiosInstance.post('/api/v1/users/alarms/event');
+
+  return data.result;
+};
+
+const postPushAlertStatus = async (): Promise<TAlertStatusDTO> => {
+  const {data} = await axiosInstance.post('/api/v1/users/alarms/push');
+
+  return data.result;
+};
+
+export {getAlertStatus, postEventAlertStatus, postPushAlertStatus};

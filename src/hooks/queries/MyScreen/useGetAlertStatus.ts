@@ -2,7 +2,7 @@ import {keepPreviousData, useQuery} from '@tanstack/react-query';
 
 import {getAlertStatus} from 'apis';
 
-function useGetDetailMoimCalendar() {
+function useGetAlertStatus() {
   return useQuery({
     queryFn: getAlertStatus,
     queryKey: ['alertStatus'],
@@ -10,4 +10,4 @@ function useGetDetailMoimCalendar() {
   });
 }
 
-export default useGetDetailMoimCalendar;
+export default useGetAlertStatus;

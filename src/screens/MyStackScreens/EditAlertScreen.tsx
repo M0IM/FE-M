@@ -4,18 +4,20 @@ import {View} from 'react-native';
 import ToggleSwitch from 'components/@common/ToggleSwitch/ToggleSwitch';
 import useSwitch from 'hooks/useSwitch';
 import useGetDetailMoimCalendar from '../../hooks/queries/MyScreen/useGetAlertStatus.ts';
+import usePostEventAlertStatus from '../../hooks/queries/MyScreen/usePostEventAlertStatus.ts';
+import usePostPushAlertStatus from '../../hooks/queries/MyScreen/usePostPushAlertStatus.ts';
+import useGetAlertStatus from '../../hooks/queries/MyScreen/useGetAlertStatus.ts';
+import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 
 export default function EditAlertScreen() {
-  const {data, isPending, isError} = useGetDetailMoimCalendar();
+  const {data} = useGetAlertStatus();
+  const {mutate: changeEventStatus} = usePostEventAlertStatus();
+  const {mutate: changePushStatus} = usePostPushAlertStatus();
 
-  if (isPending || isError) {
-    return <View></View>;
-  }
-  const initiateToggleSwtich = {
-    push: data?.isPushAlarm,
-    event: data?.isEventAlarm,
-  };
-  const {switches, toggleSwitch} = useSwitch(initiateToggleSwtich);
+  const {switches, toggleSwitch} = useSwitch({
+    push: data?.isPushAlarm as boolean,
+    event: data?.isEventAlarm as boolean,
+  });
 
   return (
     <ScreenContainer>
@@ -30,7 +32,17 @@ export default function EditAlertScreen() {
         </View>
         <ToggleSwitch
           isEnabled={switches.push}
-          onToggle={() => toggleSwitch('push')}
+          onToggle={() => {
+            changePushStatus(
+              {},
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({queryKey: ['alertStatus']});
+                  toggleSwitch('push');
+                },
+              },
+            );
+          }}
           className="ml-auto"
         />
       </View>
@@ -45,7 +57,17 @@ export default function EditAlertScreen() {
         </View>
         <ToggleSwitch
           isEnabled={switches.event}
-          onToggle={() => toggleSwitch('event')}
+          onToggle={() => {
+            changeEventStatus(
+              {},
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({queryKey: ['alertStatus']});
+                  toggleSwitch('event');
+                },
+              },
+            );
+          }}
           className="ml-auto"
         />
       </View>

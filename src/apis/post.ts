@@ -41,6 +41,12 @@ const likeMoimPost = async ({postId}: {postId: number}) => {
   return data;
 };
 
+// 게시글 삭제
+const deleteMoimPost = async ({postId}: {postId: number}): Promise<string> => {
+  const {data} = await axiosInstance.delete(`/api/v1/moims/posts/${postId}`);
+  return data?.result;
+};
+
 // 게시글 댓글 작성
 const writeMoimPostComment = async ({
   moimId,
@@ -173,4 +179,5 @@ export {
   deleteMoimPostComment,
   reportMoimPostComment,
   blockMoimPostComment,
+  deleteMoimPost,
 };

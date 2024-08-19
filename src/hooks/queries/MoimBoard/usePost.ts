@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query';
 import {
   blockMoimPostComment,
+  deleteMoimPost,
   deleteMoimPostComment,
   getMoimPostComments,
   getMoimPostDetail,
@@ -198,6 +199,19 @@ function useBlockMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useDeleteMoimPost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteMoimPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
 function usePost() {
   const moimPostMutation = useMoimPost();
   const postWriteCommentMutation = useWriteMoimPostComment();
@@ -207,6 +221,7 @@ function usePost() {
   const deleteMoimPostCommentMutation = useDeleteMoimPostComment();
   const reportMoimPostCommentMutation = useReportMoimPostComment();
   const blockMoimPostCommentMutation = useBlockMoimPostComment();
+  const deleteMoimPostMutation = useDeleteMoimPost();
 
   return {
     moimPostMutation,
@@ -217,6 +232,7 @@ function usePost() {
     deleteMoimPostCommentMutation,
     reportMoimPostCommentMutation,
     blockMoimPostCommentMutation,
+    deleteMoimPostMutation,
     useGetInfiniteMoimPostList,
     useGetInfiniteMoimPostComment,
     useGetMoimPostDetail,

@@ -14,13 +14,14 @@ import useTags from 'hooks/useTags';
 import usePermission from 'hooks/usePermission';
 import useImagePicker from 'hooks/useImagePicker';
 import { useState } from 'react';
-import { CATEGORY_MENU_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
+import { CATEGORY_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
 
 const MoimCreateScreen = () => {
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const platform = Platform.OS;
   const [isPressed, setIsPressed] = useState(false);
   const [category, setCategory] = useState('');
+  const categoryKeys = Object.keys(CATEGORY_LIST);
 
   const handleSelectedCategory = (selected: any) => {
     setCategory(selected);
@@ -84,7 +85,7 @@ const MoimCreateScreen = () => {
       <CategoryDropdown 
         onPress={handleCategory} 
         isPressed={isPressed} 
-        menuList={CATEGORY_MENU_LIST}
+        menuList={categoryKeys}
         handleSelect={handleSelectedCategory}
         selectedMenu={category}
         placeholder='카테고리'

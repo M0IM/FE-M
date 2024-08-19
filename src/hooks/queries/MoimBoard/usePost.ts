@@ -7,6 +7,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import {
+  deleteMoimPostComment,
   getMoimPostComments,
   getMoimPostDetail,
   getMoimPostList,
@@ -156,12 +157,26 @@ function useLikeMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useDeleteMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteMoimPostComment,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
 function usePost() {
   const moimPostMutation = useMoimPost();
   const postWriteCommentMutation = useWriteMoimPostComment();
   const postWriteRecommentMutation = useWriteMoimPostRecomment();
   const likeMoimPostMutation = useLikeMoimPost();
   const likeMoimPostCommentMutation = useLikeMoimPostComment();
+  const deleteMoimPostCommentMutation = useDeleteMoimPostComment();
 
   return {
     moimPostMutation,
@@ -169,6 +184,7 @@ function usePost() {
     postWriteRecommentMutation,
     likeMoimPostMutation,
     likeMoimPostCommentMutation,
+    deleteMoimPostCommentMutation,
     useGetInfiniteMoimPostList,
     useGetInfiniteMoimPostComment,
     useGetMoimPostDetail,

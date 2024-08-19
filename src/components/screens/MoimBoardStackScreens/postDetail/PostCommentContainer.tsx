@@ -1,85 +1,135 @@
-import { View, Pressable, FlatList } from 'react-native';
+import {View, Pressable, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Avatar from 'components/@common/Avatar/Avatar';
-import { Typography } from 'components/@common/Typography/Typography';
+import {Typography} from 'components/@common/Typography/Typography';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import usePopover from 'hooks/usePopover';
-import { TPostCommentDto } from 'types/dtos/post';
+import {TPostCommentDto} from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
-import { useGetMyProfile } from 'hooks/queries/MyScreen/useGetProfile';
+import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
+import usePost from 'hooks/queries/MoimBoard/usePost';
+import Toast from 'react-native-toast-message';
 
 interface PostCommentContainerProps {
-    commentData: TPostCommentDto;
-    handleUpdateCommentId: (commentId: any) => void;
-    targetCommentId?: number | null;
-    handleMoimPostCommentLike: (commentId: any) => void;
+  commentData: TPostCommentDto;
+  handleUpdateCommentId: (commentId: any) => void;
+  targetCommentId?: number | null;
+  handleMoimPostCommentLike: (commentId: any) => void;
 }
 
 const PostCommentContainer = ({
-    commentData,
-    handleUpdateCommentId,
-    targetCommentId,
-    handleMoimPostCommentLike
+  commentData,
+  handleUpdateCommentId,
+  targetCommentId,
+  handleMoimPostCommentLike,
 }: PostCommentContainerProps) => {
-    const { isPopover, handlePopover } = usePopover();
-    const { data: userInfo } = useGetMyProfile();
+  const {isPopover, handlePopover} = usePopover();
+  const {data: userInfo} = useGetMyProfile();
+  const {deleteMoimPostCommentMutation} = usePost();
 
-    // TODO: 본인이 작성한 글인지 확인 가능해지면 수정
-    const PostMenuList = [
-        {
-            title: '신고하기',
-            onPress: () => console.log(1)          
+  const handleDeleteComment = () => {
+    deleteMoimPostCommentMutation.mutate(
+      {
+        commentId: commentData.commentId,
+      },
+      {
+        onSuccess: data => {},
+        onError: error => {
+          Toast.show({
+            type: 'error',
+            text1: error.message || '댓글 삭제 중 에러가 발생했습니다.',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
         },
-        {
-            title: '차단하기',
-            onPress: () => console.log(3)            
-        },
-    ];
-
-    const PostMyMenuList = [
-        {
-            title: '삭제하기',
-            onPress: () => console.log(3)            
-        },
-    ];
-
-    return (
-        <View className='flex flex-col my-2'>
-            <View className='flex flex-col border-b-[0.5px] border-gray-200 pb-4' style={{ backgroundColor: targetCommentId === commentData.commentId ? 'rgba(255, 0, 0, 0.4)' : 'white' }}>
-                <View className='flex flex-row items-center'>
-                    <Avatar size='XS' uri={commentData?.profileImage} />
-                    <View className='flex flex-col justify-center ml-2'>
-                        <Typography fontWeight='MEDIUM' className='text-dark-800 text-xs'>{commentData?.writer}</Typography>
-                        <Typography fontWeight='MEDIUM' className='text-gray-300 text-xs'>{commentData?.createAt}</Typography>
-                    </View>
-                    <View className='flex flex-row gap-x-2 ml-auto'>
-                        <Pressable onPress={handlePopover}>
-                            <Ionicons name='ellipsis-vertical' size={15} color={'#C9CCD1'} />
-                        </Pressable>
-                        <Pressable onPress={() => handleUpdateCommentId(commentData.commentId)}>
-                            <Ionicons name='chatbubble-outline' size={15} color={'#C9CCD1'} />
-                        </Pressable>
-                        <Pressable onPress={() => handleMoimPostCommentLike(commentData.commentId)}>
-                            {commentData.isLike ? <Ionicons name='heart' size={15} color={'#00F0A1'} /> :
-                                <Ionicons name='heart-outline' size={15} color={'#C9CCD1'} />
-                            }
-                        </Pressable>
-                    </View>
-                </View>
-                <Typography fontWeight='MEDIUM' className='text-dark-800 text-sm mt-3 pl-1'>{commentData?.content}</Typography>
-                <Typography fontWeight='MEDIUM' className='text-gray-300 text-sm ml-auto'>좋아요 {commentData?.likeCount}</Typography>
-            </View>
-            <FlatList 
-                data={commentData?.commentResponseDTOList}
-                renderItem={({item}) => (
-                    <PostRecommentContainer recommentData={item} />
-                )}
-            />
-            <View className='absolute top-[-110] right-10'>
-                <PopoverMenu menu={userInfo?.result.nickname === commentData?.writer ? PostMyMenuList : PostMenuList} isPopover={isPopover} />
-            </View>
-        </View>
+      },
     );
+  };
+
+  // TODO: 본인이 작성한 글인지 확인 가능해지면 수정
+  const PostMenuList = [
+    {
+      title: '신고하기',
+      onPress: () => console.log(1),
+    },
+    {
+      title: '차단하기',
+      onPress: () => console.log(3),
+    },
+  ];
+
+  const PostMyMenuList = [
+    {
+      title: '삭제하기',
+      onPress: () => handleDeleteComment(),
+    },
+  ];
+
+  return (
+    <View className="flex flex-col my-2">
+      <View
+        className="flex flex-col border-b-[0.5px] border-gray-200 pb-4"
+        style={{
+          backgroundColor:
+            targetCommentId === commentData.commentId
+              ? 'rgba(255, 0, 0, 0.4)'
+              : 'white',
+        }}>
+        <View className="flex flex-row items-center">
+          <Avatar size="XS" uri={commentData?.profileImage} />
+          <View className="flex flex-col justify-center ml-2">
+            <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
+              {commentData?.writer}
+            </Typography>
+            <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
+              {commentData?.createAt}
+            </Typography>
+          </View>
+          <View className="flex flex-row gap-x-2 ml-auto">
+            <Pressable onPress={handlePopover}>
+              <Ionicons name="ellipsis-vertical" size={15} color={'#C9CCD1'} />
+            </Pressable>
+            <Pressable
+              onPress={() => handleUpdateCommentId(commentData.commentId)}>
+              <Ionicons name="chatbubble-outline" size={15} color={'#C9CCD1'} />
+            </Pressable>
+            <Pressable
+              onPress={() => handleMoimPostCommentLike(commentData.commentId)}>
+              {commentData.isLike ? (
+                <Ionicons name="heart" size={15} color={'#00F0A1'} />
+              ) : (
+                <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
+              )}
+            </Pressable>
+          </View>
+        </View>
+        <Typography
+          fontWeight="MEDIUM"
+          className="text-dark-800 text-sm mt-3 pl-1">
+          {commentData?.content}
+        </Typography>
+        <Typography
+          fontWeight="MEDIUM"
+          className="text-gray-300 text-sm ml-auto">
+          좋아요 {commentData?.likeCount}
+        </Typography>
+      </View>
+      <FlatList
+        data={commentData?.commentResponseDTOList}
+        renderItem={({item}) => <PostRecommentContainer recommentData={item} />}
+      />
+      <View className="absolute top-[-110] right-10">
+        <PopoverMenu
+          menu={
+            userInfo?.result.nickname === commentData?.writer
+              ? PostMyMenuList
+              : PostMenuList
+          }
+          isPopover={isPopover}
+        />
+      </View>
+    </View>
+  );
 };
 
 export default PostCommentContainer;

@@ -47,6 +47,21 @@ const deleteMoimPost = async ({postId}: {postId: number}): Promise<string> => {
   return data?.result;
 };
 
+// 게시글 신고
+const reportMoimPost = async ({
+  moimId,
+  postId,
+}: {
+  moimId: number;
+  postId: number;
+}) => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/posts/reports`, {
+    moimId,
+    postId,
+  });
+  return data?.result;
+};
+
 // 게시글 댓글 작성
 const writeMoimPostComment = async ({
   moimId,
@@ -180,4 +195,5 @@ export {
   reportMoimPostComment,
   blockMoimPostComment,
   deleteMoimPost,
+  reportMoimPost,
 };

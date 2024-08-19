@@ -41,6 +41,7 @@ const MoimPostDetailScreen = ({
     postWriteRecommentMutation,
     likeMoimPostMutation,
     deleteMoimPostMutation,
+    reportMoimPostMutation,
   } = usePost();
   const {
     data,
@@ -194,6 +195,37 @@ const MoimPostDetailScreen = ({
     }
   };
 
+  const handleReportMoimPost = () => {
+    if (id && postId) {
+      reportMoimPostMutation.mutate(
+        {
+          moimId: id,
+          postId,
+        },
+        {
+          onSuccess: () => {
+            Toast.show({
+              type: 'success',
+              text1: '게시글이 신고되었습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+          onError: error => {
+            Toast.show({
+              type: 'error',
+              text1:
+                error?.response?.data.message ||
+                '게시글 신고 중 에러가 발생했습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+        },
+      );
+    }
+  };
+
   if (isPending) {
     return (
       <Typography fontWeight="BOLD" className="">
@@ -213,7 +245,7 @@ const MoimPostDetailScreen = ({
   const PostMenuList = [
     {
       title: '신고하기',
-      onPress: () => {},
+      onPress: () => handleReportMoimPost(),
     },
     {
       title: '차단하기',

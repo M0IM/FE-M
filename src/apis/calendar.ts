@@ -31,7 +31,7 @@ const getPersonalCalendar = async ({
   month,
 }: Omit<TCalndarProps, 'moimId'>): Promise<TCalendarPersonalResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moim/calender/individual-plans?year=${year}&month=${month}`,
+    `/api/v1/users/calender?year=${year}&month=${month}`,
   );
 
   return data.result.planList;
@@ -57,15 +57,16 @@ const postDetailMoimCalendar = async ({
   moimId,
   title,
   date,
+  startTime,
   location,
   locationDetail,
   cost,
   schedules,
 }: TPostDetailMoimCalendarDTO) => {
   const {data} = await axiosInstance.post(`/api/v1/moim/${moimId}/calender`, {
-    moimId,
     title,
     date,
+    startTime,
     location,
     locationDetail,
     cost,

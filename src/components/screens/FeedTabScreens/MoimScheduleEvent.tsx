@@ -46,7 +46,7 @@ export default function MoimScheduleEvent() {
             time={item.time}
           />
         )}
-        keyExtractor={schedule => String(schedule.id)}
+        keyExtractor={schedule => String(schedule.planId)}
         contentContainerStyle={{
           gap: 10,
         }}

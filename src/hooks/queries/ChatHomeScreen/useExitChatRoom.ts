@@ -1,14 +1,14 @@
 import {useMutation} from '@tanstack/react-query';
 
 import {UseMutationCustomOptions} from 'types/mutations/common.ts';
-import {postDetailMoimCalendar} from 'apis';
+import {exitChatRoom} from 'apis/chat.ts';
 
-function usePostDetailMoimCalendar(mutationOptions?: UseMutationCustomOptions) {
+function useExitChatRoom(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
-    mutationFn: postDetailMoimCalendar,
+    mutationFn: exitChatRoom,
     onError: error => console.log(error),
     ...mutationOptions,
   });
 }
 
-export default usePostDetailMoimCalendar;
+export default useExitChatRoom;

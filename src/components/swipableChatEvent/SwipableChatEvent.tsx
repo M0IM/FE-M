@@ -4,12 +4,13 @@ import {TouchableOpacity, View} from 'react-native';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import {Swipeable} from 'react-native-gesture-handler';
 import Avatar from '../@common/Avatar/Avatar.tsx';
+import {TChatRoomsDTO} from '../../types/dtos/chat.ts';
 
-interface IChatEventProps {
-  item: {id: number; name: string};
-}
-
-export function SwipableChatEvent({item}: IChatEventProps) {
+export function SwipableChatEvent({
+  chatRoomId,
+  title,
+  imageKeyName,
+}: TChatRoomsDTO) {
   const navigation = useNavigation<ChatStackNavigationProp>();
 
   const rightSwipe = () => {
@@ -49,12 +50,12 @@ export function SwipableChatEvent({item}: IChatEventProps) {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate('CHAT_ROOM', {
-            id: item.id,
+            id: chatRoomId,
           })
         }
         className="flex-row items-center w-full gap-x-1.5">
         <Avatar size={'MD'} />
-        <Typography fontWeight={'MEDIUM'}>{item.name}</Typography>
+        <Typography fontWeight={'MEDIUM'}>{title}</Typography>
       </TouchableOpacity>
     </Swipeable>
   );

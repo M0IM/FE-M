@@ -44,6 +44,7 @@ type TPostDetailMoimCalendarDTO = {
   moimId: number;
   title: string;
   date: Date;
+  startTime: Date;
   location: string;
   locationDetail: string;
   cost: number;

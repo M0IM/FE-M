@@ -17,7 +17,6 @@ interface PostCommentContainerProps {
   commentData: TPostCommentDto;
   handleUpdateCommentId: (commentId: any) => void;
   targetCommentId?: number | null;
-  handleMoimPostCommentLike: (commentId: any) => void;
   refetchComment: () => void;
 }
 
@@ -27,7 +26,6 @@ const PostCommentContainer = ({
   commentData,
   handleUpdateCommentId,
   targetCommentId,
-  handleMoimPostCommentLike,
   refetchComment,
 }: PostCommentContainerProps) => {
   const {isPopover, handlePopover} = usePopover();
@@ -36,7 +34,32 @@ const PostCommentContainer = ({
     deleteMoimPostCommentMutation,
     reportMoimPostCommentMutation,
     blockMoimPostCommentMutation,
+    likeMoimPostCommentMutation,
   } = usePost();
+
+  const handleMoimPostCommentLike = (commentId: number) => {
+    likeMoimPostCommentMutation.mutate(
+      {
+        commentId,
+      },
+      {
+        onSuccess: () => {
+          refetchComment();
+        },
+        onError: error => {
+          console.error(error);
+          Toast.show({
+            type: 'error',
+            text1:
+              error?.response?.data.message ||
+              '댓글 좋아요 중 에러가 발생했습니다.',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
+        },
+      },
+    );
+  };
 
   const handleBlockComment = () => {
     if (moimId && postId) {
@@ -92,7 +115,7 @@ const PostCommentContainer = ({
           onError: error => {
             Toast.show({
               type: 'error',
-              text1: error.message || '댓글 삭제 중 에러가 발생했습니다.',
+              text1: error.message || '댓글 신고 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
             });
@@ -108,7 +131,7 @@ const PostCommentContainer = ({
         commentId: commentData.commentId,
       },
       {
-        onSuccess: data => {
+        onSuccess: () => {
           handlePopover();
           Toast.show({
             type: 'success',
@@ -199,7 +222,14 @@ const PostCommentContainer = ({
       </View>
       <FlatList
         data={commentData?.commentResponseDTOList}
-        renderItem={({item}) => <PostRecommentContainer recommentData={item} />}
+        renderItem={({item}) => (
+          <PostRecommentContainer
+            moimId={moimId}
+            postId={postId}
+            recommentData={item}
+            refetchComment={refetchComment}
+          />
+        )}
       />
       <View className="absolute top-[-110] right-10">
         <PopoverMenu

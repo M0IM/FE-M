@@ -8,19 +8,20 @@ import {View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import Toast from 'react-native-toast-message';
+
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
-import usePopover from 'hooks/usePopover';
 import {InputField} from 'components/@common/InputField/InputField';
 import PostUserProfile from 'components/screens/MoimBoardStackScreens/postDetail/PostUserProfile';
 import PostInfoContainer from 'components/screens/MoimBoardStackScreens/postDetail/PostInfoContainer';
 import PostCommentContainer from 'components/screens/MoimBoardStackScreens/postDetail/PostCommentContainer';
+import {Typography} from 'components/@common/Typography/Typography';
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
-import usePost from 'hooks/queries/MoimBoard/usePost';
-import {Typography} from 'components/@common/Typography/Typography';
+import usePopover from 'hooks/usePopover';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
+import usePost from 'hooks/queries/MoimBoard/usePost';
 
 interface MoimPostDetailScreenProps {
   route: MoimPostStackRouteProp;
@@ -39,7 +40,6 @@ const MoimPostDetailScreen = ({
     postWriteCommentMutation,
     postWriteRecommentMutation,
     likeMoimPostMutation,
-    likeMoimPostCommentMutation,
   } = usePost();
   const {
     data,
@@ -162,30 +162,6 @@ const MoimPostDetailScreen = ({
     );
   };
 
-  const handleMoimPostCommentLike = (commentId: number) => {
-    likeMoimPostCommentMutation.mutate(
-      {
-        commentId,
-      },
-      {
-        onSuccess: () => {
-          refetch();
-        },
-        onError: error => {
-          console.error(error);
-          Toast.show({
-            type: 'error',
-            text1:
-              error?.response?.data.message ||
-              '댓글 좋아요 중 에러가 발생했습니다.',
-            visibilityTime: 2000,
-            position: 'bottom',
-          });
-        },
-      },
-    );
-  };
-
   if (isPending) {
     return (
       <Typography fontWeight="BOLD" className="">
@@ -239,7 +215,6 @@ const MoimPostDetailScreen = ({
             targetCommentId={commentId}
             handleUpdateCommentId={handleUpdateCommentId}
             commentData={item}
-            handleMoimPostCommentLike={handleMoimPostCommentLike}
             refetchComment={refetch}
           />
         )}

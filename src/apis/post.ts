@@ -13,6 +13,7 @@ import {
 } from 'types/dtos/post';
 import axiosInstance from './axiosInstance';
 
+// 게시글 작성
 const writeMoimPost = async ({
   moimId,
   title,
@@ -31,6 +32,7 @@ const writeMoimPost = async ({
   return data;
 };
 
+// 게시글 좋아요
 const likeMoimPost = async ({postId}: {postId: number}) => {
   const {data} = await axiosInstance.post('/api/v1/moims/posts/like', {
     postId,
@@ -39,6 +41,7 @@ const likeMoimPost = async ({postId}: {postId: number}) => {
   return data;
 };
 
+// 게시글 댓글 작성
 const writeMoimPostComment = async ({
   moimId,
   postId,
@@ -53,6 +56,7 @@ const writeMoimPostComment = async ({
   return data;
 };
 
+// 게시글 대댓글 작성
 const writeMoimPostRecomment = async ({
   moimId,
   commentId,
@@ -71,6 +75,7 @@ const writeMoimPostRecomment = async ({
   return data?.result;
 };
 
+// 게시글 댓글/대댓글 좋아요
 const likeMoimPostComment = async ({commentId}: {commentId: number}) => {
   const {data} = await axiosInstance.post('/api/v1/moims/comments/Like', {
     commentId,
@@ -79,6 +84,7 @@ const likeMoimPostComment = async ({commentId}: {commentId: number}) => {
   return data;
 };
 
+// 게시글 리스트 가져오기
 const getMoimPostList = async ({
   moimId,
   postType,
@@ -91,6 +97,7 @@ const getMoimPostList = async ({
   return data?.result;
 };
 
+// 게시글 상세 데이터 가져오기
 const getMoimPostDetail = async ({
   moimId,
   postId,
@@ -101,6 +108,7 @@ const getMoimPostDetail = async ({
   return data?.result;
 };
 
+// 게시글 댓글/대댓글 리스트 가져오기
 const getMoimPostComments = async ({
   moimId,
   postId,
@@ -113,7 +121,7 @@ const getMoimPostComments = async ({
   return data.result;
 };
 
-// TODO: 댓글 삭제 API 수정 필요
+// TODO: 댓글/대댓글 삭제 API 수정 필요
 const deleteMoimPostComment = async ({
   commentId,
 }: {
@@ -125,6 +133,7 @@ const deleteMoimPostComment = async ({
   return data?.result;
 };
 
+// 댓글/대댓글 신고하기
 const reportMoimPostComment = async ({
   moimId,
   postId,
@@ -138,6 +147,7 @@ const reportMoimPostComment = async ({
   return data?.result;
 };
 
+// 댓글/대댓글 차단하기
 const blockMoimPostComment = async ({
   moimId,
   postId,

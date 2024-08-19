@@ -240,6 +240,7 @@ const MoimPostDetailScreen = ({
             handleUpdateCommentId={handleUpdateCommentId}
             commentData={item}
             handleMoimPostCommentLike={handleMoimPostCommentLike}
+            refetchComment={refetch}
           />
         )}
         contentContainerStyle={{

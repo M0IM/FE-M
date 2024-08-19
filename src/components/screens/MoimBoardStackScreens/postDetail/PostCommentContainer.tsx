@@ -18,6 +18,7 @@ interface PostCommentContainerProps {
   handleUpdateCommentId: (commentId: any) => void;
   targetCommentId?: number | null;
   handleMoimPostCommentLike: (commentId: any) => void;
+  refetchComment: () => void;
 }
 
 const PostCommentContainer = ({
@@ -27,11 +28,47 @@ const PostCommentContainer = ({
   handleUpdateCommentId,
   targetCommentId,
   handleMoimPostCommentLike,
+  refetchComment,
 }: PostCommentContainerProps) => {
   const {isPopover, handlePopover} = usePopover();
   const {data: userInfo} = useGetMyProfile();
-  const {deleteMoimPostCommentMutation, reportMoimPostCommentMutation} =
-    usePost();
+  const {
+    deleteMoimPostCommentMutation,
+    reportMoimPostCommentMutation,
+    blockMoimPostCommentMutation,
+  } = usePost();
+
+  const handleBlockComment = () => {
+    if (moimId && postId) {
+      blockMoimPostCommentMutation.mutate(
+        {
+          moimId,
+          postId,
+          commentId: commentData.commentId,
+        },
+        {
+          onSuccess: () => {
+            handlePopover();
+            Toast.show({
+              type: 'success',
+              text1: '댓글이 차단되었습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+            refetchComment();
+          },
+          onError: error => {
+            Toast.show({
+              type: 'error',
+              text1: error.message || '댓글 차단 중 에러가 발생했습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+        },
+      );
+    }
+  };
 
   const handleReportComment = () => {
     if (moimId && postId) {
@@ -50,6 +87,7 @@ const PostCommentContainer = ({
               visibilityTime: 2000,
               position: 'bottom',
             });
+            refetchComment();
           },
           onError: error => {
             Toast.show({
@@ -78,6 +116,7 @@ const PostCommentContainer = ({
             visibilityTime: 2000,
             position: 'bottom',
           });
+          refetchComment();
         },
         onError: error => {
           Toast.show({
@@ -98,7 +137,7 @@ const PostCommentContainer = ({
     },
     {
       title: '차단하기',
-      onPress: () => console.log(3),
+      onPress: () => handleBlockComment(),
     },
   ];
 

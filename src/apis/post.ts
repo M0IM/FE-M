@@ -138,6 +138,19 @@ const reportMoimPostComment = async ({
   return data?.result;
 };
 
+const blockMoimPostComment = async ({
+  moimId,
+  postId,
+  commentId,
+}: TReportMoimPostCommentParams): Promise<string> => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/comments/block`, {
+    moimId,
+    postId,
+    commentId,
+  });
+  return data?.result;
+};
+
 export {
   writeMoimPost,
   likeMoimPost,
@@ -149,4 +162,5 @@ export {
   getMoimPostComments,
   deleteMoimPostComment,
   reportMoimPostComment,
+  blockMoimPostComment,
 };

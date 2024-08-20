@@ -25,7 +25,6 @@ import {
 import {queryKeys, storageKeys} from 'constants/storageKeys/keys.ts';
 import Toast from 'react-native-toast-message';
 import {TMyProfileResponse} from '../../../types/dtos/user.ts';
-import {getProfile} from '@react-native-seoul/kakao-login';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -37,6 +36,8 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
       setHeader('Authorization', accessToken);
       setEncryptStorage(storageKeys.ACCESS_TOKEN, accessToken);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
+      queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
+      queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
       Toast.show({
         type: 'success',
         text1: data.message ? data.message : '회원가입 성공',

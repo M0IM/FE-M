@@ -15,6 +15,7 @@ type TSignup = {
 type TResponseToken = {
   accessToken: string;
   refreshToken: string;
+  result?: string;
   provider: 'KAKAO' | 'GOOGLE' | 'APPLE' | 'NAVER' | 'UNREGISTERED';
 };
 

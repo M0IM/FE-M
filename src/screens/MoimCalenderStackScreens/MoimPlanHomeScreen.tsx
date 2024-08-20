@@ -51,6 +51,8 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
     setSelectedDate(date);
   };
 
+  console.log(moimId);
+
   return (
     <SafeAreaView className={'bg-white flex-1'}>
       <MoimCalendar
@@ -67,10 +69,10 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
       <FloatingButton
         type={'add'}
         onPress={() => {
-          setIsEditMode(false);
           navigation.navigate('MOIM_WRITE', {
             id: moimId,
           });
+          setIsEditMode(false);
         }}
       />
     </SafeAreaView>

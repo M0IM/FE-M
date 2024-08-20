@@ -34,6 +34,8 @@ type TDetailMoimCalendarDTO = {
   title: string;
   date: string;
   location: string;
+  startTime: string;
+  locationDetail: string;
   cost: string;
   participant: number;
   schedules: TScheduleDTO[];
@@ -42,6 +44,7 @@ type TDetailMoimCalendarDTO = {
 
 type TPostDetailMoimCalendarDTO = {
   moimId: number;
+  planId?: number;
   title: string;
   date: string;
   startTime: string;

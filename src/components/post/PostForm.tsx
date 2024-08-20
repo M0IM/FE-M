@@ -26,7 +26,9 @@ import {
 } from 'utils';
 import useModal from 'hooks/useModal.ts';
 import usePostDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/usePostDetailMoimCalendar.ts';
-import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import {queryClient} from 'containers/TanstackQueryContainer.tsx';
+import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
+import useUpdateDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/useUpdateDetailMoimCalendar.ts';
 
 interface IPostForm {
   moimId: number;
@@ -42,58 +44,87 @@ type TSchedules = {
 export default function PostForm({moimId}: IPostForm) {
   const navigation = useNavigation<TNavigationProps>();
   const datePickerModal = useModal();
-  const timePickerModal = useModal(); // Time picker modal for managing time selection
+  const timePickerModal = useModal();
+  const {moimCalendar, setIsEditMode, isEditMode} = useMoimCalendarStore();
+  const isEdit = moimCalendar && isEditMode;
   const [isPicked, setIsPicked] = useState(false);
-  const [isPickedTime, setIsPickedTime] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [isEdit, setIsEdit] = useState(false);
-  const [schedules, setSchedules] = useState<TSchedules[]>([]);
-  const [isEditing, setIsEditing] = useState<number | null>(null);
+  const [isPickedTime, setIsPickedTime] = useState(
+    isEdit ? new Date(moimCalendar.startTime) : new Date(),
+  );
+  const [date, setDate] = useState(
+    isEdit ? new Date(moimCalendar?.date) : new Date(),
+  );
+  const [schedules, setSchedules] = useState<TSchedules[]>(
+    isEdit ? moimCalendar?.schedules : [],
+  );
   const [selectedTime, setSelectedTime] = useState(new Date());
+  const [isEditing, setIsEditing] = useState(null);
   const addPost = useForm({
     initialValue: {
-      title: '',
-      date: '',
-      locationDetail: '',
-      cost: '',
+      title: isEdit ? moimCalendar.title : '',
+      date: isEdit ? moimCalendar.date : '',
+      locationDetail: isEdit ? (moimCalendar.locationDetail ?? '') : '',
+      cost: isEdit ? moimCalendar.cost : '',
     },
     validate: validateAddMoimPosts,
   });
 
-  const {mutate} = usePostDetailMoimCalendar();
+  console.log(isEdit);
+
+  const {mutate: writePost} = usePostDetailMoimCalendar();
+  const {mutate: updatePost} = useUpdateDetailMoimCalendar();
 
   const handleSubmit = () => {
-    mutate(
-      {
-        moimId,
-        title: addPost.values.title,
-        date: moment(date).format('YYYY-MM-DD'),
-        // TODO: 지역 API 추가시, SelectBox 형태로 추가하기.
-        location: '주소나중에 추가됨',
-        locationDetail: addPost.values.locationDetail,
-        startTime: moment(selectedTime).format('HH:mm:ss'),
-        cost: addPost.values.cost,
-        schedules: schedules.map(schedule => {
-          const dateObject = parseTimeStringToDate(schedule.startTime);
-          return {
-            ...schedule,
-            startTime: dateObject.toISOString(),
-          };
-        }),
-      },
-      {
-        onSuccess: () => {
-          // TODO: 글 작성 후 해당 게시글로 돌아갈지, 아니면 뒤로가기 할 시 상의 후 설정하기.
-          navigation.navigate('MOIM_DETAIL', {
-            screen: 'MOIM_SPACE',
-            params: {
-              id: moimId,
+    const postData = {
+      moimId,
+      title: addPost.values.title,
+      date: moment(date).format('YYYY-MM-DD'),
+      location: '주소나중에 추가됨',
+      locationDetail: addPost.values.locationDetail,
+      startTime: moment(selectedTime).format('HH:mm:ss'),
+      cost: addPost.values.cost,
+      schedules: schedules.map(schedule => {
+        const dateObject = parseTimeStringToDate(schedule.startTime);
+        return {
+          ...schedule,
+          startTime: dateObject.toISOString(),
+        };
+      }),
+    };
+    isEdit
+      ? updatePost(
+          {
+            ...postData,
+            planId: moimCalendar?.planId,
+          },
+          {
+            onSuccess: () => {
+              setIsEditMode(false);
+              navigation.navigate('MOIM_DETAIL', {
+                screen: 'MOIM_SPACE',
+                params: {
+                  id: moimId,
+                },
+              });
+              queryClient.invalidateQueries({queryKey: ['moimCalendar']});
             },
-          });
-          queryClient.invalidateQueries({queryKey: ['moimCalendar']});
-        },
-      },
-    );
+          },
+        )
+      : writePost(
+          {...postData},
+          {
+            onSuccess: () => {
+              setIsEditMode(false);
+              navigation.navigate('MOIM_DETAIL', {
+                screen: 'MOIM_SPACE',
+                params: {
+                  id: moimId,
+                },
+              });
+              queryClient.invalidateQueries({queryKey: ['moimCalendar']});
+            },
+          },
+        );
   };
 
   const handleChangeDate = (pickedDate: Date) => {

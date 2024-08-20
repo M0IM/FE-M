@@ -8,6 +8,9 @@ import ParticipantList from 'components/screens/MoimPlanDetailScreen/Participant
 
 import {MoimPlanStackRouteProp} from 'navigators/types';
 import useGetDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useGetDetailMoimCalendar.ts';
+import usePostMoimScheduleParticipation from '../../hooks/queries/MoimPlanDetailScreen/usePostMoimScheduleParticipation.ts';
+import useDeleteMoimScheduleParticipation from '../../hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
+import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
@@ -23,6 +26,8 @@ export default function MoimPlanDetailScreen({
     moimId,
     planId,
   });
+  const {mutate: participationSchedule} = usePostMoimScheduleParticipation();
+  const {mutate: cancelSchedule} = useDeleteMoimScheduleParticipation();
 
   if (isPending || isError) {
     return <></>;
@@ -53,8 +58,40 @@ export default function MoimPlanDetailScreen({
         {/* TODO: 세부일정 참여 신청 API 받아서 연결하기 */}
         <View className="absolute right-0 left-0 bottom-3 m-5 flex-row items-center justify-center gap-y-2">
           <CustomButton
-            label="참여 신청하기"
+            label={
+              data?.isParticipant ? '일정 참여 취소하기' : '일정 참여 신청하기'
+            }
+            className={data?.isParticipant ? 'bg-error' : 'bg-main'}
             textStyle="font-bold text-white text-lg"
+            onPress={() => {
+              data?.isParticipant
+                ? cancelSchedule(
+                    {moimId, planId},
+                    {
+                      onSuccess: () => {
+                        queryClient.invalidateQueries({
+                          queryKey: ['detailCalendar', moimId, planId],
+                        });
+                        queryClient.invalidateQueries({
+                          queryKey: ['participantList', moimId, planId],
+                        });
+                      },
+                    },
+                  )
+                : participationSchedule(
+                    {moimId, planId},
+                    {
+                      onSuccess: () => {
+                        queryClient.invalidateQueries({
+                          queryKey: ['detailCalendar', moimId, planId],
+                        });
+                        queryClient.invalidateQueries({
+                          queryKey: ['participantList', moimId, planId],
+                        });
+                      },
+                    },
+                  );
+            }}
           />
         </View>
       </View>

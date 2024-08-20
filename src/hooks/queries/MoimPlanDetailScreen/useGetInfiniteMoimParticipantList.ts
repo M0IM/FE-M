@@ -23,7 +23,7 @@ function useGetInfiniteMoimParticipantList(
   return useSuspenseInfiniteQuery({
     queryFn: ({pageParam}) =>
       getDetailMoimParticipantsList({moimId, planId, page: pageParam}),
-    queryKey: ['detailCalendar', moimId],
+    queryKey: ['participantList', moimId, planId],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const lastMember = lastPage[lastPage?.length - 1];

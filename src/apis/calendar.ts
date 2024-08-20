@@ -141,6 +141,17 @@ const updateDetailMoimCalendar = async ({
   return data.result;
 };
 
+const deleteDetailMoimCalendar = async ({
+  moimId,
+  planId,
+}: TDetailCalendarProps) => {
+  const {data} = await axiosInstance.delete(
+    `/api/v1/moim/${moimId}/plan/${planId}`,
+  );
+
+  return data.result;
+};
+
 export {
   getMoimCalendar,
   getPersonalCalendar,
@@ -150,4 +161,5 @@ export {
   deleteMyCalendarSchedule,
   updateMyCalendarSchedule,
   updateDetailMoimCalendar,
+  deleteDetailMoimCalendar,
 };

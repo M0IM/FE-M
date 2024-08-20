@@ -19,6 +19,7 @@ import useGetDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useGetD
 import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/usePostMoimScheduleParticipation.ts';
 import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
+import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
@@ -37,6 +38,7 @@ export default function MoimPlanDetailScreen({
     moimId,
     planId,
   });
+  const {mutate: deletePost} = useDeleteDetailMoimCalendar();
   const {mutate: participationSchedule} = usePostMoimScheduleParticipation();
   const {mutate: cancelSchedule} = useDeleteMoimScheduleParticipation();
   const {setMoimCalendar, setIsEditMode} = useMoimCalendarStore();
@@ -51,12 +53,31 @@ export default function MoimPlanDetailScreen({
       onPress: () => {
         setIsEditMode(true);
         setMoimCalendar({...data, planId});
+        setIsPopOverOpen(false);
         navigation.navigate('MOIM_WRITE', {id: moimId});
       },
     },
     {
       title: '삭제하기',
-      onPress: () => console.log(3),
+      onPress: () => {
+        setIsPopOverOpen(false);
+        deletePost(
+          {moimId, planId},
+          {
+            onSuccess: data => {
+              console.log(data);
+              queryClient.invalidateQueries({
+                queryKey: ['detailCalendar', moimId, planId],
+              });
+              queryClient.invalidateQueries({
+                queryKey: ['participantList', moimId, planId],
+              });
+              navigation.goBack();
+            },
+            onError: error => console.log(error.message),
+          },
+        );
+      },
     },
   ];
 

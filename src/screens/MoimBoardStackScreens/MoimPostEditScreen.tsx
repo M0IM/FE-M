@@ -22,6 +22,7 @@ import usePost from 'hooks/queries/MoimBoard/usePost';
 import useCreatePresignedURL from 'hooks/queries/MyScreen/useCreatePresignedURL';
 import useMutateImages from 'hooks/queries/MoimCreateScreen/useMutateImages';
 import useImagePicker from 'hooks/useImagePicker';
+import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface MoimPostEditScreenProps {
   route: MoimPostStackRouteProp;
@@ -57,8 +58,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
           imageKeyNames: [],
         },
         {
-          onSuccess: data => {
-            console.log(data);
+          onSuccess: () => {
             Toast.show({
               type: 'success',
               text1: '게시글이 수정되었습니다.',
@@ -74,6 +74,11 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
               text1: error.message || '게시글 수정 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['moimPost', id, postId],
             });
           },
         },

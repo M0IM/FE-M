@@ -252,6 +252,13 @@ const MoimPostDetailScreen = ({
     }
   };
 
+  const handleUpdateMoimPost = () => {
+    if (id && postId) {
+      handlePopover();
+      navigation.navigate('MOIM_POST_EDIT', {id, postId});
+    }
+  };
+
   const handleReportMoimPost = () => {
     if (id && postId) {
       reportMoimPostMutation.mutate(
@@ -261,6 +268,7 @@ const MoimPostDetailScreen = ({
         },
         {
           onSuccess: () => {
+            handlePopover();
             Toast.show({
               type: 'success',
               text1: '게시글이 신고되었습니다.',
@@ -318,8 +326,7 @@ const MoimPostDetailScreen = ({
   const PostMyMenuList = [
     {
       title: '수정하기',
-      onPress: () =>
-        id && postId && navigation.navigate('MOIM_POST_EDIT', {id, postId}),
+      onPress: () => handleUpdateMoimPost(),
     },
     {
       title: '삭제하기',

@@ -289,7 +289,8 @@ const MoimPostDetailScreen = ({
   const PostMyMenuList = [
     {
       title: '수정하기',
-      onPress: () => navigation.navigate('MOIM_POST_EDIT', {id}),
+      onPress: () =>
+        id && postId && navigation.navigate('MOIM_POST_EDIT', {id, postId}),
     },
     {
       title: '삭제하기',

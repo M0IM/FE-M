@@ -18,6 +18,7 @@ import {
   likeMoimPostComment,
   reportMoimPost,
   reportMoimPostComment,
+  updateMoimPost,
   writeMoimPost,
   writeMoimPostComment,
   writeMoimPostRecomment,
@@ -240,6 +241,19 @@ function useBlockMoimPost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useUpdateMoimPost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: updateMoimPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
 function usePost() {
   const moimPostMutation = useMoimPost();
   const postWriteCommentMutation = useWriteMoimPostComment();
@@ -252,6 +266,7 @@ function usePost() {
   const deleteMoimPostMutation = useDeleteMoimPost();
   const reportMoimPostMutation = useReportMoimPost();
   const blockMoimPostMutation = useBlockMoimPost();
+  const updateMoimPostMutation = useUpdateMoimPost();
 
   return {
     moimPostMutation,
@@ -265,6 +280,7 @@ function usePost() {
     deleteMoimPostMutation,
     reportMoimPostMutation,
     blockMoimPostMutation,
+    updateMoimPostMutation,
     useGetInfiniteMoimPostList,
     useGetInfiniteMoimPostComment,
     useGetMoimPostDetail,

@@ -10,6 +10,7 @@ import {
   TPostDto,
   TPostListDto,
   TReportMoimPostCommentParams,
+  TUpdateMoimPostParams,
 } from 'types/dtos/post';
 import axiosInstance from './axiosInstance';
 
@@ -73,6 +74,24 @@ const blockMoimPost = async ({
   const {data} = await axiosInstance.post(`/api/v1/moims/posts/block`, {
     moimId,
     postId,
+  });
+  return data?.result;
+};
+
+// 게시글 수정
+const updateMoimPost = async ({
+  moimId,
+  postId,
+  title,
+  content,
+  imageKeyNames,
+}: TUpdateMoimPostParams): Promise<string> => {
+  const {data} = await axiosInstance.put(`/api/v1/moims/posts`, {
+    moimId,
+    postId,
+    title,
+    content,
+    imageKeyNames,
   });
   return data?.result;
 };
@@ -212,4 +231,5 @@ export {
   deleteMoimPost,
   reportMoimPost,
   blockMoimPost,
+  updateMoimPost,
 };

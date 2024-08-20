@@ -125,6 +125,14 @@ type TReportMoimPostCommentParams = {
   commentId: number;
 };
 
+type TUpdateMoimPostParams = {
+  moimId: number;
+  postId: number;
+  title: string;
+  content: string;
+  imageKeyNames: string[];
+};
+
 export type {
   TMoimPostParams,
   TMoimPostCommentParams,
@@ -133,6 +141,7 @@ export type {
   TMoimPostDetailParams,
   TMoimPostCommentsParams,
   TReportMoimPostCommentParams,
+  TUpdateMoimPostParams,
   TPostDto,
   TPostListDto,
   TPostDetailDto,

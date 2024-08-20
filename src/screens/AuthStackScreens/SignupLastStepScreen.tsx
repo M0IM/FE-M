@@ -129,7 +129,6 @@ export default function SignupLastStepScreen({
                 onCheckColor={'#FFFFFF'}
                 onTintColor={'#FFFFFF'}
               />
-              <CustomButton label={'HI'} onPress={handleSubmit} />
             </View>
           </View>
         </View>

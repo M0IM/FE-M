@@ -5,12 +5,16 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import {
   deleteUser,
   getAccessToken,
+  getUserProfile,
   logout,
   postLogin,
   postSignup,
   socialLogin,
 } from 'apis';
-import {UseMutationCustomOptions} from 'types/mutations/common.ts';
+import {
+  UseMutationCustomOptions,
+  UseQueryCustomOptions,
+} from 'types/mutations/common.ts';
 import {
   numbers,
   removeEncryptStorage,
@@ -20,6 +24,8 @@ import {
 } from 'utils';
 import {queryKeys, storageKeys} from 'constants/storageKeys/keys.ts';
 import Toast from 'react-native-toast-message';
+import {TMyProfileResponse} from '../../../types/dtos/user.ts';
+import {getProfile} from '@react-native-seoul/kakao-login';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -44,10 +50,9 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
       });
     },
     onError: error => {
-      console.log(error);
       Toast.show({
         type: 'error',
-        text1: error.message ? error.message : '회원가입에 실패하였습니다.',
+        text1: error.message || '회원가입 도중 에러가 발생했습니다.',
         visibilityTime: 2000,
         position: 'bottom',
       });
@@ -93,7 +98,6 @@ function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
       });
     },
     onError: error => {
-      console.log(error.message);
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -141,6 +145,7 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
       removeEncryptStorage(storageKeys.REFRESH_TOKEN);
       removeHeader('Authorization');
       queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
+      queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
       Toast.show({
         type: 'success',
         text1: data.message && '로그아웃에 성공하였습니다.',
@@ -176,7 +181,6 @@ function useDeleteUser(mutationOptions?: UseMutationCustomOptions) {
       });
     },
     onError: error => {
-      console.log(error);
       Toast.show({
         type: 'error',
         text1: error.message,
@@ -189,6 +193,16 @@ function useDeleteUser(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useGetProfile(
+  queryOptions?: UseQueryCustomOptions<TMyProfileResponse>,
+) {
+  return useQuery({
+    queryFn: getUserProfile,
+    queryKey: [queryKeys.AUTH, 'profile'],
+    ...queryOptions,
+  });
+}
+
 function useAuth() {
   const signUpMutation = useSignup();
   const loginMutation = useLogin();
@@ -196,7 +210,10 @@ function useAuth() {
   const getNewAccessToken = useGetRefreshToken();
   const logoutMutation = useLogout();
   const deleteUserMutation = useDeleteUser();
-  const isLogin = getNewAccessToken.isSuccess;
+  const getProfileQuery = useGetProfile({
+    enabled: getNewAccessToken.isSuccess,
+  });
+  const isLogin = getProfileQuery.isSuccess;
   const isLoginLoading = getNewAccessToken.isPending;
 
   return {

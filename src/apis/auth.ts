@@ -43,6 +43,7 @@ const postSignup = async ({
     birth,
     residence,
   });
+
   return data;
 };
 

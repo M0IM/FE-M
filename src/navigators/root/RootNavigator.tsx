@@ -6,13 +6,15 @@ import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
 import HomeStackNavigator from 'navigators/stack/HomeStackNavigator.tsx';
 
 export default function RootNavigator() {
-  const {isLogin} = useAuth();
+  const {isLogin, isLoginLoading} = useAuth();
 
   useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 300);
-  }, []);
+    if (!isLoginLoading) {
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 1000);
+    }
+  }, [isLoginLoading]);
 
   return <>{isLogin ? <HomeStackNavigator /> : <AuthStackNavigator />}</>;
 }

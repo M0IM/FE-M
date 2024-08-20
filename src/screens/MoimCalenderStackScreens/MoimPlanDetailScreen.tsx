@@ -20,6 +20,7 @@ import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen
 import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
+import Toast from 'react-native-toast-message';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
@@ -64,8 +65,7 @@ export default function MoimPlanDetailScreen({
         deletePost(
           {moimId, planId},
           {
-            onSuccess: data => {
-              console.log(data);
+            onSuccess: () => {
               queryClient.invalidateQueries({
                 queryKey: ['detailCalendar', moimId, planId],
               });
@@ -74,7 +74,6 @@ export default function MoimPlanDetailScreen({
               });
               navigation.goBack();
             },
-            onError: error => console.log(error.message),
           },
         );
       },

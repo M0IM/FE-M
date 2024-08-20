@@ -29,10 +29,31 @@ type TModifyChatRoomDTO = {
   imageKeyName: string;
 };
 
+type SenderDTO = {
+  senderId: number;
+  senderName: string;
+  senderProfile: string;
+};
+
+type ChatResponseDTO = {
+  chatId: number;
+  content: string;
+  imageKeyName: string;
+  createAt: Date;
+  senderDTO: SenderDTO;
+};
+
+type TChatListResponse = {
+  chatReponseList: ChatResponseDTO[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
 export type {
   TChatRoomsDTO,
   TChatRoomResponse,
   TCreateChatRoomDTO,
   TCreateChatRoomResponse,
   TModifyChatRoomDTO,
+  TChatListResponse,
 };

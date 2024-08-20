@@ -113,6 +113,8 @@ export default function AuthHomeScreen({
             }));
             onNext(result.provider);
           } else {
+            console.log(idToken);
+
             onNext('KAKAO');
           }
         },

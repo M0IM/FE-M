@@ -107,6 +107,9 @@ const MoimPostDetailScreen = ({
             queryClient.invalidateQueries({
               queryKey: ['postComments', id, postId],
             });
+            queryClient.invalidateQueries({
+              queryKey: ['moimPost', id, postId],
+            });
           },
         },
       );
@@ -339,7 +342,6 @@ const MoimPostDetailScreen = ({
             targetCommentId={commentId}
             handleUpdateCommentId={handleUpdateCommentId}
             commentData={item}
-            refetchComment={refetch}
           />
         )}
         contentContainerStyle={{

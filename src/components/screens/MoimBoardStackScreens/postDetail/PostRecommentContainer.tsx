@@ -9,19 +9,18 @@ import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePopover from 'hooks/usePopover';
 import {TPostRecommentDto} from 'types/dtos/post';
+import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface PostRecommentContainerProps {
   moimId?: number;
   postId?: number;
   recommentData: TPostRecommentDto;
-  refetchComment: () => void;
 }
 
 const PostRecommentContainer = ({
   moimId,
   postId,
   recommentData,
-  refetchComment,
 }: PostRecommentContainerProps) => {
   const {isPopover, handlePopover} = usePopover();
   const {data: userInfo} = useGetMyProfile();
@@ -38,9 +37,6 @@ const PostRecommentContainer = ({
         commentId,
       },
       {
-        onSuccess: () => {
-          refetchComment();
-        },
         onError: error => {
           console.error(error);
           Toast.show({
@@ -50,6 +46,11 @@ const PostRecommentContainer = ({
               '댓글 좋아요 중 에러가 발생했습니다.',
             visibilityTime: 2000,
             position: 'bottom',
+          });
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['postComments', moimId, postId],
           });
         },
       },
@@ -73,7 +74,6 @@ const PostRecommentContainer = ({
               visibilityTime: 2000,
               position: 'bottom',
             });
-            refetchComment();
           },
           onError: error => {
             Toast.show({
@@ -81,6 +81,11 @@ const PostRecommentContainer = ({
               text1: error.message || '댓글 차단 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['postComments', moimId, postId],
             });
           },
         },
@@ -105,7 +110,6 @@ const PostRecommentContainer = ({
               visibilityTime: 2000,
               position: 'bottom',
             });
-            refetchComment();
           },
           onError: error => {
             Toast.show({
@@ -113,6 +117,11 @@ const PostRecommentContainer = ({
               text1: error.message || '대댓글 신고 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['postComments', moimId, postId],
             });
           },
         },
@@ -134,7 +143,6 @@ const PostRecommentContainer = ({
             visibilityTime: 2000,
             position: 'bottom',
           });
-          refetchComment();
         },
         onError: error => {
           Toast.show({
@@ -142,6 +150,11 @@ const PostRecommentContainer = ({
             text1: error.message || '대댓글 삭제 중 에러가 발생했습니다.',
             visibilityTime: 2000,
             position: 'bottom',
+          });
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['postComments', moimId, postId],
           });
         },
       },
@@ -165,6 +178,16 @@ const PostRecommentContainer = ({
       onPress: () => handleDeleteRecomment(),
     },
   ];
+
+  // 삭제된 대댓글
+  if (recommentData.content === null) {
+    return <></>;
+  }
+
+  // 차단된 대댓글
+  if (recommentData.writer === null) {
+    return <></>;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => isPopover && handlePopover()}>

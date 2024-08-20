@@ -10,6 +10,7 @@ import {TPostCommentDto} from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
+import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface PostCommentContainerProps {
   moimId?: number;
@@ -17,7 +18,6 @@ interface PostCommentContainerProps {
   commentData: TPostCommentDto;
   handleUpdateCommentId: (commentId: any) => void;
   targetCommentId?: number | null;
-  refetchComment: () => void;
 }
 
 const PostCommentContainer = ({
@@ -26,7 +26,6 @@ const PostCommentContainer = ({
   commentData,
   handleUpdateCommentId,
   targetCommentId,
-  refetchComment,
 }: PostCommentContainerProps) => {
   const {isPopover, handlePopover} = usePopover();
   const {data: userInfo} = useGetMyProfile();
@@ -43,9 +42,6 @@ const PostCommentContainer = ({
         commentId,
       },
       {
-        onSuccess: () => {
-          refetchComment();
-        },
         onError: error => {
           console.error(error);
           Toast.show({
@@ -55,6 +51,11 @@ const PostCommentContainer = ({
               '댓글 좋아요 중 에러가 발생했습니다.',
             visibilityTime: 2000,
             position: 'bottom',
+          });
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['postComments', moimId, postId],
           });
         },
       },
@@ -78,7 +79,6 @@ const PostCommentContainer = ({
               visibilityTime: 2000,
               position: 'bottom',
             });
-            refetchComment();
           },
           onError: error => {
             Toast.show({
@@ -86,6 +86,11 @@ const PostCommentContainer = ({
               text1: error.message || '댓글 차단 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['postComments', moimId, postId],
             });
           },
         },
@@ -110,7 +115,6 @@ const PostCommentContainer = ({
               visibilityTime: 2000,
               position: 'bottom',
             });
-            refetchComment();
           },
           onError: error => {
             Toast.show({
@@ -118,6 +122,11 @@ const PostCommentContainer = ({
               text1: error.message || '댓글 신고 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['postComments', moimId, postId],
             });
           },
         },
@@ -139,7 +148,6 @@ const PostCommentContainer = ({
             visibilityTime: 2000,
             position: 'bottom',
           });
-          refetchComment();
         },
         onError: error => {
           Toast.show({
@@ -147,6 +155,11 @@ const PostCommentContainer = ({
             text1: error.message || '댓글 삭제 중 에러가 발생했습니다.',
             visibilityTime: 2000,
             position: 'bottom',
+          });
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['postComments', moimId, postId],
           });
         },
       },
@@ -170,6 +183,16 @@ const PostCommentContainer = ({
       onPress: () => handleDeleteComment(),
     },
   ];
+
+  // 삭제된 댓글
+  if (commentData.content === null) {
+    return <></>;
+  }
+
+  // 차단된 댓글
+  if (commentData.writer === null) {
+    return <></>;
+  }
 
   return (
     <View className="flex flex-col my-2">
@@ -227,7 +250,6 @@ const PostCommentContainer = ({
             moimId={moimId}
             postId={postId}
             recommentData={item}
-            refetchComment={refetchComment}
           />
         )}
       />

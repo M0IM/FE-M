@@ -7,11 +7,18 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import {
+  blockMoimPost,
+  blockMoimPostComment,
+  deleteMoimPost,
+  deleteMoimPostComment,
   getMoimPostComments,
   getMoimPostDetail,
   getMoimPostList,
   likeMoimPost,
   likeMoimPostComment,
+  reportMoimPost,
+  reportMoimPostComment,
+  updateMoimPost,
   writeMoimPost,
   writeMoimPostComment,
   writeMoimPostRecomment,
@@ -156,12 +163,110 @@ function useLikeMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useDeleteMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteMoimPostComment,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useReportMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: reportMoimPostComment,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useBlockMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: blockMoimPostComment,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useDeleteMoimPost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteMoimPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useReportMoimPost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: reportMoimPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useBlockMoimPost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: blockMoimPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useUpdateMoimPost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: updateMoimPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
 function usePost() {
   const moimPostMutation = useMoimPost();
   const postWriteCommentMutation = useWriteMoimPostComment();
   const postWriteRecommentMutation = useWriteMoimPostRecomment();
   const likeMoimPostMutation = useLikeMoimPost();
   const likeMoimPostCommentMutation = useLikeMoimPostComment();
+  const deleteMoimPostCommentMutation = useDeleteMoimPostComment();
+  const reportMoimPostCommentMutation = useReportMoimPostComment();
+  const blockMoimPostCommentMutation = useBlockMoimPostComment();
+  const deleteMoimPostMutation = useDeleteMoimPost();
+  const reportMoimPostMutation = useReportMoimPost();
+  const blockMoimPostMutation = useBlockMoimPost();
+  const updateMoimPostMutation = useUpdateMoimPost();
 
   return {
     moimPostMutation,
@@ -169,6 +274,13 @@ function usePost() {
     postWriteRecommentMutation,
     likeMoimPostMutation,
     likeMoimPostCommentMutation,
+    deleteMoimPostCommentMutation,
+    reportMoimPostCommentMutation,
+    blockMoimPostCommentMutation,
+    deleteMoimPostMutation,
+    reportMoimPostMutation,
+    blockMoimPostMutation,
+    updateMoimPostMutation,
     useGetInfiniteMoimPostList,
     useGetInfiniteMoimPostComment,
     useGetMoimPostDetail,

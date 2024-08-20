@@ -4,25 +4,27 @@ import useMutateImages from './queries/MoimCreateScreen/useMutateImages.ts';
 import {useState} from 'react';
 import {ImageUri} from '../types/domain.ts';
 import {Alert} from 'react-native';
+import useCreatePresignedURL from './queries/MyScreen/useCreatePresignedURL.ts';
 
 interface UseImagePickerProps {
-  initialImages: ImageUri[];
+  initialImages: string[];
 }
 
 function useImagePicker({initialImages = []}: UseImagePickerProps) {
   const [imageUris, setImageUris] = useState(initialImages);
   const uploadImages = useMutateImages();
+  const {mutate: createPresignedUrl} = useCreatePresignedURL();
 
   const addImagesUris = (uris: string[]) => {
     if (imageUris.length + uris.length > 10) {
       Alert.alert('이미지 개수 초과', '추가 가능한 이미지 최대 10개 입니다.');
       return;
     }
-    setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
+    setImageUris(prev => [...prev]);
   };
 
   const deleteImageUris = (uri: string) => {
-    const newImageUris = imageUris.filter(image => image.uri !== uri);
+    const newImageUris = imageUris.filter(image => image !== uri);
     setImageUris(newImageUris);
   };
 
@@ -47,6 +49,7 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
         // TODO: GET: /api/v0/s3/presigned/upload로 요청을 보내, url, keyname을 받는다.
         // TODO: GET: /api/v0/s3/presigned/download로 요청을 보내(위에서 받은 url을 보냄) 그래서 url을받는다.
         // console.log(formData, '야호');
+        console.log(formData);
         uploadImages.mutate(
           {url: formData.result.url, file: formData},
           {

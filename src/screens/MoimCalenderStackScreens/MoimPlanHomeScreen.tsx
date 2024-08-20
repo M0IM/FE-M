@@ -13,6 +13,7 @@ import {
   MoimStackNavigationProp,
 } from 'navigators/types';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
+import useMoimCalendarStore from '../../stores/useMoimCalendarStore.ts';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
@@ -27,6 +28,7 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
   const moimId = route.params.id as number;
+  const {setIsEditMode} = useMoimCalendarStore();
 
   const {
     data: posts,
@@ -49,6 +51,8 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
     setSelectedDate(date);
   };
 
+  console.log(moimId);
+
   return (
     <SafeAreaView className={'bg-white flex-1'}>
       <MoimCalendar
@@ -68,6 +72,7 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
           navigation.navigate('MOIM_WRITE', {
             id: moimId,
           });
+          setIsEditMode(false);
         }}
       />
     </SafeAreaView>

@@ -13,8 +13,8 @@ import {ImageInput} from 'components/@common/ImageInput/ImageInput';
 import useTags from 'hooks/useTags';
 import usePermission from 'hooks/usePermission';
 import useImagePicker from 'hooks/useImagePicker';
-import { useState } from 'react';
-import { CATEGORY_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
+import {useState} from 'react';
+import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
 
 const MoimCreateScreen = () => {
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
@@ -82,13 +82,13 @@ const MoimCreateScreen = () => {
       </View>
 
       {/* 카테고리 드롭다운 */}
-      <CategoryDropdown 
-        onPress={handleCategory} 
-        isPressed={isPressed} 
+      <CategoryDropdown
+        onPress={handleCategory}
+        isPressed={isPressed}
         menuList={categoryKeys}
         handleSelect={handleSelectedCategory}
         selectedMenu={category}
-        placeholder='카테고리'
+        placeholder="카테고리"
       />
 
       {/* 카메라 연결 */}

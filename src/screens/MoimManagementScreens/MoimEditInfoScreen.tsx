@@ -1,32 +1,32 @@
-import { View, TouchableOpacity, Image, Platform } from 'react-native';
+import {View, TouchableOpacity, Image, Platform} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useState } from 'react';
-import { useRoute } from '@react-navigation/native';
-import { CustomButton } from 'components/@common/CustomButton/CustomButton';
-import { ImageInput } from 'components/@common/ImageInput/ImageInput';
-import { InputField } from 'components/@common/InputField/InputField';
-import { Typography } from 'components/@common/Typography/Typography';
-import { ScreenContainer } from 'components/ScreenContainer';
+import {useState} from 'react';
+import {useRoute} from '@react-navigation/native';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton';
+import {ImageInput} from 'components/@common/ImageInput/ImageInput';
+import {InputField} from 'components/@common/InputField/InputField';
+import {Typography} from 'components/@common/Typography/Typography';
+import {ScreenContainer} from 'components/ScreenContainer';
 import CategoryDropdown from 'components/screens/MoimCreateScreen/CategoryDropdown';
 import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
 import useImagePicker from 'hooks/useImagePicker';
 import usePermission from 'hooks/usePermission';
 import useTags from 'hooks/useTags';
-import { MoimManagementRouteProp } from 'navigators/types';
-import { CATEGORY_LIST } from 'constants/screens/MoimSearchScreen/CategoryList';
+import {MoimManagementRouteProp} from 'navigators/types';
+import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
 import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
 
 const MoimInfoEditScreen = () => {
   const route = useRoute<MoimManagementRouteProp>();
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
-  const { updateMoimInfoMutation } = useMoimManagment();
+  const {updateMoimInfoMutation} = useMoimManagment();
   const platform = Platform.OS;
   const moimdId = route.params.id;
   const [isPressed, setIsPressed] = useState(false);
   const [category, setCategory] = useState('');
   const [data, setData] = useState({
     title: '',
-    description: ''
+    description: '',
   });
   console.log('moimId: ', moimdId);
   const categoryKeys = Object.keys(CATEGORY_LIST);
@@ -55,7 +55,7 @@ const MoimInfoEditScreen = () => {
         address: '',
         category,
         description: data.description,
-        imageKeyNames: []
+        imageKeyNames: [],
       });
     }
   };
@@ -75,7 +75,12 @@ const MoimInfoEditScreen = () => {
           className="text-sm text-gray-500 mb-2 mt-4">
           모임 이름
         </Typography>
-        <InputField touched placeholder="모임 이름 입력" value={data.title} onChangeText={(text) => setData(prev => ({...prev, title: text}))} />
+        <InputField
+          touched
+          placeholder="모임 이름 입력"
+          value={data.title}
+          onChangeText={text => setData(prev => ({...prev, title: text}))}
+        />
       </View>
       <View className="flex flex-col">
         <Typography
@@ -94,13 +99,13 @@ const MoimInfoEditScreen = () => {
       </View>
 
       {/* 카테고리 드롭다운 */}
-      <CategoryDropdown 
-        onPress={handleCategory} 
-        isPressed={isPressed} 
+      <CategoryDropdown
+        onPress={handleCategory}
+        isPressed={isPressed}
         menuList={categoryKeys}
         handleSelect={handleSelectedCategory}
         selectedMenu={category}
-        placeholder='카테고리'
+        placeholder="카테고리"
       />
 
       {/* 카메라 연결 */}
@@ -133,7 +138,15 @@ const MoimInfoEditScreen = () => {
           모임 소개
         </Typography>
         <View className="max-h-[800px]">
-          <InputField touched placeholder="모임 소개 입력" multiline value={data.description} onChangeText={(text) => setData((prev) => ({...prev, description: text}))} />
+          <InputField
+            touched
+            placeholder="모임 소개 입력"
+            multiline
+            value={data.description}
+            onChangeText={text =>
+              setData(prev => ({...prev, description: text}))
+            }
+          />
         </View>
       </View>
 

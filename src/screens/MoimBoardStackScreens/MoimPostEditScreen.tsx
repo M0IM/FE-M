@@ -14,15 +14,15 @@ import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
+
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
+
 import usePost from 'hooks/queries/MoimBoard/usePost';
-import useCreatePresignedURL from 'hooks/queries/MyScreen/useCreatePresignedURL';
-import useMutateImages from 'hooks/queries/MoimCreateScreen/useMutateImages';
-import useImagePicker from 'hooks/useImagePicker';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import useSingleImagePicker from 'hooks/useSingleImagePicker';
 
 interface MoimPostEditScreenProps {
   route: MoimPostStackRouteProp;
@@ -33,21 +33,23 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
   const {id, postId} = route.params;
   const {useGetMoimPostDetail, updateMoimPostMutation} = usePost();
   const {data: postData} = useGetMoimPostDetail(id, postId);
-  const {mutate: createPresignedUrl} = useCreatePresignedURL();
-  const uploadImages = useMutateImages();
   const [data, setData] = useState({
     title: postData?.title,
     content: postData?.content,
   });
-  const {imageUris, handleChange, deleteImageUris} = useImagePicker(
-    postData?.imageKeyNames,
-  );
+  const initialImage = postData?.imageKeyNames[0];
+  const {imageUri, uploadUri, handleChange, deleteImageUri} =
+    useSingleImagePicker({initialImage});
 
   const handleSelectImages = async () => {
     handleChange();
   };
 
   const handleOnSubmit = () => {
+    const initialImages = postData?.imageKeyNames.map(
+      item => item.split('com/')[1],
+    );
+    console.log(initialImages);
     if (id && postId && data.title && data.content) {
       updateMoimPostMutation.mutate(
         {
@@ -55,7 +57,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
           postId,
           title: data.title,
           content: data.content,
-          imageKeyNames: [],
+          imageKeyNames: uploadUri ? [uploadUri] : initialImages,
         },
         {
           onSuccess: () => {
@@ -136,7 +138,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
         </TouchableOpacity>
         <FlatList
           horizontal
-          data={imageUris}
+          data={[imageUri]}
           contentContainerStyle={{marginLeft: 20}}
           renderItem={({item}) => (
             <View className="w-[80] h-[100]">
@@ -144,7 +146,9 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
                 source={{uri: item}}
                 className="w-full h-full rounded-2xl"
               />
-              <Pressable className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
+              <Pressable
+                onPress={() => deleteImageUri()}
+                className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
                 <Ionicons name="trash" size={15} color={'#9EA4AA'} />
               </Pressable>
             </View>

@@ -114,6 +114,33 @@ const updateMyCalendarSchedule = async ({
   return data;
 };
 
+const updateDetailMoimCalendar = async ({
+  moimId,
+  planId,
+  title,
+  date,
+  startTime,
+  location,
+  locationDetail,
+  cost,
+  schedules,
+}: TPostDetailMoimCalendarDTO) => {
+  const {data} = await axiosInstance.put(
+    `/api/v1/moim/${moimId}/plan/${planId}`,
+    {
+      title,
+      date,
+      startTime,
+      location,
+      locationDetail,
+      cost,
+      schedules,
+    },
+  );
+
+  return data.result;
+};
+
 export {
   getMoimCalendar,
   getPersonalCalendar,
@@ -122,4 +149,5 @@ export {
   postMyCalendarScheule,
   deleteMyCalendarSchedule,
   updateMyCalendarSchedule,
+  updateDetailMoimCalendar,
 };

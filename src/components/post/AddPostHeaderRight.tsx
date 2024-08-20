@@ -5,7 +5,7 @@ function AddPostHeaderRight(onSubmit: () => void) {
   return (
     <TouchableOpacity className="px-3" onPress={onSubmit}>
       <Typography className="text-main" fontWeight={'BOLD'}>
-        추가하기
+        작성
       </Typography>
     </TouchableOpacity>
   );

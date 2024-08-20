@@ -1,24 +1,35 @@
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {useState} from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import DetailSchedules from 'components/space/DetailSchedules/DetailSchedules.tsx';
 import {TitleSubTitleBox} from 'components/screens/MoimPlanDetailScreen/TitleSubTitleBox.tsx';
 import ParticipantList from 'components/screens/MoimPlanDetailScreen/ParticipantList.tsx';
+import {queryClient} from 'containers/TanstackQueryContainer.tsx';
+import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
 
-import {MoimPlanStackRouteProp} from 'navigators/types';
+import {
+  MoimPlanStackRouteProp,
+  MoimStackNavigationProp,
+} from 'navigators/types';
 import useGetDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useGetDetailMoimCalendar.ts';
-import usePostMoimScheduleParticipation from '../../hooks/queries/MoimPlanDetailScreen/usePostMoimScheduleParticipation.ts';
-import useDeleteMoimScheduleParticipation from '../../hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
-import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/usePostMoimScheduleParticipation.ts';
+import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
+import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
+  navigation: MoimStackNavigationProp;
 }
 
 export default function MoimPlanDetailScreen({
   route,
+  navigation,
 }: IMoimPlanDetailScreenProps) {
+  const [isPopOverOpen, setIsPopOverOpen] = useState(false);
   const moimId = route.params.id as number;
   const planId = route.params.planId as number;
 
@@ -28,26 +39,58 @@ export default function MoimPlanDetailScreen({
   });
   const {mutate: participationSchedule} = usePostMoimScheduleParticipation();
   const {mutate: cancelSchedule} = useDeleteMoimScheduleParticipation();
+  const {setMoimCalendar, setIsEditMode} = useMoimCalendarStore();
 
   if (isPending || isError) {
     return <></>;
   }
 
+  const PostMyMenuList = [
+    {
+      title: '수정하기',
+      onPress: () => {
+        setIsEditMode(true);
+        setMoimCalendar({...data, planId});
+        navigation.navigate('MOIM_WRITE', {id: moimId});
+      },
+    },
+    {
+      title: '삭제하기',
+      onPress: () => console.log(3),
+    },
+  ];
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 p-5">
-        <Typography className="text-lg mb-3" fontWeight={'BOLD'}>
-          {data?.title}
-        </Typography>
+        <View className="flex-row items-center justify-between">
+          <Typography className="text-lg mb-3" fontWeight={'BOLD'}>
+            {data?.title}
+          </Typography>
+          <TouchableOpacity
+            className="relative"
+            onPress={() => setIsPopOverOpen(prev => !prev)}>
+            <Ionicons name="ellipsis-vertical" size={20} color={'#C9CCD1'} />
+          </TouchableOpacity>
+        </View>
+        <View className="absolute top-14  right-7 z-[10000]">
+          <PopoverMenu menu={PostMyMenuList} isPopover={isPopOverOpen} />
+        </View>
         <TitleSubTitleBox title={'날짜'} subTitle={data?.date} />
         <TitleSubTitleBox title={'장소'} subTitle={data?.location} />
         <TitleSubTitleBox
           title={'세부 장소'}
-          subTitle={'데이터 추가가 필요함'}
+          subTitle={data?.locationDetail ?? '세부 장소가 없습니다.'}
         />
-        <TitleSubTitleBox title={'시작 시간'} subTitle={data?.date} />
+        <TitleSubTitleBox
+          title={'시작 시간'}
+          subTitle={moment(data?.date).format('A h시 m분 s초')}
+        />
         <TitleSubTitleBox title={'비용'} subTitle={`${data?.cost} 원`} />
-        <TitleSubTitleBox title={'신청 인원'} subTitle={`${data?.cost} 명`} />
+        <TitleSubTitleBox
+          title={'신청 인원'}
+          subTitle={`${data?.participant} 명`}
+        />
         <View className="border-b-gray-100 border-b-4 my-5" />
         <Typography className="text-lg mb-3" fontWeight={'BOLD'}>
           일정 스케줄
@@ -55,7 +98,6 @@ export default function MoimPlanDetailScreen({
         <DetailSchedules detailSchedules={data?.schedules} />
         <View className="border-b-gray-100 border-b-4 my-5" />
         <ParticipantList moimId={moimId} planId={planId} />
-        {/* TODO: 세부일정 참여 신청 API 받아서 연결하기 */}
         <View className="absolute right-0 left-0 bottom-3 m-5 flex-row items-center justify-center gap-y-2">
           <CustomButton
             label={

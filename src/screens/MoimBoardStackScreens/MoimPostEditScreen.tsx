@@ -136,25 +136,27 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
             style={{padding: 10}}
           />
         </TouchableOpacity>
-        <FlatList
-          horizontal
-          data={[imageUri]}
-          contentContainerStyle={{marginLeft: 20}}
-          renderItem={({item}) => (
-            <View className="w-[80] h-[100]">
-              <Image
-                source={{uri: item}}
-                className="w-full h-full rounded-2xl"
-              />
-              <Pressable
-                onPress={() => deleteImageUri()}
-                className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
-                <Ionicons name="trash" size={15} color={'#9EA4AA'} />
-              </Pressable>
-            </View>
-          )}
-          ItemSeparatorComponent={() => <View className="w-2" />}
-        />
+        {imageUri && (
+          <FlatList
+            horizontal
+            data={[imageUri]}
+            contentContainerStyle={{marginLeft: 20}}
+            renderItem={({item}) => (
+              <View className="w-[80] h-[100]">
+                <Image
+                  source={{uri: item}}
+                  className="w-full h-full rounded-2xl"
+                />
+                <Pressable
+                  onPress={() => deleteImageUri()}
+                  className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
+                  <Ionicons name="trash" size={15} color={'#9EA4AA'} />
+                </Pressable>
+              </View>
+            )}
+            ItemSeparatorComponent={() => <View className="w-2" />}
+          />
+        )}
       </View>
       <CustomButton
         onPress={handleOnSubmit}

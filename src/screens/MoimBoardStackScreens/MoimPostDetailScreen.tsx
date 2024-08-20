@@ -22,6 +22,7 @@ import {
 import usePopover from 'hooks/usePopover';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
+import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface MoimPostDetailScreenProps {
   route: MoimPostStackRouteProp;
@@ -90,8 +91,6 @@ const MoimPostDetailScreen = ({
         },
         {
           onSuccess: data => {
-            console.log(data);
-            refetch();
             setComment('');
           },
           onError: error => {
@@ -102,6 +101,11 @@ const MoimPostDetailScreen = ({
                 '댓글 작성 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['postComments', id, postId],
             });
           },
         },
@@ -119,9 +123,7 @@ const MoimPostDetailScreen = ({
           content: recomment,
         },
         {
-          onSuccess: data => {
-            console.log(data);
-            refetch();
+          onSuccess: () => {
             setRecomment('');
             handleUpdateCommentId(null);
           },
@@ -136,6 +138,11 @@ const MoimPostDetailScreen = ({
               position: 'bottom',
             });
           },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['postComments', id, postId],
+            });
+          },
         },
       );
     }
@@ -147,9 +154,6 @@ const MoimPostDetailScreen = ({
         postId: postId,
       },
       {
-        onSuccess: () => {
-          postRefetch();
-        },
         onError: error => {
           console.error(error);
           Toast.show({
@@ -159,6 +163,11 @@ const MoimPostDetailScreen = ({
               '게시글 좋아요 중 에러가 발생했습니다.',
             visibilityTime: 2000,
             position: 'bottom',
+          });
+        },
+        onSettled: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['moimPost', id, postId],
           });
         },
       },
@@ -191,6 +200,12 @@ const MoimPostDetailScreen = ({
               position: 'bottom',
             });
           },
+          // TODO: 반환 데이터 변경되면 적용
+          // onSettled: () => {
+          //   queryClient.invalidateQueries({
+          //     queryKey: ['moim', 'post', data.postType, id],
+          //   });
+          // }
         },
       );
     }
@@ -223,6 +238,12 @@ const MoimPostDetailScreen = ({
               position: 'bottom',
             });
           },
+          // TODO: 반환 데이터 변경되면 적용
+          // onSettled: () => {
+          //   queryClient.invalidateQueries({
+          //     queryKey: ['moim', 'post', data.postType, id],
+          //   });
+          // }
         },
       );
     }
@@ -252,6 +273,11 @@ const MoimPostDetailScreen = ({
                 '게시글 신고 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['moimPost', id, postId],
             });
           },
         },

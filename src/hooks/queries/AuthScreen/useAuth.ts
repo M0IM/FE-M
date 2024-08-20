@@ -2,7 +2,14 @@ import {useEffect} from 'react';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 
-import {getAccessToken, logout, postLogin, postSignup, socialLogin} from 'apis';
+import {
+  deleteUser,
+  getAccessToken,
+  logout,
+  postLogin,
+  postSignup,
+  socialLogin,
+} from 'apis';
 import {UseMutationCustomOptions} from 'types/mutations/common.ts';
 import {
   numbers,
@@ -154,12 +161,41 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useDeleteUser(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteUser,
+    onSuccess: data => {
+      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+      removeHeader('Authorization');
+      queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
+      Toast.show({
+        type: 'success',
+        text1: data.message && '로그아웃에 성공하였습니다.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    onError: error => {
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
 function useAuth() {
   const signUpMutation = useSignup();
   const loginMutation = useLogin();
   const socialIdTokenMutation = useSocialIdTokenLogin();
   const getNewAccessToken = useGetRefreshToken();
   const logoutMutation = useLogout();
+  const deleteUserMutation = useDeleteUser();
   const isLogin = getNewAccessToken.isSuccess;
   const isLoginLoading = getNewAccessToken.isPending;
 
@@ -169,6 +205,7 @@ function useAuth() {
     socialIdTokenMutation,
     isLogin,
     logoutMutation,
+    deleteUserMutation,
     isLoginLoading,
     getNewAccessToken,
   };

@@ -53,9 +53,9 @@ interface FeedHomeScreenProps {
 }
 
 export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
-  useEffect(() => {
-    useSocketService.initializeSocket();
-  }, []);
+  // useEffect(() => {
+  //   useSocketService.initializeSocket();
+  // }, []);
   return (
     <>
       <ScreenContainer loading={false}>

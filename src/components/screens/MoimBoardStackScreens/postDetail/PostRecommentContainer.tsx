@@ -10,6 +10,7 @@ import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePopover from 'hooks/usePopover';
 import {TPostRecommentDto} from 'types/dtos/post';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import {formatKoreanDate} from 'utils';
 
 interface PostRecommentContainerProps {
   moimId?: number;
@@ -191,7 +192,7 @@ const PostRecommentContainer = ({
 
   return (
     <TouchableWithoutFeedback onPress={() => isPopover && handlePopover()}>
-      <View className="flex flex-col border-b-[0.5px] border-gray-200 bg-gray-50 py-4 pl-5">
+      <View className="flex flex-col border-b-[0.5px] border-gray-200 bg-gray-50 py-4 px-4 ml-3">
         <View className="flex flex-row items-center">
           <Avatar size="XS" uri={recommentData.profileImage} />
           <View className="flex flex-col justify-center ml-2">
@@ -199,7 +200,7 @@ const PostRecommentContainer = ({
               {recommentData.writer}
             </Typography>
             <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
-              {recommentData.createAt}
+              {formatKoreanDate(new Date(recommentData?.createAt))}
             </Typography>
           </View>
           <View className="flex flex-row gap-x-2 ml-auto">
@@ -220,7 +221,7 @@ const PostRecommentContainer = ({
         </View>
         <Typography
           fontWeight="MEDIUM"
-          className="text-dark-800 text-sm mt-3 pl-1">
+          className="text-dark-800 text-sm mt-3 pl-2">
           {recommentData.content}
         </Typography>
         <Typography

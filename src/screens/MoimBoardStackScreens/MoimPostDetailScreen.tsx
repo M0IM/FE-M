@@ -23,6 +23,7 @@ import usePopover from 'hooks/usePopover';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import {formatKoreanDate} from 'utils';
 
 interface MoimPostDetailScreenProps {
   route: MoimPostStackRouteProp;
@@ -351,15 +352,14 @@ const MoimPostDetailScreen = ({
             commentData={item}
           />
         )}
-        contentContainerStyle={{
-          padding: 15,
-        }}
         ListHeaderComponent={() => (
-          <>
+          <View className="p-4 pb-0">
             <PostUserProfile
               handlePopover={handlePopover}
               writer={data?.writer}
-              updatedAt={data?.updateAt}
+              updatedAt={
+                data?.updateAt && formatKoreanDate(new Date(data?.updateAt))
+              }
             />
             <PostInfoContainer
               postImages={data?.imageKeyNames}
@@ -370,7 +370,7 @@ const MoimPostDetailScreen = ({
               isLike={data?.isLike}
               handleMoimPostLike={handleMoimPostLike}
             />
-          </>
+          </View>
         )}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}

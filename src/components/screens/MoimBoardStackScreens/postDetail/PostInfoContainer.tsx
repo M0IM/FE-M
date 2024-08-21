@@ -1,48 +1,60 @@
-import { View } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import {View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Typography } from 'components/@common/Typography/Typography';
+import {Typography} from 'components/@common/Typography/Typography';
 import ImagesSlider from '../ImagesSlider';
 
 // TODO: 이미지 타입 수정 필요
 interface PostInfoContainerProps {
-    postImages?: string[];
-    title?: string | '';
-    content?: string | '';
-    commentCount?: number;
-    likeCount?: number;
-    isLike?: boolean;
-    handleMoimPostLike: () => void;
+  postImages?: string[];
+  title?: string | '';
+  content?: string | '';
+  commentCount?: number;
+  likeCount?: number;
+  isLike?: boolean;
+  handleMoimPostLike: () => void;
 }
 
 const PostInfoContainer = ({
-    postImages,
-    title,
-    content,
-    commentCount,
-    likeCount,
-    isLike,
-    handleMoimPostLike
+  postImages,
+  title,
+  content,
+  commentCount,
+  likeCount,
+  isLike,
+  handleMoimPostLike,
 }: PostInfoContainerProps) => {
   return (
     <>
-        <View className='flex flex-col pl-1'>
-            <Typography fontWeight='BOLD' className='text-base text-dark-800'>{title}</Typography>
-            <Typography fontWeight='MEDIUM' className='text-sm text-dark-800 mt-2'>{content}</Typography>
+      <View className="flex flex-col pl-1">
+        <Typography fontWeight="BOLD" className="text-base text-dark-800">
+          {title}
+        </Typography>
+        <Typography fontWeight="MEDIUM" className="text-sm text-dark-800 mt-2">
+          {content}
+        </Typography>
 
-            {postImages && postImages.length > 0 && <ImagesSlider height={400} images={postImages} />}
-        </View>
+        {postImages && postImages.length > 0 && (
+          <ImagesSlider height={400} images={postImages} />
+        )}
+      </View>
 
-        {/* 게시글 정보 (댓글, 좋아요) & 좋아요 버튼 */}
-        <View className='flex flex-row items-center py-3 border-gray-200 border-b-[0.5px] mt-2 px-1.5 mb-2'>
-            <Typography fontWeight='LIGHT' className='text-gray-300 text-xs'>댓글 {commentCount}</Typography>
-            <Typography fontWeight='LIGHT' className='text-gray-300 text-xs ml-3'>좋아요 {likeCount}</Typography>
-            <TouchableOpacity className='ml-auto' onPress={handleMoimPostLike}>
-                {isLike ? <Ionicons name='heart' color={'#00F0A1'} size={25} /> : 
-                    <Ionicons name='heart-outline' color={'#C9CCD1'} size={25} />
-                }
-            </TouchableOpacity>
-        </View>
+      {/* 게시글 정보 (댓글, 좋아요) & 좋아요 버튼 */}
+      <View className="flex flex-row items-center py-3 border-gray-200 border-b-[0.5px] mt-2 px-1.5">
+        <Typography fontWeight="LIGHT" className="text-gray-300 text-xs">
+          댓글 {commentCount}
+        </Typography>
+        <Typography fontWeight="LIGHT" className="text-gray-300 text-xs ml-3">
+          좋아요 {likeCount}
+        </Typography>
+        <TouchableOpacity className="ml-auto" onPress={handleMoimPostLike}>
+          {isLike ? (
+            <Ionicons name="heart" color={'#00F0A1'} size={25} />
+          ) : (
+            <Ionicons name="heart-outline" color={'#C9CCD1'} size={25} />
+          )}
+        </TouchableOpacity>
+      </View>
     </>
   );
 };

@@ -21,10 +21,15 @@ const MoimImageBox = ({
   address,
 }: MoimImageBoxProps) => {
   const platform = Platform.OS;
+  // console.log(backgroundImage);
+  const isImgUri =
+    backgroundImage?.split('com/') && backgroundImage?.split('com/')[1]
+      ? true
+      : false;
 
   return (
     <View className="flex flex-col items-center relative">
-      {backgroundImage ? (
+      {backgroundImage && isImgUri ? (
         <Image
           source={{uri: backgroundImage}}
           className="w-full h-[240px] rounded-tr-2xl rounded-tl-2xl"

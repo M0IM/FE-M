@@ -51,6 +51,7 @@
     "react-native-config": "^1.5.2",
     "react-native-date-picker": "^5.0.4",
     "react-native-encrypted-storage": "^4.0.3",
+    "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.17.1",
     "react-native-gifted-charts": "^1.4.26",
     "react-native-image-crop-picker": "^0.41.2",

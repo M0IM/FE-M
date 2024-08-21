@@ -59,7 +59,6 @@ export default function MoimMyEvent({navigation}: MoimMyEventProps) {
                   },
                 })
               }
-              item={item}
             />
           );
         }}

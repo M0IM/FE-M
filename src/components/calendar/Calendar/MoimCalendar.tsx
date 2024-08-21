@@ -86,19 +86,22 @@ export function MoimCalendar({
             id: i,
             date: i - firstDOW + 1,
           }))}
-          renderItem={({item}) => (
-            <DateBox
-              date={item.date}
-              hasSchedule={Boolean(
-                schedules[item.date]?.planList &&
-                  schedules[item.date]?.planList.length > 0,
-              )}
-              isMemberBusy={schedules[item.date]?.memberWithPlanCnt}
-              selectedDate={selectedDate}
-              isToday={isSameAsCurrentDate(year, month, item.date)}
-              onPressDate={onPressDate}
-            />
-          )}
+          renderItem={({item}) => {
+            console.log(schedules[21], 'hi');
+            return (
+              <DateBox
+                date={item.date}
+                hasSchedule={Boolean(
+                  schedules[item.date]?.planList &&
+                    schedules[item.date]?.planList.length > 0,
+                )}
+                isMemberBusy={schedules[item.date]?.memberWithPlanCnt ?? 0}
+                selectedDate={selectedDate}
+                isToday={isSameAsCurrentDate(year, month, item.date)}
+                onPressDate={onPressDate}
+              />
+            );
+          }}
           keyExtractor={item => String(item.id)}
           numColumns={7}
         />

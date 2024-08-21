@@ -8,6 +8,7 @@ class WSService {
 
   private async getToken(): Promise<string | null> {
     const token = await getEncryptStorage('accessToken');
+
     return token;
   }
 

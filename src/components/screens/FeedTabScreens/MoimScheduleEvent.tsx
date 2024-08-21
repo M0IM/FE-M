@@ -1,52 +1,61 @@
-import {FlatList, View} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
-import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
-import {useGetPersonalCalendar} from 'hooks/queries/CalendarHomeScreen/useGetPersonalCalendar.ts';
-import {useState} from 'react';
+
+import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
+import {useGetUserTodaySchedules} from 'hooks/queries/FeedHome/useGetUserTodaySchedules.ts';
+import {useGetUserTodayParticipantSchedules} from 'hooks/queries/FeedHome/useGetUserTodayParticipantSchedules.ts';
 
 export default function MoimScheduleEvent() {
-  const {data: profile, isPending: isProfilePending} = useGetMyProfile();
-  const [selectedDate, setSelectedDate] = useState(new Date().getDate());
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth() + 1;
+  const day = new Date().getDate();
+  const {data: profile, isPending: isProfilePending} = useGetUserSchedulesCount(
+    {year, month, day},
+  );
   const {
     data: calendars,
-    isPending,
-    isError,
-  } = useGetPersonalCalendar({
-    month: new Date().getMonth() + 1,
-    year: new Date().getFullYear(),
-  });
+    isPending: calendarsLoading,
+    isError: calendarsError,
+  } = useGetUserTodaySchedules(year, month, day);
 
-  if (isPending || isError) {
+  const {data: schedules} = useGetUserTodayParticipantSchedules(
+    year,
+    month,
+    day,
+  );
+
+  if (calendarsLoading || calendarsError) {
     return <View></View>;
   }
-
-  // TODO: 백엔드한테, 개인일정과, 모임에 신청한 내 일정등을 다 보여주는 API 받기
-  const todayScehdules = calendars[selectedDate];
-
-  console.log(todayScehdules);
 
   return (
     <View className="flex flex-col gap-2 mt-1">
       <Typography className="text-2xl mt-5" fontWeight={'BOLD'}>
-        {isProfilePending ? '안녕하세요' : `${profile?.result.nickname}님`}
+        {isProfilePending ? '안녕하세요' : `${profile?.nickname}님`}
       </Typography>
-      <Typography className="text-gray-400 mb-4" fontWeight={'LIGHT'}>
-        오늘 {todayScehdules?.length ?? 0}개의 예정된 일정이 있어요
-      </Typography>
+      <TouchableOpacity>
+        <Typography
+          className="text-gray-400 border-b-gray-300 border-b-2 mb-3"
+          fontWeight={'LIGHT'}>
+          오늘 {profile?.dailyPlanCnt ?? 0}개의 예정된 일정이 있어요
+        </Typography>
+      </TouchableOpacity>
       <FlatList
-        data={todayScehdules}
+        data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
-        renderItem={({item}) => (
-          <ScheduleCard
-            schedule={item.schedule}
-            date={item.date}
-            spaceName={item.spaceName}
-            time={item.time}
-          />
-        )}
-        keyExtractor={schedule => String(schedule.planId)}
+        renderItem={({item}) => {
+          return (
+            <ScheduleCard
+              schedule={item.title}
+              date={item.time}
+              spaceName={item.location ?? '장소가 지정되지 않았습니다.'}
+              time={item.time}
+            />
+          );
+        }}
+        keyExtractor={item => String(item.planId)}
         contentContainerStyle={{
           gap: 10,
         }}

@@ -2,7 +2,7 @@ import {useMutation} from '@tanstack/react-query';
 import {requestMoimJoin} from 'apis';
 import {UseMutationCustomOptions} from 'types/mutations/common';
 
-function useRequestMMoimJoin(mutationOptions: UseMutationCustomOptions) {
+function useRequestMoimJoin(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: requestMoimJoin,
     onSuccess: data => {
@@ -15,4 +15,4 @@ function useRequestMMoimJoin(mutationOptions: UseMutationCustomOptions) {
   });
 }
 
-export default useRequestMMoimJoin;
+export default useRequestMoimJoin;

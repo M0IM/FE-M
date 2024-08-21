@@ -123,7 +123,7 @@ const getMoimMembers = async ({
 
 // 모임 가입 신청하기
 const requestMoimJoin = async ({moimId}: {moimId: number}) => {
-  const {data} = await axiosInstance.get(`/api/v1/moims/${moimId}/requests`);
+  const {data} = await axiosInstance.post(`/api/v1/moims/${moimId}/requests`);
   return data?.result;
 };
 

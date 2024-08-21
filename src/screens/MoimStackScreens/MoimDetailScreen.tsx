@@ -1,5 +1,6 @@
 import {View} from 'react-native';
 import {SafeAreaView, ScrollView} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import MoimDashboardContainer from '../../components/screens/MoimDetailScreen/MoimDashboardContainer';
 import MoimImageBox from '../../components/screens/MoimDetailScreen/MoimImageBox';
@@ -10,6 +11,7 @@ import {Typography} from 'components/@common/Typography/Typography';
 
 import {MoimTopTabRouteProp} from '../../navigators/types';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
+import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -18,6 +20,36 @@ interface IMoimDetailScreenProps {
 export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
   const moimId = route.params.id;
   const {data, isError, isPending} = useGetMoimSpaceInfo(moimId);
+  const requestMoimJoimMutation = useRequestMoimJoin();
+
+  const handleRequestMoimJoin = () => {
+    requestMoimJoimMutation.mutate(
+      {
+        moimId,
+      },
+      {
+        onSuccess: () => {
+          Toast.show({
+            type: 'success',
+            text1: '가입 신청되었습니다.',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
+        },
+        onError: error => {
+          console.error(error?.response);
+          Toast.show({
+            type: 'error',
+            text1:
+              error?.response?.data.message ||
+              '가입 신청 중 오류가 발생했습니다.',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
+        },
+      },
+    );
+  };
 
   if (isError) {
     return <Typography fontWeight="MEDIUM">에러입니다.</Typography>;
@@ -47,12 +79,15 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
         />
         <MoimContentsPreview />
       </ScrollView>
-      <View className="p-3 pt-0">
-        <CustomButton
-          label="가입하기"
-          textStyle="font-bold text-white text-base"
-        />
-      </View>
+      {!data?.isJoin && (
+        <View className="p-3 pt-0">
+          <CustomButton
+            label="가입하기"
+            textStyle="font-bold text-white text-base"
+            onPress={handleRequestMoimJoin}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

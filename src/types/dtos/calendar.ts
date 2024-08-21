@@ -59,6 +59,19 @@ type TMyCalendarDTO = {
   content: string;
 };
 
+type TUserSchedulesCountResponse = {
+  nickname: string;
+  dailyPlanCnt: number;
+};
+
+type TUserPlanDTO = {
+  planId: number;
+  title: string;
+  location: string;
+  locationDetail: string;
+  time: string;
+};
+
 export type {
   TPlanListDTO,
   TMoimPlanListDTO,
@@ -68,4 +81,6 @@ export type {
   TPostDetailMoimCalendarDTO,
   TCalendarMoimPlanDTO,
   TMyCalendarDTO,
+  TUserSchedulesCountResponse,
+  TUserPlanDTO,
 };

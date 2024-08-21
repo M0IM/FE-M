@@ -46,18 +46,18 @@ export function DateBox({
               `}>
               {date}
             </Text>
-            {hasSchedule && !isMemberBusy && (
-              <View className="absolute top-7 left-[40%] mt-1 w-1 h-1 rounded-sm bg-main" />
-            )}
-            {(!hasSchedule && isMemberBusy) !== undefined && (
-              <View className="absolute top-7 left-[40%] mt-1 w-1 h-1 rounded-sm bg-error" />
-            )}
-            {hasSchedule && isMemberBusy && (
-              <View className="m-0 flex-col items-center justify-center absolute top-7 left-[40%] mt-1">
+            <View className="absolute top-7 left-[40%] mt-1">
+              {hasSchedule && !isMemberBusy ? (
                 <View className="w-1 h-1 rounded-sm bg-main" />
-                <View className="mt-0.5 w-1 h-1 rounded-sm bg-error" />
-              </View>
-            )}
+              ) : (!hasSchedule && isMemberBusy) !== undefined ? (
+                <View className="w-1 h-1 rounded-sm bg-error" />
+              ) : hasSchedule && isMemberBusy ? (
+                <View className="m-0 flex-col items-center justify-center">
+                  <View className="w-1 h-1 rounded-sm bg-main" />
+                  <View className="mt-0.5 w-1 h-1 rounded-sm bg-error" />
+                </View>
+              ) : null}
+            </View>
           </View>
         </>
       )}

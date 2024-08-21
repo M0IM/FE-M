@@ -1,4 +1,7 @@
 import {View, TouchableOpacity, TouchableOpacityProps} from 'react-native';
+import 'moment/locale/ko';
+import moment from 'moment';
+
 import {Typography} from 'components/@common/Typography/Typography';
 
 interface ScheduleCardProps extends TouchableOpacityProps {
@@ -33,13 +36,13 @@ const ScheduleCard = ({
         fontWeight="MEDIUM"
         className="mt-1 ml-[17] text-xs text-gray-300"
         numberOfLines={1}>
-        {date}
+        {moment(date).format('YYYY년 MM월 DD일')}
       </Typography>
       <Typography
         fontWeight="MEDIUM"
         className="mt-1 ml-[17] text-xs text-gray-300"
         numberOfLines={1}>
-        {time}
+        {moment(time).fromNow()}
       </Typography>
       <Typography
         fontWeight="BOLD"

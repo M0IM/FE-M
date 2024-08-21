@@ -1,8 +1,11 @@
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
-import { RevokeMoimStackNavigatorProp } from 'navigators/types';
-import { Image, Pressable, View } from 'react-native';
+import {RevokeMoimStackNavigatorProp} from 'navigators/types';
+import {FlatList, Image, Pressable, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useGetInfiniteMyActiveMoim} from '../../hooks/queries/MoimHomeScreen/useGetInfiniteMyActiveMoim.ts';
+import {useState} from 'react';
+import {ActiveMoimCard} from '../../components/calendar/ActiveMoimCard.tsx';
 
 const ActiveMoimData = [
   {
@@ -12,7 +15,7 @@ const ActiveMoimData = [
     category: '외국/언어',
     region: '서울',
     memberCount: 3,
-    spaceImg: ''
+    spaceImg: '',
   },
   {
     id: 2,
@@ -21,7 +24,7 @@ const ActiveMoimData = [
     category: '외국/언어',
     region: '서울',
     memberCount: 10,
-    spaceImg: ''
+    spaceImg: '',
   },
   {
     id: 3,
@@ -30,67 +33,73 @@ const ActiveMoimData = [
     category: '운동/건강',
     region: '서울',
     memberCount: 15,
-    spaceImg: ''
+    spaceImg: '',
   },
 ];
 
 interface RevokeMoimScreenProps {
-  navigation: RevokeMoimStackNavigatorProp
+  navigation: RevokeMoimStackNavigatorProp;
 }
 
-export default function RevokeMoimScreen({ navigation }: RevokeMoimScreenProps) {
+export default function RevokeMoimScreen({navigation}: RevokeMoimScreenProps) {
+  const {
+    data: moims,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+    isPending,
+    isError,
+  } = useGetInfiniteMyActiveMoim();
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleEndReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
+
+  if (isPending || isError) {
+    return <></>;
+  }
   return (
-    <ScreenContainer>
-      <Typography fontWeight={'BOLD'} className='text-lg mt-4'>어떤 모임을 탈퇴하시겠어요?</Typography>
-      <View className='flex flex-col gap-y-3'>
-        {ActiveMoimData.map((item, index) => (
-          <Pressable
-            key={index}
-            onPress={() => navigation.navigate('REVOKE_MOIM_DETAIL', { id: item.id })}
-            className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg">
-            {item?.spaceImg ? (
-              <Image
-                source={{uri: item?.spaceImg}}
-                width={55}
-                height={55}
-                className="rounded-lg"
-              />
-            ) : (
-              <View className="flex flex-col items-center justify-center bg-gray-100 w-[55] h-[55] rounded-lg">
-                <Ionicons name="home" size={20} color="#E9ECEF" />
-              </View>
-            )}
-            <View className="flex flex-col ml-3 gap-y-0.5">
-              <Typography
-                fontWeight="BOLD"
-                className="text-dark-800 text-base w-[300]"
-                numberOfLines={1}>
-                {item?.title}
-              </Typography>
-              <Typography
-                fontWeight="BOLD"
-                className="text-gray-400 text-xs w-[300]"
-                numberOfLines={1}>
-                {item?.subTitle}
-              </Typography>
-              <View className="flex flex-row gap-2">
-                <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-                  {item?.category}
-                </Typography>
-                <Typography
-                  fontWeight="LIGHT"
-                  className="text-gray-500 text-xs"
-                  numberOfLines={1}>
-                  {item?.region}
-                </Typography>
-                <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-                  참여 인원 {item?.memberCount}명
-                </Typography>
-              </View>
-            </View>
-          </Pressable>
-        ))}
+    <View className="flex-1 bg-white">
+      <View className="p-5">
+        <Typography fontWeight={'BOLD'} className="text-lg">
+          어떤 모임을 탈퇴하시겠어요?
+        </Typography>
       </View>
-    </ScreenContainer>
+      <FlatList
+        data={moims.pages.flatMap(page => page.moimPreviewList)}
+        renderItem={({item}) => {
+          return (
+            <ActiveMoimCard
+              onPress={() =>
+                navigation.navigate('REVOKE_MOIM_DETAIL', {
+                  id: item.moimId,
+                })
+              }
+              moim={item}
+            />
+          );
+        }}
+        keyExtractor={item => String(item.moimId)}
+        numColumns={1}
+        contentContainerStyle={{paddingHorizontal: 30, gap: 10}}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
+        scrollIndicatorInsets={{right: 1}}
+        indicatorStyle={'black'}
+      />
+    </View>
   );
 }

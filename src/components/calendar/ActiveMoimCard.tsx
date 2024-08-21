@@ -9,26 +9,18 @@ import {TMoimDTOResponse} from 'types/dtos/moim.ts';
 
 interface IActiveMoimCardProps extends PressableProps {
   moim: TMoimDTOResponse;
-  navigation: HomeStackNavigationProp;
 }
 
 export function ActiveMoimCard({
   moim,
-  navigation,
+  onPress,
   ...props
 }: IActiveMoimCardProps) {
   console.log(moim);
   return (
     <Pressable
       {...props}
-      onPress={() =>
-        navigation.navigate('MOIM_STACK', {
-          screen: 'MOIM_SPACE',
-          params: {
-            id: moim?.moimId,
-          },
-        })
-      }
+      onPress={onPress}
       className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg">
       {moim?.profileImageUrl ? (
         <Image

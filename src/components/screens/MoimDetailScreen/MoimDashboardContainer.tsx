@@ -1,36 +1,42 @@
-import {cva} from 'class-variance-authority';
-import {Typography} from 'components/@common/Typography/Typography';
 import {View, Platform, FlatList} from 'react-native';
 import {PieChart} from 'react-native-gifted-charts';
+import {cva} from 'class-variance-authority';
 import {cn} from 'utils';
-
-const infoList = [
-  {
-    text: '평균 연령',
-    data: '24세',
-  },
-  {
-    text: '이번달 일정',
-    data: '6개',
-  },
-  {
-    text: '모임 후기',
-    data: '70개',
-  },
-];
+import {Typography} from 'components/@common/Typography/Typography';
 
 interface MoimDashboardContainerProps {
   femaleCount: number;
   maleCount: number;
+  averageAge: number;
+  diaryCount: number;
+  moimReviewCount: number;
 }
 
 const MoimDashboardContainer = ({
   femaleCount,
   maleCount,
+  averageAge,
+  diaryCount,
+  moimReviewCount,
 }: MoimDashboardContainerProps) => {
   const totalMembers = femaleCount + maleCount;
   const femalePercentage = ((femaleCount / totalMembers) * 100).toFixed(1);
   const malePercentage = ((maleCount / totalMembers) * 100).toFixed(1);
+
+  const infoList = [
+    {
+      text: '평균 연령',
+      data: `${Math.round(averageAge)}세`,
+    },
+    {
+      text: '이번달 일정',
+      data: `${diaryCount}개`,
+    },
+    {
+      text: '모임 후기',
+      data: `${moimReviewCount}개`,
+    },
+  ];
 
   const data = [
     {
@@ -44,6 +50,7 @@ const MoimDashboardContainer = ({
       text: '여',
     },
   ];
+
   const platform = Platform.OS;
   return (
     <View className="flex flex-col p-6">

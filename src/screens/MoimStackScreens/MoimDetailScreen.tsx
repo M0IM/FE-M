@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {View} from 'react-native';
+import React, {useState} from 'react';
+import {RefreshControl, View} from 'react-native';
 import {SafeAreaView, ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
 
@@ -21,8 +21,10 @@ interface IMoimDetailScreenProps {
 
 export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
   const moimId = route.params.id;
-  const {data, isError, isPending} = useGetMoimSpaceInfo(moimId);
+  const {data, isError, isPending, refetch} = useGetMoimSpaceInfo(moimId);
   const requestMoimJoimMutation = useRequestMoimJoin();
+  const [refreshing, setRefreshing] = useState(false);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
@@ -56,6 +58,13 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
     );
   };
 
+  const onRefresh = async () => {
+    console.log('handleRefreshStore');
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+
   if (isError) {
     return <Typography fontWeight="MEDIUM">에러입니다.</Typography>;
   }
@@ -66,7 +75,10 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <MoimImageBox
           backgroundImage={data?.profileImageUrl}
           memberCount={data?.femaleCount + data?.maleCount}
@@ -82,6 +94,9 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
         <MoimDashboardContainer
           femaleCount={data?.femaleCount}
           maleCount={data?.maleCount}
+          averageAge={data?.averageAge}
+          diaryCount={data?.diaryCount}
+          moimReviewCount={data?.moimReviewCount}
         />
         <MoimContentsPreview />
       </ScrollView>

@@ -13,7 +13,6 @@ import {MoimManagementRouteProp} from 'navigators/types';
 import {TMoimRole} from 'types/dtos/moimManage';
 import {queryClient} from 'containers/TanstackQueryContainer';
 
-
 interface PermissionManageScreenProps {
   route: MoimManagementRouteProp;
 }
@@ -43,7 +42,7 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
     }
     return '';
   };
-  
+
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -81,16 +80,6 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
             queryClient.invalidateQueries({
               queryKey: ['moimMembers', moimId],
             });
-          },
-        },
-        },
-        {
-          onSuccess: data => {
-            console.log(data);
-            refetch();
-          },
-          onError: error => {
-            console.error(error.response);
           },
         },
       );

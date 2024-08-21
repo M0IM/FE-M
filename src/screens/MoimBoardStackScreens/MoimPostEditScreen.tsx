@@ -21,8 +21,9 @@ import {
 } from 'navigators/types';
 
 import usePost from 'hooks/queries/MoimBoard/usePost';
-import {queryClient} from 'containers/TanstackQueryContainer';
 import useSingleImagePicker from 'hooks/useSingleImagePicker';
+import usePermission from 'hooks/usePermission';
+import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface MoimPostEditScreenProps {
   route: MoimPostStackRouteProp;
@@ -30,6 +31,7 @@ interface MoimPostEditScreenProps {
 }
 
 const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
+  usePermission('PHOTO');
   const {id, postId} = route.params;
   const {useGetMoimPostDetail, updateMoimPostMutation} = usePost();
   const {data: postData} = useGetMoimPostDetail(id, postId);

@@ -20,6 +20,7 @@ import {ScreenContainer} from 'components/ScreenContainer';
 import useDropdown from 'hooks/useDropdown';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
+import usePermission from 'hooks/usePermission.ts';
 import {POST_WRITE_LIST} from 'constants/screens/MoimBoardStackScreens/PostList';
 import {
   MoimPostStackNavigationProp,
@@ -33,6 +34,7 @@ interface MoimPostWriteScreenProps {
 }
 
 const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
+  usePermission('PHOTO');
   const moimId = route?.params?.id;
   const postType = route?.params?.postType;
   const {isPressed, category, handleCategory, handleSelectedCategory} =

@@ -1,6 +1,6 @@
 // import Label from 'components/@common/Label/Label';
 import {Typography} from 'components/@common/Typography/Typography';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 
 const images = [
   {
@@ -21,12 +21,14 @@ interface MoimInfoContainerProps {
   title: string;
   description: string;
   moimId: number;
+  onOpen: () => void;
 }
 
 const MoimInfoContainer = ({
   title,
   description,
   moimId,
+  onOpen,
 }: MoimInfoContainerProps) => {
   console.log(moimId);
   return (
@@ -37,7 +39,9 @@ const MoimInfoContainer = ({
             <Label label='# 교육' color='main' style='ml-1' />
             <Label label='# IT' color='main' style='ml-1' /> */}
         <View className="flex flex-row items-center ml-auto">
-          <View className="flex flex-row items-center ml-auto">
+          <TouchableOpacity
+            className="flex flex-row items-center ml-auto"
+            onPress={onOpen}>
             {images.map((item, index) => (
               <View key={index} style={{marginLeft: -7 * index}}>
                 <Image
@@ -53,7 +57,7 @@ const MoimInfoContainer = ({
                 />
               </View>
             ))}
-          </View>
+          </TouchableOpacity>
           <Typography fontWeight="MEDIUM" className="ml-2">
             ...
           </Typography>

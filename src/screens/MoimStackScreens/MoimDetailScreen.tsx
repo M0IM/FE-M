@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {View} from 'react-native';
 import {SafeAreaView, ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -12,6 +13,7 @@ import {Typography} from 'components/@common/Typography/Typography';
 import {MoimTopTabRouteProp} from '../../navigators/types';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
+import MoimMemberBottomSheet from 'components/screens/MoimDetailScreen/MoimMemberBottomSheet';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -21,6 +23,9 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
   const moimId = route.params.id;
   const {data, isError, isPending} = useGetMoimSpaceInfo(moimId);
   const requestMoimJoimMutation = useRequestMoimJoin();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
 
   const handleRequestMoimJoin = () => {
     requestMoimJoimMutation.mutate(
@@ -72,6 +77,7 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
           title={data?.title}
           description={data?.description}
           moimId={moimId}
+          onOpen={open}
         />
         <MoimDashboardContainer
           femaleCount={data?.femaleCount}
@@ -88,6 +94,12 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
           />
         </View>
       )}
+      <MoimMemberBottomSheet
+        moimId={moimId}
+        isOpen={isOpen}
+        onOpen={open}
+        onClose={close}
+      />
     </SafeAreaView>
   );
 }

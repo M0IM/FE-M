@@ -31,6 +31,8 @@ const PostRecommentContainer = ({
     blockMoimPostCommentMutation,
     likeMoimPostCommentMutation,
   } = usePost();
+  const isBlocked = recommentData?.writer === null;
+  const isDeleted = recommentData?.content === null;
 
   const handleMoimPostCommentLike = (commentId: number) => {
     likeMoimPostCommentMutation.mutate(
@@ -181,12 +183,7 @@ const PostRecommentContainer = ({
   ];
 
   // 삭제된 대댓글
-  if (recommentData.content === null) {
-    return <></>;
-  }
-
-  // 차단된 대댓글
-  if (recommentData.writer === null) {
+  if (isDeleted) {
     return <></>;
   }
 
@@ -221,8 +218,12 @@ const PostRecommentContainer = ({
         </View>
         <Typography
           fontWeight="MEDIUM"
-          className="text-dark-800 text-sm mt-3 pl-2">
-          {recommentData.content}
+          className={
+            isBlocked
+              ? 'text-gray-500 text-sm mt-3 pl-2'
+              : 'text-dark-800 text-sm mt-3 pl-2'
+          }>
+          {isBlocked ? '차단된 댓글입니다.' : recommentData.content}
         </Typography>
         <Typography
           fontWeight="MEDIUM"

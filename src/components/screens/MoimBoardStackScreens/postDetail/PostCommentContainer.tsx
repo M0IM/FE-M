@@ -38,6 +38,8 @@ const PostCommentContainer = ({
     blockMoimPostCommentMutation,
     likeMoimPostCommentMutation,
   } = usePost();
+  const isBlocked = commentData?.writer === null;
+  const isDeleted = commentData?.content === null;
 
   const handleMoimPostCommentLike = (commentId: number) => {
     likeMoimPostCommentMutation.mutate(
@@ -188,12 +190,7 @@ const PostCommentContainer = ({
   ];
 
   // 삭제된 댓글
-  if (commentData.content === null) {
-    return <></>;
-  }
-
-  // 차단된 댓글
-  if (commentData.writer === null) {
+  if (isDeleted) {
     return <></>;
   }
 
@@ -237,8 +234,12 @@ const PostCommentContainer = ({
         </View>
         <Typography
           fontWeight="MEDIUM"
-          className="text-dark-800 text-sm mt-3 pl-2">
-          {commentData?.content}
+          className={
+            isBlocked
+              ? 'text-gray-500 text-sm mt-3 pl-2'
+              : 'text-dark-800 text-sm mt-3 pl-2'
+          }>
+          {isBlocked ? '차단된 댓글입니다.' : commentData?.content}
         </Typography>
         <Typography
           fontWeight="MEDIUM"

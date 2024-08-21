@@ -59,15 +59,23 @@ const updateMoimInfo = async ({
   address,
   category,
   description,
-  imageKeyNames,
+  imageKeyName,
 }: TUpdateMoimInfoParams): Promise<string> => {
+  console.log({
+    moimId,
+    title,
+    address,
+    category,
+    description,
+    imageKeyName,
+  });
   const {data} = await axiosInstance.put(`/api/v1/moims`, {
     moimId,
     title,
     address,
     category,
     description,
-    imageKeyNames,
+    imageKeyName,
   });
   console.log(data);
   return data?.result;

@@ -1,37 +1,74 @@
-import {View, TouchableOpacity, Image, Platform} from 'react-native';
+import {View, TouchableOpacity, Image, Platform, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import {useRoute} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+
+import {queryClient} from 'containers/TanstackQueryContainer';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
-import {ImageInput} from 'components/@common/ImageInput/ImageInput';
 import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
 import CategoryDropdown from 'components/screens/MoimCreateScreen/CategoryDropdown';
 import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
-import useImagePicker from 'hooks/useImagePicker';
-import usePermission from 'hooks/usePermission';
-import useTags from 'hooks/useTags';
-import {MoimManagementRouteProp} from 'navigators/types';
-import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
-import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
 
-const MoimInfoEditScreen = () => {
+import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
+import useTags from 'hooks/useTags';
+import useSingleImagePicker from 'hooks/useSingleImagePicker';
+
+import {
+  CATEGORIES_LIST,
+  CATEGORY_LIST,
+} from 'constants/screens/MoimSearchScreen/CategoryList';
+import {MOIM_REQUEST_TYPE} from 'types/enums';
+import {
+  MoimManagementNavigationProp,
+  MoimManagementRouteProp,
+} from 'navigators/types';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
+
+interface MoimInfoEditScreenProps {
+  navigation: MoimManagementNavigationProp;
+}
+
+const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
   const route = useRoute<MoimManagementRouteProp>();
+  const platform = Platform.OS;
+  const moimId = route.params.id;
+
   const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const {updateMoimInfoMutation} = useMoimManagment();
-  const platform = Platform.OS;
-  const moimdId = route.params.id;
+  const {data: moimData} = useGetMoimSpaceInfo(moimId);
+
+  const isImgUri =
+    moimData?.profileImageUrl?.split('com/') &&
+    moimData?.profileImageUrl?.split('com/')[1]
+      ? true
+      : false;
+
+  const {imageUri, uploadUri, handleChange, deleteImageUri} =
+    useSingleImagePicker(
+      isImgUri ? {initialImage: moimData?.profileImageUrl} : {},
+    );
   const [isPressed, setIsPressed] = useState(false);
-  const [category, setCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] =
+    useState<MOIM_REQUEST_TYPE | null>(null);
+  const [category, setCategory] = useState(
+    moimData?.category && CATEGORIES_LIST[moimData?.category],
+  );
   const [data, setData] = useState({
-    title: '',
-    description: '',
+    title: moimData?.title,
+    location: moimData?.address,
+    introduction: moimData?.description,
   });
-  console.log('moimId: ', moimdId);
+  const [error, setError] = useState({
+    title: '',
+    location: '',
+  });
   const categoryKeys = Object.keys(CATEGORY_LIST);
 
   const handleSelectedCategory = (selected: any) => {
+    setSelectedCategory(CATEGORY_LIST[selected] || null);
     setCategory(selected);
   };
 
@@ -39,24 +76,66 @@ const MoimInfoEditScreen = () => {
     setIsPressed(prev => !prev);
   };
 
-  // TODO: 최대 이미지 개수 변경 필요
-  const imagePicker = useImagePicker({
-    initialImages: [],
-  });
-  usePermission('PHOTO');
-
   const hahndleOnSubmit = () => {
-    console.log(category);
-    const moimId = route?.params?.id;
-    if (moimId && category) {
-      updateMoimInfoMutation.mutate({
-        moimId,
-        title: data.title,
-        address: '',
-        category,
-        description: data.description,
-        imageKeyNames: [],
-      });
+    if (
+      data?.title &&
+      data?.location &&
+      data?.introduction &&
+      moimId &&
+      moimData?.category
+    ) {
+      updateMoimInfoMutation.mutate(
+        {
+          moimId: moimId,
+          title: data?.title,
+          address: data?.location,
+          category: selectedCategory || moimData?.category,
+          description: data?.introduction,
+          imageKeyName: uploadUri,
+        },
+        {
+          onSuccess: () => {
+            navigation.goBack();
+            Toast.show({
+              type: 'success',
+              text1: '모임 정보가 수정되었습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+          onError: error => {
+            console.error(error?.response);
+            Toast.show({
+              type: 'error',
+              text1:
+                error?.response?.data?.message ||
+                '모임 수정 중 오류가 발생했습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['myMoim'],
+            });
+          },
+        },
+      );
+    } else {
+      if (!data?.title)
+        setError(prev => ({...prev, title: '모임 이름을 입력해주세요.'}));
+      if (!data?.location)
+        setError(prev => ({
+          ...prev,
+          location: '모임 활동 지역을 입력해주세요.',
+        }));
+      if (!data?.introduction)
+        Toast.show({
+          type: 'error',
+          text1: '모임 소개를 작성해주세요.',
+          visibilityTime: 2000,
+          position: 'bottom',
+        });
     }
   };
 
@@ -90,7 +169,15 @@ const MoimInfoEditScreen = () => {
         </Typography>
         <View className="flex flex-row w-full items-center justify-around gap-x-2">
           <View className="flex-1">
-            <InputField touched placeholder="활동 지역 찾기" />
+            <InputField
+              touched
+              placeholder="활동 지역 찾기"
+              error={data?.location ? '' : error.location}
+              value={data?.location}
+              onChangeText={text =>
+                setData(prev => ({...prev, location: text}))
+              }
+            />
           </View>
           <TouchableOpacity activeOpacity={0.8}>
             <Ionicons name="search" size={30} color={'#C9CCD1'} />
@@ -99,14 +186,16 @@ const MoimInfoEditScreen = () => {
       </View>
 
       {/* 카테고리 드롭다운 */}
-      <CategoryDropdown
-        onPress={handleCategory}
-        isPressed={isPressed}
-        menuList={categoryKeys}
-        handleSelect={handleSelectedCategory}
-        selectedMenu={category}
-        placeholder="카테고리"
-      />
+      {category && (
+        <CategoryDropdown
+          onPress={handleCategory}
+          isPressed={isPressed}
+          menuList={categoryKeys}
+          handleSelect={handleSelectedCategory}
+          selectedMenu={category}
+          placeholder="카테고리"
+        />
+      )}
 
       {/* 카메라 연결 */}
       <View className="flex flex-col">
@@ -115,19 +204,28 @@ const MoimInfoEditScreen = () => {
           className="text-sm text-gray-500 mb-2">
           대표 이미지
         </Typography>
-        <ImageInput onChange={imagePicker.handleChange} />
-        {/* TODO: PreviewImage Component 분리 (실제 DB 연결이후) */}
-        <View>
-          {imagePicker.imageUris.map(({uri}, index) => {
-            return (
+        <View className="flex flex-row items-center gap-x-6">
+          <TouchableOpacity activeOpacity={0.8} onPress={handleChange}>
+            <Ionicons
+              name="camera"
+              size={40}
+              color={'#9EA4AA'}
+              style={{padding: 10}}
+            />
+          </TouchableOpacity>
+          {imageUri && (
+            <View className="w-[80] h-[100]">
               <Image
-                key={index}
-                source={{
-                  uri: `http:s3address/${uri}`,
-                }}
+                source={{uri: imageUri}}
+                className="w-full h-full rounded-2xl"
               />
-            );
-          })}
+              <Pressable
+                onPress={() => deleteImageUri()}
+                className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
+                <Ionicons name="trash" size={15} color={'#9EA4AA'} />
+              </Pressable>
+            </View>
+          )}
         </View>
       </View>
 
@@ -142,9 +240,9 @@ const MoimInfoEditScreen = () => {
             touched
             placeholder="모임 소개 입력"
             multiline
-            value={data.description}
+            value={data?.introduction}
             onChangeText={text =>
-              setData(prev => ({...prev, description: text}))
+              setData(prev => ({...prev, introduction: text}))
             }
           />
         </View>
@@ -159,6 +257,7 @@ const MoimInfoEditScreen = () => {
       />
 
       {/* 모임 소개 영상 게시 */}
+      {/* TODO: 다음 버전에서 추가 */}
       {/* <MoimIntroVideo /> */}
 
       <View className={platform === 'android' ? 'mt-16' : 'mt-6'} />

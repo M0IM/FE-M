@@ -4,6 +4,8 @@ import {
   TCalendarPersonalResponse,
   TDetailMoimCalendarDTO,
   TPostDetailMoimCalendarDTO,
+  TUserPlanDTO,
+  TUserSchedulesCountResponse,
 } from 'types/dtos/calendar.ts';
 
 export type TCalndarProps = {
@@ -152,6 +154,61 @@ const deleteDetailMoimCalendar = async ({
   return data.result;
 };
 
+// 특정 날 (유저 총 일정 개수) 조회
+const getUserSchedulesCount = async ({
+  year,
+  month,
+  day,
+}: {
+  year: number;
+  month: number;
+  day: number;
+}): Promise<TUserSchedulesCountResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/users/user-plan-count?year=${year}&month=${month}&day=${day}`,
+  );
+
+  return data.result;
+};
+
+// 특정 날짜 (유저 참여 신청 모임 일정) 조회
+const getUserTodayParticipantSchedules = async ({
+  year,
+  month,
+  day,
+  page,
+}: {
+  year: number;
+  month: number;
+  day: number;
+  page: number;
+}): Promise<TUserPlanDTO[]> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/users/user-moim-plan?year=${year}&month=${month}&day=${day}&page=${page}&size=5`,
+  );
+
+  return data.result.userPlanDTOList;
+};
+
+// 특정 날짜 (유저의 개인 일정) 조회
+const getUserTodaySchedules = async ({
+  year,
+  month,
+  day,
+  page,
+}: {
+  year: number;
+  month: number;
+  day: number;
+  page: number;
+}): Promise<TUserPlanDTO[]> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/users/user-individual-plan?year=${year}&month=${month}&day=${day}&page=${page}&size=5`,
+  );
+
+  return data.result;
+};
+
 export {
   getMoimCalendar,
   getPersonalCalendar,
@@ -162,4 +219,7 @@ export {
   updateMyCalendarSchedule,
   updateDetailMoimCalendar,
   deleteDetailMoimCalendar,
+  getUserSchedulesCount,
+  getUserTodayParticipantSchedules,
+  getUserTodaySchedules,
 };

@@ -20,7 +20,7 @@ type TMoimDTOResponse = {
   description: string;
   category: string;
   address: string;
-  profileImage: string;
+  profileImageUrl: string;
   memberCount: number;
   createdAt: Date;
   updateAt: Date;

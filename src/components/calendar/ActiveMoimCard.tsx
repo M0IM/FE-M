@@ -17,6 +17,7 @@ export function ActiveMoimCard({
   navigation,
   ...props
 }: IActiveMoimCardProps) {
+  console.log(moim);
   return (
     <Pressable
       {...props}
@@ -29,9 +30,9 @@ export function ActiveMoimCard({
         })
       }
       className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg">
-      {moim?.profileImage ? (
+      {moim?.profileImageUrl ? (
         <Image
-          source={{uri: moim.profileImage}}
+          source={{uri: moim.profileImageUrl}}
           width={55}
           height={55}
           className="rounded-lg"

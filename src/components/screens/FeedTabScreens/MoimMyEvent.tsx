@@ -1,4 +1,4 @@
-import {ActivityIndicator, FlatList, RefreshControl, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 
 import {useState} from 'react';
 
@@ -50,6 +50,7 @@ export default function MoimMyEvent({navigation}: MoimMyEventProps) {
         renderItem={({item}) => {
           return (
             <SpaceCard
+              item={item}
               onPress={() =>
                 navigation.navigate('MOIM_STACK', {
                   screen: 'MOIM_SPACE',

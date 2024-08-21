@@ -55,6 +55,8 @@ function CalendarPostForm({
       {
         onSuccess: () => {
           queryClient.invalidateQueries({queryKey: ['myCalendar']});
+          queryClient.invalidateQueries({queryKey: ['myScheduleCount']});
+          queryClient.invalidateQueries({queryKey: ['todaySchedules']});
           navigation.navigate('CALENDAR_HOME');
         },
         onError: error => console.log(error),
@@ -74,6 +76,9 @@ function CalendarPostForm({
           onSuccess: () => {
             setIsEditMode(false);
             queryClient.invalidateQueries({queryKey: ['myCalendar']});
+            queryClient.invalidateQueries({queryKey: ['myScheduleCount']});
+            queryClient.invalidateQueries({queryKey: ['todaySchedules']});
+
             navigation.navigate('CALENDAR_HOME');
           },
           onError: error => console.log(error),

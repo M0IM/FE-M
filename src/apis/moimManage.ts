@@ -27,7 +27,12 @@ const updateMoimAuthorities = async ({
   userId,
 }: TUpdateMoimAuthoritiesParams): Promise<TUpdateMoimAuthorities> => {
   const {data} = await axiosInstance.patch(
-    `/api/v1/moims/${moimId}/authorities?moimRole=${moimRole}&userId=${userId}`,
+    `/api/v1/moims/${moimId}/authorities`,
+    {
+      moimId,
+      moimRole,
+      userId,
+    },
   );
   console.log(data);
   return data?.result;

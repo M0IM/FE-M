@@ -61,7 +61,7 @@ function useGetInfinityMoimMembers(
         cursor: pageParam,
         take: 30,
       }),
-    queryKey: ['moimMembers'],
+    queryKey: ['moimMembers', moimId],
     initialPageParam: 1,
     getNextPageParam: lastPage => {
       return lastPage.hasNext ? lastPage.nextCursor : undefined;

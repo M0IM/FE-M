@@ -8,6 +8,8 @@ import MoimIntroduceEvent from 'components/screens/FeedTabScreens/MoimIntroduceE
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import {HomeStackNavigationProp} from 'navigators/types';
 import useSocket from '../../hooks/useSocket.ts';
+import {useEffect} from 'react';
+import useSocketService from '../../hooks/useSocketService.ts';
 
 export const spaceCard = [
   {
@@ -51,7 +53,9 @@ interface FeedHomeScreenProps {
 }
 
 export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
-  // useSocket();
+  useEffect(() => {
+    useSocketService.initializeSocket();
+  }, []);
   return (
     <>
       <ScreenContainer loading={false}>

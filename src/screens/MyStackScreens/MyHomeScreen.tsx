@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import MyProfileCard from 'components/screens/MyStackScreens/MyProfileCard.tsx';
@@ -15,9 +15,28 @@ interface IMyHomeScreenProps {
 
 export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
   const {data: profile} = useGetMyProfile();
-  const {logoutMutation} = useAuth();
+  const {logoutMutation, deleteUserMutation} = useAuth();
   const handlePressLogout = () => {
     logoutMutation.mutate(null);
+  };
+  const hanldeDeleteUser = () => {
+    Alert.alert(
+      '정말 해당 서비스를 탈퇴하시겠습니까?',
+      '가입된 모임의 모임장인 경우, 권한 위임을 하셔야 탈퇴하실 수 있습니다.',
+      [
+        {
+          text: '탈퇴하기',
+          style: 'destructive',
+          onPress: () => {
+            deleteUserMutation.mutate(null);
+          },
+        },
+        {
+          text: '취소하기',
+          style: 'default',
+        },
+      ],
+    );
   };
 
   return (
@@ -30,7 +49,9 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
           </Typography>
           <SettingItem
             title={'모임 탈퇴 신청하기'}
-            onPress={() => navigation.navigate('MY_REVOKE_MOIM')}
+            onPress={() => {
+              navigation.navigate('MY_REVOKE_MOIM');
+            }}
           />
           <SettingItem
             title={'가입 신청 상태 확인하기'}
@@ -73,7 +94,7 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
             onPress={() => navigation.navigate('MY_PASSWORD_CHANGE')}
           />
           <SettingItem title={'로그 아웃'} onPress={handlePressLogout} />
-          <SettingItem title={'탈퇴하기'} />
+          <SettingItem title={'탈퇴하기'} onPress={hanldeDeleteUser} />
         </View>
       </View>
     </ScreenContainer>

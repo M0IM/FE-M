@@ -16,6 +16,10 @@ import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
 import {TSignup} from 'types/dtos/auth.ts';
 import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import {DatePickerOption} from '../../components/@common/DatePickerOption/DatePickerOption.tsx';
+import useModal from '../../hooks/useModal.ts';
+import {getDateWithSeparator} from '../../utils';
+import moment from 'moment/moment';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -27,10 +31,20 @@ export default function SignupLastStepScreen({
   signUpInfo,
 }: TSignUpScreenProps) {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const residenceRef = useRef<TextInput | null>(null);
+  const residenceRef = useRef<TextInput | null>();
   const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
   const {signUpMutation} = useAuth();
-
+  const datePickerModal = useModal();
+  const [date, setDate] = useState<Date>(new Date());
+  const [isPicked, setIsPicked] = useState(false);
+  const handleChangeDate = (pickedDate: Date) => {
+    setDate(pickedDate);
+  };
+  const handleConfirmDate = () => {
+    setIsPicked(true);
+    datePickerModal.hide();
+  };
+  console.log(date);
   const form = useForm({
     initialValue: {
       gender: 'MALE',
@@ -59,7 +73,7 @@ export default function SignupLastStepScreen({
       password: signUpInfo.password,
       role: 'ROLE_USER',
       gender: signUpInfo.gender,
-      birth: form.values.birth,
+      birth: moment(date).format('YYYY-MM-DD'),
       residence: form.values.residence,
     });
   };
@@ -129,23 +143,19 @@ export default function SignupLastStepScreen({
                 onCheckColor={'#FFFFFF'}
                 onTintColor={'#FFFFFF'}
               />
-              <CustomButton label={'HI'} onPress={handleSubmit} />
             </View>
           </View>
         </View>
         <View>
           <Typography className="mb-4" fontWeight={'MEDIUM'}>
-            나이
+            생년월일
           </Typography>
-          <InputField
-            placeholder={FIFTH_STEP.WRITE_AGE}
-            error={form.errors.age}
-            touched={form.touched.age}
-            inputMode="text"
-            returnKeyType="next"
-            blurOnSubmit={false}
-            onSubmitEditing={() => residenceRef.current?.focus()}
-            {...form.getTextInputProps('birth')}
+          <CustomButton
+            variant="gray"
+            label={
+              isPicked ? `${getDateWithSeparator(date, '. ')}` : '날짜 선택'
+            }
+            onPress={datePickerModal.show}
           />
         </View>
         <View>
@@ -168,6 +178,14 @@ export default function SignupLastStepScreen({
             {...form.getTextInputProps('residence')}
           />
         </View>
+        <DatePickerOption
+          isVisible={datePickerModal.isVisible}
+          onOpen={datePickerModal.show}
+          onClose={datePickerModal.hide}
+          date={date}
+          onChangeDate={handleChangeDate}
+          onConfirmDate={handleConfirmDate}
+        />
       </View>
     </ScreenContainer>
   );

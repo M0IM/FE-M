@@ -135,14 +135,15 @@ export default function AuthHomeScreen({
         },
         {
           onSuccess: ({result}) => {
+            console.log(result);
             if (result.provider === 'UNREGISTERED') {
               setSignUpInfo(prevInfo => ({
                 ...prevInfo,
                 provider: 'APPLE',
                 providerId: String(user),
-                nickname: '개념빵맨',
+                nickname: result.email,
                 role: 'ROLE_USER',
-                email: `${String(user)}@apple.com`,
+                email: result.email,
               }));
               onNext(result.provider);
             } else {

@@ -43,6 +43,7 @@ const postSignup = async ({
     birth,
     residence,
   });
+
   return data;
 };
 
@@ -68,7 +69,6 @@ const socialLogin = async ({
   type,
   idToken,
 }: TSocial): Promise<TResponseSignup> => {
-  console.log(idToken);
   const {data} = await axiosInstance.post(`/api/v1/auth/oAuth`, {
     provider: type,
     token: idToken,
@@ -123,6 +123,15 @@ const appleClient = {
   },
 };
 
+/**
+ * @docs 회원 탈퇴 API
+ */
+const deleteUser = async (): Promise<TLogout> => {
+  const {data} = await axiosInstance.delete('/api/v1/auth/quit');
+
+  return data;
+};
+
 export {
   postSignup,
   postLogin,
@@ -130,4 +139,5 @@ export {
   logout,
   getAccessToken,
   appleClient,
+  deleteUser,
 };

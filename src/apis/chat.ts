@@ -1,6 +1,7 @@
 import axiosInstance from './axiosInstance.ts';
 
 import {
+  TChatListResponse,
   TChatRoomResponse,
   TCreateChatRoomDTO,
   TCreateChatRoomResponse,
@@ -56,4 +57,25 @@ const exitChatRoom = async ({chatRoomId}: {chatRoomId: number}) => {
   return data;
 };
 
-export {getChatRooms, createChatRoom, modifyChatRoom, exitChatRoom};
+// 채팅방 목록 불러오기
+const getChatList = async ({
+  chatRoomId,
+  cursor,
+}: {
+  chatRoomId: number;
+  cursor: number;
+}): Promise<TChatListResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/chat-rooms/${chatRoomId}/chats?cursor=${cursor}&take=5`,
+  );
+
+  return data.result;
+};
+
+export {
+  getChatRooms,
+  createChatRoom,
+  modifyChatRoom,
+  exitChatRoom,
+  getChatList,
+};

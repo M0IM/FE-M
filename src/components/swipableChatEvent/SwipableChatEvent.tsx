@@ -6,11 +6,7 @@ import {Swipeable} from 'react-native-gesture-handler';
 import Avatar from '../@common/Avatar/Avatar.tsx';
 import {TChatRoomsDTO} from '../../types/dtos/chat.ts';
 
-export function SwipableChatEvent({
-  chatRoomId,
-  title,
-  imageKeyName,
-}: TChatRoomsDTO) {
+export function SwipableChatEvent({chatRoomId, title}: TChatRoomsDTO) {
   const navigation = useNavigation<ChatStackNavigationProp>();
 
   const rightSwipe = () => {

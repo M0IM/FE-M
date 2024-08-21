@@ -28,7 +28,7 @@ import useModal from 'hooks/useModal.ts';
 import usePostDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/usePostDetailMoimCalendar.ts';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
-import useUpdateDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/useUpdateDetailMoimCalendar.ts';
+import useUpdateDetailMoimCalendar from '../../hooks/queries/MoimWriteScreen/useUpdateDetailMoimCalendar.ts';
 
 interface IPostForm {
   moimId: number;
@@ -68,8 +68,6 @@ export default function PostForm({moimId}: IPostForm) {
     },
     validate: validateAddMoimPosts,
   });
-
-  console.log(isEdit);
 
   const {mutate: writePost} = usePostDetailMoimCalendar();
   const {mutate: updatePost} = useUpdateDetailMoimCalendar();

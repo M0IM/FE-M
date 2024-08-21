@@ -1,5 +1,7 @@
 import {Image, Platform, Pressable, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useState} from 'react';
+import Toast from 'react-native-toast-message';
 
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {InputField} from 'components/@common/InputField/InputField';
@@ -10,12 +12,10 @@ import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContain
 
 import useTags from 'hooks/useTags';
 import usePermission from 'hooks/usePermission';
-import {useState} from 'react';
 import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
 import useCreateMoim from 'hooks/queries/MoimCreateScreen/useCreateMoim';
-import {MOIM_CATEGORY} from 'types/dtos/moim';
 import useSingleImagePicker from 'hooks/useSingleImagePicker';
-import Toast from 'react-native-toast-message';
+
 import {HomeStackNavigationProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {MOIM_REQUEST_TYPE} from 'types/enums';

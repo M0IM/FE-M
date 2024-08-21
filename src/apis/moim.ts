@@ -4,7 +4,9 @@ import {
   TCreateMoimParams,
   TCreateMoimResponse,
   TGetMyActiveMoimResponse,
+  TMoimMembersDTO,
   TMoimParticipantList,
+  TMoimSpaceInfoDTO,
 } from 'types/dtos/moim.ts';
 
 const createMoim = async ({
@@ -93,10 +95,45 @@ const deleteMoimScheduleParticipation = async ({
   return data.result;
 };
 
+// 모임 정보 불러오기
+const getMoimSpaceInfo = async ({
+  moimId,
+}: {
+  moimId: number;
+}): Promise<TMoimSpaceInfoDTO> => {
+  const {data} = await axiosInstance.get(`/api/v1/moims/${moimId}`);
+  return data?.result;
+};
+
+// 모임 멤버 불러오기
+const getMoimMembers = async ({
+  moimId,
+  cursor,
+  take,
+}: {
+  moimId: number;
+  cursor: number;
+  take: number;
+}): Promise<TMoimMembersDTO> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}`,
+  );
+  return data?.result;
+};
+
+// 모임 가입 신청하기
+const requestMoimJoin = async ({moimId}: {moimId: number}) => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/${moimId}/requests`);
+  return data?.result;
+};
+
 export {
   getMyActiveMoim,
   getDetailMoimParticipantsList,
   postMoimScheduleParticipation,
   deleteMoimScheduleParticipation,
   createMoim,
+  getMoimSpaceInfo,
+  getMoimMembers,
+  requestMoimJoin,
 };

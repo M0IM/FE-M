@@ -1,4 +1,5 @@
 import {MOIM_REQUEST_TYPE} from 'types/enums';
+import {TMoimRole} from './moimManage';
 
 export type MOIM_CATEGORY =
   | MOIM_REQUEST_TYPE.ALL
@@ -50,6 +51,36 @@ type TCreateMoimResponse = {
   updateAt: string;
 };
 
+type TMoimSpaceInfoDTO = {
+  moimId: number;
+  isJoin: boolean;
+  title: string;
+  description: string;
+  profileImageUrl: string;
+  category: MOIM_CATEGORY;
+  averageAge: number;
+  diaryCount: number;
+  moimReviewCount: number;
+  maleCount: number;
+  femaleCount: number;
+  address: string;
+  createAt: string;
+  updateAt: string;
+};
+
+export type TUserPreviewDTO = {
+  userId: number;
+  nickname: string;
+  imageKeyName: string;
+  moimRole: TMoimRole;
+};
+
+type TMoimMembersDTO = {
+  userPreviewDTOList: TUserPreviewDTO[];
+  hasNext: boolean;
+  nextCursor: number;
+};
+
 type TCreateMoimParams = {
   title: string;
   location: string;
@@ -66,5 +97,7 @@ export type {
   TMoimParticipantList,
   TMoimSearchResultDTO,
   TCreateMoimResponse,
+  TMoimSpaceInfoDTO,
+  TMoimMembersDTO,
   TCreateMoimParams,
 };

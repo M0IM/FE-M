@@ -44,7 +44,7 @@ type ChatResponseDTO = {
 };
 
 type TChatListResponse = {
-  chatReponseList: ChatResponseDTO[];
+  chatResponseList: ChatResponseDTO[];
   nextCursor: number;
   hasNext: boolean;
 };

@@ -1,5 +1,6 @@
 import {
   InfiniteData,
+  keepPreviousData,
   QueryKey,
   UseInfiniteQueryOptions,
   useSuspenseInfiniteQuery,
@@ -24,8 +25,11 @@ function useGetInfiniteChatList(
     queryFn: ({pageParam}) => getChatList({cursor: pageParam, chatRoomId}),
     queryKey: ['chatList', chatRoomId],
     initialPageParam: 1,
-    getNextPageParam: (lastPage, _) => {
-      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    getPreviousPageParam: firstPage => {
+      return firstPage.hasNext ? firstPage.nextCursor : undefined;
+    },
+    getNextPageParam: () => {
+      return true;
     },
     ...queryOptions,
   });

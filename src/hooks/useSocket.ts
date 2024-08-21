@@ -17,6 +17,7 @@ const useSocket = (): [WebSocket | null, () => void] => {
   const connectWebSocket = useCallback(async () => {
     if (isLogin) {
       const token = await getToken();
+      console.log(token);
       if (token) {
         const ws = new WebSocket(
           `${Config.WEB_SOCKET_URL}/chat?token=${token}`,

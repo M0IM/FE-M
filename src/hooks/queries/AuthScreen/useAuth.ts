@@ -226,6 +226,7 @@ function useAuth() {
     deleteUserMutation,
     isLoginLoading,
     getNewAccessToken,
+    getProfileQuery,
   };
 }
 

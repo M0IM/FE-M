@@ -1,6 +1,7 @@
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {MaterialTopTabNavigationProp} from '@react-navigation/material-top-tabs';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {POST_LIST_TYPE} from 'types/dtos/post';
 
 /** param list */
 export type HomeStackParamList = {
@@ -110,7 +111,10 @@ export type MoimPostStackParamList = {
     id: number | undefined;
     postId: number | undefined;
   };
-  MOIM_POST_WRITE: {id: number | undefined};
+  MOIM_POST_WRITE: {
+    id: number | undefined;
+    postType?: POST_LIST_TYPE;
+  };
   MOIM_POST_EDIT: {
     id: number | undefined;
     postId: number | undefined;

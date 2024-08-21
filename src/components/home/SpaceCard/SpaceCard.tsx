@@ -13,15 +13,15 @@ interface SpaceCardProps extends TouchableOpacityProps {
   item?: TMoimDTOResponse;
 }
 
-const SpaceCard = ({uri, item, ...props}: SpaceCardProps) => {
+const SpaceCard = ({item, ...props}: SpaceCardProps) => {
   return (
     <TouchableOpacity
       {...props}
       activeOpacity={0.8}
       className="flex flex-col items-center gap-3 w-[140]">
-      {uri ? (
+      {item?.profileImageUrl ? (
         <Image
-          source={{uri: item?.profileImage}}
+          source={{uri: item?.profileImageUrl}}
           width={120}
           height={100}
           className="rounded-[30px]"

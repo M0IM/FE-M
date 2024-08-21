@@ -49,7 +49,7 @@ export function DateBox({
             {hasSchedule && !isMemberBusy && (
               <View className="absolute top-7 left-[40%] mt-1 w-1 h-1 rounded-sm bg-main" />
             )}
-            {!hasSchedule && isMemberBusy && (
+            {(!hasSchedule && isMemberBusy) !== undefined && (
               <View className="absolute top-7 left-[40%] mt-1 w-1 h-1 rounded-sm bg-error" />
             )}
             {hasSchedule && isMemberBusy && (

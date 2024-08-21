@@ -63,7 +63,7 @@ function useGetInfiniteMoimPostList(
         cursor: pageParam,
         take: 10,
       }),
-    queryKey: ['moim', 'post', postType],
+    queryKey: ['moim', 'post', postType, moimId],
     initialPageParam: 1,
     getNextPageParam: lastPage => {
       return lastPage.hasNext ? lastPage.nextCursor : undefined;

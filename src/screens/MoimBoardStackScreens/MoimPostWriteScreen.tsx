@@ -23,15 +23,7 @@ import {
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
-
-const testImages = [
-  'https://images.unsplash.com/photo-1722648403966-922e95b2bd7e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1722265620783-12d44a721b5a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1OHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1722861315999-5de71ce7cdda?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw5MXx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1722648403966-922e95b2bd7e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1722265620783-12d44a721b5a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1OHx8fGVufDB8fHx8fA%3D%3D',
-  'https://images.unsplash.com/photo-1722861315999-5de71ce7cdda?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw5MXx8fGVufDB8fHx8fA%3D%3D',
-];
+import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 
 interface MoimPostWriteScreenProps {
   route: MoimPostStackRouteProp;
@@ -52,6 +44,8 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
   const {moimPostMutation} = usePost();
+  const {imageUri, uploadUri, handleChange, deleteImageUri} =
+    useSingleImagePicker({});
 
   const handleOnSubmit = () => {
     if (moimId && category && data.title) {
@@ -60,7 +54,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
           moimId: moimId,
           title: data.title,
           content: data.content,
-          imageKeyNames: data.imageKeyNames,
+          imageKeyNames: [uploadUri],
           postType: category?.key,
         },
         {
@@ -161,7 +155,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
       </View>
       {/* 이미지는 추후에 다시 연결 */}
       <View className="flex flex-row items-center">
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => handleChange()}>
           <Ionicons
             name="camera"
             size={30}
@@ -169,23 +163,27 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
             style={{padding: 10}}
           />
         </TouchableOpacity>
-        <FlatList
-          horizontal
-          data={testImages}
-          contentContainerStyle={{marginLeft: 20}}
-          renderItem={({item}) => (
-            <View className="w-[80] h-[100]">
-              <Image
-                source={{uri: item}}
-                className="w-full h-full rounded-2xl"
-              />
-              <Pressable className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
-                <Ionicons name="trash" size={15} color={'#9EA4AA'} />
-              </Pressable>
-            </View>
-          )}
-          ItemSeparatorComponent={() => <View className="w-2" />}
-        />
+        {imageUri && (
+          <FlatList
+            horizontal
+            data={[imageUri]}
+            contentContainerStyle={{marginLeft: 20}}
+            renderItem={({item}) => (
+              <View className="w-[80] h-[100]">
+                <Image
+                  source={{uri: item}}
+                  className="w-full h-full rounded-2xl"
+                />
+                <Pressable
+                  onPress={() => deleteImageUri()}
+                  className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
+                  <Ionicons name="trash" size={15} color={'#9EA4AA'} />
+                </Pressable>
+              </View>
+            )}
+            ItemSeparatorComponent={() => <View className="w-2" />}
+          />
+        )}
       </View>
       <CustomButton
         onPress={handleOnSubmit}

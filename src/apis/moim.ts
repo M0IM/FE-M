@@ -1,9 +1,41 @@
 import axiosInstance from './axiosInstance.ts';
 
 import {
+  TCreateMoimParams,
+  TCreateMoimResponse,
   TGetMyActiveMoimResponse,
   TMoimParticipantList,
 } from 'types/dtos/moim.ts';
+
+const createMoim = async ({
+  title,
+  location,
+  moimCategory,
+  imageKeyName,
+  introduceVideoKeyName,
+  introduceVideoTitle,
+  introduction,
+}: TCreateMoimParams): Promise<TCreateMoimResponse> => {
+  console.log({
+    title,
+    location,
+    moimCategory,
+    imageKeyName,
+    introduceVideoKeyName,
+    introduceVideoTitle,
+    introduction,
+  });
+  const {data} = await axiosInstance.post(`/api/v1/moims`, {
+    title,
+    location,
+    moimCategory,
+    imageKeyName,
+    introduceVideoKeyName,
+    introduceVideoTitle,
+    introduction,
+  });
+  return data?.result;
+};
 
 const getMyActiveMoim = async (
   cursor: number,
@@ -66,4 +98,5 @@ export {
   getDetailMoimParticipantsList,
   postMoimScheduleParticipation,
   deleteMoimScheduleParticipation,
+  createMoim,
 };

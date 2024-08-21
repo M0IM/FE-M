@@ -176,14 +176,14 @@ const getMoimPostComments = async ({
   return data.result;
 };
 
-// TODO: 댓글/대댓글 삭제 API 수정 필요
+// 댓글/대댓글 삭제
 const deleteMoimPostComment = async ({
   commentId,
 }: {
   commentId: number;
 }): Promise<string> => {
-  const {data} = await axiosInstance.delete(
-    `/api/v1/moims/comments/${commentId}`,
+  const {data} = await axiosInstance.post(
+    `/api/v1/moims/comments/${commentId}/delete`,
   );
   return data?.result;
 };

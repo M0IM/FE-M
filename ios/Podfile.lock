@@ -1222,7 +1222,7 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - React-RCTImage
-  - RNSVG (15.5.0):
+  - RNSVG (15.6.0):
     - React-Core
   - SocketRocket (0.6.1)
   - TOCropViewController (2.7.4)
@@ -1587,7 +1587,7 @@ SPEC CHECKSUMS:
   RNPermissions: fbf830fb531d663a6daa1369f4c624317018bd64
   RNReanimated: ba95f6d26ca4b8a8f7f2b15f62a3513750762f6b
   RNScreens: 29418ceffb585b8f0ebd363de304288c3dce8323
-  RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b
+  RNSVG: 5da7a24f31968ec74f0b091e3440080f347e279b
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   Yoga: 57d2ffe418d024d56f8b0047f335c677e4c4d9ac

@@ -1,41 +1,11 @@
-import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import {Typography} from 'components/@common/Typography/Typography.tsx';
-import {RevokeMoimStackNavigatorProp} from 'navigators/types';
-import {FlatList, Image, Pressable, View} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useGetInfiniteMyActiveMoim} from '../../hooks/queries/MoimHomeScreen/useGetInfiniteMyActiveMoim.ts';
+import {FlatList, View} from 'react-native';
 import {useState} from 'react';
-import {ActiveMoimCard} from '../../components/calendar/ActiveMoimCard.tsx';
 
-const ActiveMoimData = [
-  {
-    id: 1,
-    title: '우리 동네 배드민턴',
-    subTitle: '배드민턴도 열심히 해서 대회도 나가 강사 활동도 해봐요',
-    category: '외국/언어',
-    region: '서울',
-    memberCount: 3,
-    spaceImg: '',
-  },
-  {
-    id: 2,
-    title: '서울 영어 회화',
-    subTitle: '영어 실력을 키워보아요',
-    category: '외국/언어',
-    region: '서울',
-    memberCount: 10,
-    spaceImg: '',
-  },
-  {
-    id: 3,
-    title: '강남 요가 클럽',
-    subTitle: '편안한 요가와 함께 건강을 챙기세요',
-    category: '운동/건강',
-    region: '서울',
-    memberCount: 15,
-    spaceImg: '',
-  },
-];
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard.tsx';
+
+import {RevokeMoimStackNavigatorProp} from 'navigators/types';
+import {useGetInfiniteMyActiveMoim} from 'hooks/queries/MoimHomeScreen/useGetInfiniteMyActiveMoim.ts';
 
 interface RevokeMoimScreenProps {
   navigation: RevokeMoimStackNavigatorProp;

@@ -91,6 +91,13 @@ type TCreateMoimParams = {
   introduction: string;
 };
 
+type TWithdrawMoimResponse = {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: string;
+};
+
 export type {
   TMoimDTOResponse,
   TGetMyActiveMoimResponse,
@@ -100,4 +107,5 @@ export type {
   TMoimSpaceInfoDTO,
   TMoimMembersDTO,
   TCreateMoimParams,
+  TWithdrawMoimResponse,
 };

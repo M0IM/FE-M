@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517103038765",
+    "project_id": "moimapp-c3c40",
+    "storage_bucket": "moimapp-c3c40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517103038765:android:a163772815821ff072e3a4",
+        "android_client_info": {
+          "package_name": "com.moim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBleBu4lXUqTkYQrCKK-1p6u2FmyrUCq9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

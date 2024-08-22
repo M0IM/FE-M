@@ -17,6 +17,7 @@ type TResponseToken = {
   refreshToken: string;
   result?: string;
   provider: 'KAKAO' | 'GOOGLE' | 'APPLE' | 'NAVER' | 'UNREGISTERED';
+  email: string;
 };
 
 type TResponseSignup = CommonResponse<TResponseToken>;
@@ -24,11 +25,13 @@ type TResponseSignup = CommonResponse<TResponseToken>;
 type TLogin = {
   email: string;
   password: string;
+  fcmToken: string;
 };
 
 type TSocial = {
   type: 'KAKAO' | 'APPLE' | 'GOOGLE' | 'NAVER';
   idToken: string;
+  fcmToken: string;
 };
 
 type TLogout = CommonResponse<object>;

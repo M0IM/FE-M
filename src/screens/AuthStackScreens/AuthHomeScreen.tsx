@@ -22,6 +22,7 @@ import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
 import {TSignup} from 'types/dtos/auth.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
+import useFcmTokenStore from '../../stores/useFcmTokenStore.ts';
 
 type TAuthHomeScreenProps = {
   navigation: AuthStackNavigationProp;
@@ -39,6 +40,8 @@ export default function AuthHomeScreen({
   onNext,
   setSignUpInfo,
 }: TAuthHomeScreenProps) {
+  const {fcmToken} = useFcmTokenStore();
+  const token = fcmToken as string;
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: Config.GOOGLE_WEB_CLIENT_ID,
@@ -69,6 +72,7 @@ export default function AuthHomeScreen({
       {
         type: 'NAVER',
         idToken: String(successResponse?.accessToken),
+        fcmToken: token,
       },
       {
         onSuccess: ({result}) => {
@@ -99,6 +103,7 @@ export default function AuthHomeScreen({
       {
         type: 'KAKAO',
         idToken: idToken,
+        fcmToken: token,
       },
       {
         onSuccess: ({result}) => {
@@ -132,10 +137,10 @@ export default function AuthHomeScreen({
         {
           type: 'APPLE',
           idToken: idToken,
+          fcmToken: token,
         },
         {
           onSuccess: ({result}) => {
-            console.log(result);
             if (result.provider === 'UNREGISTERED') {
               setSignUpInfo(prevInfo => ({
                 ...prevInfo,
@@ -165,6 +170,7 @@ export default function AuthHomeScreen({
       {
         type: 'GOOGLE',
         idToken: String(response.idToken),
+        fcmToken: token,
       },
       {
         onSuccess: ({result}) => {

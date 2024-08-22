@@ -141,7 +141,6 @@ export default function AuthHomeScreen({
         },
         {
           onSuccess: ({result}) => {
-            console.log(result);
             if (result.provider === 'UNREGISTERED') {
               setSignUpInfo(prevInfo => ({
                 ...prevInfo,

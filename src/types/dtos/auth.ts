@@ -17,6 +17,7 @@ type TResponseToken = {
   refreshToken: string;
   result?: string;
   provider: 'KAKAO' | 'GOOGLE' | 'APPLE' | 'NAVER' | 'UNREGISTERED';
+  email: string;
 };
 
 type TResponseSignup = CommonResponse<TResponseToken>;

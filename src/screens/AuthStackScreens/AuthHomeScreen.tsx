@@ -40,6 +40,8 @@ export default function AuthHomeScreen({
   onNext,
   setSignUpInfo,
 }: TAuthHomeScreenProps) {
+  const {fcmToken} = useFcmTokenStore();
+  const token = fcmToken as string;
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: Config.GOOGLE_WEB_CLIENT_ID,
@@ -65,8 +67,6 @@ export default function AuthHomeScreen({
   const handlePressNaverLoginButton = async () => {
     const {successResponse} = await NaverLogin.login();
     const profile = await NaverLogin.getProfile(successResponse!.accessToken);
-    const {fcmToken} = useFcmTokenStore();
-    const token = fcmToken as string;
 
     socialIdTokenMutation.mutate(
       {
@@ -103,6 +103,7 @@ export default function AuthHomeScreen({
       {
         type: 'KAKAO',
         idToken: idToken,
+        fcmToken: token,
       },
       {
         onSuccess: ({result}) => {
@@ -136,6 +137,7 @@ export default function AuthHomeScreen({
         {
           type: 'APPLE',
           idToken: idToken,
+          fcmToken: token,
         },
         {
           onSuccess: ({result}) => {
@@ -169,6 +171,7 @@ export default function AuthHomeScreen({
       {
         type: 'GOOGLE',
         idToken: String(response.idToken),
+        fcmToken: token,
       },
       {
         onSuccess: ({result}) => {

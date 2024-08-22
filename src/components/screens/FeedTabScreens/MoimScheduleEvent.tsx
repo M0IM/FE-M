@@ -21,6 +21,8 @@ export default function MoimScheduleEvent() {
     isError: calendarsError,
   } = useGetInfiniteAllUserScheduleList(year, month, day, 8);
 
+  console.log(calendars.pages.flatMap(calendar => calendar.userPlanDTOList));
+
   if (calendarsLoading || calendarsError) {
     return <View></View>;
   }
@@ -41,14 +43,7 @@ export default function MoimScheduleEvent() {
         data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
         renderItem={({item}) => {
-          return (
-            <ScheduleCard
-              schedule={item.title}
-              date={item.time}
-              spaceName={item.location ?? '장소가 지정되지 않았습니다.'}
-              time={item.time}
-            />
-          );
+          return <ScheduleCard item={item} />;
         }}
         keyExtractor={item => String(item.planId)}
         contentContainerStyle={{

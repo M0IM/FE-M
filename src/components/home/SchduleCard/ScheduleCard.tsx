@@ -3,52 +3,44 @@ import 'moment/locale/ko';
 import moment from 'moment';
 
 import {Typography} from 'components/@common/Typography/Typography';
+import {TUserPlanDTO} from '../../../types/dtos/calendar.ts';
 
 interface ScheduleCardProps extends TouchableOpacityProps {
-  schedule: string;
-  date: string;
-  time: string;
-  spaceName: string;
+  item: TUserPlanDTO;
 }
 
-const ScheduleCard = ({
-  schedule,
-  date,
-  time,
-  spaceName,
-  ...props
-}: ScheduleCardProps) => {
+const ScheduleCard = ({item, ...props}: ScheduleCardProps) => {
   return (
     <TouchableOpacity
       {...props}
       activeOpacity={0.8}
-      className="flex flex-col p-6 bg-gray-50 border-gray-200 border-[1px] rounded-xl max-w-[280] h-[160]">
+      className="flex flex-col p-6 bg-gray-50 border-gray-200 border-[1px] rounded-xl w-[240] h-[160]">
       <View className="flex gap-3 flex-row items-center max-w-[230]">
         <View className="w-[5] h-[27] rounded-lg bg-main" />
         <Typography
           fontWeight="MEDIUM"
           className="text-dark-800 text-base"
           numberOfLines={1}>
-          {schedule}
+          {item.title}
         </Typography>
       </View>
       <Typography
         fontWeight="MEDIUM"
         className="mt-1 ml-[17] text-xs text-gray-300"
         numberOfLines={1}>
-        {moment(date).format('YYYY년 MM월 DD일')}
+        {moment(item.time).format('YYYY년 MM월 DD일')}
       </Typography>
       <Typography
         fontWeight="MEDIUM"
         className="mt-1 ml-[17] text-xs text-gray-300"
         numberOfLines={1}>
-        {moment(time).fromNow()}
+        {moment(item.time).fromNow()}
       </Typography>
       <Typography
         fontWeight="BOLD"
         className="mt-6 text-dark-800"
         numberOfLines={1}>
-        {spaceName}
+        {item.location}
       </Typography>
     </TouchableOpacity>
   );

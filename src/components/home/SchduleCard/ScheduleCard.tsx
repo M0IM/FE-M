@@ -18,8 +18,8 @@ const ScheduleCard = ({item, ...props}: ScheduleCardProps) => {
       <View className="flex gap-3 flex-row items-center max-w-[230]">
         <View className="w-[5] h-[27] rounded-lg bg-main" />
         <Typography
-          fontWeight="MEDIUM"
-          className="text-dark-800 text-base"
+          fontWeight="BOLD"
+          className="text-gray-600 text-base"
           numberOfLines={1}>
           {item.title}
         </Typography>
@@ -38,7 +38,7 @@ const ScheduleCard = ({item, ...props}: ScheduleCardProps) => {
       </Typography>
       <Typography
         fontWeight="BOLD"
-        className="mt-6 text-dark-800"
+        className="mt-6 text-gray-500"
         numberOfLines={1}>
         {item.location}
       </Typography>

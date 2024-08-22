@@ -7,16 +7,18 @@ interface PostUserProfileProps {
   handlePopover: () => void;
   writer?: string;
   updatedAt?: string;
+  profileImage?: string;
 }
 
 const PostUserProfile = ({
   handlePopover,
   writer,
   updatedAt,
+  profileImage,
 }: PostUserProfileProps) => {
   return (
     <View className="flex flex-row mt-2 items-center mb-2">
-      <Avatar />
+      <Avatar uri={profileImage} />
       <View className="flex flex-col justify-center ml-2">
         {writer && (
           <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">

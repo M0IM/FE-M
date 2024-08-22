@@ -360,6 +360,7 @@ const MoimPostDetailScreen = ({
               updatedAt={
                 data?.updateAt && formatKoreanDate(new Date(data?.updateAt))
               }
+              profileImage={data?.profileImage}
             />
             <PostInfoContainer
               postImages={data?.imageKeyNames}

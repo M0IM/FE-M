@@ -2,12 +2,12 @@ import {Image, ImageProps, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import user from '../../../assets/icons/user.png';
 
 enum SIZE {
-  XS = 25,
+  XS = 24,
   SM = 40,
-  MD = 60,
+  MD = 50,
   LG = 100,
 }
 
@@ -21,41 +21,29 @@ interface AvatarProps extends ImageProps {
 const Avatar = ({
   uri,
   size = 'SM',
-  iconColor = '#E9ECEF',
   className,
   onPress,
   ...props
 }: AvatarProps) => {
-  const iconSizes = {
-    XS: SIZE.XS,
-    SM: SIZE.SM,
-    MD: SIZE.MD,
-    LG: SIZE.LG,
-  };
-
-  const userIconSize = iconSizes[size] || iconSizes.SM;
-
+  console.log(SIZE.XS);
   return (
     <TouchableOpacity onPress={onPress}>
-      {uri ? (
-        <Image
-          source={{uri: uri}}
-          className={cn(avatarVariants({size}), className)}
-          {...props}
-        />
-      ) : (
-        <Ionicon name="person-circle" size={userIconSize} color={iconColor} />
-      )}
+      <Image
+        source={uri ? {uri: uri} : user}
+        className={cn(avatarVariants({size}), className)}
+        style={!uri ? {width: SIZE[size], height: SIZE[size]} : {}}
+        {...props}
+      />
     </TouchableOpacity>
   );
 };
 
 const avatarVariants = cva(
-  'flex flex-col items-center justify-center bg-gray-100 rounded-full',
+  'flex flex-col items-center justify-center rounded-full',
   {
     variants: {
       size: {
-        XS: `w-[${SIZE.XS}] h-[${SIZE.XS}]`,
+        XS: `w-[${SIZE.XS}px] h-[${SIZE.XS}px]`,
         SM: `w-[${SIZE.SM}] h-[${SIZE.SM}]`,
         MD: `w-[${SIZE.MD}] h-[${SIZE.MD}]`,
         LG: `w-[${SIZE.LG}] h-[${SIZE.LG}]`,

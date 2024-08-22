@@ -85,16 +85,28 @@ const deleteMyCalendarSchedule = async (planId: number) => {
   return data;
 };
 
-const postMyCalendarScheule = async ({
+const postMyCalendarSchedule = async ({
+  title,
   date,
-  content,
+  startTime,
+  location,
+  locationDetail,
+  memo,
 }: {
-  date: Date;
-  content: string;
+  title: string;
+  date: string;
+  startTime: string;
+  location: string;
+  locationDetail: string;
+  memo: string;
 }) => {
   const {data} = await axiosInstance.post('/api/v1/users/calender', {
+    title,
     date,
-    content,
+    startTime,
+    location,
+    locationDetail,
+    memo,
   });
 
   return data;
@@ -102,16 +114,28 @@ const postMyCalendarScheule = async ({
 
 const updateMyCalendarSchedule = async ({
   planId,
+  title,
   date,
-  content,
+  startTime,
+  location,
+  locationDetail,
+  memo,
 }: {
   planId: number;
-  date: Date;
-  content: string;
+  title: string;
+  date: string;
+  startTime: string;
+  location: string;
+  locationDetail: string;
+  memo: string;
 }) => {
   const {data} = await axiosInstance.put(`/api/v1/users/calender/${planId}`, {
+    title,
     date,
-    content,
+    startTime,
+    location,
+    locationDetail,
+    memo,
   });
 
   return data;
@@ -236,7 +260,7 @@ export {
   getPersonalCalendar,
   getDetailMoimCalendar,
   postDetailMoimCalendar,
-  postMyCalendarScheule,
+  postMyCalendarSchedule,
   deleteMyCalendarSchedule,
   updateMyCalendarSchedule,
   updateDetailMoimCalendar,

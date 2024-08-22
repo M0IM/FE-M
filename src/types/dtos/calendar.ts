@@ -4,6 +4,7 @@ type TPlanListDTO = {
   location: string;
   locationDetail: string;
   time: string;
+  memo: string;
 };
 
 type TMoimPlanListDTO = {

@@ -25,7 +25,7 @@ function useGetInfiniteAllUserScheduleList(
   return useSuspenseInfiniteQuery({
     queryFn: ({pageParam}) =>
       getUserAllScheduleList({year, month, day, page: pageParam, size}),
-    queryKey: ['todaySchedules', year, month, day],
+    queryKey: ['calendar', 'all', year, month, day],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.hasNext ? allPages?.length + 1 : undefined;

@@ -1,11 +1,11 @@
 import {useMutation} from '@tanstack/react-query';
 
 import {UseMutationCustomOptions} from 'types/mutations/common.ts';
-import {postMyCalendarScheule} from 'apis';
+import {postMyCalendarSchedule} from 'apis';
 
 function usePostMyCalendarSchedule(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
-    mutationFn: postMyCalendarScheule,
+    mutationFn: postMyCalendarSchedule,
     ...mutationOptions,
     onError: error => console.log(error),
   });

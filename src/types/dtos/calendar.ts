@@ -4,6 +4,7 @@ type TPlanListDTO = {
   location: string;
   locationDetail: string;
   time: string;
+  memo: string;
 };
 
 type TMoimPlanListDTO = {
@@ -67,9 +68,18 @@ type TUserSchedulesCountResponse = {
 type TUserPlanDTO = {
   planId: number;
   title: string;
+  time: string;
   location: string;
   locationDetail: string;
-  time: string;
+  memo: string;
+  moimName: string;
+  planType: 'MOIM_PLAN' | 'INDIVIDUAL_PLAN';
+};
+
+type TUserPlanResponse = {
+  isFirst: boolean;
+  hasNext: boolean;
+  userPlanDTOList: TUserPlanDTO[];
 };
 
 export type {
@@ -83,4 +93,5 @@ export type {
   TMyCalendarDTO,
   TUserSchedulesCountResponse,
   TUserPlanDTO,
+  TUserPlanResponse,
 };

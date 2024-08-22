@@ -1,15 +1,13 @@
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import RecommendBar from 'components/home/RecommendBar/RecommendBar.tsx';
 import MoimScheduleEvent from 'components/screens/FeedTabScreens/MoimScheduleEvent.tsx';
 import MoimMyEvent from 'components/screens/FeedTabScreens/MoimMyEvent.tsx';
 import MoimHappeningEvent from 'components/screens/FeedTabScreens/MoimHappeningEvent.tsx';
 import MoimRecommendationEvent from 'components/screens/FeedTabScreens/MoimRecommendationEvent.tsx';
 import MoimIntroduceEvent from 'components/screens/FeedTabScreens/MoimIntroduceEvent.tsx';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
-import {HomeStackNavigationProp} from 'navigators/types';
-import useSocket from '../../hooks/useSocket.ts';
-import {useEffect} from 'react';
+
 import useSocketService from '../../hooks/useSocketService.ts';
+import {MoimWriteBar} from '../../components/home/MoimWriteBar/MoimWriteBar.tsx';
 
 export const spaceCard = [
   {
@@ -61,7 +59,8 @@ export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
       <ScreenContainer loading={false}>
         <MoimScheduleEvent />
         <MoimMyEvent navigation={navigation} />
-        <RecommendBar />
+        <MoimWriteBar onPress={() => navigation.navigate('MOIM_CREATE')} />
+        {/*<RecommendBar />*/}
         <MoimHappeningEvent />
         <MoimRecommendationEvent />
         <MoimIntroduceEvent />

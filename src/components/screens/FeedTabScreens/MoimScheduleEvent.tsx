@@ -6,6 +6,7 @@ import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetUserTodaySchedules} from 'hooks/queries/FeedHome/useGetUserTodaySchedules.ts';
 import {useGetUserTodayParticipantSchedules} from 'hooks/queries/FeedHome/useGetUserTodayParticipantSchedules.ts';
+import {useGetInfiniteAllUserScheduleList} from '../../../hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
 
 export default function MoimScheduleEvent() {
   const year = new Date().getFullYear();
@@ -18,13 +19,9 @@ export default function MoimScheduleEvent() {
     data: calendars,
     isPending: calendarsLoading,
     isError: calendarsError,
-  } = useGetUserTodaySchedules(year, month, day);
+  } = useGetInfiniteAllUserScheduleList(year, month, day, 8);
 
-  const {data: schedules} = useGetUserTodayParticipantSchedules(
-    year,
-    month,
-    day,
-  );
+  console.log(calendars.pages.flatMap(calendar => calendar.userPlanDTOList));
 
   if (calendarsLoading || calendarsError) {
     return <View></View>;
@@ -46,14 +43,7 @@ export default function MoimScheduleEvent() {
         data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
         renderItem={({item}) => {
-          return (
-            <ScheduleCard
-              schedule={item.title}
-              date={item.time}
-              spaceName={item.location ?? '장소가 지정되지 않았습니다.'}
-              time={item.time}
-            />
-          );
+          return <ScheduleCard item={item} />;
         }}
         keyExtractor={item => String(item.planId)}
         contentContainerStyle={{

@@ -5,6 +5,7 @@ import {
   TDetailMoimCalendarDTO,
   TPostDetailMoimCalendarDTO,
   TUserPlanDTO,
+  TUserPlanResponse,
   TUserSchedulesCountResponse,
 } from 'types/dtos/calendar.ts';
 
@@ -84,16 +85,28 @@ const deleteMyCalendarSchedule = async (planId: number) => {
   return data;
 };
 
-const postMyCalendarScheule = async ({
+const postMyCalendarSchedule = async ({
+  title,
   date,
-  content,
+  startTime,
+  location,
+  locationDetail,
+  memo,
 }: {
-  date: Date;
-  content: string;
+  title: string;
+  date: string;
+  startTime: string;
+  location: string;
+  locationDetail: string;
+  memo: string;
 }) => {
   const {data} = await axiosInstance.post('/api/v1/users/calender', {
+    title,
     date,
-    content,
+    startTime,
+    location,
+    locationDetail,
+    memo,
   });
 
   return data;
@@ -101,16 +114,28 @@ const postMyCalendarScheule = async ({
 
 const updateMyCalendarSchedule = async ({
   planId,
+  title,
   date,
-  content,
+  startTime,
+  location,
+  locationDetail,
+  memo,
 }: {
   planId: number;
-  date: Date;
-  content: string;
+  title: string;
+  date: string;
+  startTime: string;
+  location: string;
+  locationDetail: string;
+  memo: string;
 }) => {
   const {data} = await axiosInstance.put(`/api/v1/users/calender/${planId}`, {
+    title,
     date,
-    content,
+    startTime,
+    location,
+    locationDetail,
+    memo,
   });
 
   return data;
@@ -209,12 +234,33 @@ const getUserTodaySchedules = async ({
   return data.result;
 };
 
+// 특정 날짜 (연,월,일): 유저의 (개인 + 모임 신청 일정) 리스트 조회
+const getUserAllScheduleList = async ({
+  year,
+  month,
+  day,
+  page,
+  size,
+}: {
+  year: number;
+  month: number;
+  day: number;
+  page: number;
+  size: number;
+}): Promise<TUserPlanResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/users/user-individual-plan?year=${year}&month=${month}&day=${day}&page=${page}&size=${size}`,
+  );
+
+  return data.result;
+};
+
 export {
   getMoimCalendar,
   getPersonalCalendar,
   getDetailMoimCalendar,
   postDetailMoimCalendar,
-  postMyCalendarScheule,
+  postMyCalendarSchedule,
   deleteMyCalendarSchedule,
   updateMyCalendarSchedule,
   updateDetailMoimCalendar,
@@ -222,4 +268,5 @@ export {
   getUserSchedulesCount,
   getUserTodayParticipantSchedules,
   getUserTodaySchedules,
+  getUserAllScheduleList,
 };

@@ -15,6 +15,7 @@ import Toast, {
   ErrorToast,
 } from 'react-native-toast-message';
 import {useEffect} from 'react';
+import useFcmTokenStore from './src/stores/useFcmTokenStore.ts';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -48,6 +49,7 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
   onRegister: function (token) {
+    // 기기마다 고유한 토큰
     console.log('TOKEN:', token);
   },
 
@@ -107,14 +109,16 @@ PushNotification.createChannel(
 );
 
 function App() {
+  const {setFcmToken} = useFcmTokenStore();
   useEffect(() => {
     async function getToken() {
       try {
         if (!messaging().isDeviceRegisteredForRemoteMessages) {
           await messaging().registerDeviceForRemoteMessages();
         }
-        const token = await messaging().getToken();
-        console.log(token);
+        const phoneToken = await messaging().getToken();
+        setFcmToken(phoneToken);
+        console.log(phoneToken, 'hi');
       } catch (e) {
         console.log(e);
       }

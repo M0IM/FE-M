@@ -22,6 +22,7 @@ import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
 import {TSignup} from 'types/dtos/auth.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
+import useFcmTokenStore from '../../stores/useFcmTokenStore.ts';
 
 type TAuthHomeScreenProps = {
   navigation: AuthStackNavigationProp;
@@ -64,11 +65,14 @@ export default function AuthHomeScreen({
   const handlePressNaverLoginButton = async () => {
     const {successResponse} = await NaverLogin.login();
     const profile = await NaverLogin.getProfile(successResponse!.accessToken);
+    const {fcmToken} = useFcmTokenStore();
+    const token = fcmToken as string;
 
     socialIdTokenMutation.mutate(
       {
         type: 'NAVER',
         idToken: String(successResponse?.accessToken),
+        fcmToken: token,
       },
       {
         onSuccess: ({result}) => {

@@ -24,11 +24,13 @@ type TResponseSignup = CommonResponse<TResponseToken>;
 type TLogin = {
   email: string;
   password: string;
+  fcmToken: string;
 };
 
 type TSocial = {
   type: 'KAKAO' | 'APPLE' | 'GOOGLE' | 'NAVER';
   idToken: string;
+  fcmToken: string;
 };
 
 type TLogout = CommonResponse<object>;

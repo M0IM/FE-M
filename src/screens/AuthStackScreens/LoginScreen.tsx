@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message';
 import useForm from 'hooks/useForm.ts';
 import {validateLogin} from 'utils/validate.ts';
 import useAuth from '../../hooks/queries/AuthScreen/useAuth.ts';
+import useFcmTokenStore from '../../stores/useFcmTokenStore.ts';
 
 export default function LoginScreen() {
   const {loginMutation} = useAuth();
@@ -19,12 +20,15 @@ export default function LoginScreen() {
     initialValue: {email: '', password: ''},
     validate: validateLogin,
   });
+  const {fcmToken} = useFcmTokenStore();
+  const token = fcmToken as string;
 
   const handlePressLogin = () => {
     loginMutation.mutate(
       {
         email: login.values.email,
         password: login.values.password,
+        fcmToken: token,
       },
       {
         onSuccess: data => {

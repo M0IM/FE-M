@@ -5,6 +5,7 @@ import {
   TDetailMoimCalendarDTO,
   TPostDetailMoimCalendarDTO,
   TUserPlanDTO,
+  TUserPlanResponse,
   TUserSchedulesCountResponse,
 } from 'types/dtos/calendar.ts';
 
@@ -209,6 +210,27 @@ const getUserTodaySchedules = async ({
   return data.result;
 };
 
+// 특정 날짜 (연,월,일): 유저의 (개인 + 모임 신청 일정) 리스트 조회
+const getUserAllScheduleList = async ({
+  year,
+  month,
+  day,
+  page,
+  size,
+}: {
+  year: number;
+  month: number;
+  day: number;
+  page: number;
+  size: number;
+}): Promise<TUserPlanResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/users/user-individual-plan?year=${year}&month=${month}&day=${day}&page=${page}&size=${size}`,
+  );
+
+  return data.result;
+};
+
 export {
   getMoimCalendar,
   getPersonalCalendar,
@@ -222,4 +244,5 @@ export {
   getUserSchedulesCount,
   getUserTodayParticipantSchedules,
   getUserTodaySchedules,
+  getUserAllScheduleList,
 };

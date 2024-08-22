@@ -6,6 +6,7 @@ import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetUserTodaySchedules} from 'hooks/queries/FeedHome/useGetUserTodaySchedules.ts';
 import {useGetUserTodayParticipantSchedules} from 'hooks/queries/FeedHome/useGetUserTodayParticipantSchedules.ts';
+import {useGetInfiniteAllUserScheduleList} from '../../../hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
 
 export default function MoimScheduleEvent() {
   const year = new Date().getFullYear();
@@ -18,13 +19,7 @@ export default function MoimScheduleEvent() {
     data: calendars,
     isPending: calendarsLoading,
     isError: calendarsError,
-  } = useGetUserTodaySchedules(year, month, day);
-
-  const {data: schedules} = useGetUserTodayParticipantSchedules(
-    year,
-    month,
-    day,
-  );
+  } = useGetInfiniteAllUserScheduleList(year, month, day, 8);
 
   if (calendarsLoading || calendarsError) {
     return <View></View>;

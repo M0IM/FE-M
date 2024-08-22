@@ -114,7 +114,7 @@ function App() {
           await messaging().registerDeviceForRemoteMessages();
         }
         const token = await messaging().getToken();
-        console.log(token, 'hi');
+        console.log(token);
       } catch (e) {
         console.log(e);
       }

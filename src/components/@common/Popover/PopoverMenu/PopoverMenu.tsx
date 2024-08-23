@@ -1,74 +1,88 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, View, Pressable, Platform } from 'react-native';
-import { Typography } from 'components/@common/Typography/Typography';
-import { cva } from 'class-variance-authority';
-import { cn } from 'utils';
+import React from 'react';
+import {
+  View,
+  Pressable,
+  Platform,
+  TouchableWithoutFeedback,
+  Modal,
+} from 'react-native';
+import {cva} from 'class-variance-authority';
+import {Typography} from 'components/@common/Typography/Typography';
+import {cn} from 'utils';
 
 type MenuType = {
-    id?: number;
-    title: string;
-    onPress: Function;
-}
+  id?: number;
+  title: string;
+  onPress: Function;
+};
 
 interface PopoverMenuProps {
-    isPopover?: boolean;
-    menu: MenuType[];
+  isPopover?: boolean;
+  menu: MenuType[];
+  onPress: () => void;
+  children: React.ReactNode;
+  position?: 'BOTTOM' | 'TOP';
 }
 
 const PopoverMenu = ({
-    isPopover,
-    menu,
+  isPopover,
+  menu,
+  onPress,
+  children,
+  position = 'BOTTOM',
 }: PopoverMenuProps) => {
-    const platform = Platform.OS;
-    const opacity = useRef(new Animated.Value(0)).current;
-    const scale = useRef(new Animated.Value(0.8)).current;
+  const platform = Platform.OS;
 
-    useEffect(() => {
-        Animated.timing(opacity, {
-            toValue: isPopover ? 1 : 0,
-            duration: 300,
-            useNativeDriver: true,
-        }).start();
-
-        Animated.timing(scale, {
-            toValue: isPopover ? 1 : 0.8,
-            duration: 300,
-            useNativeDriver: true,
-        }).start();
-    }, [isPopover]);
-
-    if (!isPopover) {
-        return null;
-    }
-
-    return (
-        <Animated.View
-            style={{
-                opacity,
-                transform: [{ scale }],
-            }}
-        >
-            <View className={cn(PopoverVariant({platform}))}>
-                {menu.map((item, index) => (
-                    <Pressable key={index} onPress={() => item.onPress()} className='active:bg-gray-100 p-[5px] pl-[10px] pr-[10px] rounded-lg'>
-                        <Typography fontWeight='MEDIUM' className='text-base text-dark-800 p-1'>{item.title}</Typography>
-                    </Pressable>
-                ))}
+  return (
+    <TouchableWithoutFeedback onPress={onPress} className="p-3">
+      <>
+        {children}
+        <Modal
+          animationType="slide"
+          visible={isPopover}
+          transparent={true}
+          onRequestClose={() => onPress()}>
+          <Pressable
+            style={{backgroundColor: 'rgba(0, 0, 0, 0.0)', flex: 1}}
+            onPress={() => onPress()}>
+            <View className={cn(PopoverVariant({platform, position}))}>
+              {menu.map((item, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => item.onPress()}
+                  className="active:bg-gray-100 items-center p-[10px] pl-[10px] pr-[10px] rounded-lg">
+                  <Typography
+                    fontWeight="MEDIUM"
+                    className="text-lg text-dark-800 p-1">
+                    {item.title}
+                  </Typography>
+                </Pressable>
+              ))}
             </View>
-        </Animated.View>
-    );
+          </Pressable>
+        </Modal>
+      </>
+    </TouchableWithoutFeedback>
+  );
 };
 
-const PopoverVariant = cva('flex flex-col rounded-2xl p-3 bg-white', {
+const PopoverVariant = cva(
+  'flex flex-col rounded-2xl p-3 bg-white absolute left-0 right-0 mr-3 ml-3 border-[0.5px] border-gray-200',
+  {
     variants: {
-        platform: {
-            ios: 'shadow-md shadow-gray-200',
-            android: 'elevation-lg shadow-gray-400',
-            windows: 'shadow-md shadow-gray-200',
-            macos: 'shadow-md shadow-gray-200',
-            web: 'shadow-md shadow-gray-200'
-          }
-    }
-});
+      platform: {
+        ios: 'shadow-md shadow-gray-200',
+        android: 'elevation-lg shadow-gray-400',
+        windows: 'shadow-md shadow-gray-200',
+        macos: 'shadow-md shadow-gray-200',
+        web: 'shadow-md shadow-gray-200',
+      },
+      position: {
+        BOTTOM: 'bottom-10',
+        TOP: '',
+      },
+    },
+  },
+);
 
 export default PopoverMenu;

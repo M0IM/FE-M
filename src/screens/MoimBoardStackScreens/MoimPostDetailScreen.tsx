@@ -9,7 +9,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import Toast from 'react-native-toast-message';
 
-import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import {InputField} from 'components/@common/InputField/InputField';
 import PostUserProfile from 'components/screens/MoimBoardStackScreens/postDetail/PostUserProfile';
 import PostInfoContainer from 'components/screens/MoimBoardStackScreens/postDetail/PostInfoContainer';
@@ -19,7 +18,6 @@ import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
-import usePopover from 'hooks/usePopover';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {queryClient} from 'containers/TanstackQueryContainer';
@@ -35,7 +33,6 @@ const MoimPostDetailScreen = ({
   navigation,
 }: MoimPostDetailScreenProps) => {
   const {id, postId} = route.params;
-  const {isPopover, handlePopover} = usePopover();
   const {
     useGetMoimPostDetail,
     useGetInfiniteMoimPostComment,
@@ -65,6 +62,8 @@ const MoimPostDetailScreen = ({
   const [commentId, setCommentId] = useState(null);
   const {data: userInfo} = useGetMyProfile();
 
+  console.log(data);
+
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -91,7 +90,7 @@ const MoimPostDetailScreen = ({
           content: comment,
         },
         {
-          onSuccess: data => {
+          onSuccess: () => {
             setComment('');
           },
           onError: error => {
@@ -255,7 +254,6 @@ const MoimPostDetailScreen = ({
 
   const handleUpdateMoimPost = () => {
     if (id && postId) {
-      handlePopover();
       navigation.navigate('MOIM_POST_EDIT', {id, postId});
     }
   };
@@ -269,7 +267,6 @@ const MoimPostDetailScreen = ({
         },
         {
           onSuccess: () => {
-            handlePopover();
             Toast.show({
               type: 'success',
               text1: '게시글이 신고되었습니다.',
@@ -355,12 +352,14 @@ const MoimPostDetailScreen = ({
         ListHeaderComponent={() => (
           <View className="p-4 pb-0">
             <PostUserProfile
-              handlePopover={handlePopover}
               writer={data?.writer}
               updatedAt={
                 data?.updateAt && formatKoreanDate(new Date(data?.updateAt))
               }
               profileImage={data?.profileImage}
+              PostMenuList={PostMenuList}
+              PostMyMenuList={PostMyMenuList}
+              isWriter={userInfo?.result.nickname === data?.writer}
             />
             <PostInfoContainer
               postImages={data?.imageKeyNames}
@@ -378,16 +377,6 @@ const MoimPostDetailScreen = ({
         refreshing={isRefreshing}
         onRefresh={handleRefresh}
       />
-      <View className="absolute top-14 right-6">
-        <PopoverMenu
-          menu={
-            userInfo?.result.nickname === data?.writer
-              ? PostMyMenuList
-              : PostMenuList
-          }
-          isPopover={isPopover}
-        />
-      </View>
 
       <View className="items-center justify-between flex-row p-3">
         <View className="w-[90%]">

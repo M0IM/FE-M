@@ -38,7 +38,7 @@ export default function MyDetailProfileScreen({
     });
   };
 
-  if (isPending) {
+  if (isPending || isError) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#00F0A1" />
@@ -52,7 +52,7 @@ export default function MyDetailProfileScreen({
         <CustomButton onPress={handleEditPost} label={'수정하기'} />
       }>
       <View className="px-4 py-2">
-        <View className="flex flex-row items-center gap-x-2">
+        <View className="flex flex-row items-center gap-x-2 mb-4">
           <Avatar size={'LG'} uri={userInfo?.imageUrl} />
           <View className="flex-col gap-y-2">
             <Typography
@@ -91,12 +91,8 @@ export default function MyDetailProfileScreen({
             <Typography fontWeight={'BOLD'}>API없음</Typography>
           </InfoSquareCard>
         </View>
-        <View className="mt-5">
-          <Typography className="text-gray-500" fontWeight={'BOLD'}>
-            받은 후기
-          </Typography>
-        </View>
-        <View className="mt-5">
+        <View className="mt-5"></View>
+        <View className="my-5">
           <Typography className="text-gray-500" fontWeight={'BOLD'}>
             소개
           </Typography>

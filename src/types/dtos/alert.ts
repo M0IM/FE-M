@@ -3,4 +3,16 @@ type TAlertStatusDTO = {
   isEventAlarm: boolean;
 };
 
-export type {TAlertStatusDTO};
+type TAlarmResponseDTOList = {
+  alarmId: number;
+  title: string;
+  content: string;
+};
+
+type TAlarmResponse = {
+  nextCursor: number;
+  hasNext: boolean;
+  alarmResponseDTOList: TAlarmResponseDTOList[];
+};
+
+export type {TAlertStatusDTO, TAlarmResponse};

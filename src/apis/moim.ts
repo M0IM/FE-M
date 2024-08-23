@@ -19,15 +19,6 @@ const createMoim = async ({
   introduceVideoTitle,
   introduction,
 }: TCreateMoimParams): Promise<TCreateMoimResponse> => {
-  console.log({
-    title,
-    location,
-    moimCategory,
-    imageKeyName,
-    introduceVideoKeyName,
-    introduceVideoTitle,
-    introduction,
-  });
   const {data} = await axiosInstance.post(`/api/v1/moims`, {
     title,
     location,

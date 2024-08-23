@@ -386,7 +386,9 @@ const MoimPostDetailScreen = ({
               commentId ? setRecomment(text) : setComment(text)
             }
             className="flex-3"
-            placeholder="댓글을 입력해주세요."
+            placeholder={
+              commentId ? '대댓글을 입력해주세요.' : '댓글을 입력해주세요.'
+            }
             touched
           />
         </View>

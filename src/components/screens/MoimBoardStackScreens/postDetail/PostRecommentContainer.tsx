@@ -202,7 +202,20 @@ const PostRecommentContainer = ({
           </View>
           <View className="flex flex-row gap-x-2 ml-auto">
             <Pressable onPress={handlePopover}>
-              <Ionicons name="ellipsis-vertical" size={15} color={'#C9CCD1'} />
+              <PopoverMenu
+                menu={
+                  userInfo?.result.nickname === recommentData?.writer
+                    ? PostMyMenuList
+                    : PostMenuList
+                }
+                isPopover={isPopover}
+                onPress={handlePopover}>
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={15}
+                  color={'#C9CCD1'}
+                />
+              </PopoverMenu>
             </Pressable>
             <Pressable
               onPress={() =>

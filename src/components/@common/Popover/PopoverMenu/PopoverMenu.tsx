@@ -34,7 +34,7 @@ const PopoverMenu = ({
   const platform = Platform.OS;
 
   return (
-    <TouchableWithoutFeedback onPress={onPress} className="p-3">
+    <TouchableWithoutFeedback className="p-3">
       <>
         {children}
         <Modal

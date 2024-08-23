@@ -215,8 +215,21 @@ const PostCommentContainer = ({
             </Typography>
           </View>
           <View className="flex flex-row gap-x-2 ml-auto">
-            <Pressable onPress={handlePopover}>
-              <Ionicons name="ellipsis-vertical" size={15} color={'#C9CCD1'} />
+            <Pressable className="ml-auto" onPress={handlePopover}>
+              <PopoverMenu
+                menu={
+                  userInfo?.result.nickname === commentData?.writer
+                    ? PostMyMenuList
+                    : PostMenuList
+                }
+                isPopover={isPopover}
+                onPress={handlePopover}>
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={15}
+                  color={'#C9CCD1'}
+                />
+              </PopoverMenu>
             </Pressable>
             <Pressable
               onPress={() => handleUpdateCommentId(commentData.commentId)}>
@@ -257,16 +270,6 @@ const PostCommentContainer = ({
           />
         )}
       />
-      <View className="absolute top-[-110] right-10">
-        <PopoverMenu
-          menu={
-            userInfo?.result.nickname === commentData?.writer
-              ? PostMyMenuList
-              : PostMenuList
-          }
-          isPopover={isPopover}
-        />
-      </View>
     </View>
   );
 };

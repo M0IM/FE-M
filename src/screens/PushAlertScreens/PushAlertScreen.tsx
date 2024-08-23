@@ -1,10 +1,11 @@
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
-import {View, TouchableOpacity, FlatList} from 'react-native';
+import {View, TouchableOpacity, FlatList, Alert} from 'react-native';
 import {useState} from 'react';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useGetInfiniteAllAlertList} from 'hooks/queries/PushAlertScreen/useGetInfiniteAllAlertList.ts';
+import useDeleteAllAlertList from '../../hooks/queries/PushAlertScreen/useDeleteAllAlertList.ts';
 
 const PushAlertScreen = () => {
   const {
@@ -14,6 +15,7 @@ const PushAlertScreen = () => {
     isFetchingNextPage,
     refetch,
   } = useGetInfiniteAllAlertList(8);
+  const {mutate: deleteAllAlerts} = useDeleteAllAlertList();
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -29,9 +31,29 @@ const PushAlertScreen = () => {
     setIsRefreshing(false);
   };
 
+  const handleDelteAllAlert = () => {
+    Alert.alert(
+      '정말 모든 알림을 삭제하시겠습니까?',
+      '삭제된 알림은 다시 볼 수 없습니다.',
+      [
+        {
+          text: '삭제',
+          style: 'destructive',
+          onPress: () => {
+            deleteAllAlerts.mutate(null);
+          },
+        },
+        {
+          text: '취소',
+          style: 'default',
+        },
+      ],
+    );
+  };
+
   return (
     <ScreenContainer>
-      <TouchableOpacity activeOpacity={0.8}>
+      <TouchableOpacity activeOpacity={0.8} onPress={handleDelteAllAlert}>
         <Typography
           fontWeight="BOLD"
           className="text-main text-sm underline mt-4">

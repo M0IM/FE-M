@@ -36,7 +36,7 @@ const getAlertList = async ({
   return data.result;
 };
 
-const deleteAllAlertList = async () => {
+const deleteAllAlertList = async (): Promise<any> => {
   const {data} = await axiosInstance.delete('/api/v1/users/alarms');
 
   return data.result;

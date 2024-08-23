@@ -7,6 +7,7 @@ import {
   TMoimMembersDTO,
   TMoimParticipantList,
   TMoimSpaceInfoDTO,
+  TWithdrawMoimResponse,
 } from 'types/dtos/moim.ts';
 
 const createMoim = async ({
@@ -18,15 +19,6 @@ const createMoim = async ({
   introduceVideoTitle,
   introduction,
 }: TCreateMoimParams): Promise<TCreateMoimResponse> => {
-  console.log({
-    title,
-    location,
-    moimCategory,
-    imageKeyName,
-    introduceVideoKeyName,
-    introduceVideoTitle,
-    introduction,
-  });
   const {data} = await axiosInstance.post(`/api/v1/moims`, {
     title,
     location,
@@ -127,6 +119,22 @@ const requestMoimJoin = async ({moimId}: {moimId: number}) => {
   return data?.result;
 };
 
+// 모임 탈퇴하기 API
+const withdrawMoim = async ({
+  moimId,
+  exitReason,
+}: {
+  moimId: number;
+  exitReason: string;
+}): Promise<TWithdrawMoimResponse> => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/withdraw`, {
+    moimId,
+    exitReason,
+  });
+
+  return data.result;
+};
+
 export {
   getMyActiveMoim,
   getDetailMoimParticipantsList,
@@ -136,4 +144,5 @@ export {
   getMoimSpaceInfo,
   getMoimMembers,
   requestMoimJoin,
+  withdrawMoim,
 };

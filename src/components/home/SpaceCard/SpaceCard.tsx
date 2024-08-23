@@ -1,13 +1,9 @@
-import {
-  View,
-  TouchableOpacityProps,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View, TouchableOpacityProps, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Typography} from 'components/@common/Typography/Typography';
-import {TMoimDTOResponse} from '../../../types/dtos/moim.ts';
+import {TMoimDTOResponse} from 'types/dtos/moim.ts';
+import FastImage from 'react-native-fast-image';
 
 interface SpaceCardProps extends TouchableOpacityProps {
   item?: TMoimDTOResponse;
@@ -20,11 +16,10 @@ const SpaceCard = ({item, ...props}: SpaceCardProps) => {
       activeOpacity={0.8}
       className="flex flex-col items-center gap-3 w-[140]">
       {item?.profileImageUrl ? (
-        <Image
+        <FastImage
           source={{uri: item?.profileImageUrl}}
-          width={120}
-          height={100}
-          className="rounded-[30px]"
+          className="w-[120px] h-[120px] rounded-[30px]"
+          resizeMode={FastImage.resizeMode.cover}
         />
       ) : (
         <View className="flex flex-col justify-center items-center w-[120] h-[100] rounded-[30px] bg-gray-100">

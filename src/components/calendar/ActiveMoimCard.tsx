@@ -6,36 +6,27 @@ import {Typography} from '../@common/Typography/Typography.tsx';
 
 import {HomeStackNavigationProp} from 'navigators/types';
 import {TMoimDTOResponse} from 'types/dtos/moim.ts';
+import FastImage from 'react-native-fast-image';
 
 interface IActiveMoimCardProps extends PressableProps {
   moim: TMoimDTOResponse;
-  navigation: HomeStackNavigationProp;
 }
 
 export function ActiveMoimCard({
   moim,
-  navigation,
+  onPress,
   ...props
 }: IActiveMoimCardProps) {
-  console.log(moim);
   return (
     <Pressable
       {...props}
-      onPress={() =>
-        navigation.navigate('MOIM_STACK', {
-          screen: 'MOIM_SPACE',
-          params: {
-            id: moim?.moimId,
-          },
-        })
-      }
+      onPress={onPress}
       className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg">
       {moim?.profileImageUrl ? (
-        <Image
+        <FastImage
           source={{uri: moim.profileImageUrl}}
-          width={55}
-          height={55}
-          className="rounded-lg"
+          className="rounded-lg w-[55px] h-[55px]"
+          resizeMode={FastImage.resizeMode.cover}
         />
       ) : (
         <View className="flex flex-col items-center justify-center bg-gray-100 w-[55] h-[55] rounded-lg">

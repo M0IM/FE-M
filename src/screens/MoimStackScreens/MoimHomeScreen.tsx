@@ -50,7 +50,19 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
       <FlatList
         data={moims.pages.flatMap(page => page.moimPreviewList)}
         renderItem={({item}) => {
-          return <ActiveMoimCard navigation={navigation} moim={item} />;
+          return (
+            <ActiveMoimCard
+              onPress={() =>
+                navigation.navigate('MOIM_STACK', {
+                  screen: 'MOIM_SPACE',
+                  params: {
+                    id: item.moimId,
+                  },
+                })
+              }
+              moim={item}
+            />
+          );
         }}
         keyExtractor={item => String(item.moimId)}
         numColumns={1}

@@ -1,4 +1,4 @@
-import {FlatList, View} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 
 import {useState} from 'react';
 
@@ -40,13 +40,15 @@ export default function MoimMyEvent({navigation}: MoimMyEventProps) {
     return <></>;
   }
 
+  const activeMoim = moims.pages.flatMap(page => page.moimPreviewList);
+
   return (
     <View className="flex flex-col">
       <Typography className="text-lg mb-4" fontWeight={'BOLD'}>
         내 모임
       </Typography>
       <FlatList
-        data={moims.pages.flatMap(page => page.moimPreviewList)}
+        data={activeMoim}
         renderItem={({item}) => {
           return (
             <SpaceCard
@@ -59,7 +61,6 @@ export default function MoimMyEvent({navigation}: MoimMyEventProps) {
                   },
                 })
               }
-              item={item}
             />
           );
         }}

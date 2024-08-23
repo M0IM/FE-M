@@ -108,15 +108,29 @@ function validateSignUpStep5(
 
 type TvalidateCalendarWrite = {
   title: string;
+  location: string;
+  locationDetail: string;
+  memo: string;
 };
 
 function validateCalendarWrite(values: TvalidateCalendarWrite) {
   const errors = {
     title: '',
+    location: '',
+    locationDetail: '',
+    memo: '',
   };
 
   if (!values.title.trim()) {
     errors.title = '일정을 입력해주세요.';
+  }
+
+  if (!values.location.trim()) {
+    errors.location = '지역 정보를 입력해주세요.';
+  }
+
+  if (!values.locationDetail.trim()) {
+    errors.locationDetail = '상세 지역 정보를 입력해주세요.';
   }
 
   return errors;

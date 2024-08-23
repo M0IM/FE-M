@@ -1,8 +1,10 @@
-import {Image, ImageProps, TouchableOpacity} from 'react-native';
+import {ImageProps, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils';
 import user from '../../../assets/icons/user.png';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import FastImage from 'react-native-fast-image';
 
 enum SIZE {
   XS = 24,
@@ -28,12 +30,15 @@ const Avatar = ({
   console.log(SIZE.XS);
   return (
     <TouchableOpacity onPress={onPress}>
-      <Image
-        source={uri ? {uri: uri} : user}
-        className={cn(avatarVariants({size}), className)}
-        style={!uri ? {width: SIZE[size], height: SIZE[size]} : {}}
-        {...props}
-      />
+      {uri ? (
+        <FastImage
+          source={{uri: uri}}
+          className={cn(avatarVariants({size}), className)}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+      ) : (
+        <Ionicon name="person-circle" size={userIconSize} color={iconColor} />
+      )}
     </TouchableOpacity>
   );
 };

@@ -5,31 +5,32 @@ import {
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
 
-import {getMyDetailReview} from 'apis';
-import {TMembersReviewDTO} from 'types/dtos/user.ts';
 import {ResponseError} from 'types/mutations/common.ts';
+import {ReviewListResponse} from 'types/dtos/review.ts';
+import {getMemberReviewList} from 'apis/review.ts';
 
-function useGetInfiniteMyDetailReviews(
+function useGetInfiniteMemberReviewList(
   userId: number,
+  size: number,
   queryOptions?: UseInfiniteQueryOptions<
-    TMembersReviewDTO[],
+    ReviewListResponse,
     ResponseError,
-    InfiniteData<TMembersReviewDTO[], number>,
-    TMembersReviewDTO[],
+    InfiniteData<ReviewListResponse, number>,
+    ReviewListResponse,
     QueryKey,
     number
   >,
 ) {
   return useSuspenseInfiniteQuery({
-    queryFn: ({pageParam}) => getMyDetailReview(userId, pageParam),
+    queryFn: ({pageParam}) =>
+      getMemberReviewList({userId, page: pageParam, size}),
     queryKey: ['review', 'myReviews', userId],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      const lastReview = lastPage[lastPage.length - 1];
-      return lastReview ? allPages.length + 1 : undefined;
+      return lastPage.hanNext ? allPages.length + 1 : undefined;
     },
     ...queryOptions,
   });
 }
 
-export {useGetInfiniteMyDetailReviews};
+export {useGetInfiniteMemberReviewList};

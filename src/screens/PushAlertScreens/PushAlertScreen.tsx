@@ -1,11 +1,16 @@
-import {Typography} from 'components/@common/Typography/Typography';
-import {ScreenContainer} from 'components/ScreenContainer';
-import {View, TouchableOpacity, FlatList, Alert} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  Alert,
+  SafeAreaView,
+} from 'react-native';
 import {useState} from 'react';
 
+import {Typography} from 'components/@common/Typography/Typography';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useGetInfiniteAllAlertList} from 'hooks/queries/PushAlertScreen/useGetInfiniteAllAlertList.ts';
-import useDeleteAllAlertList from '../../hooks/queries/PushAlertScreen/useDeleteAllAlertList.ts';
+import useDeleteAllAlertList from 'hooks/queries/PushAlertScreen/useDeleteAllAlertList.ts';
 
 const PushAlertScreen = () => {
   const {
@@ -52,8 +57,11 @@ const PushAlertScreen = () => {
   };
 
   return (
-    <ScreenContainer>
-      <TouchableOpacity activeOpacity={0.8} onPress={handleDelteAllAlert}>
+    <SafeAreaView className="bg-white flex-1">
+      <TouchableOpacity
+        className="p-5"
+        activeOpacity={0.8}
+        onPress={handleDelteAllAlert}>
         <Typography
           fontWeight="BOLD"
           className="text-main text-sm underline mt-4">
@@ -66,12 +74,12 @@ const PushAlertScreen = () => {
           return (
             <TouchableOpacity
               activeOpacity={0.8}
-              className="flex flex-row items-center bg-gray-100 py-6 px-4 rounded-2xl">
+              className="flex flex-row items-center bg-gray-100 py-3 px-4 rounded-2xl">
               <View className="bg-gray-200 items-center justify-center p-2 rounded-full w-[50] h-[50]">
                 <Ionicons
                   name="notifications-outline"
-                  size={24}
-                  color={'#fff'}
+                  size={30}
+                  color={'#00F0A1'}
                 />
               </View>
               <View className="flex flex-col gap-y-0.5 ml-4">
@@ -107,7 +115,7 @@ const PushAlertScreen = () => {
         scrollIndicatorInsets={{right: 1}}
         indicatorStyle={'black'}
       />
-    </ScreenContainer>
+    </SafeAreaView>
   );
 };
 

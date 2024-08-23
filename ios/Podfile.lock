@@ -1123,7 +1123,7 @@ PODS:
     - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
-  - react-native-pager-view (6.3.4):
+  - react-native-pager-view (6.4.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1758,7 +1758,7 @@ SPEC CHECKSUMS:
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-date-picker: 6891317e850deae5b53d51355226e07a495aba61
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
-  react-native-pager-view: a0929f52dcca836ec3d819d803a6ec6807e6277b
+  react-native-pager-view: c807cb05fe4de718d04a7670d23aa9cdf01bcdb9
   react-native-safe-area-context: ab8f4a3d8180913bd78ae75dd599c94cce3d5e9a
   react-native-slider: 7a39874fc1fcdfee48e448fa72cce0a8f2c7c5d6
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457

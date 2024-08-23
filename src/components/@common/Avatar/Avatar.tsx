@@ -1,22 +1,11 @@
 import {ImageProps, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {cva} from 'class-variance-authority';
-import {cn} from 'utils';
-import user from '../../../assets/icons/user.png';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import React, { useEffect, useState } from 'react';
 import FastImage from 'react-native-fast-image';
-
-enum SIZE {
-  XS = 24,
-  SM = 40,
-  MD = 50,
-  LG = 100,
-}
+import user from '../../../assets/icons/user.png';
 
 interface AvatarProps extends ImageProps {
   uri?: string;
   size?: 'XS' | 'SM' | 'MD' | 'LG';
-  iconColor?: string;
   onPress?: () => void;
 }
 
@@ -25,39 +14,38 @@ const Avatar = ({
   size = 'SM',
   className,
   onPress,
-  ...props
 }: AvatarProps) => {
-  console.log(SIZE.XS);
+  const [avatarSize, setAvatarSize] = useState<string>('');
+
+  const avatarStyle = (): string => {
+    if (size === 'XS') {
+      return 'w-7 h-7';
+    } else if (size === 'SM') {
+      return 'w-9 h-9';
+    } else if (size === 'MD') {
+      return 'w-12 h-12';
+    } else if (size === 'LG') {
+      return 'w-20 h-20';
+    } else {
+      return 'w-7 h-7';
+    }
+  };
+
+  useEffect(() => {
+    const size = avatarStyle();
+    setAvatarSize(size);
+  }, []);
+
   return (
     <TouchableOpacity onPress={onPress}>
-      {uri ? (
-        <FastImage
-          source={{uri: uri}}
-          className={cn(avatarVariants({size}), className)}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-      ) : (
-        <Ionicon name="person-circle" size={userIconSize} color={iconColor} />
-      )}
+      <FastImage
+        source={uri ? { uri: uri } : user}
+        className={`flex flex-col items-center justify-center rounded-full ${avatarSize} ${className}`}
+        resizeMode={FastImage.resizeMode.cover}
+      />
     </TouchableOpacity>
   );
 };
 
-const avatarVariants = cva(
-  'flex flex-col items-center justify-center rounded-full',
-  {
-    variants: {
-      size: {
-        XS: `w-[${SIZE.XS}px] h-[${SIZE.XS}px]`,
-        SM: `w-[${SIZE.SM}] h-[${SIZE.SM}]`,
-        MD: `w-[${SIZE.MD}] h-[${SIZE.MD}]`,
-        LG: `w-[${SIZE.LG}] h-[${SIZE.LG}]`,
-      },
-      defaultVariants: {
-        size: 'SM',
-      },
-    },
-  },
-);
 
 export default Avatar;

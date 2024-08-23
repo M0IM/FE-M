@@ -49,7 +49,10 @@ const PopoverMenu = ({
               {menu.map((item, index) => (
                 <Pressable
                   key={index}
-                  onPress={() => item.onPress()}
+                  onPress={() => {
+                    item.onPress();
+                    onPress();
+                  }}
                   className="active:bg-gray-100 items-center p-[10px] pl-[10px] pr-[10px] rounded-lg">
                   <Typography
                     fontWeight="MEDIUM"

@@ -5,12 +5,15 @@ import Toast from 'react-native-toast-message';
 import Avatar from 'components/@common/Avatar/Avatar';
 import {Typography} from 'components/@common/Typography/Typography';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
+
 import usePopover from 'hooks/usePopover';
+import usePost from 'hooks/queries/MoimBoard/usePost';
+import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
+
 import {TPostCommentDto} from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
-import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
-import usePost from 'hooks/queries/MoimBoard/usePost';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import {formatKoreanDate} from 'utils';
 
 interface PostCommentContainerProps {
   moimId?: number;
@@ -35,6 +38,8 @@ const PostCommentContainer = ({
     blockMoimPostCommentMutation,
     likeMoimPostCommentMutation,
   } = usePost();
+  const isBlocked = commentData?.writer === null;
+  const isDeleted = commentData?.content === null;
 
   const handleMoimPostCommentLike = (commentId: number) => {
     likeMoimPostCommentMutation.mutate(
@@ -185,23 +190,18 @@ const PostCommentContainer = ({
   ];
 
   // 삭제된 댓글
-  if (commentData.content === null) {
-    return <></>;
-  }
-
-  // 차단된 댓글
-  if (commentData.writer === null) {
+  if (isDeleted) {
     return <></>;
   }
 
   return (
-    <View className="flex flex-col my-2">
+    <View className="flex flex-col">
       <View
-        className="flex flex-col border-b-[0.5px] border-gray-200 pb-4"
+        className="flex flex-col border-b-[0.5px] border-gray-200 py-4 px-4"
         style={{
           backgroundColor:
             targetCommentId === commentData.commentId
-              ? 'rgba(255, 0, 0, 0.4)'
+              ? 'rgba(2, 186, 125, 0.069)'
               : 'white',
         }}>
         <View className="flex flex-row items-center">
@@ -211,7 +211,7 @@ const PostCommentContainer = ({
               {commentData?.writer}
             </Typography>
             <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
-              {commentData?.createAt}
+              {formatKoreanDate(new Date(commentData?.createAt))}
             </Typography>
           </View>
           <View className="flex flex-row gap-x-2 ml-auto">
@@ -234,8 +234,12 @@ const PostCommentContainer = ({
         </View>
         <Typography
           fontWeight="MEDIUM"
-          className="text-dark-800 text-sm mt-3 pl-1">
-          {commentData?.content}
+          className={
+            isBlocked
+              ? 'text-gray-500 text-sm mt-3 pl-2'
+              : 'text-dark-800 text-sm mt-3 pl-2'
+          }>
+          {isBlocked ? '차단된 댓글입니다.' : commentData?.content}
         </Typography>
         <Typography
           fontWeight="MEDIUM"

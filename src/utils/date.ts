@@ -89,6 +89,23 @@ const detailDate = (date: Date) => {
   return `${Math.floor(years)}년 전`;
 };
 
+function formatKoreanDate(dateString: Date | string) {
+  const date = new Date(dateString);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const period = hours >= 12 ? '오후' : '오전';
+
+  if (hours > 12) hours -= 12;
+  if (hours === 0) hours = 12;
+
+  return `${year}년 ${month}월 ${day}일 ${period} ${String(hours).padStart(2, '0')}:${minutes}`;
+}
+
 export type {MonthYear};
 export {
   getMonthYearDetails,
@@ -96,4 +113,5 @@ export {
   getNewMonthYear,
   isSameAsCurrentDate,
   detailDate,
+  formatKoreanDate,
 };

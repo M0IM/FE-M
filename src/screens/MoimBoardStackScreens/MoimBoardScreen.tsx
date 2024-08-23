@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {FlatList, Pressable, View} from 'react-native';
+import {useState} from 'react';
+import {FlatList, Pressable, TouchableOpacity, View} from 'react-native';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import {Typography} from 'components/@common/Typography/Typography';
 import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPostPreview';
@@ -41,6 +41,8 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
     setIsSelected(selectMenu);
   };
 
+  console.log(data?.pages[0].moimPreviewList.length);
+
   return (
     <>
       <View className="flex flex-row justify-around border-b-[1px] border-gray-200 px-3 mb-3">
@@ -57,27 +59,53 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
           </Pressable>
         ))}
       </View>
-      <FlatList
-        data={data?.pages.flatMap(data => data.moimPreviewList)}
-        renderItem={({item}) => (
-          <BoardPostPreview
-            moimId={route?.params.id}
-            postPreview={item}
-            navigation={navigation}
-          />
-        )}
-        ItemSeparatorComponent={() => <View className="h-3" />}
-        keyExtractor={item => String(item?.moimPostId)}
-        numColumns={1}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        refreshing={isRefreshing}
-        onRefresh={handleRefresh}
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          gap: 10,
-        }}
-      />
+      {data?.pages[0] && data?.pages[0]?.moimPreviewList?.length > 0 ? (
+        <FlatList
+          data={data?.pages.flatMap(data => data.moimPreviewList)}
+          renderItem={({item}) => (
+            <BoardPostPreview
+              moimId={route?.params.id}
+              postPreview={item}
+              navigation={navigation}
+            />
+          )}
+          ItemSeparatorComponent={() => <View className="h-3" />}
+          keyExtractor={item => String(item?.moimPostId)}
+          numColumns={1}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            gap: 10,
+          }}
+        />
+      ) : (
+        <View className="flex flex-col justify-center items-center h-[60%]">
+          <Typography fontWeight="LIGHT" className="text-gray-600 text-base">
+            아직 작성된 게시글이 없습니다.
+          </Typography>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            className="bg-gray-200 rounded-2xl p-3 px-5 mt-4"
+            onPress={() => {
+              if (isSelected === 'ALL') {
+                navigation.navigate('MOIM_POST_WRITE', {id: route.params.id});
+              } else {
+                navigation.navigate('MOIM_POST_WRITE', {
+                  id: route.params.id,
+                  postType: isSelected,
+                });
+              }
+            }}>
+            <Typography fontWeight="BOLD" className="text-gray-500 text-sm">
+              새로운 게시글 작성하기
+            </Typography>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <FloatingButton
         type="add"
         onPress={() =>

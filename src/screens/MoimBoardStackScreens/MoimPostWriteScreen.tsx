@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Toast from 'react-native-toast-message';
 import {
   FlatList,
@@ -9,21 +9,24 @@ import {
   View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
-import {ScreenContainer} from 'components/ScreenContainer';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
-import useDropdown from 'hooks/useDropdown';
 import CustomDropdown from 'components/@common/Dropdown/CustomDropdown';
-import {POST_WRITE_LIST} from 'constants/screens/MoimBoardStackScreens/PostList';
 import ReadersBottomSheet from 'components/screens/MoimBoardStackScreens/ReadersBottomSheet';
+import {ScreenContainer} from 'components/ScreenContainer';
+
+import useDropdown from 'hooks/useDropdown';
 import usePost from 'hooks/queries/MoimBoard/usePost';
+import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
+import usePermission from 'hooks/usePermission.ts';
+import {POST_WRITE_LIST} from 'constants/screens/MoimBoardStackScreens/PostList';
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
-import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 
 interface MoimPostWriteScreenProps {
   route: MoimPostStackRouteProp;
@@ -31,7 +34,9 @@ interface MoimPostWriteScreenProps {
 }
 
 const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
+  usePermission('PHOTO');
   const moimId = route?.params?.id;
+  const postType = route?.params?.postType;
   const {isPressed, category, handleCategory, handleSelectedCategory} =
     useDropdown();
   // const [readers, setReaders] = useState('전체 대상');
@@ -80,6 +85,11 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
               position: 'bottom',
             });
           },
+          onSettled: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['moim', 'post', postType, moimId],
+            });
+          },
         },
       );
     } else {
@@ -91,6 +101,11 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
       });
     }
   };
+
+  useEffect(() => {
+    const selected = POST_WRITE_LIST.find(item => item.key === postType);
+    handleSelectedCategory(selected);
+  }, [postType]);
 
   return (
     <ScreenContainer>

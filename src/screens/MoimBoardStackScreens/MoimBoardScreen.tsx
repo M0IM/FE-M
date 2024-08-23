@@ -1,8 +1,11 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {FlatList, Pressable, TouchableOpacity, View} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import {Typography} from 'components/@common/Typography/Typography';
 import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPostPreview';
+
 import {BOARD_TITLES} from 'constants/screens/MoimBoardStackScreens/PostList';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {
@@ -41,7 +44,11 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
     setIsSelected(selectMenu);
   };
 
-  console.log(data?.pages[0].moimPreviewList.length);
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsSelected('ALL');
+    }, []),
+  );
 
   return (
     <>

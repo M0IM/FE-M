@@ -62,8 +62,6 @@ const MoimPostDetailScreen = ({
   const [commentId, setCommentId] = useState(null);
   const {data: userInfo} = useGetMyProfile();
 
-  console.log(data);
-
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();

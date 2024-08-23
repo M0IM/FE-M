@@ -130,7 +130,7 @@ function App() {
       <GestureHandlerRootView>
         <RootNavigator />
         <Toast config={toastConfig} />
-        {/* <DevToolsBubble /> */}
+        <DevToolsBubble />
       </GestureHandlerRootView>
     </AppSetupContainer>
   );

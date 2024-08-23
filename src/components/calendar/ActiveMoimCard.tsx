@@ -4,7 +4,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Typography} from '../@common/Typography/Typography.tsx';
 
-import {HomeStackNavigationProp} from 'navigators/types';
 import {TMoimDTOResponse} from 'types/dtos/moim.ts';
 import FastImage from 'react-native-fast-image';
 

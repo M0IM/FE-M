@@ -89,7 +89,14 @@ const MoimSearchScreen = ({
             <ActiveMoimCard
               key={item.moimId}
               moim={item}
-              navigation={navigation}
+              onPress={() =>
+                navigation.navigate('MOIM_STACK', {
+                  screen: 'MOIM_SPACE',
+                  params: {
+                    id: item.moimId,
+                  },
+                })
+              }
             />
           );
         }}

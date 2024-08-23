@@ -2,7 +2,7 @@ import {ImageProps, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils';
-import user from '../../../assets/icons/user.png';
+// import user from '../../../assets/icons/user.png';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 
@@ -24,10 +24,16 @@ const Avatar = ({
   uri,
   size = 'SM',
   className,
+  iconColor = '#E9ECEF',
   onPress,
-  ...props
 }: AvatarProps) => {
-  console.log(SIZE.XS);
+  const iconSizes = {
+    XS: SIZE.XS,
+    SM: SIZE.SM,
+    MD: SIZE.MD,
+    LG: SIZE.LG,
+  };
+  const userIconSize = iconSizes[size] || iconSizes.SM;
   return (
     <TouchableOpacity onPress={onPress}>
       {uri ? (

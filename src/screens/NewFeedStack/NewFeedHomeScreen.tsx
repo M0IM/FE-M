@@ -1,11 +1,11 @@
-import {FlatList, SafeAreaView, TouchableOpacity, View} from 'react-native';
-
-import {Typography} from 'components/@common/Typography/Typography.tsx';
+import {FlatList, SafeAreaView} from 'react-native';
 import {useState} from 'react';
-import useGetInfinityMoimIntroducePosts from '../../hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts.ts';
 
-import {NewFeedHomeNavigationProp} from '../../navigators/types';
-import {NewFeedCard} from '../../components/screens/NewFeedHomeScreen/NewFeedCard.tsx';
+import {NewFeedCard} from 'components/screens/NewFeedHomeScreen/NewFeedCard.tsx';
+import {NewFeedCardSkeleton} from 'components/screens/NewFeedHomeScreen/skeleton/NewFeedCardSkeleton.tsx';
+
+import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts.ts';
+import {NewFeedHomeNavigationProp} from 'navigators/types';
 
 interface INewFeedHomeScreenProps {
   navigation: NewFeedHomeNavigationProp;
@@ -36,41 +36,44 @@ function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
   };
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        {Array(2)
+          .fill(null)
+          .map((_, index) => {
+            return <NewFeedCardSkeleton key={index} />;
+          })}
+      </SafeAreaView>
+    );
   }
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="p-8 flex-1">
-        <Typography className="text-xl" fontWeight={'BOLD'}>
-          실시간 모임
-        </Typography>
-        <FlatList
-          data={randomPosts?.pages.flatMap(page => page.moimPreviewList)}
-          renderItem={({item}) => {
-            return (
-              <NewFeedCard
-                item={item}
-                onPress={() =>
-                  navigation.navigate('NEW_FEED_DETAIL', {
-                    id: item.moimPostId,
-                  })
-                }
-              />
-            );
-          }}
-          contentContainerStyle={{
-            justifyContent: 'center',
-            gap: 10,
-          }}
-          keyExtractor={item => String(item.moimPostId)}
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.5}
-          refreshing={isRefreshing}
-          onRefresh={handleRefresh}
-          scrollIndicatorInsets={{right: 1}}
-        />
-      </View>
+      <FlatList
+        data={randomPosts?.pages.flatMap(page => page.moimPreviewList)}
+        renderItem={({item}) => {
+          return (
+            <NewFeedCard
+              item={item}
+              onPress={() =>
+                navigation.navigate('NEW_FEED_DETAIL', {
+                  id: item.moimPostId,
+                })
+              }
+            />
+          );
+        }}
+        contentContainerStyle={{
+          justifyContent: 'center',
+          gap: 10,
+        }}
+        keyExtractor={item => String(item.moimPostId)}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
+        scrollIndicatorInsets={{right: 1}}
+      />
     </SafeAreaView>
   );
 }

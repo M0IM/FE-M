@@ -17,7 +17,7 @@ function useGetPersonalCalendar({
 }: TUseGetPersonalCalendarProps) {
   return useQuery({
     queryFn: () => getPersonalCalendar({month, year}),
-    queryKey: ['myCalendar', month, year],
+    queryKey: ['calendar', 'my', month, year],
     placeholderData: keepPreviousData,
     ...queryOptions,
   });

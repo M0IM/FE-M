@@ -17,6 +17,9 @@ export default function NewFeedStackNavigator() {
       <NewFeedHomeStack.Screen
         name={'NEW_FEED_DETAIL'}
         component={NewFeedDetailScreen}
+        options={{
+          headerShown: false,
+        }}
       />
     </NewFeedHomeStack.Navigator>
   );

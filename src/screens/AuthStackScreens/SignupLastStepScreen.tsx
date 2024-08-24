@@ -3,23 +3,23 @@ import {Pressable, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from '@react-native-community/checkbox';
+import moment from 'moment';
 
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {InputField} from 'components/@common/InputField/InputField.tsx';
+import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOption.tsx';
 
 import useForm from 'hooks/useForm.ts';
-import {validateSignUpStep5} from 'utils/validate.ts';
-
+import useModal from 'hooks/useModal.ts';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+
+import {validateSignUpStep5} from 'utils/validate.ts';
+import {getDateWithSeparator} from 'utils';
 import {AuthStackNavigationProp} from 'navigators/types';
 import {TSignup} from 'types/dtos/auth.ts';
 import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
-import {DatePickerOption} from '../../components/@common/DatePickerOption/DatePickerOption.tsx';
-import useModal from '../../hooks/useModal.ts';
-import {getDateWithSeparator} from '../../utils';
-import moment from 'moment/moment';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;

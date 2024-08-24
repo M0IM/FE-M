@@ -1,5 +1,6 @@
 import {MOIM_REQUEST_TYPE} from 'types/enums';
 import {TMoimRole} from './moimManage';
+import {POST_LIST_TYPE} from './post.ts';
 
 export type MOIM_CATEGORY =
   | MOIM_REQUEST_TYPE.ALL
@@ -98,6 +99,24 @@ type TWithdrawMoimResponse = {
   result: string;
 };
 
+type TMoimPreviewListDTO = {
+  moimPostId: number;
+  title: string;
+  content: string;
+  profileImage: string;
+  writer: string;
+  commentCount: number;
+  likeCount: number;
+  postType: POST_LIST_TYPE;
+  createAt: string;
+};
+
+type TMoimPreviewListResponse = {
+  moimPreviewList: TMoimPreviewListDTO[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
 export type {
   TMoimDTOResponse,
   TGetMyActiveMoimResponse,
@@ -108,4 +127,5 @@ export type {
   TMoimMembersDTO,
   TCreateMoimParams,
   TWithdrawMoimResponse,
+  TMoimPreviewListResponse,
 };

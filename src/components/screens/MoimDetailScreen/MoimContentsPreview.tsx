@@ -1,68 +1,39 @@
 import {Typography} from 'components/@common/Typography/Typography';
 import SchedulePreviewCard from 'components/space/SchedulePreviewCard/SchedulePreviewCard';
 import usePost from 'hooks/queries/MoimBoard/usePost';
+import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar';
 import {View, FlatList, TouchableOpacity} from 'react-native';
+import {TMoimPlanListDTO} from 'types/dtos/calendar';
 import {detailDate, formatKoreanDate} from 'utils';
-
-const participants = [
-  {
-    userId: 0,
-    email: '',
-    nickname: '',
-    profileImg:
-      'https://plus.unsplash.com/premium_photo-1722010990368-6d8d02a00550?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2Nnx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    userId: 1,
-    email: '',
-    nickname: '',
-    profileImg:
-      'https://plus.unsplash.com/premium_photo-1722010990368-6d8d02a00550?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2Nnx8fGVufDB8fHx8fA%3D%3D',
-  },
-];
-
-const testList = [
-  {
-    title: '매주 월요일 정기 스터디',
-    date: '2024년 07월 24일  오후 5 : 30',
-    place: '상명대학교 G208',
-    cost: 0,
-    participants: participants,
-  },
-  {
-    title: '매주 월요일 정기 스터디',
-    date: '2024년 07월 24일  오후 5 : 30',
-    place: '상명대학교 G208',
-    cost: 0,
-    participants: participants,
-  },
-  {
-    title: '매주 월요일 정기 스터디',
-    date: '2024년 07월 24일  오후 5 : 30',
-    place: '상명대학교 G208',
-    cost: 0,
-    participants: participants,
-  },
-  {
-    title: '매주 월요일 정기 스터디',
-    date: '2024년 07월 24일  오후 5 : 30',
-    place: '상명대학교 G208',
-    cost: 0,
-    participants: participants,
-  },
-];
 
 interface MoimContentsPreviewProps {
   moimId: number;
 }
 
 const MoimContentsPreview = ({moimId}: MoimContentsPreviewProps) => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
   const {useGetInfiniteMoimPostList} = usePost();
   const {data: announcementData} = useGetInfiniteMoimPostList(
     moimId,
     'ANNOUNCEMENT',
   );
   const announcementDataList = announcementData?.pages[0].moimPreviewList;
+  const {data: calenderData} = useGetMoimCalendar({moimId, year, month});
+
+  const getAllPlans = (data: any) => {
+    let allPlans: TMoimPlanListDTO[] = [];
+
+    for (const key in data) {
+      if (data[key].planList.length > 0) {
+        allPlans = allPlans.concat(data[key].planList);
+      }
+    }
+
+    return allPlans;
+  };
+  const allPlanList = getAllPlans(calenderData);
 
   return (
     <View className="flex flex-col p-3 px-6">
@@ -72,15 +43,15 @@ const MoimContentsPreview = ({moimId}: MoimContentsPreviewProps) => {
         </Typography>
         <FlatList
           horizontal
-          data={testList}
+          data={allPlanList}
           contentContainerStyle={{marginTop: 15}}
           renderItem={({item}) => (
             <SchedulePreviewCard
               title={item.title}
-              date={item.date}
-              place={item.place}
-              cost={item.cost}
-              participants={item.participants}
+              date={item.time}
+              place={item.location}
+              //   cost={item.cost}
+              //   participants={item.participants}
             />
           )}
           ItemSeparatorComponent={() => <View className="w-3" />}

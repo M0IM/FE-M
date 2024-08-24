@@ -1,16 +1,23 @@
+import {View, FlatList, TouchableOpacity} from 'react-native';
+
 import {Typography} from 'components/@common/Typography/Typography';
 import SchedulePreviewCard from 'components/space/SchedulePreviewCard/SchedulePreviewCard';
+
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar';
-import {View, FlatList, TouchableOpacity} from 'react-native';
 import {TMoimPlanListDTO} from 'types/dtos/calendar';
+import {MoimPostStackNavigationProp} from 'navigators/types';
 import {detailDate, formatKoreanDate} from 'utils';
 
 interface MoimContentsPreviewProps {
   moimId: number;
+  navigation: MoimPostStackNavigationProp;
 }
 
-const MoimContentsPreview = ({moimId}: MoimContentsPreviewProps) => {
+const MoimContentsPreview = ({
+  moimId,
+  navigation,
+}: MoimContentsPreviewProps) => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -65,7 +72,13 @@ const MoimContentsPreview = ({moimId}: MoimContentsPreviewProps) => {
           <TouchableOpacity
             activeOpacity={0.8}
             key={index}
-            className="p-5 border-gray-200 border-[0.5px] rounded-xl mb-4">
+            className="p-5 border-gray-200 border-[0.5px] rounded-xl mb-4"
+            onPress={() =>
+              navigation.navigate('MOIM_POST_DETAIL', {
+                id: moimId,
+                postId: item?.moimPostId,
+              })
+            }>
             <View className="flex flex-row">
               <Typography fontWeight="BOLD" className="text-dark-800 text-sm">
                 {item.title}

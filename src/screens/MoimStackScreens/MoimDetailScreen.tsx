@@ -7,19 +7,26 @@ import MoimDashboardContainer from '../../components/screens/MoimDetailScreen/Mo
 import MoimImageBox from '../../components/screens/MoimDetailScreen/MoimImageBox';
 import MoimInfoContainer from '../../components/screens/MoimDetailScreen/MoimInfoContainer';
 import MoimContentsPreview from '../../components/screens/MoimDetailScreen/MoimContentsPreview';
+import MoimMemberBottomSheet from 'components/screens/MoimDetailScreen/MoimMemberBottomSheet';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {Typography} from 'components/@common/Typography/Typography';
 
-import {MoimTopTabRouteProp} from '../../navigators/types';
+import {
+  MoimPostStackNavigationProp,
+  MoimTopTabRouteProp,
+} from '../../navigators/types';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
-import MoimMemberBottomSheet from 'components/screens/MoimDetailScreen/MoimMemberBottomSheet';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
+  navigation: MoimPostStackNavigationProp;
 }
 
-export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
+export default function MoimDetailScreen({
+  route,
+  navigation,
+}: IMoimDetailScreenProps) {
   const moimId = route.params.id;
   const {data, isError, isPending, refetch} = useGetMoimSpaceInfo(moimId);
   const requestMoimJoimMutation = useRequestMoimJoin();
@@ -99,7 +106,7 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
           diaryCount={data?.diaryCount}
           moimReviewCount={data?.moimReviewCount}
         />
-        <MoimContentsPreview moimId={moimId} />
+        <MoimContentsPreview moimId={moimId} navigation={navigation} />
       </ScrollView>
       {!data?.isJoin && (
         <View className="p-3 pt-0">

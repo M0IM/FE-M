@@ -63,19 +63,8 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
           postType: category?.key,
         },
         {
-          onSuccess: data => {
-            navigation.navigate('MOIM_POST_DETAIL', {
-              id: moimId,
-              postId: data.moimPostId,
-            });
-            queryClient.invalidateQueries({
-              queryKey: ['moim', 'post', category],
-            });
-            queryClient.invalidateQueries({
-              queryKey: ['moim', 'post', 'ALL'],
-            });
-
-            console.log('게시글 작성: ', data);
+          onSuccess: () => {
+            navigation.navigate('MOIM_BOARD_HOME', moimId);
           },
           onError: error => {
             Toast.show({
@@ -87,7 +76,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
           },
           onSettled: () => {
             queryClient.invalidateQueries({
-              queryKey: ['moim', 'post', postType, moimId],
+              queryKey: ['moim', 'post', 'ALL', moimId],
             });
           },
         },

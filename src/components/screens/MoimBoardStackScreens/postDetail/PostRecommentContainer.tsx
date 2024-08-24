@@ -1,4 +1,4 @@
-import {View, Pressable, TouchableWithoutFeedback} from 'react-native';
+import {View, Pressable} from 'react-native';
 import Toast from 'react-native-toast-message';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -70,7 +70,6 @@ const PostRecommentContainer = ({
         },
         {
           onSuccess: () => {
-            handlePopover();
             Toast.show({
               type: 'success',
               text1: '댓글이 차단되었습니다.',
@@ -106,7 +105,6 @@ const PostRecommentContainer = ({
         },
         {
           onSuccess: () => {
-            handlePopover();
             Toast.show({
               type: 'success',
               text1: '댓글이 신고되었습니다.',
@@ -139,7 +137,6 @@ const PostRecommentContainer = ({
       },
       {
         onSuccess: () => {
-          handlePopover();
           Toast.show({
             type: 'success',
             text1: '대댓글이 삭제되었습니다.',
@@ -188,60 +185,53 @@ const PostRecommentContainer = ({
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => isPopover && handlePopover()}>
-      <View className="flex flex-col border-b-[0.5px] border-gray-200 bg-gray-50 py-4 px-4 ml-3">
-        <View className="flex flex-row items-center">
-          <Avatar size="XS" uri={recommentData.profileImage} />
-          <View className="flex flex-col justify-center ml-2">
-            <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
-              {recommentData.writer}
-            </Typography>
-            <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
-              {formatKoreanDate(new Date(recommentData?.createAt))}
-            </Typography>
-          </View>
-          <View className="flex flex-row gap-x-2 ml-auto">
-            <Pressable onPress={handlePopover}>
-              <Ionicons name="ellipsis-vertical" size={15} color={'#C9CCD1'} />
-            </Pressable>
-            <Pressable
-              onPress={() =>
-                handleMoimPostCommentLike(recommentData.commentId)
-              }>
-              {recommentData.isLike ? (
-                <Ionicons name="heart" size={15} color={'#00F0A1'} />
-              ) : (
-                <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
-              )}
-            </Pressable>
-          </View>
+    <View className="flex flex-col border-b-[0.5px] border-gray-200 bg-gray-50 py-4 px-4 ml-3">
+      <View className="flex flex-row items-center">
+        <Avatar size="XS" uri={recommentData.profileImage} />
+        <View className="flex flex-col justify-center ml-2">
+          <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
+            {recommentData.writer}
+          </Typography>
+          <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
+            {formatKoreanDate(new Date(recommentData?.createAt))}
+          </Typography>
         </View>
-        <Typography
-          fontWeight="MEDIUM"
-          className={
-            isBlocked
-              ? 'text-gray-500 text-sm mt-3 pl-2'
-              : 'text-dark-800 text-sm mt-3 pl-2'
-          }>
-          {isBlocked ? '차단된 댓글입니다.' : recommentData.content}
-        </Typography>
-        <Typography
-          fontWeight="MEDIUM"
-          className="text-gray-300 text-sm ml-auto">
-          좋아요 {recommentData.likeCount}
-        </Typography>
-        <View className="absolute top-[-100] right-7 z-[10000]">
-          <PopoverMenu
-            menu={
-              userInfo?.result.nickname === recommentData.writer
-                ? PostMyMenuList
-                : PostMenuList
-            }
-            isPopover={isPopover}
-          />
+        <View className="flex flex-row gap-x-2 ml-auto">
+          <Pressable onPress={handlePopover}>
+            <PopoverMenu
+              menu={
+                userInfo?.result.nickname === recommentData?.writer
+                  ? PostMyMenuList
+                  : PostMenuList
+              }
+              isPopover={isPopover}
+              onPress={handlePopover}>
+              <Ionicons name="ellipsis-vertical" size={15} color={'#C9CCD1'} />
+            </PopoverMenu>
+          </Pressable>
+          <Pressable
+            onPress={() => handleMoimPostCommentLike(recommentData.commentId)}>
+            {recommentData.isLike ? (
+              <Ionicons name="heart" size={15} color={'#00F0A1'} />
+            ) : (
+              <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
+            )}
+          </Pressable>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+      <Typography
+        fontWeight="MEDIUM"
+        className={
+          isBlocked
+            ? 'text-gray-500 text-sm mt-3 pl-2'
+            : 'text-dark-800 text-sm mt-3 pl-2'
+        }>
+        {isBlocked ? '차단된 댓글입니다.' : recommentData.content}
+      </Typography>
+      <Typography fontWeight="MEDIUM" className="text-gray-300 text-sm ml-auto">
+        좋아요 {recommentData.likeCount}
+      </Typography>
+    </View>
   );
 };
 

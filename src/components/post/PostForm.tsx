@@ -1,15 +1,13 @@
 import {TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
-import {MoimStackParamList} from 'navigators/types';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {MoimPlanStackNavigationProp} from 'navigators/types';
 
 import {CustomButton} from '../@common/CustomButton/CustomButton.tsx';
 import {DatePickerOption} from '../@common/DatePickerOption/DatePickerOption.tsx';
 import {TimePickerOption} from '../@common/TimePickerOption/TimePickerOption.tsx';
-import AddPostHeaderRight from './AddPostHeaderRight.tsx';
 import {ScreenContainer} from '../ScreenContainer.tsx';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import {InputField} from '../@common/InputField/InputField.tsx';
@@ -21,6 +19,7 @@ import useForm from 'hooks/useForm.ts';
 import {
   formatTime,
   getDateWithSeparator,
+  getMonthYearDetails,
   parseTimeStringToDate,
   validateAddMoimPosts,
 } from 'utils';
@@ -34,7 +33,7 @@ interface IPostForm {
   moimId: number;
 }
 
-type TNavigationProps = StackNavigationProp<MoimStackParamList, 'MOIM_WRITE'>;
+// type TNavigationProps = StackNavigationProp<MoimStackParamList, 'MOIM_WRITE'>;
 
 type TSchedules = {
   title: string;
@@ -42,13 +41,14 @@ type TSchedules = {
 };
 
 export default function PostForm({moimId}: IPostForm) {
-  const navigation = useNavigation<TNavigationProps>();
+  const currentMonthYear = getMonthYearDetails(new Date());
+  const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const datePickerModal = useModal();
   const timePickerModal = useModal();
   const {moimCalendar, setIsEditMode, isEditMode} = useMoimCalendarStore();
   const isEdit = moimCalendar && isEditMode;
   const [isPicked, setIsPicked] = useState(false);
-  const [isPickedTime, setIsPickedTime] = useState(
+  const [isPickedTime, setIsPickedTime] = useState<boolean | Date>(
     isEdit ? new Date(moimCalendar.startTime) : new Date(),
   );
   const [date, setDate] = useState(
@@ -58,7 +58,7 @@ export default function PostForm({moimId}: IPostForm) {
     isEdit ? moimCalendar?.schedules : [],
   );
   const [selectedTime, setSelectedTime] = useState(new Date());
-  const [isEditing, setIsEditing] = useState(null);
+  const [isEditing, setIsEditing] = useState<number | null>(null);
   const addPost = useForm({
     initialValue: {
       title: isEdit ? moimCalendar.title : '',
@@ -98,13 +98,18 @@ export default function PostForm({moimId}: IPostForm) {
           {
             onSuccess: () => {
               setIsEditMode(false);
-              navigation.navigate('MOIM_DETAIL', {
-                screen: 'MOIM_SPACE',
-                params: {
-                  id: moimId,
-                },
+              navigation.goBack();
+              queryClient.invalidateQueries({
+                queryKey: ['detailCalendar', moimId, moimCalendar?.planId],
               });
-              queryClient.invalidateQueries({queryKey: ['moimCalendar']});
+              queryClient.invalidateQueries({
+                queryKey: [
+                  'moimCalendar',
+                  moimId,
+                  currentMonthYear.month,
+                  currentMonthYear.year,
+                ],
+              });
             },
           },
         )
@@ -113,12 +118,7 @@ export default function PostForm({moimId}: IPostForm) {
           {
             onSuccess: () => {
               setIsEditMode(false);
-              navigation.navigate('MOIM_DETAIL', {
-                screen: 'MOIM_SPACE',
-                params: {
-                  id: moimId,
-                },
-              });
+              navigation.navigate('MOIM_PLAN_HOME', {id: moimId});
               queryClient.invalidateQueries({queryKey: ['moimCalendar']});
             },
           },
@@ -185,14 +185,15 @@ export default function PostForm({moimId}: IPostForm) {
     setSchedules(updatedSchedules);
   };
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => AddPostHeaderRight(handleSubmit),
-    });
-  }, [handleSubmit, navigation]);
-
   return (
-    <ScreenContainer>
+    <ScreenContainer
+      fixedBottomComponent={
+        <CustomButton
+          label="일정 작성"
+          textStyle="text-white font-bold text-base"
+          onPress={handleSubmit}
+        />
+      }>
       <View className="mt-2">
         <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
           일정 제목
@@ -287,7 +288,7 @@ export default function PostForm({moimId}: IPostForm) {
         onChangeTime={handleChangeTime}
         onConfirmTime={handleConfirmTime}
       />
-      <View className="flex-row items-center">
+      <View className="flex-row items-center mb-16">
         <Typography className="text-gray-500 flex-1" fontWeight={'BOLD'}>
           시간별 스케줄
         </Typography>

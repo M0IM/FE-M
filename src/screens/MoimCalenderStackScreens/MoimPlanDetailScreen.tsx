@@ -12,19 +12,19 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
 
 import {
+  MoimPlanStackNavigationProp,
   MoimPlanStackRouteProp,
-  MoimStackNavigationProp,
 } from 'navigators/types';
 import useGetDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useGetDetailMoimCalendar.ts';
 import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/usePostMoimScheduleParticipation.ts';
 import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
-import Toast from 'react-native-toast-message';
+import {getMonthYearDetails} from 'utils/date.ts';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
-  navigation: MoimStackNavigationProp;
+  navigation: MoimPlanStackNavigationProp;
 }
 
 export default function MoimPlanDetailScreen({
@@ -32,6 +32,7 @@ export default function MoimPlanDetailScreen({
   navigation,
 }: IMoimPlanDetailScreenProps) {
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
+  const currentMonthYear = getMonthYearDetails(new Date());
   const moimId = route.params.id as number;
   const planId = route.params.planId as number;
 
@@ -54,14 +55,12 @@ export default function MoimPlanDetailScreen({
       onPress: () => {
         setIsEditMode(true);
         setMoimCalendar({...data, planId});
-        setIsPopOverOpen(false);
-        navigation.navigate('MOIM_WRITE', {id: moimId});
+        navigation.navigate('MOIM_PLAN_WRITE', {id: moimId});
       },
     },
     {
       title: '삭제하기',
       onPress: () => {
-        setIsPopOverOpen(false);
         deletePost(
           {moimId, planId},
           {
@@ -71,6 +70,14 @@ export default function MoimPlanDetailScreen({
               });
               queryClient.invalidateQueries({
                 queryKey: ['participantList', moimId, planId],
+              });
+              queryClient.invalidateQueries({
+                queryKey: [
+                  'moimCalendar',
+                  moimId,
+                  currentMonthYear.month,
+                  currentMonthYear.year,
+                ],
               });
               navigation.goBack();
             },
@@ -87,14 +94,16 @@ export default function MoimPlanDetailScreen({
           <Typography className="text-lg mb-3" fontWeight={'BOLD'}>
             {data?.title}
           </Typography>
-          <TouchableOpacity
-            className="relative"
+          <PopoverMenu
+            menu={PostMyMenuList}
+            isPopover={isPopOverOpen}
             onPress={() => setIsPopOverOpen(prev => !prev)}>
-            <Ionicons name="ellipsis-vertical" size={20} color={'#C9CCD1'} />
-          </TouchableOpacity>
-        </View>
-        <View className="absolute top-14  right-7 z-[10000]">
-          <PopoverMenu menu={PostMyMenuList} isPopover={isPopOverOpen} />
+            <TouchableOpacity
+              className="relative"
+              onPress={() => setIsPopOverOpen(prev => !prev)}>
+              <Ionicons name="ellipsis-vertical" size={20} color={'#C9CCD1'} />
+            </TouchableOpacity>
+          </PopoverMenu>
         </View>
         <TitleSubTitleBox title={'날짜'} subTitle={data?.date} />
         <TitleSubTitleBox title={'장소'} subTitle={data?.location} />

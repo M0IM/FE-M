@@ -1,105 +1,112 @@
-import { Typography } from 'components/@common/Typography/Typography';
+import {View, FlatList, TouchableOpacity} from 'react-native';
+
+import {Typography} from 'components/@common/Typography/Typography';
 import SchedulePreviewCard from 'components/space/SchedulePreviewCard/SchedulePreviewCard';
-import { View, FlatList, TouchableOpacity } from 'react-native';
 
-const participants = [
-    {
-        userId: 0,
-        email: '',
-        nickname: '',
-        profileImg: 'https://plus.unsplash.com/premium_photo-1722010990368-6d8d02a00550?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2Nnx8fGVufDB8fHx8fA%3D%3D',
-    },
-    {
-        userId: 1,
-        email: '',
-        nickname: '',
-        profileImg: 'https://plus.unsplash.com/premium_photo-1722010990368-6d8d02a00550?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2Nnx8fGVufDB8fHx8fA%3D%3D',
+import usePost from 'hooks/queries/MoimBoard/usePost';
+import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar';
+import {TMoimPlanListDTO} from 'types/dtos/calendar';
+import {MoimPostStackNavigationProp} from 'navigators/types';
+import {detailDate, formatKoreanDate} from 'utils';
+
+interface MoimContentsPreviewProps {
+  moimId: number;
+  navigation: MoimPostStackNavigationProp;
+}
+
+const MoimContentsPreview = ({
+  moimId,
+  navigation,
+}: MoimContentsPreviewProps) => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const {useGetInfiniteMoimPostList} = usePost();
+  const {data: announcementData} = useGetInfiniteMoimPostList(
+    moimId,
+    'ANNOUNCEMENT',
+  );
+  const announcementDataList = announcementData?.pages[0].moimPreviewList;
+  const {data: calenderData} = useGetMoimCalendar({moimId, year, month});
+
+  const getAllPlans = (data: any) => {
+    let allPlans: TMoimPlanListDTO[] = [];
+
+    for (const key in data) {
+      if (data[key].planList.length > 0) {
+        allPlans = allPlans.concat(data[key].planList);
+      }
     }
-];
 
-const testList = [
-    {
-        title: '매주 월요일 정기 스터디',
-        date: '2024년 07월 24일  오후 5 : 30',
-        place: '상명대학교 G208',
-        cost: 0,
-        participants: participants
-    },
-    {
-        title: '매주 월요일 정기 스터디',
-        date: '2024년 07월 24일  오후 5 : 30',
-        place: '상명대학교 G208',
-        cost: 0,
-        participants: participants
-    },
-    {
-        title: '매주 월요일 정기 스터디',
-        date: '2024년 07월 24일  오후 5 : 30',
-        place: '상명대학교 G208',
-        cost: 0,
-        participants: participants
-    },
-    {
-        title: '매주 월요일 정기 스터디',
-        date: '2024년 07월 24일  오후 5 : 30',
-        place: '상명대학교 G208',
-        cost: 0,
-        participants: participants
-    }
-];
+    return allPlans;
+  };
+  const allPlanList = getAllPlans(calenderData);
 
-const testPostData = [
-    {
-        title: '매주 월요일 정기 스터디',
-        content: '여러분 무조건 참여해야 하는 활동 중 하나입니다. 따라서 워크북을 꾸준히 하시길 바랍니다.',
-        date: '2024년 5월 17일 오후 2:00',
-    },
-    {
-        title: '매주 월요일 정기 스터디',
-        content: '여러분 무조건 참여해야 하는 활동 중 하나입니다. 따라서 워크북을 꾸준히 하시길 바랍니다.',
-        date: '2024년 5월 17일 오후 2:00',
-    },
-    {
-        title: '매주 월요일 정기 스터디',
-        content: '여러분 무조건 참여해야 하는 활동 중 하나입니다. 따라서 워크북을 꾸준히 하시길 바랍니다.',
-        date: '2024년 5월 17일 오후 2:00',
-    }
-];
-
-const MoimContentsPreview = () => {
   return (
-    <View className='flex flex-col p-3 px-6'>
-        <View className='flex flex-col'>
-            <Typography fontWeight='BOLD' className='text-xs text-gray-400'>예정된 일정</Typography>
-            <FlatList
-                horizontal
-                data={testList}
-                contentContainerStyle={{marginTop: 15}}
-                renderItem={({item}) => (
-                    <SchedulePreviewCard 
-                        title={item.title}
-                        date={item.date}
-                        place={item.place}
-                        cost={item.cost}
-                        participants={item.participants}
-                    />
-                )}
-                ItemSeparatorComponent={() => <View className='w-3' />}
+    <View className="flex flex-col p-3 px-6">
+      <View className="flex flex-col">
+        <Typography fontWeight="BOLD" className="text-xs text-gray-400">
+          예정된 일정
+        </Typography>
+        <FlatList
+          horizontal
+          data={allPlanList}
+          contentContainerStyle={{marginTop: 15}}
+          renderItem={({item}) => (
+            <SchedulePreviewCard
+              title={item.title}
+              date={item.time}
+              place={item.location}
+              //   cost={item.cost}
+              //   participants={item.participants}
             />
-        </View>
-        <View className='flex flex-col mt-10'>
-            <Typography fontWeight='BOLD' className='text-xs text-gray-400 mb-4'>공지사항</Typography>
-            {testPostData.map((item, index) => (
-                <TouchableOpacity activeOpacity={0.8} key={index} className='p-5 border-gray-200 border-[0.5px] rounded-xl mb-4'>
-                    <View className='flex flex-row'>
-                        <Typography fontWeight='BOLD' className='text-dark-800 text-sm'>{item.title}</Typography>
-                        <Typography fontWeight='BOLD' className='text-main text-sm ml-2'>N</Typography>
-                    </View>
-                    <Typography fontWeight='MEDIUM' className='text-dark-800 text-sm mt-1'>{item.content}</Typography>
-                    <Typography fontWeight='MEDIUM' className='text-gray-300 text-xs mt-5'>{item.date}</Typography>
-                </TouchableOpacity>
-            ))}
-        </View>
+          )}
+          ItemSeparatorComponent={() => <View className="w-3" />}
+        />
+      </View>
+      <View className="flex flex-col mt-10">
+        <Typography fontWeight="BOLD" className="text-xs text-gray-400 mb-4">
+          공지사항
+        </Typography>
+        {announcementDataList?.map((item, index) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            key={index}
+            className="p-5 border-gray-200 border-[0.5px] rounded-xl mb-4"
+            onPress={() =>
+              navigation.navigate('MOIM_POST_DETAIL', {
+                id: moimId,
+                postId: item?.moimPostId,
+              })
+            }>
+            <View className="flex flex-row">
+              <Typography fontWeight="BOLD" className="text-dark-800 text-sm">
+                {item.title}
+              </Typography>
+              <Typography fontWeight="BOLD" className="text-main text-sm ml-2">
+                N
+              </Typography>
+            </View>
+            <Typography
+              fontWeight="MEDIUM"
+              className="text-dark-800 text-sm mt-1">
+              {item.content}
+            </Typography>
+            <View className="flex flex-row gap-x-3">
+              <Typography
+                fontWeight="MEDIUM"
+                className="text-gray-300 text-xs mt-5">
+                {formatKoreanDate(new Date(item.createAt))}
+              </Typography>
+              <Typography
+                fontWeight="MEDIUM"
+                className="text-gray-300 text-xs mt-5">
+                {detailDate(new Date(item.createAt))}
+              </Typography>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };

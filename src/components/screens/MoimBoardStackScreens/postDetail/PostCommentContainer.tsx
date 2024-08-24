@@ -77,7 +77,6 @@ const PostCommentContainer = ({
         },
         {
           onSuccess: () => {
-            handlePopover();
             Toast.show({
               type: 'success',
               text1: '댓글이 차단되었습니다.',
@@ -113,7 +112,6 @@ const PostCommentContainer = ({
         },
         {
           onSuccess: () => {
-            handlePopover();
             Toast.show({
               type: 'success',
               text1: '댓글이 신고되었습니다.',
@@ -146,7 +144,6 @@ const PostCommentContainer = ({
       },
       {
         onSuccess: () => {
-          handlePopover();
           Toast.show({
             type: 'success',
             text1: '댓글이 삭제되었습니다.',
@@ -195,79 +192,94 @@ const PostCommentContainer = ({
   }
 
   return (
-    <View className="flex flex-col">
-      <View
-        className="flex flex-col border-b-[0.5px] border-gray-200 py-4 px-4"
-        style={{
-          backgroundColor:
-            targetCommentId === commentData.commentId
-              ? 'rgba(2, 186, 125, 0.069)'
-              : 'white',
-        }}>
-        <View className="flex flex-row items-center">
-          <Avatar size="XS" uri={commentData?.profileImage} />
-          <View className="flex flex-col justify-center ml-2">
-            <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
-              {commentData?.writer}
-            </Typography>
-            <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
-              {formatKoreanDate(new Date(commentData?.createAt))}
-            </Typography>
+    <Pressable onPress={() => targetCommentId && handleUpdateCommentId(null)}>
+      <View className="flex flex-col">
+        <View
+          className="flex flex-col border-b-[0.5px] border-gray-200 py-4 px-4"
+          style={{
+            backgroundColor:
+              targetCommentId === commentData.commentId
+                ? 'rgba(2, 186, 125, 0.069)'
+                : 'white',
+          }}>
+          <View className="flex flex-row items-center">
+            <Avatar size="XS" uri={commentData?.profileImage} />
+            <View className="flex flex-col justify-center ml-2">
+              <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
+                {commentData?.writer}
+              </Typography>
+              <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
+                {formatKoreanDate(new Date(commentData?.createAt))}
+              </Typography>
+            </View>
+            <View className="flex flex-row gap-x-2 ml-auto">
+              <Pressable className="ml-auto" onPress={handlePopover}>
+                <PopoverMenu
+                  menu={
+                    userInfo?.result.nickname === commentData?.writer
+                      ? PostMyMenuList
+                      : PostMenuList
+                  }
+                  isPopover={isPopover}
+                  onPress={handlePopover}>
+                  <Ionicons
+                    name="ellipsis-vertical"
+                    size={15}
+                    color={'#C9CCD1'}
+                  />
+                </PopoverMenu>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  targetCommentId
+                    ? handleUpdateCommentId(null)
+                    : handleUpdateCommentId(commentData.commentId);
+                }}>
+                <Ionicons
+                  name="chatbubble-outline"
+                  size={15}
+                  color={'#C9CCD1'}
+                />
+              </Pressable>
+              <Pressable
+                onPress={() =>
+                  handleMoimPostCommentLike(commentData.commentId)
+                }>
+                {commentData.isLike ? (
+                  <Ionicons name="heart" size={15} color={'#00F0A1'} />
+                ) : (
+                  <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
+                )}
+              </Pressable>
+            </View>
           </View>
-          <View className="flex flex-row gap-x-2 ml-auto">
-            <Pressable onPress={handlePopover}>
-              <Ionicons name="ellipsis-vertical" size={15} color={'#C9CCD1'} />
-            </Pressable>
-            <Pressable
-              onPress={() => handleUpdateCommentId(commentData.commentId)}>
-              <Ionicons name="chatbubble-outline" size={15} color={'#C9CCD1'} />
-            </Pressable>
-            <Pressable
-              onPress={() => handleMoimPostCommentLike(commentData.commentId)}>
-              {commentData.isLike ? (
-                <Ionicons name="heart" size={15} color={'#00F0A1'} />
-              ) : (
-                <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
-              )}
-            </Pressable>
-          </View>
+          <Typography
+            fontWeight="MEDIUM"
+            className={
+              isBlocked
+                ? 'text-gray-500 text-sm mt-3 pl-2'
+                : 'text-dark-800 text-sm mt-3 pl-2'
+            }>
+            {isBlocked ? '차단된 댓글입니다.' : commentData?.content}
+          </Typography>
+          <Typography
+            fontWeight="MEDIUM"
+            className="text-gray-300 text-sm ml-auto">
+            좋아요 {commentData?.likeCount}
+          </Typography>
         </View>
-        <Typography
-          fontWeight="MEDIUM"
-          className={
-            isBlocked
-              ? 'text-gray-500 text-sm mt-3 pl-2'
-              : 'text-dark-800 text-sm mt-3 pl-2'
-          }>
-          {isBlocked ? '차단된 댓글입니다.' : commentData?.content}
-        </Typography>
-        <Typography
-          fontWeight="MEDIUM"
-          className="text-gray-300 text-sm ml-auto">
-          좋아요 {commentData?.likeCount}
-        </Typography>
-      </View>
-      <FlatList
-        data={commentData?.commentResponseDTOList}
-        renderItem={({item}) => (
-          <PostRecommentContainer
-            moimId={moimId}
-            postId={postId}
-            recommentData={item}
-          />
-        )}
-      />
-      <View className="absolute top-[-110] right-10">
-        <PopoverMenu
-          menu={
-            userInfo?.result.nickname === commentData?.writer
-              ? PostMyMenuList
-              : PostMenuList
-          }
-          isPopover={isPopover}
+        <FlatList
+          data={commentData?.commentResponseDTOList}
+          renderItem={({item}) => (
+            <PostRecommentContainer
+              moimId={moimId}
+              postId={postId}
+              recommentData={item}
+            />
+          )}
         />
       </View>
-    </View>
+    </Pressable>
   );
 };
 

@@ -1,6 +1,7 @@
 import {View} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {Typography} from 'components/@common/Typography/Typography';
 import ImagesSlider from '../ImagesSlider';
 
@@ -24,6 +25,9 @@ const PostInfoContainer = ({
   isLike,
   handleMoimPostLike,
 }: PostInfoContainerProps) => {
+  const isImages =
+    postImages && postImages?.length > 0 && postImages[0].split('com/')[1];
+
   return (
     <>
       <View className="flex flex-col pl-1">
@@ -34,9 +38,7 @@ const PostInfoContainer = ({
           {content}
         </Typography>
 
-        {postImages && postImages.length > 0 && (
-          <ImagesSlider height={400} images={postImages} />
-        )}
+        {isImages && <ImagesSlider height={400} images={postImages} />}
       </View>
 
       {/* 게시글 정보 (댓글, 좋아요) & 좋아요 버튼 */}

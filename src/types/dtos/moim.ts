@@ -67,6 +67,7 @@ type TMoimSpaceInfoDTO = {
   address: string;
   createAt: string;
   updateAt: string;
+  userImages: string[];
 };
 
 export type TUserPreviewDTO = {

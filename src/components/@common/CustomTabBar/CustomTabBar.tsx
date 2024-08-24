@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity, Animated } from 'react-native';
-import { MaterialTopTabNavigationEventMap } from '@react-navigation/material-top-tabs';
-import { MaterialTopTabDescriptorMap } from '@react-navigation/material-top-tabs/lib/typescript/src/types';
+import {View, TouchableOpacity, Animated} from 'react-native';
+import {MaterialTopTabNavigationEventMap} from '@react-navigation/material-top-tabs';
+import {MaterialTopTabDescriptorMap} from '@react-navigation/material-top-tabs/lib/typescript/src/types';
 import {
   NavigationHelpers,
   ParamListBase,
@@ -29,32 +29,64 @@ const CustomTabBar = ({
 
   const shouldHideTabs = () => {
     if (currentRouteName === 'MOIM_TOP_BOARD') {
-      const hiddenRoutes = ['MOIM_POST_DETAIL', 'MOIM_POST_WRITE', 'MOIM_POST_EDIT'];
-      const moimBoardState = state.routes.find(route => route.name === 'MOIM_TOP_BOARD')?.state;
+      const hiddenRoutes = [
+        'MOIM_POST_DETAIL',
+        'MOIM_POST_WRITE',
+        'MOIM_POST_EDIT',
+      ];
+      const moimBoardState = state.routes.find(
+        route => route.name === 'MOIM_TOP_BOARD',
+      )?.state;
       if (moimBoardState) {
-        return moimBoardState.routes.some((route: any) => hiddenRoutes.includes(route.name));
+        return moimBoardState.routes.some((route: any) =>
+          hiddenRoutes.includes(route.name),
+        );
       }
     } else if (currentRouteName === 'MOIM_MANAGEMENT') {
-      const hiddenRoutes = ['PERMISSION_MANAGEMENT', 'JOIN_MANAGEMENT', 'MOIM_INFO_EDIT'];
-      const moimBoardState = state.routes.find(route => route.name === 'MOIM_MANAGEMENT')?.state;
+      const hiddenRoutes = [
+        'PERMISSION_MANAGEMENT',
+        'JOIN_MANAGEMENT',
+        'MOIM_INFO_EDIT',
+      ];
+      const moimBoardState = state.routes.find(
+        route => route.name === 'MOIM_MANAGEMENT',
+      )?.state;
       if (moimBoardState) {
-        return moimBoardState.routes.some((route: any) => hiddenRoutes.includes(route.name));
+        return moimBoardState.routes.some((route: any) =>
+          hiddenRoutes.includes(route.name),
+        );
+      }
+    } else if (currentRouteName === 'MOIM_TOP_PLAN') {
+      const hiddenRoutes = ['MOIM_PLAN_WRITE', 'MOIM_PLAN_DETAIL'];
+      const moimBoardState = state.routes.find(
+        route => route.name === 'MOIM_TOP_PLAN',
+      )?.state;
+      if (moimBoardState) {
+        return moimBoardState.routes.some((route: any) =>
+          hiddenRoutes.includes(route.name),
+        );
       }
     }
     return false;
   };
 
   const hideTabs = shouldHideTabs();
-  
+
   return (
-    <View className='flex flex-col bg-white'>
-      {(currentRouteName !== 'FEED_HOME_FEED') && (currentRouteName !== 'FEED_HOME_CALENDAR') && !hideTabs &&
-        <TouchableOpacity onPress={()=> navigation.goBack()} className='ml-1 mb-2'>
-          <Ionicons name='chevron-back-sharp' size={25}/>
-        </TouchableOpacity>}
-        <View className='flex-row items-center justify-start p-2 bg-white'>
-          {!hideTabs && state.routes.map((route: any, index: number) => {
-            const { options } = descriptors[route.key];
+    <View className="flex flex-col bg-white">
+      {currentRouteName !== 'FEED_HOME_FEED' &&
+        currentRouteName !== 'FEED_HOME_CALENDAR' &&
+        !hideTabs && (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className="ml-1 mb-2">
+            <Ionicons name="chevron-back-sharp" size={25} />
+          </TouchableOpacity>
+        )}
+      <View className="flex-row items-center justify-start p-2 bg-white">
+        {!hideTabs &&
+          state.routes.map((route: any, index: number) => {
+            const {options} = descriptors[route.key];
             const label =
               options.tabBarLabel !== undefined
                 ? options.tabBarLabel
@@ -107,7 +139,7 @@ const CustomTabBar = ({
               </TouchableOpacity>
             );
           })}
-        </View>
+      </View>
     </View>
   );
 };

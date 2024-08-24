@@ -125,6 +125,10 @@ export type MoimPostStackParamList = {
     id: number;
     userName: string;
   };
+  MOIM_POST_REVIEW: {
+    id: number;
+    userName: string;
+  };
 };
 
 export type ChatStackParamList = {

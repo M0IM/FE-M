@@ -25,7 +25,8 @@ const PostInfoContainer = ({
   isLike,
   handleMoimPostLike,
 }: PostInfoContainerProps) => {
-  const isImages = postImages && postImages[0].split('com/')[1];
+  const isImages =
+    postImages && postImages?.length > 0 && postImages[0].split('com/')[1];
 
   return (
     <>

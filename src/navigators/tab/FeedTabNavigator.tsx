@@ -70,7 +70,11 @@ export default function FeedTabNavigator({
       })}>
       <Tab.Screen name={'FEED_HOME'} component={FeedHomeTopTabNavigator} />
       <Tab.Screen name={'MOIM_HOME'} component={MoimStackNavigator} />
-      <Tab.Screen name={'NEW_FEED_HOME'} component={NewFeedStackNavigator} />
+      <Tab.Screen
+        name={'NEW_FEED_HOME'}
+        component={NewFeedStackNavigator}
+        options={{headerShown: false}}
+      />
       {/*<Tab.Screen*/}
       {/*  options={{*/}
       {/*    headerShown: false,*/}

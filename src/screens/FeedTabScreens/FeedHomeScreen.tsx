@@ -2,8 +2,8 @@ import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import MoimScheduleEvent from 'components/screens/FeedTabScreens/MoimScheduleEvent.tsx';
 import MoimMyEvent from 'components/screens/FeedTabScreens/MoimMyEvent.tsx';
 import MoimHappeningEvent from 'components/screens/FeedTabScreens/MoimHappeningEvent.tsx';
-import MoimRecommendationEvent from 'components/screens/FeedTabScreens/MoimRecommendationEvent.tsx';
 import MoimIntroduceEvent from 'components/screens/FeedTabScreens/MoimIntroduceEvent.tsx';
+import MoimFeedPreview from 'components/screens/FeedTabScreens/MoimFeedPreview';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import {MoimWriteBar} from 'components/home/MoimWriteBar/MoimWriteBar.tsx';
 
@@ -62,7 +62,8 @@ export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
         <MoimWriteBar onPress={() => navigation.navigate('MOIM_CREATE')} />
         {/*<RecommendBar />*/}
         <MoimHappeningEvent />
-        <MoimRecommendationEvent />
+        <MoimFeedPreview />
+        {/* <MoimRecommendationEvent /> */}
         <MoimIntroduceEvent />
       </ScreenContainer>
       <FloatingButton onPress={() => navigation.navigate('MOIM_CREATE')} />

@@ -19,8 +19,10 @@ export function PlanCalendarEventList({
 
   if (!posts) {
     return (
-      <View className="flex-col items-center justify-center">
-        <Typography fontWeight={'BOLD'}>일정이 없습니다.</Typography>
+      <View className="flex-col flex-1 items-center justify-center">
+        <Typography fontWeight={'BOLD'} className="text-base text-gray-300">
+          일정이 없습니다.
+        </Typography>
       </View>
     );
   }

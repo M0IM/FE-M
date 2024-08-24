@@ -20,6 +20,7 @@ import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen
 import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
+import {getMonthYearDetails} from 'utils/date.ts';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
@@ -31,6 +32,7 @@ export default function MoimPlanDetailScreen({
   navigation,
 }: IMoimPlanDetailScreenProps) {
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
+  const currentMonthYear = getMonthYearDetails(new Date());
   const moimId = route.params.id as number;
   const planId = route.params.planId as number;
 
@@ -68,6 +70,14 @@ export default function MoimPlanDetailScreen({
               });
               queryClient.invalidateQueries({
                 queryKey: ['participantList', moimId, planId],
+              });
+              queryClient.invalidateQueries({
+                queryKey: [
+                  'moimCalendar',
+                  moimId,
+                  currentMonthYear.month,
+                  currentMonthYear.year,
+                ],
               });
               navigation.goBack();
             },

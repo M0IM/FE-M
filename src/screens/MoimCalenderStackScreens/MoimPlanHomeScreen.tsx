@@ -46,8 +46,6 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
     setSelectedDate(date);
   };
 
-  console.log(moimId);
-
   return (
     <SafeAreaView className={'bg-white flex-1'}>
       <MoimCalendar

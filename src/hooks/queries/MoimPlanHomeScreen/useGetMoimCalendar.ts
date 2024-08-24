@@ -1,4 +1,4 @@
-import {keepPreviousData, useQuery} from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 
 import {getMoimCalendar} from 'apis';
 import {UseQueryCustomOptions} from 'types/mutations/common.ts';

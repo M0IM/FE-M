@@ -19,6 +19,7 @@ import useForm from 'hooks/useForm.ts';
 import {
   formatTime,
   getDateWithSeparator,
+  getMonthYearDetails,
   parseTimeStringToDate,
   validateAddMoimPosts,
 } from 'utils';
@@ -40,6 +41,7 @@ type TSchedules = {
 };
 
 export default function PostForm({moimId}: IPostForm) {
+  const currentMonthYear = getMonthYearDetails(new Date());
   const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const datePickerModal = useModal();
   const timePickerModal = useModal();
@@ -99,6 +101,14 @@ export default function PostForm({moimId}: IPostForm) {
               navigation.goBack();
               queryClient.invalidateQueries({
                 queryKey: ['detailCalendar', moimId, moimCalendar?.planId],
+              });
+              queryClient.invalidateQueries({
+                queryKey: [
+                  'moimCalendar',
+                  moimId,
+                  currentMonthYear.month,
+                  currentMonthYear.year,
+                ],
               });
             },
           },

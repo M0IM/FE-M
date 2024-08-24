@@ -23,6 +23,7 @@ export type FeedTabParamList = {
   CHAT_HOME: undefined;
   MY_HOME: undefined;
   MOIM_SEARCH: undefined;
+  NEW_FEED_HOME: undefined;
 };
 
 export type FeedTopTabParamList = {
@@ -143,6 +144,11 @@ export type MoimManagementParamList = {
   MOIM_INFO_EDIT: {id: number | undefined};
 };
 
+export type NewFeedHomeStackParamList = {
+  NEW_FEED_MAIN: undefined;
+  NEW_FEED_DETAIL: {id: number};
+};
+
 /** screen name */
 export type HomeStackScreenName = keyof HomeStackParamList;
 export type FeedTabScreenName = keyof FeedTabParamList;
@@ -158,6 +164,7 @@ export type RevokeMoimStackScreenName = keyof RevokeMoimStackParamList;
 export type AppInfoStackScreenName = keyof AppInfoStackParamList;
 export type ChatStackScreenName = keyof ChatStackParamList;
 export type MoimManagementScreenName = keyof MoimManagementParamList;
+export type NewFeedHomeStackScreenName = keyof NewFeedHomeStackParamList;
 
 /** route props */
 export type HomeStackRouteProp = RouteProp<
@@ -210,6 +217,10 @@ export type MoimManagementRouteProp = RouteProp<
   MoimManagementParamList,
   MoimManagementScreenName
 >;
+export type NewFeedHomeRouteProp = RouteProp<
+  NewFeedHomeStackParamList,
+  NewFeedHomeStackScreenName
+>;
 
 /** navigation props */
 export type HomeStackNavigationProp = NavigationProp<HomeStackParamList>;
@@ -235,3 +246,5 @@ export type MoimPostStackNavigationProp =
 export type ChatStackNavigationProp = StackNavigationProp<ChatStackParamList>;
 export type MoimManagementNavigationProp =
   StackNavigationProp<MoimManagementParamList>;
+export type NewFeedHomeNavigationProp =
+  StackNavigationProp<NewFeedHomeStackParamList>;

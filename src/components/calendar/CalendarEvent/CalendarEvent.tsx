@@ -1,4 +1,5 @@
 import {Platform, Text, TouchableOpacity, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import {cva} from 'class-variance-authority';
@@ -6,11 +7,10 @@ import {cn} from 'utils/cn.ts';
 import {TPlanListDTO} from 'types/dtos/calendar.ts';
 import {getMonthYearDetails} from 'utils';
 import {Typography} from '../../@common/Typography/Typography.tsx';
-import useDeleteMyCalendarSchedule from '../../../hooks/queries/CalendarHomeScreen/useDeleteMyCalendarSchedule.ts';
-import {queryClient} from '../../../containers/TanstackQueryContainer.tsx';
-import {useNavigation} from '@react-navigation/native';
+import useDeleteMyCalendarSchedule from 'hooks/queries/CalendarHomeScreen/useDeleteMyCalendarSchedule.ts';
+import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import {CalendarStackNavigationProp} from 'navigators/types';
-import useMyCalendarStore from '../../../stores/useMyCalendarStore.ts';
+import useMyCalendarStore from 'stores/useMyCalendarStore.ts';
 
 interface ICalendarEventProps {
   post: TPlanListDTO;

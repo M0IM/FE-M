@@ -4,9 +4,7 @@ import {Typography} from '../../@common/Typography/Typography.tsx';
 import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
-import {useGetUserTodaySchedules} from 'hooks/queries/FeedHome/useGetUserTodaySchedules.ts';
-import {useGetUserTodayParticipantSchedules} from 'hooks/queries/FeedHome/useGetUserTodayParticipantSchedules.ts';
-import {useGetInfiniteAllUserScheduleList} from '../../../hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
+import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
 
 export default function MoimScheduleEvent() {
   const year = new Date().getFullYear();

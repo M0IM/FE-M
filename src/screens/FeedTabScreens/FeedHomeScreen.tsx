@@ -5,9 +5,9 @@ import MoimHappeningEvent from 'components/screens/FeedTabScreens/MoimHappeningE
 import MoimRecommendationEvent from 'components/screens/FeedTabScreens/MoimRecommendationEvent.tsx';
 import MoimIntroduceEvent from 'components/screens/FeedTabScreens/MoimIntroduceEvent.tsx';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
+import {MoimWriteBar} from 'components/home/MoimWriteBar/MoimWriteBar.tsx';
 
-import useSocketService from '../../hooks/useSocketService.ts';
-import {MoimWriteBar} from '../../components/home/MoimWriteBar/MoimWriteBar.tsx';
+import {HomeStackNavigationProp} from 'navigators/types';
 
 export const spaceCard = [
   {

@@ -29,7 +29,7 @@ const writeMoimPost = async ({
     imageKeyNames,
     postType,
   });
-  console.log(data);
+
   return data;
 };
 

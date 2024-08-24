@@ -9,7 +9,7 @@ import {FeedTabParamList} from '../types';
 import FeedHomeTopTabNavigator from './FeedHomeTopTabNavigator.tsx';
 import MyStackNavigator from '../stack/MyStackNavigator.tsx';
 import MoimStackNavigator from '../stack/MoimStackNavigator.tsx';
-import ChatStackNavigator from '../stack/ChatStackNavigator.tsx';
+import NewFeedStackNavigator from '../stack/NewFeedHomeStack.tsx';
 
 function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
   let iconName = '';
@@ -23,10 +23,8 @@ function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
       iconName = focused ? 'reader' : 'reader-outline';
       break;
     }
-    case 'CHAT_HOME': {
-      iconName = focused
-        ? 'chatbubble-ellipses'
-        : 'chatbubble-ellipses-outline';
+    case 'NEW_FEED_HOME': {
+      iconName = focused ? 'newspaper-outline' : 'newspaper-sharp';
       break;
     }
     case 'MY_HOME': {
@@ -42,10 +40,12 @@ function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
 const Tab = createBottomTabNavigator<FeedTabParamList>();
 
 interface FeedTabNavigatorProps {
-  navigation: HomeStackNavigationProp; 
+  navigation: HomeStackNavigationProp;
 }
 
-export default function FeedTabNavigator({navigation: homeNavigation}: FeedTabNavigatorProps) {
+export default function FeedTabNavigator({
+  navigation: homeNavigation,
+}: FeedTabNavigatorProps) {
   return (
     <Tab.Navigator
       screenOptions={({route, navigation}) => ({
@@ -70,20 +70,21 @@ export default function FeedTabNavigator({navigation: homeNavigation}: FeedTabNa
       })}>
       <Tab.Screen name={'FEED_HOME'} component={FeedHomeTopTabNavigator} />
       <Tab.Screen name={'MOIM_HOME'} component={MoimStackNavigator} />
-      <Tab.Screen
-        options={{
-          headerShown: false,
-        }}
-        name={'CHAT_HOME'}
-        component={ChatStackNavigator}
-      />
+      <Tab.Screen name={'NEW_FEED_HOME'} component={NewFeedStackNavigator} />
+      {/*<Tab.Screen*/}
+      {/*  options={{*/}
+      {/*    headerShown: false,*/}
+      {/*  }}*/}
+      {/*  name={'CHAT_HOME'}*/}
+      {/*  component={ChatStackNavigator}*/}
+      {/*/>*/}
       <Tab.Screen
         name={'MY_HOME'}
         options={{
           headerShown: false,
         }}
         component={MyStackNavigator}
-      />      
+      />
     </Tab.Navigator>
   );
 }

@@ -15,16 +15,7 @@ export default function MoimStackNavigator() {
         headerShown: false,
       }}>
       <MoimStack.Screen name={'MOIM_LIST'} component={MoimHomeScreen} />
-      <MoimStack.Screen
-        name={'MOIM_WRITE'}
-        component={MoimWriteScreen}
-        options={{
-          headerShown: true,
-          headerTitle: '새로운 일정 추가',
-          headerTintColor: 'black',
-          headerLeftLabelVisible: false,
-        }}
-      />
+      <MoimStack.Screen name={'MOIM_WRITE'} component={MoimWriteScreen} />
       <MoimStack.Screen name={'MOIM_DETAIL'} component={MoimTopTabNavigator} />
     </MoimStack.Navigator>
   );

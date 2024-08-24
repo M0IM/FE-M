@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {SafeAreaView} from 'react-native';
-import {CompositeNavigationProp} from '@react-navigation/native';
 
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
 import {PlanCalendarEventList} from 'components/@common/CalendarEventList/PlanCalendarEventList.tsx';
@@ -10,17 +9,13 @@ import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {
   MoimPlanStackNavigationProp,
   MoimPlanStackRouteProp,
-  MoimStackNavigationProp,
 } from 'navigators/types';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
 import useMoimCalendarStore from '../../stores/useMoimCalendarStore.ts';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
-  navigation: CompositeNavigationProp<
-    MoimPlanStackNavigationProp,
-    MoimStackNavigationProp
-  >;
+  navigation: MoimPlanStackNavigationProp;
 }
 
 const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
@@ -69,7 +64,7 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
       <FloatingButton
         type={'add'}
         onPress={() => {
-          navigation.navigate('MOIM_WRITE', {
+          navigation.navigate('MOIM_PLAN_WRITE', {
             id: moimId,
           });
           setIsEditMode(false);

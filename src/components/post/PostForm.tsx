@@ -96,8 +96,10 @@ export default function PostForm({moimId}: IPostForm) {
           {
             onSuccess: () => {
               setIsEditMode(false);
-              navigation.navigate('MOIM_PLAN_HOME', {id: moimId});
-              queryClient.invalidateQueries({queryKey: ['moimCalendar']});
+              navigation.goBack();
+              queryClient.invalidateQueries({
+                queryKey: ['detailCalendar', moimId, moimCalendar?.planId],
+              });
             },
           },
         )
@@ -276,7 +278,7 @@ export default function PostForm({moimId}: IPostForm) {
         onChangeTime={handleChangeTime}
         onConfirmTime={handleConfirmTime}
       />
-      <View className="flex-row items-center mb-7">
+      <View className="flex-row items-center mb-16">
         <Typography className="text-gray-500 flex-1" fontWeight={'BOLD'}>
           시간별 스케줄
         </Typography>

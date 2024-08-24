@@ -57,7 +57,7 @@ const CustomTabBar = ({
         );
       }
     } else if (currentRouteName === 'MOIM_TOP_PLAN') {
-      const hiddenRoutes = ['MOIM_PLAN_WRITE'];
+      const hiddenRoutes = ['MOIM_PLAN_WRITE', 'MOIM_PLAN_DETAIL'];
       const moimBoardState = state.routes.find(
         route => route.name === 'MOIM_TOP_PLAN',
       )?.state;

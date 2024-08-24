@@ -27,13 +27,20 @@ export default function MoimPlanStackNavigator() {
         name={'MOIM_PLAN_DETAIL'}
         component={MoimPlanDetailScreen}
         initialParams={{id}}
+        options={{
+          headerShown: true,
+          headerTitle: '일정 세부 정보',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
       />
       <MoimPlanStack.Screen
         name={'MOIM_PLAN_WRITE'}
         component={MoimWriteScreen}
         options={{
           headerShown: true,
-          headerTitle: '일정 추가',
+          headerTitle: '일정 작성',
           headerTintColor: '#000',
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,

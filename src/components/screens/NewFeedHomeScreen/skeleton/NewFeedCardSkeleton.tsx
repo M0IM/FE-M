@@ -1,6 +1,6 @@
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-
 import {View} from 'react-native';
+
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 export function NewFeedCardSkeleton() {
   return (

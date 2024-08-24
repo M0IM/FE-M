@@ -5,6 +5,7 @@ import {
   TouchableOpacityProps,
   //   Image,
 } from 'react-native';
+import {formatKoreanDate} from 'utils';
 
 type ParticipantsType = {
   userId: number;
@@ -42,7 +43,7 @@ const SchedulePreviewCard = ({
       <View className="flex flex-row items-center mt-2">
         <View className="w-[7px] h-[7px] bg-main rounded-full mr-2" />
         <Typography fontWeight="MEDIUM" className="text-gray-300 text-sm">
-          {date}
+          {formatKoreanDate(new Date(date))}
         </Typography>
       </View>
       <Typography

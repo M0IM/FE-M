@@ -99,7 +99,7 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
           diaryCount={data?.diaryCount}
           moimReviewCount={data?.moimReviewCount}
         />
-        <MoimContentsPreview />
+        <MoimContentsPreview moimId={moimId} />
       </ScrollView>
       {!data?.isJoin && (
         <View className="p-3 pt-0">

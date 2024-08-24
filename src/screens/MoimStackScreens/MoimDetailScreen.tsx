@@ -90,6 +90,7 @@ export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
           description={data?.description}
           moimId={moimId}
           onOpen={open}
+          userImages={data?.userImages}
         />
         <MoimDashboardContainer
           femaleCount={data?.femaleCount}

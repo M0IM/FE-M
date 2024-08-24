@@ -98,6 +98,7 @@ export default function AuthHomeScreen({
   };
   const handlePressKakaoLoginButton = async () => {
     const {idToken} = await loginWithKakaoAccount();
+    console.log(idToken);
     const {nickname, email, id} = await getProfile();
     socialIdTokenMutation.mutate(
       {

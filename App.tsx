@@ -117,6 +117,7 @@ function App() {
           await messaging().registerDeviceForRemoteMessages();
         }
         const phoneToken = await messaging().getToken();
+        console.log(phoneToken);
         setFcmToken(phoneToken);
         console.log(phoneToken, 'hi');
       } catch (e) {

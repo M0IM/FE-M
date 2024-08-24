@@ -121,6 +121,10 @@ export type MoimPostStackParamList = {
     id: number | undefined;
     postId: number | undefined;
   };
+  MOIM_MEMBER_PROFILE: {
+    id: number;
+    userName: string;
+  };
 };
 
 export type ChatStackParamList = {

@@ -15,6 +15,7 @@ import MyPasswordChangeScreen from 'screens/MyStackScreens/MyPasswordChangeScree
 import RevokeMoimStackNavigator from './my/RevokeMoimStackNavigator';
 import AppInfoStackNavigator from './my/AppInfoStackNavigator';
 import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
+import MemberProfileScreen from '../../screens/MyStackScreens/MemberProfileScreen.tsx';
 
 export default function MyStackNavigator() {
   return (
@@ -74,7 +75,7 @@ export default function MyStackNavigator() {
         name={'MY_REVOKE_MOIM'}
         component={RevokeMoimStackNavigator}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <MyStack.Screen
@@ -102,7 +103,7 @@ export default function MyStackNavigator() {
         name={'MY_APP_INFO'}
         component={AppInfoStackNavigator}
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
       <MyStack.Screen
@@ -112,7 +113,7 @@ export default function MyStackNavigator() {
           headerTitle: '개인정보 처리 방침',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
         }}
       />
       <MyStack.Screen
@@ -122,7 +123,7 @@ export default function MyStackNavigator() {
           headerTitle: '서비스 이용 약관',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
         }}
       />
       <MyStack.Screen
@@ -132,17 +133,17 @@ export default function MyStackNavigator() {
           headerTitle: '비밀번호 변경',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
         }}
       />
-      <MyStack.Screen 
+      <MyStack.Screen
         name={'MOIM_EDIT_INFO'}
         component={MoimEditInfoScreen}
         options={{
           headerTitle: '모임 정보 수정',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
         }}
       />
     </MyStack.Navigator>

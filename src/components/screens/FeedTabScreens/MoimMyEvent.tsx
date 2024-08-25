@@ -1,6 +1,6 @@
 import {FlatList, View} from 'react-native';
 
-import {useState} from 'react';
+import {useEffect} from 'react';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import SpaceCard from '../../home/SpaceCard/SpaceCard.tsx';
@@ -9,20 +9,22 @@ import {useGetInfiniteMyActiveMoim} from 'hooks/queries/MoimHomeScreen/useGetInf
 
 interface MoimMyEventProps {
   navigation: HomeStackNavigationProp;
+  isRefreshing: boolean;
 }
 
-export default function MoimMyEvent({navigation}: MoimMyEventProps) {
+export default function MoimMyEvent({
+  navigation,
+  isRefreshing,
+}: MoimMyEventProps) {
   const {
     data: moims,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    refetch,
+    refetch: refetchMyActiveMoim,
     isPending,
     isError,
   } = useGetInfiniteMyActiveMoim();
-
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -30,11 +32,14 @@ export default function MoimMyEvent({navigation}: MoimMyEventProps) {
     }
   };
 
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
-    await refetch();
-    setIsRefreshing(false);
-  };
+  useEffect(() => {
+    const refetch = async () => {
+      if (isRefreshing) {
+        await refetchMyActiveMoim();
+      }
+    };
+    refetch();
+  }, [isRefreshing]);
 
   if (isPending || isError) {
     return <></>;
@@ -69,7 +74,6 @@ export default function MoimMyEvent({navigation}: MoimMyEventProps) {
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         refreshing={isRefreshing}
-        onRefresh={handleRefresh}
         scrollIndicatorInsets={{right: 1}}
         indicatorStyle={'black'}
       />

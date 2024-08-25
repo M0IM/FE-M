@@ -233,12 +233,13 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
         <View className="max-h-[800px]">
           <InputField
             touched
-            placeholder="모임 소개 입력"
+            placeholder="모임 소개 입력 (최대 255자입니다.)"
             multiline
             value={data?.introduction}
             onChangeText={text =>
               setData(prev => ({...prev, introduction: text}))
             }
+            maxLength={255}
           />
         </View>
       </View>

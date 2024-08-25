@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {View, Image, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,10 +9,24 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import {TMoimPreviewListDto} from 'types/dtos/post';
 import {detailDate} from 'utils';
 
-const MoimFeedPreview = () => {
+interface MoimFeedPreviewProps {
+  isRefreshing: boolean;
+}
+
+const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
   const navigation = useNavigation<HomeStackNavigationProp>();
-  const {data} = useGetInfinityMoimIntroducePosts(5);
+  const {data, refetch: refetchMoimIntroducePosts} =
+    useGetInfinityMoimIntroducePosts(5);
   const newFeedData = data?.pages[0].moimPreviewList;
+
+  useEffect(() => {
+    const refetch = async () => {
+      if (isRefreshing) {
+        await refetchMoimIntroducePosts();
+      }
+    };
+    refetch();
+  }, [isRefreshing]);
 
   const firstCard = (
     <TouchableOpacity
@@ -26,10 +41,17 @@ const MoimFeedPreview = () => {
           },
         })
       }>
-      <Image
-        source={{uri: newFeedData && newFeedData[0].profileImage}}
-        className="w-full h-[200px] rounded-tl-lg rounded-tr-lg"
-      />
+      {newFeedData && newFeedData[0].profileImage ? (
+        <Image
+          source={{uri: newFeedData && newFeedData[0].profileImage}}
+          className="w-full h-[200px] rounded-tl-lg rounded-tr-lg"
+        />
+      ) : (
+        <View className="flex flex-col items-center justify-center w-full h-[200px] rounded-tl-lg rounded-tr-lg">
+          <Ionicons name="home" color="#E9ECEF" size={50} />
+        </View>
+      )}
+
       <View className="flex flex-col p-3">
         <Typography
           fontWeight="BOLD"
@@ -67,10 +89,16 @@ const MoimFeedPreview = () => {
       activeOpacity={0.8}
       className="bg-gray-100 rounded-lg flex-1"
       key={item.moimPostId}>
-      <Image
-        source={{uri: item.profileImage}}
-        className="w-full h-[200px] rounded-tl-lg rounded-tr-lg"
-      />
+      {item.profileImage ? (
+        <Image
+          source={{uri: item.profileImage}}
+          className="w-full h-[200px] rounded-tl-lg rounded-tr-lg"
+        />
+      ) : (
+        <View className="flex flex-col items-center justify-center w-full h-[200px] rounded-tl-lg rounded-tr-lg">
+          <Ionicons name="home" color="#E9ECEF" size={50} />
+        </View>
+      )}
       <View className="flex flex-col p-3">
         <Typography
           fontWeight="BOLD"

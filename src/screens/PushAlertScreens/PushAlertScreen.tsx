@@ -45,9 +45,12 @@ const PushAlertScreen = () => {
           text: '삭제',
           style: 'destructive',
           onPress: () => {
-            deleteAllAlerts(null, {
-              onError: error => console.log(error),
-            });
+            deleteAllAlerts(
+              {},
+              {
+                onError: error => console.log(error),
+              },
+            );
           },
         },
         {

@@ -335,8 +335,6 @@ const MoimPostDetailScreen = ({
     },
   ];
 
-  console.log(data);
-
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={Platform.OS === 'ios' ? 120 : 70}
@@ -367,7 +365,7 @@ const MoimPostDetailScreen = ({
               isWriter={userInfo?.result.nickname === data?.writer}
               onPress={() =>
                 navigation.navigate('MOIM_MEMBER_PROFILE', {
-                  id: 1,
+                  id: data?.writerId as number,
                   userName: data?.writer ? data?.writer : '프로필',
                 })
               }

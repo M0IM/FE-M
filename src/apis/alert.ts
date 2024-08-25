@@ -4,7 +4,6 @@ import {TAlarmResponse, TAlertStatusDTO} from 'types/dtos/alert.ts';
 
 const getAlertStatus = async (): Promise<TAlertStatusDTO> => {
   const {data} = await axiosInstance.get(`/api/v1/users/alarms/status`);
-  console.log(data);
 
   return data.result;
 };

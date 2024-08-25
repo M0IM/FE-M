@@ -37,7 +37,7 @@ export default function MoimMemberDetailProfileScreen({
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useGetInfiniteMyDetailReviews(7);
+  } = useGetInfiniteMyDetailReviews(userId);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const {year, month, day} = getMonthYearDetails(
@@ -76,7 +76,9 @@ export default function MoimMemberDetailProfileScreen({
             </Typography>
           </InfoSquareCard>
           <InfoSquareCard title="모임 평가">
-            <Typography fontWeight={'BOLD'}>{userInfo?.rating}</Typography>
+            <Typography fontWeight={'BOLD'}>
+              {userInfo?.rating.toFixed(1)}
+            </Typography>
           </InfoSquareCard>
           <InfoSquareCard title="가입 모임">
             <Typography fontWeight={'BOLD'}>API없음</Typography>
@@ -88,12 +90,12 @@ export default function MoimMemberDetailProfileScreen({
           <Typography className="p-4 text-xl" fontWeight={'BOLD'}>
             유저 리뷰
           </Typography>
-          <TouchableOpacity>
-            <Typography className="text-gray-500" fontWeight={'BOLD'}>
-              자세히 보기
-            </Typography>
-            <View className="border-b-0.5 border-b-gray-400" />
-          </TouchableOpacity>
+          {/*<TouchableOpacity>*/}
+          {/*  <Typography className="text-gray-500" fontWeight={'BOLD'}>*/}
+          {/*    자세히 보기*/}
+          {/*  </Typography>*/}
+          {/*  <View className="border-b-0.5 border-b-gray-400" />*/}
+          {/*</TouchableOpacity>*/}
         </View>
         {reviews.pages.flat().length === 0 ? (
           <View className="flex-col gap-y-2 items-center justify-center">
@@ -105,24 +107,26 @@ export default function MoimMemberDetailProfileScreen({
             </Typography>
           </View>
         ) : (
-          <FlatList
-            data={reviews.pages.flat().slice(0, 3)}
-            renderItem={({item}) => {
-              return <ReviewCard review={item} />;
-            }}
-            keyExtractor={item => String(item.reviewId)}
-            numColumns={1}
-            contentContainerStyle={{
-              paddingHorizontal: 30,
-              gap: 10,
-            }}
-            onEndReached={handleEndReached}
-            onEndReachedThreshold={0.5}
-            refreshing={isRefreshing}
-            onRefresh={handleRefresh}
-            scrollIndicatorInsets={{right: 1}}
-            indicatorStyle={'black'}
-          />
+          <View className="h-[300]">
+            <FlatList
+              data={reviews.pages.flat().reverse()}
+              renderItem={({item}) => {
+                return <ReviewCard review={item} />;
+              }}
+              keyExtractor={item => String(item.reviewId)}
+              numColumns={1}
+              contentContainerStyle={{
+                paddingHorizontal: 30,
+                gap: 10,
+              }}
+              onEndReached={handleEndReached}
+              onEndReachedThreshold={0.5}
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+              scrollIndicatorInsets={{right: 1}}
+              indicatorStyle={'black'}
+            />
+          </View>
         )}
       </View>
       <View className="absolute right-0 left-0 bottom-3 m-5 flex-row items-center justify-center gap-y-2">

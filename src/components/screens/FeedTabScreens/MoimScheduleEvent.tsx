@@ -31,9 +31,7 @@ export default function MoimScheduleEvent() {
         {isProfilePending ? '안녕하세요' : `${profile?.nickname}님`}
       </Typography>
       <TouchableOpacity>
-        <Typography
-          className="text-gray-400 border-b-gray-300 border-b-2 mb-3"
-          fontWeight={'LIGHT'}>
+        <Typography className="text-gray-400 mb-3" fontWeight={'LIGHT'}>
           오늘 {profile?.dailyPlanCnt ?? 0}개의 예정된 일정이 있어요
         </Typography>
       </TouchableOpacity>

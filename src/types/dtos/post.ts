@@ -48,6 +48,7 @@ type TPostDetailDto = {
   imageKeyNames: string[];
   updateAt: string;
   createAt: string;
+  writerId: number;
 };
 
 export type TPostRecommentDto = {

@@ -7009,6 +7009,7 @@ __metadata:
     react-native-screens: ^3.32.0
     react-native-skeleton-placeholder: ^5.2.4
     react-native-splash-screen: ^3.3.0
+    react-native-star-rating-widget: ^1.8.0
     react-native-svg: ^15.4.0
     react-native-svg-transformer: ^1.5.0
     react-native-swiper: ^1.6.0
@@ -15727,6 +15728,17 @@ __metadata:
   peerDependencies:
     react-native: ">=0.57.0"
   checksum: 14c565d5d4214f55586dcf6f7abd12d99d3e0667f67de3bda7aa24988971567b283a4187fbc0c6269c83b3c21d59d1950335c61bb0780ec2d065e20b3b9199d0
+  languageName: node
+  linkType: hard
+
+"react-native-star-rating-widget@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "react-native-star-rating-widget@npm:1.8.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-svg: "*"
+  checksum: c0caee812b1b1590e3e4bfb646d788c7b5913ddcee0f83c5995bc686d8471676f6200994d8caed1e790bbd895d87768bd650e6318c71de0b54200da9a053f92d
   languageName: node
   linkType: hard
 

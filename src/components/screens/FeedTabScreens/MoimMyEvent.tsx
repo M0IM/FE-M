@@ -66,12 +66,12 @@ export default function MoimMyEvent({navigation}: MoimMyEventProps) {
         }}
         horizontal={true}
         keyExtractor={item => String(item.moimId)}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        refreshing={isRefreshing}
-        onRefresh={handleRefresh}
-        scrollIndicatorInsets={{right: 1}}
-        indicatorStyle={'black'}
+        // onEndReached={handleEndReached}
+        // onEndReachedThreshold={0.5}
+        // refreshing={isRefreshing}
+        // onRefresh={handleRefresh}
+        // scrollIndicatorInsets={{right: 1}}
+        // indicatorStyle={'black'}
       />
     </View>
   );

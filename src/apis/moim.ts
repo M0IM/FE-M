@@ -4,6 +4,7 @@ import {
   TCreateMoimParams,
   TCreateMoimResponse,
   TGetMyActiveMoimResponse,
+  TMoimAllPostsPreviews,
   TMoimMembersDTO,
   TMoimParticipantList,
   TMoimSpaceInfoDTO,
@@ -135,6 +136,12 @@ const withdrawMoim = async ({
   return data.result;
 };
 
+// 모임 전체 게시글 프리뷰 가져오기
+const getMoimAllPostPreviews = async (): Promise<TMoimAllPostsPreviews[]> => {
+  const {data} = await axiosInstance.get(`/api/v1/posts/what`);
+  return data?.result;
+};
+
 export {
   getMyActiveMoim,
   getDetailMoimParticipantsList,
@@ -145,4 +152,5 @@ export {
   getMoimMembers,
   requestMoimJoin,
   withdrawMoim,
+  getMoimAllPostPreviews,
 };

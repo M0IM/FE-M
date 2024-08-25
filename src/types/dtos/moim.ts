@@ -1,6 +1,6 @@
 import {MOIM_REQUEST_TYPE} from 'types/enums';
 import {TMoimRole} from './moimManage';
-import {POST_LIST_TYPE} from './post.ts';
+import {POST_LIST_TYPE, POST_TYPE} from './post.ts';
 
 export type MOIM_CATEGORY =
   | MOIM_REQUEST_TYPE.ALL
@@ -118,6 +118,24 @@ type TMoimPreviewListResponse = {
   hasNext: boolean;
 };
 
+export type TMoimPostPreviewDTOList = {
+  moimPostId: number;
+  title: string;
+  content: string;
+  profileImage: string;
+  writer: string;
+  commentCount: 0;
+  likeCount: 0;
+  postType: POST_TYPE;
+  createAt: string;
+};
+
+type TMoimAllPostsPreviews = {
+  moimId: number;
+  moimTitle: string;
+  moimPostPreviewDTOList: TMoimPostPreviewDTOList[];
+};
+
 export type {
   TMoimDTOResponse,
   TGetMyActiveMoimResponse,
@@ -129,4 +147,5 @@ export type {
   TCreateMoimParams,
   TWithdrawMoimResponse,
   TMoimPreviewListResponse,
+  TMoimAllPostsPreviews,
 };

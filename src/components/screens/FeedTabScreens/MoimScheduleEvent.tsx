@@ -5,21 +5,41 @@ import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
+import {useEffect} from 'react';
 
-export default function MoimScheduleEvent() {
+interface MoimScheduleEventProps {
+  isRefreshing: boolean;
+}
+
+export default function MoimScheduleEvent({
+  isRefreshing,
+}: MoimScheduleEventProps) {
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
   const day = new Date().getDate();
-  const {data: profile, isPending: isProfilePending} = useGetUserSchedulesCount(
-    {year, month, day},
-  );
+  const {
+    data: profile,
+    isPending: isProfilePending,
+    refetch: refetchUserSchedules,
+  } = useGetUserSchedulesCount({year, month, day});
   const {
     data: calendars,
     isPending: calendarsLoading,
     isError: calendarsError,
+    refetch: refetchAllUserSchedules,
   } = useGetInfiniteAllUserScheduleList(year, month, day, 8);
 
   console.log(calendars.pages.flatMap(calendar => calendar.userPlanDTOList));
+
+  useEffect(() => {
+    const refetch = async () => {
+      if (isRefreshing) {
+        await refetchUserSchedules();
+        await refetchAllUserSchedules();
+      }
+    };
+    refetch();
+  }, [isRefreshing]);
 
   if (calendarsLoading || calendarsError) {
     return <View></View>;

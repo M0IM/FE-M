@@ -6,17 +6,18 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  ScrollViewProps,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-type TScreenContainerProps = {
+interface TScreenContainerProps extends ScrollViewProps {
   children: React.ReactNode;
   loading?: boolean;
   fixedTopComponent?: ReactNode;
   fixedBottomComponent?: ReactNode;
   keyboardVerticalOffset?: number;
   enabled?: boolean;
-};
+}
 
 export function ScreenContainer({
   children,
@@ -25,6 +26,7 @@ export function ScreenContainer({
   fixedBottomComponent,
   keyboardVerticalOffset = 0,
   enabled = true,
+  ...props
 }: TScreenContainerProps) {
   return (
     <GestureHandlerRootView className="flex-1 bg-white">
@@ -40,6 +42,7 @@ export function ScreenContainer({
             </View>
           )}
           <ScrollView
+            {...props}
             contentContainerStyle={{
               paddingBottom: 40,
               paddingHorizontal: 20,

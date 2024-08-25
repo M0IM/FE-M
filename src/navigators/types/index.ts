@@ -1,6 +1,6 @@
 import {NavigationProp, RouteProp} from '@react-navigation/native';
-import {MaterialTopTabNavigationProp} from '@react-navigation/material-top-tabs';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {MaterialTopTabNavigationProp} from '@react-navigation/material-top-tabs';
 import {POST_LIST_TYPE} from 'types/dtos/post';
 
 /** param list */
@@ -15,6 +15,13 @@ export type HomeStackParamList = {
     };
   };
   PUSH_ALERT: undefined;
+  MOIM_BOARD_STACK: {
+    screen: MoimPostStackScreenName;
+    params: {
+      id: number;
+      postId: number;
+    };
+  };
 };
 
 export type FeedTabParamList = {

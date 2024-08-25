@@ -1,11 +1,14 @@
-import {HomeStack} from 'navigators/constants';
-import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
+import {Platform} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimSearchScreen from 'screens/MoimSearchScreens/MoimSearchScreen';
-import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
 import PushAlertScreen from 'screens/PushAlertScreens/PushAlertScreen';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Platform} from 'react-native';
+
+import {HomeStack} from 'navigators/constants';
+import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
+import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
+import MoimPostStackNavigator from './MoimPostStackNavigator';
 
 export default function HomeStackNavigator() {
   const insets = useSafeAreaInsets();
@@ -62,6 +65,13 @@ export default function HomeStackNavigator() {
             height: platform === 'ios' ? statusBarHeight : statusBarHeight + 10,
             elevation: 0,
           },
+        }}
+      />
+      <HomeStack.Screen
+        name={'MOIM_BOARD_STACK'}
+        component={MoimPostStackNavigator}
+        options={{
+          headerShown: false,
         }}
       />
     </HomeStack.Navigator>

@@ -1,7 +1,9 @@
 import {View, TouchableOpacityProps} from 'react-native';
+
 import {Typography} from 'components/@common/Typography/Typography';
-import {TMoimAllPostsPreviews} from 'types/dtos/moim';
 import AllMoimPost from 'components/screens/FeedTabScreens/AllMoimPost';
+
+import {TMoimAllPostsPreviews} from 'types/dtos/moim';
 
 interface PostPreviewBoxProps extends TouchableOpacityProps {
   allPosts?: TMoimAllPostsPreviews[];
@@ -18,7 +20,7 @@ const PostPreviewBox = ({allPosts}: PostPreviewBoxProps) => {
           </Typography>
           <AllMoimPost
             postList={moimItem.moimPostPreviewDTOList}
-            moimId={moimItem.moimdId}
+            moimId={moimItem.moimId}
           />
         </View>
       ))}

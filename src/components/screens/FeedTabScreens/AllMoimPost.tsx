@@ -1,8 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
+import {TouchableOpacity} from 'react-native';
+
 import {Typography} from 'components/@common/Typography/Typography';
 import {POST_TYPES} from 'constants/screens/MoimBoardStackScreens/PostList';
 import {HomeStackNavigationProp} from 'navigators/types';
-import {TouchableOpacity} from 'react-native';
 import {TMoimPostPreviewDTOList} from 'types/dtos/moim';
 
 interface AllMoimPostProps {
@@ -17,8 +18,6 @@ const AllMoimPost = ({postList, moimId}: AllMoimPostProps) => {
   };
   const navigation = useNavigation<HomeStackNavigationProp>();
 
-  console.log(moimId);
-
   return (
     <>
       {postList?.map(postItem => (
@@ -27,10 +26,11 @@ const AllMoimPost = ({postList, moimId}: AllMoimPostProps) => {
           activeOpacity={0.8}
           className="flex flex-row items-center justify-between"
           onPress={() => {
-            navigation.navigate('MOIM_STACK', {
-              screen: 'MOIM_TOP_BOARD',
+            navigation.navigate('MOIM_BOARD_STACK', {
+              screen: 'MOIM_POST_DETAIL',
               params: {
                 id: moimId,
+                postId: postItem.moimPostId,
               },
             });
           }}>

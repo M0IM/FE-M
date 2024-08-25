@@ -1,4 +1,4 @@
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 
 import {useState} from 'react';
 

@@ -88,7 +88,16 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
     <TouchableOpacity
       activeOpacity={0.8}
       className="bg-gray-100 rounded-lg flex-1"
-      key={item.moimPostId}>
+      key={item.moimPostId}
+      onPress={() =>
+        navigation.navigate('MOIM_STACK', {
+          screen: 'MOIM_SPACE',
+          params: {
+            // TODO: API 반환 데이터 변경
+            id: 8,
+          },
+        })
+      }>
       {item.profileImage ? (
         <Image
           source={{uri: item.profileImage}}

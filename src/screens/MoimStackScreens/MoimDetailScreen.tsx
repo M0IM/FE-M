@@ -80,6 +80,8 @@ export default function MoimDetailScreen({
     return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
   }
 
+  console.log(data.isJoin, 'hi');
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView

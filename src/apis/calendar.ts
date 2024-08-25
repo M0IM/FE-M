@@ -20,11 +20,12 @@ const getMoimCalendar = async ({
   year,
   month,
 }: TCalndarProps): Promise<TCalendarMoimResponse> => {
+  console.log(moimId, year, month);
   const {data} = await axiosInstance.get(
     `/api/v1/moim/${moimId}/calender?year=${year}&month=${month}`,
   );
 
-  console.log(data.result.planList);
+  console.log(data);
 
   return data.result.planList;
 };

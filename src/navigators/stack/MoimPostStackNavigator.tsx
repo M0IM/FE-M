@@ -1,11 +1,15 @@
 import React from 'react';
-import {MoimPostStack} from 'navigators/constants';
+import {useRoute} from '@react-navigation/native';
+
 import MoimBoardScreen from 'screens/MoimBoardStackScreens/MoimBoardScreen';
 import MoimPostDetailScreen from 'screens/MoimBoardStackScreens/MoimPostDetailScreen';
 import MoimPostEditScreen from 'screens/MoimBoardStackScreens/MoimPostEditScreen';
 import MoimPostWriteScreen from 'screens/MoimBoardStackScreens/MoimPostWriteScreen';
-import {useRoute} from '@react-navigation/native';
+import MoimMemberDetailProfileScreen from 'screens/MoimBoardStackScreens/MoimMemberDetailProfileScreen.tsx';
+
 import {MoimPostStackRouteProp} from 'navigators/types';
+import {MoimPostStack} from 'navigators/constants';
+import MoimPostReviewScreen from '../../screens/MoimBoardStackScreens/MoimPostReviewScreen.tsx';
 
 export default function MoimPostStackNavigator() {
   const route = useRoute<MoimPostStackRouteProp>();
@@ -59,6 +63,28 @@ export default function MoimPostStackNavigator() {
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,
         }}
+      />
+      <MoimPostStack.Screen
+        name={'MOIM_MEMBER_PROFILE'}
+        component={MoimMemberDetailProfileScreen}
+        options={({route}) => ({
+          headerTitle: route.params.userName,
+          headerShown: true,
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        })}
+      />
+      <MoimPostStack.Screen
+        name={'MOIM_POST_REVIEW'}
+        component={MoimPostReviewScreen}
+        options={({route}) => ({
+          headerTitle: route.params.userName,
+          headerShown: true,
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        })}
       />
     </MoimPostStack.Navigator>
   );

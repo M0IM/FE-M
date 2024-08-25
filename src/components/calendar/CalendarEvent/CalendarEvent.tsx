@@ -26,7 +26,7 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
   const handlePressDeleteButton = () => {
     mutate(post.planId, {
       onSuccess: () => {
-        queryClient.invalidateQueries({queryKey: ['myCalendar']});
+        queryClient.invalidateQueries({queryKey: ['calendar']});
       },
     });
   };

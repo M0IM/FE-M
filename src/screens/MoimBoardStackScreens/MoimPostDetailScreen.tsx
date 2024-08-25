@@ -17,15 +17,20 @@ import {Typography} from 'components/@common/Typography/Typography';
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
+  MyStackNavigationProp,
 } from 'navigators/types';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
+import {CompositeNavigationProp} from '@react-navigation/native';
 
 interface MoimPostDetailScreenProps {
   route: MoimPostStackRouteProp;
-  navigation: MoimPostStackNavigationProp;
+  navigation: CompositeNavigationProp<
+    MoimPostStackNavigationProp,
+    MyStackNavigationProp
+  >;
 }
 
 const MoimPostDetailScreen = ({
@@ -358,6 +363,12 @@ const MoimPostDetailScreen = ({
               PostMenuList={PostMenuList}
               PostMyMenuList={PostMyMenuList}
               isWriter={userInfo?.result.nickname === data?.writer}
+              onPress={() =>
+                navigation.navigate('MOIM_MEMBER_PROFILE', {
+                  id: data?.writerId as number,
+                  userName: data?.writer ? data?.writer : '프로필',
+                })
+              }
             />
             <PostInfoContainer
               postImages={data?.imageKeyNames}

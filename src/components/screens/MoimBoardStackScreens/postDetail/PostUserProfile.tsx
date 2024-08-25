@@ -12,6 +12,7 @@ interface PostUserProfileProps {
   PostMenuList: any;
   PostMyMenuList: any;
   isWriter: boolean;
+  onPress?: () => void;
 }
 
 const PostUserProfile = ({
@@ -21,12 +22,13 @@ const PostUserProfile = ({
   PostMenuList,
   PostMyMenuList,
   isWriter,
+  onPress,
 }: PostUserProfileProps) => {
   const {isPopover, handlePopover} = usePopover();
 
   return (
     <View className="flex flex-row mt-2 items-center mb-2">
-      <Avatar uri={profileImage} />
+      <Avatar uri={profileImage} onPress={onPress} />
       <View className="flex flex-col justify-center ml-2">
         {writer && (
           <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">

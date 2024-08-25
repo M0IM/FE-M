@@ -33,15 +33,12 @@ export default function EditAlertScreen() {
         <ToggleSwitch
           isEnabled={switches.push}
           onToggle={() => {
-            changePushStatus(
-              {},
-              {
-                onSuccess: () => {
-                  queryClient.invalidateQueries({queryKey: ['alertStatus']});
-                  toggleSwitch('push');
-                },
+            changePushStatus(null, {
+              onSuccess: () => {
+                queryClient.invalidateQueries({queryKey: ['alertStatus']});
+                toggleSwitch('push');
               },
-            );
+            });
           }}
           className="ml-auto"
         />

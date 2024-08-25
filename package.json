@@ -69,6 +69,7 @@
     "react-native-screens": "^3.32.0",
     "react-native-skeleton-placeholder": "^5.2.4",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-star-rating-widget": "^1.8.0",
     "react-native-svg": "^15.4.0",
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.5.2",

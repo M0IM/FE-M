@@ -1,15 +1,16 @@
 import {ActivityIndicator, View} from 'react-native';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
-import Avatar from 'components/@common/Avatar/Avatar.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import InfoSquareCard from 'components/me/InfoSquareCard/InfoSquareCard.tsx';
+import {ProfileCard} from 'components/@common/ProfileCard/ProfileCard.tsx';
 
 import {MyStackNavigationProp, MyStackRouteProp} from 'navigators/types';
 import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts';
 import {getMonthYearDetails} from 'utils';
 import useDetailProfileStore from 'stores/useDetailProfileStore.ts';
+import {TUserDTO} from 'types/dtos/user.ts';
 
 interface IMyDetailProfileScreenProps {
   route: MyStackRouteProp;
@@ -52,31 +53,7 @@ export default function MyDetailProfileScreen({
         <CustomButton onPress={handleEditPost} label={'수정하기'} />
       }>
       <View className="px-4 py-2">
-        <View className="flex flex-row items-center gap-x-2 mb-4">
-          <Avatar size={'LG'} uri={userInfo?.imageUrl} />
-          <View className="flex-col gap-y-2">
-            <Typography
-              numberOfLines={1}
-              fontWeight={'BOLD'}
-              className="text-lg">
-              {userInfo?.nickname}
-            </Typography>
-            <View className="w-full flex flex-row items-center gap-x-2">
-              <Typography
-                numberOfLines={1}
-                fontWeight={'MEDIUM'}
-                className="text-gray-500">
-                {userInfo?.residence}
-              </Typography>
-              <Typography
-                numberOfLines={1}
-                fontWeight={'MEDIUM'}
-                className="text-gray-500">
-                {userInfo?.birth}
-              </Typography>
-            </View>
-          </View>
-        </View>
+        <ProfileCard userInfo={userInfo as TUserDTO} />
         <View className="flex-row justify-between">
           <InfoSquareCard title="가입 날짜">
             <Typography fontWeight={'BOLD'}>{year}년</Typography>

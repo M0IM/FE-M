@@ -15,8 +15,11 @@ interface MoimFeedPreviewProps {
 
 const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
   const navigation = useNavigation<HomeStackNavigationProp>();
-  const {data, refetch: refetchMoimIntroducePosts} =
-    useGetInfinityMoimIntroducePosts(5);
+  const {
+    data,
+    refetch: refetchMoimIntroducePosts,
+    isPending,
+  } = useGetInfinityMoimIntroducePosts(5);
   const newFeedData = data?.pages[0].moimPreviewList;
 
   useEffect(() => {
@@ -27,6 +30,10 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
     };
     refetch();
   }, [isRefreshing]);
+
+  if (isPending) {
+    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+  }
 
   const card = (item: TMoimPreviewListDto) => (
     <TouchableOpacity
@@ -89,12 +96,12 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
       <Typography className="text-lg mb-2 text-dark-800" fontWeight={'BOLD'}>
         여러 모임을 둘러보세요
       </Typography>
-      {newFeedData?.slice(0, 1).map(item => card(item))}
+      {newFeedData?.slice(0, 2).map(item => card(item))}
       <View className="flex flex-row gap-x-3">
-        {newFeedData?.slice(1, 3).map(item => card(item))}
+        {newFeedData?.slice(2, 4).map(item => card(item))}
       </View>
       <View className="flex flex-row gap-x-3">
-        {newFeedData?.slice(3, 5).map(item => card(item))}
+        {newFeedData?.slice(4, 6).map(item => card(item))}
       </View>
     </View>
   );

@@ -121,15 +121,15 @@ function validateCalendarWrite(values: TvalidateCalendarWrite) {
     memo: '',
   };
 
-  if (!values.title.trim()) {
+  if (!values.title?.trim()) {
     errors.title = '일정을 입력해주세요.';
   }
 
-  if (!values.location.trim()) {
+  if (!values.location?.trim()) {
     errors.location = '지역 정보를 입력해주세요.';
   }
 
-  if (!values.locationDetail.trim()) {
+  if (!values.locationDetail?.trim()) {
     errors.locationDetail = '상세 지역 정보를 입력해주세요.';
   }
 
@@ -151,19 +151,19 @@ function validateAddMoimPosts(values: TValidateAddMoimPosts) {
     cost: '',
   };
 
-  if (values.title.trim() === '') {
+  if (values.title?.trim() === '') {
     errors.title = '제목을 입력해주세요.';
   }
 
-  if (values.date.trim() === '') {
+  if (values.date?.trim() === '') {
     errors.date = '날짜를 입력해주세요.';
   }
 
-  if (values.locationDetail.trim() === '') {
+  if (values.locationDetail?.trim() === '') {
     errors.locationDetail = '세부장소를 입력해주세요.';
   }
 
-  if (values.cost.trim() === '') {
+  if (values.cost?.trim() === '') {
     errors.cost = '비용을 입력해주세요.';
   }
 

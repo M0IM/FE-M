@@ -28,63 +28,7 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
     refetch();
   }, [isRefreshing]);
 
-  const firstCard = (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      className="bg-gray-100 rounded-lg flex-1"
-      onPress={() =>
-        navigation.navigate('MOIM_STACK', {
-          screen: 'MOIM_SPACE',
-          params: {
-            // TODO: API 반환 데이터 변경
-            id: 8,
-          },
-        })
-      }>
-      {newFeedData && newFeedData[0].profileImage ? (
-        <Image
-          source={{uri: newFeedData && newFeedData[0].profileImage}}
-          className="w-full h-[200px] rounded-tl-lg rounded-tr-lg"
-        />
-      ) : (
-        <View className="flex flex-col items-center justify-center w-full h-[200px] rounded-tl-lg rounded-tr-lg">
-          <Ionicons name="home" color="#E9ECEF" size={50} />
-        </View>
-      )}
-
-      <View className="flex flex-col p-3">
-        <Typography
-          fontWeight="BOLD"
-          className="text-dark-800 text-base"
-          numberOfLines={1}>
-          {newFeedData && newFeedData[0].title}
-        </Typography>
-        <Typography
-          fontWeight="MEDIUM"
-          className="text-gray-600 text-sm"
-          numberOfLines={3}>
-          {newFeedData && newFeedData[0].content}
-        </Typography>
-        <View className="flex flex-row items-center mt-4">
-          <Typography
-            fontWeight="MEDIUM"
-            className="text-gray-400 text-xs mr-2">
-            {newFeedData && detailDate(new Date(newFeedData[0].createAt))}
-          </Typography>
-          <Ionicons
-            name="heart-outline"
-            color={'#9EA4AA'}
-            style={{marginLeft: 'auto', marginRight: 5}}
-          />
-          <Typography fontWeight="MEDIUM" className="text-gray-400 text-xs">
-            {newFeedData && newFeedData[0].likeCount}
-          </Typography>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-
-  const secondCard = (item: TMoimPreviewListDto) => (
+  const card = (item: TMoimPreviewListDto) => (
     <TouchableOpacity
       activeOpacity={0.8}
       className="bg-gray-100 rounded-lg flex-1"
@@ -115,7 +59,10 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
           numberOfLines={1}>
           {item.title}
         </Typography>
-        <Typography fontWeight="MEDIUM" className="text-gray-600 text-sm">
+        <Typography
+          fontWeight="MEDIUM"
+          className="text-gray-600 text-sm"
+          numberOfLines={3}>
           {item.content}
         </Typography>
         <View className="flex flex-row items-center mt-4">
@@ -142,12 +89,12 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
       <Typography className="text-lg mb-2 text-dark-800" fontWeight={'BOLD'}>
         여러 모임을 둘러보세요
       </Typography>
-      {firstCard}
+      {newFeedData?.slice(0, 1).map(item => card(item))}
       <View className="flex flex-row gap-x-3">
-        {newFeedData?.slice(1, 3).map(item => secondCard(item))}
+        {newFeedData?.slice(1, 3).map(item => card(item))}
       </View>
       <View className="flex flex-row gap-x-3">
-        {newFeedData?.slice(3, 5).map(item => secondCard(item))}
+        {newFeedData?.slice(3, 5).map(item => card(item))}
       </View>
     </View>
   );

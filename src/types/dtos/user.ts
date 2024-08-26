@@ -1,4 +1,5 @@
 import {CommonResponse} from '../mutations/common.ts';
+import {JOIN_STATUS, MOIM_CATEGORY} from './moim.ts';
 
 type TMyProfile = {
   userId: number;
@@ -25,6 +26,23 @@ type TUserDTO = {
   introduction: string;
 };
 
+export type TMoimJoinRequestDTOList = {
+  userMoim: number;
+  moimId: number;
+  title: string;
+  description: string;
+  moimCategory: MOIM_CATEGORY;
+  location: string;
+  userCounts: number;
+  joinStatus: JOIN_STATUS;
+};
+
+type TGetMoimJoinRequestResponse = {
+  moimJoinRequestDTOList: TMoimJoinRequestDTOList[];
+  hasNext: boolean;
+  nextCursor: number;
+};
+
 type TUpdateUserParams = {
   nickname: string;
   imageKey: string;
@@ -33,9 +51,16 @@ type TUpdateUserParams = {
   publicMoimList: number[];
 };
 
+type TGetMoimJoinRequestParams = {
+  cursor: number;
+  take: number;
+};
+
 export type {
   TMyProfileResponse,
   TMembersReviewDTO,
   TUserDTO,
+  TGetMoimJoinRequestResponse,
   TUpdateUserParams,
+  TGetMoimJoinRequestParams,
 };

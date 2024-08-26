@@ -131,7 +131,7 @@ export default function MyStackNavigator() {
         name={'MY_PRIVACY_POLICY'}
         component={MyPrivacyPolicyScreen}
         options={{
-          headerTitle: '개인정보 처리 방침',
+          headerTitle: '개인정보 처리방침',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',
@@ -141,7 +141,7 @@ export default function MyStackNavigator() {
         name={'MY_SERVICE_TERM'}
         component={MyServiceTermScreen}
         options={{
-          headerTitle: '서비스 이용 약관',
+          headerTitle: '서비스 이용약관',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',

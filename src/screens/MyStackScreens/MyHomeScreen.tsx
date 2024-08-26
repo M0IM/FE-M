@@ -72,16 +72,16 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
             title={'알림 설정'}
             onPress={() => navigation.navigate('MY_EDIT_ALERT')}
           />
-          <SettingItem
+          {/* <SettingItem
             title={'앱 정보'}
             onPress={() => navigation.navigate('MY_APP_INFO')}
-          />
+          /> */}
           <SettingItem
-            title={'개인정보 처리 방침'}
+            title={'개인정보 처리방침'}
             onPress={() => navigation.navigate('MY_PRIVACY_POLICY')}
           />
           <SettingItem
-            title={'서비스 이용 약관'}
+            title={'서비스 이용약관'}
             onPress={() => navigation.navigate('MY_SERVICE_TERM')}
           />
         </View>

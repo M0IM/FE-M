@@ -11,7 +11,7 @@ interface IProfileCardProps {
 
 export function ProfileCard({userInfo}: IProfileCardProps) {
   return (
-    <View className="flex flex-row items-center gap-x-2 mb-4">
+    <View className="flex flex-row items-center gap-x-4 mb-4 px-4">
       <Avatar size={'LG'} uri={userInfo?.imageUrl} />
       <View className="flex-col gap-y-2">
         <Typography numberOfLines={1} fontWeight={'BOLD'} className="text-lg">

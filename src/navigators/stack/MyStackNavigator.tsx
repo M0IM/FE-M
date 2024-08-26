@@ -85,13 +85,13 @@ export default function MyStackNavigator() {
           headerTitle: '가입신청 상태 확인',
         }}
       />
-      <MyStack.Screen
+      {/* <MyStack.Screen
         name={'MY_EDIT_MOIM_INFO'}
         component={EditMoimInfoScreen}
         options={{
           headerTitle: '모임 정보 수정하기',
         }}
-      />
+      /> */}
       <MyStack.Screen
         name={'MY_EDIT_ALERT'}
         component={EditAlertScreen}

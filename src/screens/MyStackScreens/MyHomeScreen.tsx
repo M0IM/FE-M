@@ -57,10 +57,10 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
             title={'가입 신청 상태 확인하기'}
             onPress={() => navigation.navigate('MY_MOIM_JOIN_STATUS')}
           />
-          <SettingItem
+          {/* <SettingItem
             title={'모임 정보 수정하기'}
             onPress={() => navigation.navigate('MY_EDIT_MOIM_INFO')}
-          />
+          /> */}
         </View>
         <View className={'h-7'} />
         <View className="flex-col gap-y-2">

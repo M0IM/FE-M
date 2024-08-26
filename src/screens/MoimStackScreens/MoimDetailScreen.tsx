@@ -119,12 +119,14 @@ export default function MoimDetailScreen({
           />
         </View>
       )}
-      <MoimMemberBottomSheet
-        moimId={moimId}
-        isOpen={isOpen}
-        onOpen={open}
-        onClose={close}
-      />
+      {data?.isJoin && (
+        <MoimMemberBottomSheet
+          moimId={moimId}
+          isOpen={isOpen}
+          onOpen={open}
+          onClose={close}
+        />
+      )}
     </SafeAreaView>
   );
 }

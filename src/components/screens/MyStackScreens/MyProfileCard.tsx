@@ -17,9 +17,11 @@ interface IMyProfileCard {
 export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
   return (
     <>
-      <View className={'flex-row items-center mt-5'}>
+      <View className={'flex-row items-center mt-7 pl-2 mb-2'}>
         <Avatar size="LG" uri={profile?.result.imageUrl} alt="Avatar" />
-        <Typography fontWeight={'BOLD'}>{profile?.result.nickname}</Typography>
+        <Typography fontWeight={'BOLD'} className="ml-4 text-xl text-dark-800">
+          {profile?.result.nickname}
+        </Typography>
       </View>
       <View className={'flex-row items-center justify-center gap-x-5'}>
         <InfoSquareCard

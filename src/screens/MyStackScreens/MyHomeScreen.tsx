@@ -43,9 +43,9 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
   return (
     <ScreenContainer>
       <MyProfileCard navigation={navigation} profile={profile} />
-      <View className="pt-8">
-        <View className="flex-col gap-y-2">
-          <Typography className="text-gray-400" fontWeight={'BOLD'}>
+      <View className="pt-5">
+        <View className="flex-col gap-y-2 px-2">
+          <Typography className="text-gray-400" fontWeight={'MEDIUM'}>
             모임
           </Typography>
           <SettingItem
@@ -64,8 +64,8 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
           /> */}
         </View>
         <View className={'h-7'} />
-        <View className="flex-col gap-y-2">
-          <Typography className="text-gray-400" fontWeight={'BOLD'}>
+        <View className="flex-col gap-y-2 px-2">
+          <Typography className="text-gray-400" fontWeight={'MEDIUM'}>
             앱 설정
           </Typography>
           <SettingItem
@@ -86,8 +86,8 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
           />
         </View>
         <View className={'h-7'} />
-        <View className="flex-col gap-y-2">
-          <Typography className="text-gray-400" fontWeight={'BOLD'}>
+        <View className="flex-col gap-y-2 px-2">
+          <Typography className="text-gray-400" fontWeight={'MEDIUM'}>
             계정
           </Typography>
           {profile?.result.provider === 'LOCAL' && (
@@ -96,7 +96,7 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
               onPress={() => navigation.navigate('MY_PASSWORD_CHANGE')}
             />
           )}
-          <SettingItem title={'로그 아웃'} onPress={handlePressLogout} />
+          <SettingItem title={'로그아웃'} onPress={handlePressLogout} />
           <SettingItem title={'탈퇴하기'} onPress={hanldeDeleteUser} />
         </View>
       </View>

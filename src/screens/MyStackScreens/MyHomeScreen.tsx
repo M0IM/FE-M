@@ -19,6 +19,7 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
   const handlePressLogout = () => {
     logoutMutation.mutate(null);
   };
+
   const hanldeDeleteUser = () => {
     Alert.alert(
       '정말 해당 서비스를 탈퇴하시겠습니까?',
@@ -89,10 +90,12 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
           <Typography className="text-gray-400" fontWeight={'BOLD'}>
             계정
           </Typography>
-          <SettingItem
-            title={'비밀번호 변경'}
-            onPress={() => navigation.navigate('MY_PASSWORD_CHANGE')}
-          />
+          {profile?.result.provider === 'LOCAL' && (
+            <SettingItem
+              title={'비밀번호 변경'}
+              onPress={() => navigation.navigate('MY_PASSWORD_CHANGE')}
+            />
+          )}
           <SettingItem title={'로그 아웃'} onPress={handlePressLogout} />
           <SettingItem title={'탈퇴하기'} onPress={hanldeDeleteUser} />
         </View>

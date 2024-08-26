@@ -29,7 +29,6 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   const requestMoimJoimMutation = useRequestMoimJoin();
 
   const moimId = route.params.id as number;
-  console.log(route.params.id);
   const {setIsEditMode} = useMoimCalendarStore();
 
   const {

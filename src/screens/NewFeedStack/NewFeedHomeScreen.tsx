@@ -6,14 +6,17 @@ import {NewFeedCardSkeleton} from 'components/screens/NewFeedHomeScreen/skeleton
 
 import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts.ts';
 import {
+  HomeStackNavigationProp,
   NewFeedHomeNavigationProp,
   NewFeedHomeRouteProp,
 } from 'navigators/types';
-import CommentBottomSheet from '../../components/CommentBottomSheet/CommentBottomSheet.tsx';
-import usePost from '../../hooks/queries/MoimBoard/usePost.ts';
+import {CompositeNavigationProp} from '@react-navigation/native';
 
 interface INewFeedHomeScreenProps {
-  navigation: NewFeedHomeNavigationProp;
+  navigation: CompositeNavigationProp<
+    NewFeedHomeNavigationProp,
+    HomeStackNavigationProp
+  >;
   route: NewFeedHomeRouteProp;
 }
 
@@ -62,8 +65,11 @@ function NewFeedHomeScreen({navigation, route}: INewFeedHomeScreenProps) {
             <NewFeedCard
               item={item}
               onPress={() =>
-                navigation.navigate('NEW_FEED_DETAIL', {
-                  id: item.moimPostId,
+                navigation.navigate('MOIM_STACK', {
+                  screen: 'MOIM_SPACE',
+                  params: {
+                    id: item.moimId,
+                  },
                 })
               }
             />
@@ -71,7 +77,8 @@ function NewFeedHomeScreen({navigation, route}: INewFeedHomeScreenProps) {
         }}
         contentContainerStyle={{
           justifyContent: 'center',
-          gap: 10,
+          gap: 15,
+          padding: 20,
         }}
         keyExtractor={item => String(item.moimPostId)}
         onEndReached={handleEndReached}

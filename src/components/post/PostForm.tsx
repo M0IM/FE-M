@@ -119,6 +119,9 @@ export default function PostForm({moimId}: IPostForm) {
             onSuccess: () => {
               setIsEditMode(false);
               navigation.navigate('MOIM_PLAN_HOME', {id: moimId});
+              queryClient.invalidateQueries({
+                queryKey: ['detailCalendar', moimId, moimCalendar?.planId],
+              });
               queryClient.invalidateQueries({queryKey: ['moimCalendar']});
             },
           },

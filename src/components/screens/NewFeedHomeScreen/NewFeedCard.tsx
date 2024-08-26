@@ -1,77 +1,58 @@
-import {
-  Pressable,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View,
-} from 'react-native';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {TouchableOpacity, TouchableOpacityProps, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment/moment';
+
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import Avatar from '../../@common/Avatar/Avatar.tsx';
-
-import {TMoimPreviewListDto} from 'types/dtos/post.ts';
+import {TMoimPreviewListDto} from '../../../types/dtos/post.ts';
 
 interface INewFeedCardProps extends TouchableOpacityProps {
   item: TMoimPreviewListDto;
-  onOpenBottomSheet?: () => void;
 }
 
 export function NewFeedCard({item, ...props}: INewFeedCardProps) {
   return (
     <>
       <TouchableOpacity className="bg-white" activeOpacity={0.8} {...props}>
-        {/*HEADER*/}
-        <View className="p-3 flex-row items-center gap-2">
-          <Avatar
-            uri={item.profileImage}
-            className="w-12 aspect-square rounded-full"
-          />
-          <Typography className="text-md" fontWeight={'BOLD'}>
-            {item.title}
-          </Typography>
-        </View>
         <FastImage
-          source={{uri: item.profileImage}}
-          className="w-full aspect-[4/3]"
+          source={{uri: item.moimImageUrl}}
+          className="w-full aspect-[4/2] rounded-2xl relative"
           resizeMode={FastImage.resizeMode.cover}
         />
+        <LinearGradient
+          colors={['transparent', 'rgba(0,0,0,0.8)']}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '100%',
+            borderBottomLeftRadius: 16,
+            borderBottomRightRadius: 16,
+          }}>
+          <View className="flex-col gap-2 px-4 absolute bottom-0 pb-4">
+            <View className="flex-row items-center">
+              <Avatar uri={item.ownerProfileImageUrl} />
+              <Typography
+                className="ml-2 text-white"
+                fontWeight={'BOLD'}
+                numberOfLines={1}>
+                {item.writer}
+              </Typography>
+            </View>
+            <Typography
+              fontWeight={'BOLD'}
+              numberOfLines={1}
+              className="text-white">
+              {item.content}
+            </Typography>
+            <Typography className="text-white" fontWeight={'LIGHT'}>
+              {moment(item.createAt).fromNow()}
+            </Typography>
+          </View>
+        </LinearGradient>
       </TouchableOpacity>
-      {/*ICONS*/}
-      <View style={{flexDirection: 'row', padding: 16, width: '100%', gap: 12}}>
-        <View className="flex-row items-center justify-center">
-          <Ionicons name={'heart'} size={20} />
-          <Typography className="ml-2" fontWeight={'BOLD'} numberOfLines={1}>
-            {item.likeCount > 99 ? '99+' : item.likeCount}
-          </Typography>
-        </View>
-        <Pressable className="flex-row items-center justify-center">
-          <Ionicons name={'chatbubble-outline'} size={20} />
-          <Typography className="ml-2" fontWeight={'BOLD'} numberOfLines={1}>
-            {item.commentCount > 99 ? '99+' : item.commentCount}
-          </Typography>
-        </Pressable>
-        {/*<Ionicons name={'send'} size={20} />*/}
-        <Ionicons name={'bookmark'} size={20} style={{marginLeft: 'auto'}} />
-      </View>
-      <View className="flex-col gap-2 px-4">
-        <View className="flex-row items-center">
-          <Ionicons name={'person'} size={20} />
-          <Typography className="ml-2" fontWeight={'BOLD'} numberOfLines={1}>
-            {item.writer}
-          </Typography>
-        </View>
-        <Typography
-          fontWeight={'BOLD'}
-          numberOfLines={1}
-          className="text-gray-600">
-          {item.content}
-        </Typography>
-        <Typography className="text-gray-500" fontWeight={'LIGHT'}>
-          {moment(item.createAt).fromNow()}
-        </Typography>
-      </View>
     </>
   );
 }

@@ -5,9 +5,9 @@ import {
   UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 
-import {TMoimPreviewListResponse} from 'types/dtos/moim';
 import {ResponseError} from 'types/mutations/common';
 import {getMoimIntroducePosts} from 'apis/newFeed/posts.ts';
+import {TMoimPreviewListResponse} from '../../../types/dtos/moim.ts';
 
 function useGetInfinityMoimIntroducePosts(
   take: number,

@@ -8,6 +8,7 @@ import {View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import Toast from 'react-native-toast-message';
+import {CompositeNavigationProp} from '@react-navigation/native';
 
 import {InputField} from 'components/@common/InputField/InputField';
 import PostUserProfile from 'components/screens/MoimBoardStackScreens/postDetail/PostUserProfile';
@@ -23,7 +24,6 @@ import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
-import {CompositeNavigationProp} from '@react-navigation/native';
 
 interface MoimPostDetailScreenProps {
   route: MoimPostStackRouteProp;

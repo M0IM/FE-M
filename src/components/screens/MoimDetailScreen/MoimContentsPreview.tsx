@@ -48,7 +48,7 @@ const MoimContentsPreview = ({
         <Typography fontWeight="BOLD" className="text-xs text-gray-400">
           예정된 일정
         </Typography>
-        {allPlanList.length > 0 ? (
+        {allPlanList && allPlanList.length > 0 ? (
           <FlatList
             horizontal
             data={allPlanList}

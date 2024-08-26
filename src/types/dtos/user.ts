@@ -43,6 +43,7 @@ export type TMoimJoinRequestDTOList = {
   location: string;
   userCounts: number;
   joinStatus: JOIN_STATUS;
+  imageUrl: string;
 };
 
 type TGetMoimJoinRequestResponse = {

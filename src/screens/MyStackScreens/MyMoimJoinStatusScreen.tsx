@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {FlatList, Image, Pressable, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -14,8 +15,21 @@ interface MyMoimJoinStatusScreenProps {
 export default function MyMoimJoinStatusScreen({
   navigation,
 }: MyMoimJoinStatusScreenProps) {
-  const {data} = useGetInfiniteMoimJoinRequest();
-  console.log(data);
+  const {data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch} =
+    useGetInfiniteMoimJoinRequest();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleEndReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
 
   return (
     <FlatList
@@ -32,23 +46,19 @@ export default function MyMoimJoinStatusScreen({
                   params: {id: item.moimId},
                 })
               }>
-              {/* {item.spaceImg ? (
-            <Image
-              source={{uri: item.spaceImg}}
-              width={55}
-              height={55}
-              className="rounded-lg"
-            />
-          ) : (
-            <View className="flex flex-col items-center justify-center bg-gray-100 w-[55] h-[55] rounded-lg">
-              <Ionicons name="home" size={20} color="#E9ECEF" />
-            </View>
-          )} */}
               {/* TODO: 백엔드 이미지 반환값 확인 */}
-              <View className="flex flex-col items-center justify-center bg-gray-100 w-[55] h-[55] rounded-lg">
-                <Ionicons name="home" size={20} color="#E9ECEF" />
-              </View>
-
+              {item.imageUrl ? (
+                <Image
+                  source={{uri: item.imageUrl}}
+                  width={55}
+                  height={55}
+                  className="rounded-lg"
+                />
+              ) : (
+                <View className="flex flex-col items-center justify-center bg-gray-100 w-[55] h-[55] rounded-lg">
+                  <Ionicons name="home" size={20} color="#E9ECEF" />
+                </View>
+              )}
               <View className="flex flex-col w-[70%] ml-3 gap-y-0.5">
                 <Typography
                   fontWeight="BOLD"
@@ -89,6 +99,10 @@ export default function MyMoimJoinStatusScreen({
           )}
         </>
       )}
+      onEndReached={handleEndReached}
+      onEndReachedThreshold={0.5}
+      refreshing={isRefreshing}
+      onRefresh={handleRefresh}
       contentContainerStyle={{
         padding: 10,
       }}

@@ -5,10 +5,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Avatar from 'components/@common/Avatar/Avatar';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import {Typography} from 'components/@common/Typography/Typography';
+
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePopover from 'hooks/usePopover';
+
 import {TPostRecommentDto} from 'types/dtos/post';
+import {COMMENT_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
 
@@ -31,8 +34,11 @@ const PostRecommentContainer = ({
     blockMoimPostCommentMutation,
     likeMoimPostCommentMutation,
   } = usePost();
-  const isBlocked = recommentData?.writer === null;
-  const isDeleted = recommentData?.content === null;
+  const isDeleted = recommentData?.commentStatus === COMMENT_STATUS.DELETED;
+  const isBlocked =
+    !isDeleted &&
+    recommentData?.writer === null &&
+    recommentData?.content === null;
 
   const handleMoimPostCommentLike = (commentId: number) => {
     likeMoimPostCommentMutation.mutate(

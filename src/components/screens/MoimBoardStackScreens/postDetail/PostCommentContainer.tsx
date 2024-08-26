@@ -10,10 +10,11 @@ import usePopover from 'hooks/usePopover';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 
-import {TPostCommentDto} from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
+import {COMMENT_STATUS} from 'types/enums';
+import {TPostCommentDto} from 'types/dtos/post';
 
 interface PostCommentContainerProps {
   moimId?: number;
@@ -38,8 +39,9 @@ const PostCommentContainer = ({
     blockMoimPostCommentMutation,
     likeMoimPostCommentMutation,
   } = usePost();
-  const isBlocked = commentData?.writer === null;
-  const isDeleted = commentData?.content === null;
+  const isDeleted = commentData?.commentStatus === COMMENT_STATUS.DELETED;
+  const isBlocked =
+    !isDeleted && commentData?.writer === null && commentData?.content === null;
 
   const handleMoimPostCommentLike = (commentId: number) => {
     likeMoimPostCommentMutation.mutate(

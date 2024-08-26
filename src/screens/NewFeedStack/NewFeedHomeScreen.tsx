@@ -5,13 +5,19 @@ import {NewFeedCard} from 'components/screens/NewFeedHomeScreen/NewFeedCard.tsx'
 import {NewFeedCardSkeleton} from 'components/screens/NewFeedHomeScreen/skeleton/NewFeedCardSkeleton.tsx';
 
 import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts.ts';
-import {NewFeedHomeNavigationProp} from 'navigators/types';
+import {
+  NewFeedHomeNavigationProp,
+  NewFeedHomeRouteProp,
+} from 'navigators/types';
+import CommentBottomSheet from '../../components/CommentBottomSheet/CommentBottomSheet.tsx';
+import usePost from '../../hooks/queries/MoimBoard/usePost.ts';
 
 interface INewFeedHomeScreenProps {
   navigation: NewFeedHomeNavigationProp;
+  route: NewFeedHomeRouteProp;
 }
 
-function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
+function NewFeedHomeScreen({navigation, route}: INewFeedHomeScreenProps) {
   const {
     data: randomPosts,
     fetchNextPage,

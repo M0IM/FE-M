@@ -1,4 +1,9 @@
-import {TouchableOpacity, TouchableOpacityProps, View} from 'react-native';
+import {
+  Pressable,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
@@ -10,6 +15,7 @@ import {TMoimPreviewListDto} from 'types/dtos/post.ts';
 
 interface INewFeedCardProps extends TouchableOpacityProps {
   item: TMoimPreviewListDto;
+  onOpenBottomSheet?: () => void;
 }
 
 export function NewFeedCard({item, ...props}: INewFeedCardProps) {
@@ -40,12 +46,12 @@ export function NewFeedCard({item, ...props}: INewFeedCardProps) {
             {item.likeCount > 99 ? '99+' : item.likeCount}
           </Typography>
         </View>
-        <View className="flex-row items-center justify-center">
+        <Pressable className="flex-row items-center justify-center">
           <Ionicons name={'chatbubble-outline'} size={20} />
           <Typography className="ml-2" fontWeight={'BOLD'} numberOfLines={1}>
             {item.commentCount > 99 ? '99+' : item.commentCount}
           </Typography>
-        </View>
+        </Pressable>
         {/*<Ionicons name={'send'} size={20} />*/}
         <Ionicons name={'bookmark'} size={20} style={{marginLeft: 'auto'}} />
       </View>

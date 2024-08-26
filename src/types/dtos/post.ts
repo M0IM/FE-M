@@ -26,9 +26,11 @@ type TPostDto = {
 
 type TMoimPreviewListDto = {
   moimPostId: number;
+  moimId: number;
   title: string;
   content: string;
-  profileImage: string;
+  moimImageUrl: string[];
+  ownerProfileImageUrl: string;
   writer: string;
   commentCount: number;
   likeCount: number;

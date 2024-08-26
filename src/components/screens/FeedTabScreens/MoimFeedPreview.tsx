@@ -49,9 +49,9 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
           },
         })
       }>
-      {item.profileImage ? (
+      {item.moimImageUrl ? (
         <Image
-          source={{uri: item.profileImage}}
+          source={{uri: item.moimImageUrl}}
           className="w-full h-[200px] rounded-tl-lg rounded-tr-lg"
         />
       ) : (

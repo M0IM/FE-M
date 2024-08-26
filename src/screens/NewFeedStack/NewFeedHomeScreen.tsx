@@ -5,13 +5,22 @@ import {NewFeedCard} from 'components/screens/NewFeedHomeScreen/NewFeedCard.tsx'
 import {NewFeedCardSkeleton} from 'components/screens/NewFeedHomeScreen/skeleton/NewFeedCardSkeleton.tsx';
 
 import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts.ts';
-import {NewFeedHomeNavigationProp} from 'navigators/types';
+import {
+  HomeStackNavigationProp,
+  NewFeedHomeNavigationProp,
+  NewFeedHomeRouteProp,
+} from 'navigators/types';
+import {CompositeNavigationProp} from '@react-navigation/native';
 
 interface INewFeedHomeScreenProps {
-  navigation: NewFeedHomeNavigationProp;
+  navigation: CompositeNavigationProp<
+    NewFeedHomeNavigationProp,
+    HomeStackNavigationProp
+  >;
+  route: NewFeedHomeRouteProp;
 }
 
-function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
+function NewFeedHomeScreen({navigation, route}: INewFeedHomeScreenProps) {
   const {
     data: randomPosts,
     fetchNextPage,
@@ -56,8 +65,11 @@ function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
             <NewFeedCard
               item={item}
               onPress={() =>
-                navigation.navigate('NEW_FEED_DETAIL', {
-                  id: item.moimPostId,
+                navigation.navigate('MOIM_STACK', {
+                  screen: 'MOIM_SPACE',
+                  params: {
+                    id: item.moimId,
+                  },
                 })
               }
             />
@@ -65,7 +77,8 @@ function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
         }}
         contentContainerStyle={{
           justifyContent: 'center',
-          gap: 10,
+          gap: 15,
+          padding: 20,
         }}
         keyExtractor={item => String(item.moimPostId)}
         onEndReached={handleEndReached}

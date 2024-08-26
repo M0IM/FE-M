@@ -7,6 +7,7 @@ import MoimPlanStackNavigator from 'navigators/stack/MoimPlanStackNavigator';
 import MoimPostStackNavigator from 'navigators/stack/MoimPostStackNavigator';
 import {MoimTopTabParamList, MoimTopTabRouteProp} from 'navigators/types';
 import MoimDetailScreen from 'screens/MoimStackScreens/MoimDetailScreen';
+import {MOIM_JOIN_STATUS, MOIM_ROLE} from 'types/enums';
 
 const Tab = createMaterialTopTabNavigator<MoimTopTabParamList>();
 
@@ -30,7 +31,7 @@ export default function MoimTopTabNavigator({
           tabBarLabel: '모임 홈',
         }}
       />
-      {data?.isJoin && (
+      {data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE && (
         <>
           <Tab.Screen
             name={'MOIM_TOP_PLAN'}
@@ -48,15 +49,16 @@ export default function MoimTopTabNavigator({
               tabBarLabel: '게시판',
             }}
           />
-
-          <Tab.Screen
-            name={'MOIM_MANAGEMENT'}
-            component={MoimManagementStackNavigator}
-            initialParams={{id}}
-            options={{
-              tabBarLabel: '관리',
-            }}
-          />
+          {!(data?.myMoimRole === MOIM_ROLE.MEMBER) && (
+            <Tab.Screen
+              name={'MOIM_MANAGEMENT'}
+              component={MoimManagementStackNavigator}
+              initialParams={{id}}
+              options={{
+                tabBarLabel: '관리',
+              }}
+            />
+          )}
         </>
       )}
     </Tab.Navigator>

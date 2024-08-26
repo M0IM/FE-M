@@ -1,13 +1,14 @@
 // import Label from 'components/@common/Label/Label';
 import {Typography} from 'components/@common/Typography/Typography';
 import {Image, TouchableOpacity, View} from 'react-native';
+import {TUserPreviewDTO} from 'types/dtos/moim';
 
 interface MoimInfoContainerProps {
   title: string;
   description: string;
   moimId: number;
   onOpen: () => void;
-  userImages: string[];
+  moimMembers: TUserPreviewDTO[];
 }
 
 const MoimInfoContainer = ({
@@ -15,12 +16,12 @@ const MoimInfoContainer = ({
   description,
   moimId,
   onOpen,
-  userImages,
+  moimMembers,
 }: MoimInfoContainerProps) => {
   console.log(moimId);
   return (
     <View className="mt-16 flex flex-col">
-      {userImages && userImages.length > 0 && (
+      {moimMembers && moimMembers.length > 0 && (
         <View className="flex flex-row items-center px-6 h-[30px]">
           {/* TODO: API 수정되면 연결 */}
           {/* <Label label='# 개발' color='main' style='ml-1'/>
@@ -30,19 +31,19 @@ const MoimInfoContainer = ({
             <TouchableOpacity
               className="flex flex-row items-center ml-auto"
               onPress={onOpen}>
-              {userImages &&
-                userImages.length > 0 &&
-                userImages.map((item, index) => (
+              {moimMembers &&
+                moimMembers.length > 0 &&
+                moimMembers.map((item, index) => (
                   <View key={index} style={{marginLeft: -7 * index}}>
                     <Image
-                      source={{uri: item}}
+                      source={{uri: item.imageKeyName}}
                       style={{
                         width: 25,
                         height: 25,
                         borderRadius: 15,
                         borderWidth: 1,
                         borderColor: 'white',
-                        zIndex: userImages.length + index,
+                        zIndex: moimMembers.length + index,
                       }}
                     />
                   </View>

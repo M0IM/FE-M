@@ -315,22 +315,22 @@ const MoimPostDetailScreen = ({
 
   const PostMenuList = [
     {
-      title: '신고하기',
+      title: '게시글 신고',
       onPress: () => handleReportMoimPost(),
     },
     {
-      title: '차단하기',
+      title: '게시글 차단',
       onPress: () => handleBlockMoimPost(),
     },
   ];
 
   const PostMyMenuList = [
     {
-      title: '수정하기',
+      title: '게시글 수정',
       onPress: () => handleUpdateMoimPost(),
     },
     {
-      title: '삭제하기',
+      title: '게시글 삭제',
       onPress: () => handleDeleteMoimPost(),
     },
   ];

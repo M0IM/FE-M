@@ -78,7 +78,9 @@ const PostRecommentContainer = ({
           onSuccess: () => {
             Toast.show({
               type: 'success',
-              text1: '댓글이 차단되었습니다.',
+              text1: isBlocked
+                ? '대댓글 차단이 취소되었습니다.'
+                : '대댓글이 차단되었습니다.',
               visibilityTime: 2000,
               position: 'bottom',
             });
@@ -169,18 +171,18 @@ const PostRecommentContainer = ({
 
   const PostMenuList = [
     {
-      title: '신고하기',
+      title: '대댓글 신고',
       onPress: () => handleReportRecomment(),
     },
     {
-      title: '차단하기',
+      title: isBlocked ? '대댓글 차단 취소' : '대댓글 차단',
       onPress: () => handleBlockRecomment(),
     },
   ];
 
   const PostMyMenuList = [
     {
-      title: '삭제하기',
+      title: '대댓글 삭제',
       onPress: () => handleDeleteRecomment(),
     },
   ];

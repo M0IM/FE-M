@@ -60,8 +60,9 @@ type TCreateMoimResponse = {
 
 type TMoimSpaceInfoDTO = {
   moimId: number;
-  isJoin: boolean;
   title: string;
+  joinStatus: JOIN_STATUS;
+  myMoimRole: TMoimRole;
   description: string;
   profileImageUrl: string;
   category: MOIM_CATEGORY;
@@ -73,7 +74,7 @@ type TMoimSpaceInfoDTO = {
   address: string;
   createAt: string;
   updateAt: string;
-  userImages: string[];
+  userPreviewDTOList: TUserPreviewDTO[];
 };
 
 export type TUserPreviewDTO = {

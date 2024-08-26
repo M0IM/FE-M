@@ -48,64 +48,86 @@ const MoimContentsPreview = ({
         <Typography fontWeight="BOLD" className="text-xs text-gray-400">
           예정된 일정
         </Typography>
-        <FlatList
-          horizontal
-          data={allPlanList}
-          contentContainerStyle={{marginTop: 15}}
-          renderItem={({item}) => (
-            <SchedulePreviewCard
-              title={item.title}
-              date={item.time}
-              place={item.location}
-              //   cost={item.cost}
-              //   participants={item.participants}
-            />
-          )}
-          ItemSeparatorComponent={() => <View className="w-3" />}
-        />
+        {allPlanList && allPlanList.length > 0 ? (
+          <FlatList
+            horizontal
+            data={allPlanList}
+            contentContainerStyle={{marginTop: 15}}
+            renderItem={({item}) => (
+              <SchedulePreviewCard
+                title={item.title}
+                date={item.time}
+                place={item.location}
+                //   cost={item.cost}
+                //   participants={item.participants}
+              />
+            )}
+            ItemSeparatorComponent={() => <View className="w-3" />}
+          />
+        ) : (
+          <View className="flex flex-col flex-1 items-center justify-center p-5">
+            <Typography fontWeight="MEDIUM" className="text-gray-400 text-sm">
+              아직 예정된 일정이 없습니다.
+            </Typography>
+          </View>
+        )}
       </View>
       <View className="flex flex-col mt-10">
         <Typography fontWeight="BOLD" className="text-xs text-gray-400 mb-4">
           공지사항
         </Typography>
-        {announcementDataList?.map((item, index) => (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            key={index}
-            className="p-5 border-gray-200 border-[0.5px] rounded-xl mb-4"
-            onPress={() =>
-              navigation.navigate('MOIM_POST_DETAIL', {
-                id: moimId,
-                postId: item?.moimPostId,
-              })
-            }>
-            <View className="flex flex-row">
-              <Typography fontWeight="BOLD" className="text-dark-800 text-sm">
-                {item.title}
-              </Typography>
-              <Typography fontWeight="BOLD" className="text-main text-sm ml-2">
-                N
-              </Typography>
-            </View>
-            <Typography
-              fontWeight="MEDIUM"
-              className="text-dark-800 text-sm mt-1">
-              {item.content}
+        {announcementDataList && announcementDataList?.length > 0 ? (
+          <>
+            {announcementDataList?.map((item, index) => (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                key={index}
+                className="p-5 border-gray-200 border-[0.5px] rounded-xl mb-4"
+                onPress={() =>
+                  navigation.navigate('MOIM_POST_DETAIL', {
+                    id: moimId,
+                    postId: item?.moimPostId,
+                  })
+                }>
+                <View className="flex flex-row">
+                  <Typography
+                    fontWeight="BOLD"
+                    className="text-dark-800 text-sm">
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    fontWeight="BOLD"
+                    className="text-main text-sm ml-2">
+                    N
+                  </Typography>
+                </View>
+                <Typography
+                  fontWeight="MEDIUM"
+                  className="text-dark-800 text-sm mt-1">
+                  {item.content}
+                </Typography>
+                <View className="flex flex-row gap-x-3">
+                  <Typography
+                    fontWeight="MEDIUM"
+                    className="text-gray-300 text-xs mt-5">
+                    {formatKoreanDate(new Date(item.createAt))}
+                  </Typography>
+                  <Typography
+                    fontWeight="MEDIUM"
+                    className="text-gray-300 text-xs mt-5">
+                    {detailDate(new Date(item.createAt))}
+                  </Typography>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </>
+        ) : (
+          <View className="flex flex-col flex-1 items-center justify-center p-5">
+            <Typography fontWeight="MEDIUM" className="text-gray-400 text-sm">
+              새로운 공지가 없습니다.
             </Typography>
-            <View className="flex flex-row gap-x-3">
-              <Typography
-                fontWeight="MEDIUM"
-                className="text-gray-300 text-xs mt-5">
-                {formatKoreanDate(new Date(item.createAt))}
-              </Typography>
-              <Typography
-                fontWeight="MEDIUM"
-                className="text-gray-300 text-xs mt-5">
-                {detailDate(new Date(item.createAt))}
-              </Typography>
-            </View>
-          </TouchableOpacity>
-        ))}
+          </View>
+        )}
       </View>
     </View>
   );

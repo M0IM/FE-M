@@ -1,10 +1,13 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
 import CustomTabBar from 'components/@common/CustomTabBar/CustomTabBar';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import MoimManagementStackNavigator from 'navigators/stack/MoimManagementStackNavigator';
 import MoimPlanStackNavigator from 'navigators/stack/MoimPlanStackNavigator';
 import MoimPostStackNavigator from 'navigators/stack/MoimPostStackNavigator';
 import {MoimTopTabParamList, MoimTopTabRouteProp} from 'navigators/types';
 import MoimDetailScreen from 'screens/MoimStackScreens/MoimDetailScreen';
+import {MOIM_JOIN_STATUS, MOIM_ROLE} from 'types/enums';
 
 const Tab = createMaterialTopTabNavigator<MoimTopTabParamList>();
 
@@ -15,6 +18,7 @@ export default function MoimTopTabNavigator({
 }) {
   // TODO: Route Type 다시 잡기
   const id = route.params?.params?.id;
+  const {data} = useGetMoimSpaceInfo(id);
 
   return (
     <Tab.Navigator
@@ -27,30 +31,36 @@ export default function MoimTopTabNavigator({
           tabBarLabel: '모임 홈',
         }}
       />
-      <Tab.Screen
-        name={'MOIM_TOP_PLAN'}
-        component={MoimPlanStackNavigator}
-        initialParams={{id}}
-        options={{
-          tabBarLabel: '일정',
-        }}
-      />
-      <Tab.Screen
-        name={'MOIM_TOP_BOARD'}
-        component={MoimPostStackNavigator}
-        initialParams={{id}}
-        options={{
-          tabBarLabel: '게시판',
-        }}
-      />
-      <Tab.Screen
-        name={'MOIM_MANAGEMENT'}
-        component={MoimManagementStackNavigator}
-        initialParams={{id}}
-        options={{
-          tabBarLabel: '모임 관리',
-        }}
-      />
+      {data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE && (
+        <>
+          <Tab.Screen
+            name={'MOIM_TOP_PLAN'}
+            component={MoimPlanStackNavigator}
+            initialParams={{id}}
+            options={{
+              tabBarLabel: '일정',
+            }}
+          />
+          <Tab.Screen
+            name={'MOIM_TOP_BOARD'}
+            component={MoimPostStackNavigator}
+            initialParams={{id}}
+            options={{
+              tabBarLabel: '게시판',
+            }}
+          />
+          {!(data?.myMoimRole === MOIM_ROLE.MEMBER) && (
+            <Tab.Screen
+              name={'MOIM_MANAGEMENT'}
+              component={MoimManagementStackNavigator}
+              initialParams={{id}}
+              options={{
+                tabBarLabel: '관리',
+              }}
+            />
+          )}
+        </>
+      )}
     </Tab.Navigator>
   );
 }

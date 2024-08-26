@@ -1,5 +1,7 @@
 import axiosInstance from './axiosInstance.ts';
 import {
+  TGetMoimJoinRequestParams,
+  TGetMoimJoinRequestResponse,
   TMembersReviewDTO,
   TMyProfileResponse,
   TUpdateUserParams,
@@ -49,9 +51,20 @@ const updateMyProfile = async ({
   return data.result;
 };
 
+const getMoimJoinRequest = async ({
+  cursor,
+  take,
+}: TGetMoimJoinRequestParams): Promise<TGetMoimJoinRequestResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/my-requests?cursor=${cursor}&take=${take}`,
+  );
+  return data?.result;
+};
+
 export {
   getUserProfile,
   getMyDetailReview,
   getUserDetailProfile,
   updateMyProfile,
+  getMoimJoinRequest,
 };

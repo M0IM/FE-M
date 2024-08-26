@@ -1,3 +1,5 @@
+import {COMMENT_STATUS} from 'types/enums';
+
 export enum POST_TYPE {
   ANNOUNCEMENT = '공지사항',
   REVIEW = '활동 후기',
@@ -11,6 +13,10 @@ export type POST_LIST_TYPE =
   | 'REVIEW'
   | 'WELCOME'
   | 'FREE';
+
+export type COMMENT_STATUS_TYPE =
+  | COMMENT_STATUS.ACTIVE
+  | COMMENT_STATUS.DELETED;
 
 type TPostDto = {
   moimPostId: number;
@@ -62,6 +68,7 @@ export type TPostRecommentDto = {
   isLike: boolean;
   updateAt: string;
   createAt: string;
+  commentStatus: COMMENT_STATUS_TYPE;
 };
 
 export type TPostCommentDto = {
@@ -74,6 +81,7 @@ export type TPostCommentDto = {
   updateAt: string;
   createAt: string;
   commentResponseDTOList: TPostRecommentDto[];
+  commentStatus: COMMENT_STATUS_TYPE;
 };
 
 type TPostCommentListDto = {

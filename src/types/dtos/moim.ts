@@ -1,4 +1,4 @@
-import {MOIM_REQUEST_TYPE} from 'types/enums';
+import {MOIM_JOIN_STATUS, MOIM_REQUEST_TYPE} from 'types/enums';
 import {TMoimRole} from './moimManage';
 import {POST_LIST_TYPE, POST_TYPE} from './post.ts';
 
@@ -15,6 +15,12 @@ export type MOIM_CATEGORY =
   | MOIM_REQUEST_TYPE.HUMANITY
   | MOIM_REQUEST_TYPE.TECH
   | MOIM_REQUEST_TYPE.SPORTS;
+
+export type JOIN_STATUS =
+  | MOIM_JOIN_STATUS.COMPLETE
+  | MOIM_JOIN_STATUS.DELETED
+  | MOIM_JOIN_STATUS.LOADING
+  | MOIM_JOIN_STATUS.REJECT;
 
 type TMoimDTOResponse = {
   moimId: number;
@@ -54,8 +60,9 @@ type TCreateMoimResponse = {
 
 type TMoimSpaceInfoDTO = {
   moimId: number;
-  isJoin: boolean;
   title: string;
+  joinStatus: JOIN_STATUS;
+  myMoimRole: TMoimRole;
   description: string;
   profileImageUrl: string;
   category: MOIM_CATEGORY;
@@ -67,7 +74,7 @@ type TMoimSpaceInfoDTO = {
   address: string;
   createAt: string;
   updateAt: string;
-  userImages: string[];
+  userPreviewDTOList: TUserPreviewDTO[];
 };
 
 export type TUserPreviewDTO = {

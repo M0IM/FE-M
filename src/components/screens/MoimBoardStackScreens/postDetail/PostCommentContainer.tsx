@@ -10,10 +10,11 @@ import usePopover from 'hooks/usePopover';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 
-import {TPostCommentDto} from 'types/dtos/post';
 import PostRecommentContainer from './PostRecommentContainer';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
+import {COMMENT_STATUS} from 'types/enums';
+import {TPostCommentDto} from 'types/dtos/post';
 
 interface PostCommentContainerProps {
   moimId?: number;
@@ -38,8 +39,9 @@ const PostCommentContainer = ({
     blockMoimPostCommentMutation,
     likeMoimPostCommentMutation,
   } = usePost();
-  const isBlocked = commentData?.writer === null;
-  const isDeleted = commentData?.content === null;
+  const isDeleted = commentData?.commentStatus === COMMENT_STATUS.DELETED;
+  const isBlocked =
+    !isDeleted && commentData?.writer === null && commentData?.content === null;
 
   const handleMoimPostCommentLike = (commentId: number) => {
     likeMoimPostCommentMutation.mutate(
@@ -79,7 +81,9 @@ const PostCommentContainer = ({
           onSuccess: () => {
             Toast.show({
               type: 'success',
-              text1: '댓글이 차단되었습니다.',
+              text1: isBlocked
+                ? '댓글 차단이 취소되었습니다.'
+                : '댓글이 차단되었습니다.',
               visibilityTime: 2000,
               position: 'bottom',
             });
@@ -170,18 +174,18 @@ const PostCommentContainer = ({
 
   const PostMenuList = [
     {
-      title: '신고하기',
+      title: '댓글 신고',
       onPress: () => handleReportComment(),
     },
     {
-      title: '차단하기',
+      title: isBlocked ? '댓글 차단 취소' : '댓글 차단',
       onPress: () => handleBlockComment(),
     },
   ];
 
   const PostMyMenuList = [
     {
-      title: '삭제하기',
+      title: '댓글 삭제',
       onPress: () => handleDeleteComment(),
     },
   ];

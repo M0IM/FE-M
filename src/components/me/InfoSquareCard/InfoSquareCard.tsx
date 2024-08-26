@@ -32,7 +32,7 @@ const InfoSquareCardVariants = cva(
     variants: {
       platform: {
         ios: 'shadow-md shadow-gray-200',
-        android: 'elevation-lg',
+        android: 'elevation-lg shadow-gray-400',
         windows: 'shadow-md shadow-gray-200',
         macos: 'shadow-md shadow-gray-200',
         web: 'shadow-md shadow-gray-200',

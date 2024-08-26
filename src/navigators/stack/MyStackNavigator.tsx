@@ -5,7 +5,7 @@ import MyDetailProfileScreen from 'screens/MyStackScreens/MyDetailProfileScreen.
 import ProfilesScreen from 'screens/MyStackScreens/ProfilesScreen.tsx';
 import MyProfileEditScreen from 'screens/MyStackScreens/MyProfileEditScreen.tsx';
 import MyMoimJoinStatusScreen from 'screens/MyStackScreens/MyMoimJoinStatusScreen.tsx';
-import EditMoimInfoScreen from 'screens/MyStackScreens/EditMoimInfoScreen.tsx';
+// import EditMoimInfoScreen from 'screens/MyStackScreens/EditMoimInfoScreen.tsx';
 import EditAlertScreen from 'screens/MyStackScreens/EditAlertScreen.tsx';
 import MyPrivacyPolicyScreen from 'screens/MyStackScreens/MyPrivacyPolicyScreen.tsx';
 import MyServiceTermScreen from 'screens/MyStackScreens/MyServiceTermScreen.tsx';
@@ -15,7 +15,7 @@ import MyPasswordChangeScreen from 'screens/MyStackScreens/MyPasswordChangeScree
 import RevokeMoimStackNavigator from './my/RevokeMoimStackNavigator';
 import AppInfoStackNavigator from './my/AppInfoStackNavigator';
 import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
-import MemberProfileScreen from '../../screens/MyStackScreens/MemberProfileScreen.tsx';
+// import MemberProfileScreen from '../../screens/MyStackScreens/MemberProfileScreen.tsx';
 
 export default function MyStackNavigator() {
   return (
@@ -41,6 +41,9 @@ export default function MyStackNavigator() {
         component={ProfilesScreen}
         options={{
           headerTitle: '프로필 설정',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
         }}
       />
       <MyStack.Screen
@@ -48,6 +51,9 @@ export default function MyStackNavigator() {
         component={MyDetailProfileScreen}
         options={{
           headerTitle: '내 프로필',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
         }}
       />
       <MyStack.Screen
@@ -55,6 +61,9 @@ export default function MyStackNavigator() {
         component={MyContactScreen}
         options={{
           headerTitle: '문의 하기',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
         }}
       />
       <MyStack.Screen
@@ -62,6 +71,9 @@ export default function MyStackNavigator() {
         component={MyReviewScreen}
         options={{
           headerTitle: '내 후기 확인',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
         }}
       />
       <MyStack.Screen
@@ -69,6 +81,9 @@ export default function MyStackNavigator() {
         component={MyProfileEditScreen}
         options={{
           headerTitle: '프로필 수정',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
         }}
       />
       <MyStack.Screen
@@ -83,20 +98,26 @@ export default function MyStackNavigator() {
         component={MyMoimJoinStatusScreen}
         options={{
           headerTitle: '가입신청 상태 확인',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
         }}
       />
-      <MyStack.Screen
+      {/* <MyStack.Screen
         name={'MY_EDIT_MOIM_INFO'}
         component={EditMoimInfoScreen}
         options={{
           headerTitle: '모임 정보 수정하기',
         }}
-      />
+      /> */}
       <MyStack.Screen
         name={'MY_EDIT_ALERT'}
         component={EditAlertScreen}
         options={{
           headerTitle: '알림 설정',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
         }}
       />
       <MyStack.Screen
@@ -110,7 +131,7 @@ export default function MyStackNavigator() {
         name={'MY_PRIVACY_POLICY'}
         component={MyPrivacyPolicyScreen}
         options={{
-          headerTitle: '개인정보 처리 방침',
+          headerTitle: '개인정보 처리방침',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',
@@ -120,7 +141,7 @@ export default function MyStackNavigator() {
         name={'MY_SERVICE_TERM'}
         component={MyServiceTermScreen}
         options={{
-          headerTitle: '서비스 이용 약관',
+          headerTitle: '서비스 이용약관',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',

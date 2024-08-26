@@ -8,6 +8,7 @@ import {View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import Toast from 'react-native-toast-message';
+import {CompositeNavigationProp} from '@react-navigation/native';
 
 import {InputField} from 'components/@common/InputField/InputField';
 import PostUserProfile from 'components/screens/MoimBoardStackScreens/postDetail/PostUserProfile';
@@ -23,7 +24,6 @@ import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
-import {CompositeNavigationProp} from '@react-navigation/native';
 
 interface MoimPostDetailScreenProps {
   route: MoimPostStackRouteProp;
@@ -315,22 +315,22 @@ const MoimPostDetailScreen = ({
 
   const PostMenuList = [
     {
-      title: '신고하기',
+      title: '게시글 신고',
       onPress: () => handleReportMoimPost(),
     },
     {
-      title: '차단하기',
+      title: '게시글 차단',
       onPress: () => handleBlockMoimPost(),
     },
   ];
 
   const PostMyMenuList = [
     {
-      title: '수정하기',
+      title: '게시글 수정',
       onPress: () => handleUpdateMoimPost(),
     },
     {
-      title: '삭제하기',
+      title: '게시글 삭제',
       onPress: () => handleDeleteMoimPost(),
     },
   ];

@@ -19,6 +19,7 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
   const handlePressLogout = () => {
     logoutMutation.mutate(null);
   };
+
   const hanldeDeleteUser = () => {
     Alert.alert(
       '정말 해당 서비스를 탈퇴하시겠습니까?',
@@ -42,9 +43,9 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
   return (
     <ScreenContainer>
       <MyProfileCard navigation={navigation} profile={profile} />
-      <View className="pt-8">
-        <View className="flex-col gap-y-2">
-          <Typography className="text-gray-400" fontWeight={'BOLD'}>
+      <View className="pt-5">
+        <View className="flex-col gap-y-2 px-2">
+          <Typography className="text-gray-400" fontWeight={'MEDIUM'}>
             모임
           </Typography>
           <SettingItem
@@ -57,43 +58,45 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
             title={'가입 신청 상태 확인하기'}
             onPress={() => navigation.navigate('MY_MOIM_JOIN_STATUS')}
           />
-          <SettingItem
+          {/* <SettingItem
             title={'모임 정보 수정하기'}
             onPress={() => navigation.navigate('MY_EDIT_MOIM_INFO')}
-          />
+          /> */}
         </View>
         <View className={'h-7'} />
-        <View className="flex-col gap-y-2">
-          <Typography className="text-gray-400" fontWeight={'BOLD'}>
+        <View className="flex-col gap-y-2 px-2">
+          <Typography className="text-gray-400" fontWeight={'MEDIUM'}>
             앱 설정
           </Typography>
           <SettingItem
             title={'알림 설정'}
             onPress={() => navigation.navigate('MY_EDIT_ALERT')}
           />
-          <SettingItem
+          {/* <SettingItem
             title={'앱 정보'}
             onPress={() => navigation.navigate('MY_APP_INFO')}
-          />
+          /> */}
           <SettingItem
-            title={'개인정보 처리 방침'}
+            title={'개인정보 처리방침'}
             onPress={() => navigation.navigate('MY_PRIVACY_POLICY')}
           />
           <SettingItem
-            title={'서비스 이용 약관'}
+            title={'서비스 이용약관'}
             onPress={() => navigation.navigate('MY_SERVICE_TERM')}
           />
         </View>
         <View className={'h-7'} />
-        <View className="flex-col gap-y-2">
-          <Typography className="text-gray-400" fontWeight={'BOLD'}>
+        <View className="flex-col gap-y-2 px-2">
+          <Typography className="text-gray-400" fontWeight={'MEDIUM'}>
             계정
           </Typography>
-          <SettingItem
-            title={'비밀번호 변경'}
-            onPress={() => navigation.navigate('MY_PASSWORD_CHANGE')}
-          />
-          <SettingItem title={'로그 아웃'} onPress={handlePressLogout} />
+          {profile?.result.provider === 'LOCAL' && (
+            <SettingItem
+              title={'비밀번호 변경'}
+              onPress={() => navigation.navigate('MY_PASSWORD_CHANGE')}
+            />
+          )}
+          <SettingItem title={'로그아웃'} onPress={handlePressLogout} />
           <SettingItem title={'탈퇴하기'} onPress={hanldeDeleteUser} />
         </View>
       </View>

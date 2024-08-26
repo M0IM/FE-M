@@ -5,10 +5,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Avatar from 'components/@common/Avatar/Avatar';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu';
 import {Typography} from 'components/@common/Typography/Typography';
+
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import usePopover from 'hooks/usePopover';
+
 import {TPostRecommentDto} from 'types/dtos/post';
+import {COMMENT_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
 
@@ -31,8 +34,11 @@ const PostRecommentContainer = ({
     blockMoimPostCommentMutation,
     likeMoimPostCommentMutation,
   } = usePost();
-  const isBlocked = recommentData?.writer === null;
-  const isDeleted = recommentData?.content === null;
+  const isDeleted = recommentData?.commentStatus === COMMENT_STATUS.DELETED;
+  const isBlocked =
+    !isDeleted &&
+    recommentData?.writer === null &&
+    recommentData?.content === null;
 
   const handleMoimPostCommentLike = (commentId: number) => {
     likeMoimPostCommentMutation.mutate(
@@ -72,7 +78,9 @@ const PostRecommentContainer = ({
           onSuccess: () => {
             Toast.show({
               type: 'success',
-              text1: '댓글이 차단되었습니다.',
+              text1: isBlocked
+                ? '대댓글 차단이 취소되었습니다.'
+                : '대댓글이 차단되었습니다.',
               visibilityTime: 2000,
               position: 'bottom',
             });
@@ -163,18 +171,18 @@ const PostRecommentContainer = ({
 
   const PostMenuList = [
     {
-      title: '신고하기',
+      title: '대댓글 신고',
       onPress: () => handleReportRecomment(),
     },
     {
-      title: '차단하기',
+      title: isBlocked ? '대댓글 차단 취소' : '대댓글 차단',
       onPress: () => handleBlockRecomment(),
     },
   ];
 
   const PostMyMenuList = [
     {
-      title: '삭제하기',
+      title: '대댓글 삭제',
       onPress: () => handleDeleteRecomment(),
     },
   ];

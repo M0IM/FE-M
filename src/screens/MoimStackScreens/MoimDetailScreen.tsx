@@ -17,6 +17,7 @@ import {
 } from '../../navigators/types';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
+import {MOIM_JOIN_STATUS} from 'types/enums';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -80,8 +81,6 @@ export default function MoimDetailScreen({
     return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
   }
 
-  console.log(data.isJoin, 'hi');
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView
@@ -99,7 +98,7 @@ export default function MoimDetailScreen({
           description={data?.description}
           moimId={moimId}
           onOpen={open}
-          userImages={data?.userImages}
+          moimMembers={data?.userPreviewDTOList}
         />
         <MoimDashboardContainer
           femaleCount={data?.femaleCount}
@@ -110,21 +109,28 @@ export default function MoimDetailScreen({
         />
         <MoimContentsPreview moimId={moimId} navigation={navigation} />
       </ScrollView>
-      {!data?.isJoin && (
+      {!(data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE) && (
         <View className="p-3 pt-0">
           <CustomButton
-            label="가입하기"
+            label={
+              data?.joinStatus === MOIM_JOIN_STATUS.LOADING
+                ? '신청 확인 중'
+                : '가입하기'
+            }
             textStyle="font-bold text-white text-base"
             onPress={handleRequestMoimJoin}
+            inValid={data?.joinStatus === MOIM_JOIN_STATUS.LOADING}
           />
         </View>
       )}
-      <MoimMemberBottomSheet
-        moimId={moimId}
-        isOpen={isOpen}
-        onOpen={open}
-        onClose={close}
-      />
+      {data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE && (
+        <MoimMemberBottomSheet
+          moimId={moimId}
+          isOpen={isOpen}
+          onOpen={open}
+          onClose={close}
+        />
+      )}
     </SafeAreaView>
   );
 }

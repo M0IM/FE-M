@@ -115,10 +115,14 @@ const CustomTabBar = ({
               });
             };
 
-            const inputRange = state.routes.map((_: any, i: any) => i);
+            const inputRange =
+              state.routes.map((_: any, i: any) => i).length > 2
+                ? state.routes.map((_: any, i: any) => i)
+                : [0, 1];
+
             const opacity = position.interpolate({
               inputRange,
-              outputRange: inputRange.map((i: any) => (i === index ? 1 : 0.2)),
+              outputRange: inputRange?.map((i: any) => (i === index ? 1 : 0.2)),
             });
 
             return (

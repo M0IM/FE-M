@@ -101,7 +101,7 @@ function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.message,
+        text1: error?.response?.data.message,
         visibilityTime: 2000,
         position: 'bottom',
       });

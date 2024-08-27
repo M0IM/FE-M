@@ -91,6 +91,7 @@ type TMoimParticipantDetailResponse = {
   writerId: number;
   title: string;
   date: string;
+  time: string;
   location: string;
   locationDetail: string;
   cost: string;

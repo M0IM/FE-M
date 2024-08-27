@@ -6,7 +6,6 @@ import {TUserPreviewDTO} from 'types/dtos/moim';
 interface MoimInfoContainerProps {
   title: string;
   description: string;
-  moimId: number;
   onOpen: () => void;
   moimMembers: TUserPreviewDTO[];
 }
@@ -14,11 +13,9 @@ interface MoimInfoContainerProps {
 const MoimInfoContainer = ({
   title,
   description,
-  moimId,
   onOpen,
   moimMembers,
 }: MoimInfoContainerProps) => {
-  console.log(moimId);
   return (
     <View className="mt-16 flex flex-col">
       {moimMembers && moimMembers.length > 0 && (
@@ -49,9 +46,11 @@ const MoimInfoContainer = ({
                   </View>
                 ))}
             </TouchableOpacity>
-            <Typography fontWeight="MEDIUM" className="ml-2">
-              ...
-            </Typography>
+            {moimMembers.length > 3 && (
+              <Typography fontWeight="MEDIUM" className="ml-2">
+                ...
+              </Typography>
+            )}
           </View>
         </View>
       )}

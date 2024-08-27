@@ -100,7 +100,6 @@ export default function MoimDetailScreen({
         <MoimInfoContainer
           title={data?.title}
           description={data?.description}
-          moimId={moimId}
           onOpen={open}
           moimMembers={data?.userPreviewDTOList}
         />

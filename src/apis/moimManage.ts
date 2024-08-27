@@ -13,9 +13,10 @@ const getMoimRequestUsers = async ({
   moimId,
   cursor,
   take,
+  search,
 }: TMoimRequestUsersParams): Promise<TMoimRequestUsers> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/requests/users?cursor=${cursor}&take=${take}`,
+    `/api/v1/moims/${moimId}/requests/users?cursor=${cursor}&take=${take}&search=${search}`,
   );
   console.log(data);
   return data?.result;
@@ -85,9 +86,10 @@ const getMoimMembers = async ({
   moimId,
   cursor,
   take,
+  search,
 }: TMoimMembersParams): Promise<TGetMoimMembers> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}`,
+    `/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}&search=${search}`,
   );
   console.log(data);
   return data?.result;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {FlatList, Pressable, TouchableOpacity, View} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -45,7 +45,7 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
   };
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       setIsSelected('ALL');
     }, []),
   );

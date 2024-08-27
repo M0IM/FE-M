@@ -1,4 +1,5 @@
 import {
+  TCreateAnnouncementPostParams,
   TMoimPostCommentParams,
   TMoimPostCommentsParams,
   TMoimPostDetailParams,
@@ -10,6 +11,7 @@ import {
   TPostDto,
   TPostListDto,
   TReportMoimPostCommentParams,
+  TUnReadUserDTO,
   TUpdateMoimPostParams,
 } from 'types/dtos/post';
 import axiosInstance from './axiosInstance';
@@ -223,6 +225,49 @@ const blockMoimPostComment = async ({
   return data?.result;
 };
 
+// 공지사항 작성
+const createAnnouncementPost = async ({
+  moimId,
+  title,
+  content,
+  imageKeyNames,
+  userIds,
+}: TCreateAnnouncementPostParams): Promise<string> => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/posts/announcement`, {
+    moimId,
+    title,
+    content,
+    imageKeyNames,
+    userIds,
+  });
+  return data?.result;
+};
+
+// 공지사항 읽음으로 체크
+const confirmAnnouncementPost = async ({postId}: {postId: number}) => {
+  const {data} = await axiosInstance.post(
+    `/api/v1/moims/posts/announcement/confirm`,
+    {
+      postId,
+    },
+  );
+  return data?.result;
+};
+
+// 공지사항 안 읽은 사람 반환
+const GetUnReadUser = async ({
+  moimId,
+  postId,
+}: {
+  moimId: number;
+  postId: number;
+}): Promise<TUnReadUserDTO[]> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/${moimId}/posts/${postId}/users/un-read`,
+  );
+  return data?.result;
+};
+
 export {
   writeMoimPost,
   likeMoimPost,
@@ -239,4 +284,7 @@ export {
   reportMoimPost,
   blockMoimPost,
   updateMoimPost,
+  createAnnouncementPost,
+  confirmAnnouncementPost,
+  GetUnReadUser,
 };

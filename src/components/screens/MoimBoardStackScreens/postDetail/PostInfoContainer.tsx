@@ -1,11 +1,11 @@
-import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import {Typography} from 'components/@common/Typography/Typography';
 import ImagesSlider from '../ImagesSlider';
+import {FlatList} from 'react-native-gesture-handler';
+import Avatar from 'components/@common/Avatar/Avatar';
+import {TUnReadUserDTO} from 'types/dtos/post';
 
-// TODO: 이미지 타입 수정 필요
 interface PostInfoContainerProps {
   postImages?: string[];
   title?: string | '';
@@ -14,6 +14,7 @@ interface PostInfoContainerProps {
   likeCount?: number;
   isLike?: boolean;
   handleMoimPostLike: () => void;
+  unReadUsers?: TUnReadUserDTO[];
 }
 
 const PostInfoContainer = ({
@@ -24,24 +25,43 @@ const PostInfoContainer = ({
   likeCount,
   isLike,
   handleMoimPostLike,
+  unReadUsers,
 }: PostInfoContainerProps) => {
   const isImages =
-    postImages && postImages?.length > 0 && postImages[0]?.split('com/')[1];
+    postImages && postImages?.length > 0 && postImages[0]?.split('com/')[1]
+      ? true
+      : false;
 
   return (
     <>
-      <View className="flex flex-col pl-1">
+      <View className="flex flex-col pl-1 px-4">
         <Typography fontWeight="BOLD" className="text-base text-dark-800">
           {title}
         </Typography>
         <Typography fontWeight="MEDIUM" className="text-sm text-dark-800 mt-2">
           {content}
         </Typography>
-
         {isImages && <ImagesSlider height={400} images={postImages} />}
       </View>
 
-      {/* 게시글 정보 (댓글, 좋아요) & 좋아요 버튼 */}
+      {unReadUsers && unReadUsers?.length > 0 && (
+        <>
+          <Typography
+            fontWeight="BOLD"
+            className="flex text-sm text-gray-400 mt-6 ml-2">
+            안 읽은 사람
+          </Typography>
+          <FlatList
+            horizontal
+            data={unReadUsers}
+            renderItem={({item}) => <Avatar uri={item.imageKeyName} />}
+            contentContainerStyle={{
+              marginTop: 10,
+            }}
+          />
+        </>
+      )}
+
       <View className="flex flex-row items-center py-3 border-gray-200 border-b-[0.5px] mt-2 px-1.5">
         <Typography fontWeight="LIGHT" className="text-gray-300 text-xs">
           댓글 {commentCount}

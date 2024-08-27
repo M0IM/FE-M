@@ -30,12 +30,14 @@ type TMoimRequestUsersParams = {
   moimId: number;
   cursor: number;
   take: number;
+  search: string;
 };
 
 type TMoimMembersParams = {
   moimId: number;
   cursor: number;
   take: number;
+  search: string;
 };
 
 type TUpdateMoimAuthoritiesParams = {

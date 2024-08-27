@@ -6,7 +6,6 @@ import {TUserPreviewDTO} from 'types/dtos/moim';
 interface MoimInfoContainerProps {
   title: string;
   description: string;
-  moimId: number;
   onOpen: () => void;
   moimMembers: TUserPreviewDTO[];
 }
@@ -14,11 +13,9 @@ interface MoimInfoContainerProps {
 const MoimInfoContainer = ({
   title,
   description,
-  moimId,
   onOpen,
   moimMembers,
 }: MoimInfoContainerProps) => {
-  console.log(moimId);
   return (
     <View className="mt-16 flex flex-col">
       {moimMembers && moimMembers.length > 0 && (
@@ -27,10 +24,10 @@ const MoimInfoContainer = ({
           {/* <Label label='# 개발' color='main' style='ml-1'/>
             <Label label='# 교육' color='main' style='ml-1' />
             <Label label='# IT' color='main' style='ml-1' /> */}
-          <View className="flex flex-row items-center ml-auto">
-            <TouchableOpacity
-              className="flex flex-row items-center ml-auto"
-              onPress={onOpen}>
+          <TouchableOpacity
+            className="flex flex-row items-center ml-auto"
+            onPress={onOpen}>
+            <View className="flex flex-row items-center ml-auto">
               {moimMembers &&
                 moimMembers.length > 0 &&
                 moimMembers.map((item, index) => (
@@ -48,11 +45,13 @@ const MoimInfoContainer = ({
                     />
                   </View>
                 ))}
-            </TouchableOpacity>
-            <Typography fontWeight="MEDIUM" className="ml-2">
-              ...
-            </Typography>
-          </View>
+            </View>
+            {moimMembers.length > 3 && (
+              <Typography fontWeight="MEDIUM" className="ml-2">
+                ...
+              </Typography>
+            )}
+          </TouchableOpacity>
         </View>
       )}
 

@@ -9,11 +9,14 @@ import {
 import {
   blockMoimPost,
   blockMoimPostComment,
+  confirmAnnouncementPost,
+  createAnnouncementPost,
   deleteMoimPost,
   deleteMoimPostComment,
   getMoimPostComments,
   getMoimPostDetail,
   getMoimPostList,
+  GetUnReadUser,
   likeMoimPost,
   likeMoimPostComment,
   reportMoimPost,
@@ -27,8 +30,13 @@ import {
   POST_LIST_TYPE,
   TPostCommentListDto,
   TPostListDto,
+  TUnReadUserDTO,
 } from 'types/dtos/post';
-import {ResponseError, UseMutationCustomOptions} from 'types/mutations/common';
+import {
+  ResponseError,
+  UseMutationCustomOptions,
+  UseQueryCustomOptions,
+} from 'types/mutations/common';
 
 function useMoimPost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -254,6 +262,46 @@ function useUpdateMoimPost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useCreateAnnouncementPost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: createAnnouncementPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useConfrimAnnouncementPost(
+  mutationOptions?: UseMutationCustomOptions,
+) {
+  return useMutation({
+    mutationFn: confirmAnnouncementPost,
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: error => {
+      console.error(error);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useGetUnReadUser(
+  moimId: number,
+  postId: number,
+  queryOptions?: UseQueryCustomOptions<TUnReadUserDTO[]>,
+) {
+  return useQuery({
+    queryFn: () => GetUnReadUser({moimId, postId}),
+    queryKey: ['unReadUsers', moimId, postId],
+    ...queryOptions,
+  });
+}
+
 function usePost() {
   const moimPostMutation = useMoimPost();
   const postWriteCommentMutation = useWriteMoimPostComment();
@@ -267,6 +315,8 @@ function usePost() {
   const reportMoimPostMutation = useReportMoimPost();
   const blockMoimPostMutation = useBlockMoimPost();
   const updateMoimPostMutation = useUpdateMoimPost();
+  const createAnnouncementPostMutation = useCreateAnnouncementPost();
+  const confirmAnnouncementPostMutation = useConfrimAnnouncementPost();
 
   return {
     moimPostMutation,
@@ -281,9 +331,12 @@ function usePost() {
     reportMoimPostMutation,
     blockMoimPostMutation,
     updateMoimPostMutation,
+    createAnnouncementPostMutation,
+    confirmAnnouncementPostMutation,
     useGetInfiniteMoimPostList,
     useGetInfiniteMoimPostComment,
     useGetMoimPostDetail,
+    useGetUnReadUser,
   };
 }
 

@@ -164,7 +164,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
         onPress={handleOnSubmit}
         label="수정하기"
         textStyle="text-white text-base font-bold"
-        className="mt-3"
+        className="mt-auto"
       />
     </ScreenContainer>
   );

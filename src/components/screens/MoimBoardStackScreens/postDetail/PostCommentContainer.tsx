@@ -1,4 +1,4 @@
-import {View, Pressable, FlatList} from 'react-native';
+import {View, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
@@ -272,16 +272,15 @@ const PostCommentContainer = ({
             좋아요 {commentData?.likeCount}
           </Typography>
         </View>
-        <FlatList
-          data={commentData?.commentResponseDTOList}
-          renderItem={({item}) => (
+        {commentData?.commentResponseDTOList.map(item => (
+          <View key={item.commentId}>
             <PostRecommentContainer
               moimId={moimId}
               postId={postId}
               recommentData={item}
             />
-          )}
-        />
+          </View>
+        ))}
       </View>
     </Pressable>
   );

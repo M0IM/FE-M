@@ -21,12 +21,16 @@ import useDropdown from 'hooks/useDropdown';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 import usePermission from 'hooks/usePermission.ts';
-import {POST_WRITE_LIST} from 'constants/screens/MoimBoardStackScreens/PostList';
+import {
+  POST_WRITE_LIST,
+  POST_WRITE_MEMBER_LIST,
+} from 'constants/screens/MoimBoardStackScreens/PostList';
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
 
 interface MoimPostWriteScreenProps {
   route: MoimPostStackRouteProp;
@@ -48,39 +52,76 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
-  const {moimPostMutation} = usePost();
+  const {moimPostMutation, createAnnouncementPostMutation} = usePost();
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({});
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
+  const isMember = moimInfo?.myMoimRole === 'MEMBER';
+
+  const handleToggleSelect = (id: number) => {
+    setSelectedIds(prevSelectedIds =>
+      prevSelectedIds.includes(id)
+        ? prevSelectedIds.filter(selectedId => selectedId !== id)
+        : [...prevSelectedIds, id],
+    );
+  };
 
   const handleOnSubmit = () => {
     if (moimId && category && data.title) {
-      moimPostMutation.mutate(
-        {
-          moimId: moimId,
-          title: data.title,
-          content: data.content,
-          imageKeyNames: [uploadUri],
-          postType: category?.key,
-        },
-        {
-          onSuccess: () => {
-            navigation.navigate('MOIM_BOARD_HOME', moimId);
+      if (category.key === 'ANNOUNCEMENT') {
+        createAnnouncementPostMutation.mutate(
+          {
+            moimId: moimId,
+            title: data.title,
+            content: data.content,
+            imageKeyNames: [uploadUri],
+            userIds: selectedIds,
           },
-          onError: error => {
-            Toast.show({
-              type: 'error',
-              text1: error.response?.data.message,
-              visibilityTime: 2000,
-              position: 'bottom',
-            });
+          {
+            onSuccess: () => {
+              navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
+              queryClient.invalidateQueries({
+                queryKey: ['moim', 'post', 'ALL', moimId],
+              });
+            },
+            onError: error => {
+              Toast.show({
+                type: 'error',
+                text1: error.response?.data.message,
+                visibilityTime: 2000,
+                position: 'bottom',
+              });
+            },
           },
-          onSettled: () => {
-            queryClient.invalidateQueries({
-              queryKey: ['moim', 'post', 'ALL', moimId],
-            });
+        );
+      } else {
+        moimPostMutation.mutate(
+          {
+            moimId: moimId,
+            title: data.title,
+            content: data.content,
+            imageKeyNames: [uploadUri],
+            postType: category?.key,
           },
-        },
-      );
+          {
+            onSuccess: () => {
+              navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
+              queryClient.invalidateQueries({
+                queryKey: ['moim', 'post', 'ALL', moimId],
+              });
+            },
+            onError: error => {
+              Toast.show({
+                type: 'error',
+                text1: error.response?.data.message,
+                visibilityTime: 2000,
+                position: 'bottom',
+              });
+            },
+          },
+        );
+      }
     } else {
       Toast.show({
         type: 'error',
@@ -103,14 +144,18 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
         isPressed={isPressed}
         selectedMenu={category}
         placeholder="카테고리 선택"
-        menuList={POST_WRITE_LIST.map(item => item.label)}
+        menuList={
+          isMember
+            ? POST_WRITE_MEMBER_LIST.map(item => item.label)
+            : POST_WRITE_LIST.map(item => item.label)
+        }
         handleSelect={(label: any) => {
           const selected = POST_WRITE_LIST.find(item => item.label === label);
           console.log(selected);
           handleSelectedCategory(selected);
         }}
         onPress={handleCategory}
-        height={160}
+        height={isMember ? 130 : 160}
       />
       {category && category?.label === '공지사항' && (
         <TouchableOpacity
@@ -118,7 +163,9 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
           activeOpacity={0.8}
           className="flex flex-row border-0.5 border-gray-100 rounded-xl bg-gray-100 p-4">
           <Typography fontWeight="MEDIUM" className="text-sm text-gray-400">
-            전체 대상
+            {selectedIds.length > 0
+              ? `${selectedIds.length}명`
+              : '읽을 사람 선택'}
           </Typography>
           <Ionicons
             name="chevron-up-outline"
@@ -195,7 +242,14 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
         textStyle="text-white text-base font-bold"
         className="mt-3"
       />
-      <ReadersBottomSheet isOpen={isOpen} onOpen={open} onClose={close} />
+      <ReadersBottomSheet
+        moimId={moimId}
+        isOpen={isOpen}
+        onOpen={open}
+        onClose={close}
+        handleToggleSelect={handleToggleSelect}
+        selectedIds={selectedIds}
+      />
     </ScreenContainer>
   );
 };

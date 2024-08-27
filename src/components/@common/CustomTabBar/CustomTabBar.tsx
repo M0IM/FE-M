@@ -33,6 +33,7 @@ const CustomTabBar = ({
         'MOIM_POST_DETAIL',
         'MOIM_POST_WRITE',
         'MOIM_POST_EDIT',
+        'MOIM_MEMBER_PROFILE',
       ];
       const moimBoardState = state.routes.find(
         route => route.name === 'MOIM_TOP_BOARD',

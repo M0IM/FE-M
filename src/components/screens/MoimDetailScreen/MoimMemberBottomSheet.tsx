@@ -1,11 +1,15 @@
-import Avatar from 'components/@common/Avatar/Avatar';
-import BottomSheet from 'components/@common/BottomSheet/BottomSheet';
-import Label from 'components/@common/Label/Label';
-import {Typography} from 'components/@common/Typography/Typography';
-import useGetInfinityMoimMembers from 'hooks/queries/MoimSpace/useGetInfinityMoimMembers';
 import {useState} from 'react';
 import {View, TouchableOpacity, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import Avatar from 'components/@common/Avatar/Avatar';
+import BottomSheet from 'components/@common/BottomSheet/BottomSheet';
+import {InputField} from 'components/@common/InputField/InputField';
+import Label from 'components/@common/Label/Label';
+import {Typography} from 'components/@common/Typography/Typography';
+
+import {queryClient} from 'containers/TanstackQueryContainer';
+import useGetInfinityMoimMembers from 'hooks/queries/MoimSpace/useGetInfinityMoimMembers';
 
 interface MoimMemberBottomSheetProps {
   isOpen: boolean;
@@ -20,6 +24,9 @@ const MoimMemberBottomSheet = ({
   onClose,
   moimId,
 }: MoimMemberBottomSheetProps) => {
+  const [search, setSearch] = useState('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const {
     data: members,
     fetchNextPage,
@@ -28,8 +35,7 @@ const MoimMemberBottomSheet = ({
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimMembers(moimId);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  } = useGetInfinityMoimMembers(moimId, search);
 
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -51,6 +57,35 @@ const MoimMemberBottomSheet = ({
     return <Typography fontWeight="MEDIUM">에러입니다.</Typography>;
   }
 
+  const handleSearchUser = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['moimMembers', moimId],
+    });
+  };
+
+  const renderHeader = () => (
+    <View className="flex flex-col">
+      <Typography
+        fontWeight="BOLD"
+        className="text-dark-800 text-base self-center">
+        모임 멤버
+      </Typography>
+      <View className="flex flex-row items-center justify-between mt-5 mb-3">
+        <View className="w-[90%]">
+          <InputField
+            touched
+            placeholder="멤버 검색"
+            value={search}
+            onChangeText={text => setSearch(text)}
+          />
+        </View>
+        <TouchableOpacity onPress={handleSearchUser}>
+          <Ionicons name="search" size={27} color={'#1D2002'} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   return (
     <BottomSheet
       isBottomSheetOpen={isOpen}
@@ -58,6 +93,7 @@ const MoimMemberBottomSheet = ({
       onClose={onClose}
       height={700}>
       <FlatList
+        ListHeaderComponent={renderHeader}
         data={members?.pages.flatMap(page => page.userPreviewDTOList)}
         renderItem={({item}) => (
           <TouchableOpacity className="flex flex-row w-full">
@@ -86,14 +122,8 @@ const MoimMemberBottomSheet = ({
         contentContainerStyle={{
           justifyContent: 'center',
           padding: 30,
+          gap: 20,
         }}
-        ListHeaderComponent={() => (
-          <Typography
-            fontWeight="BOLD"
-            className="text-dark-800 text-base self-center mb-6">
-            모임 멤버
-          </Typography>
-        )}
         keyExtractor={item => String(item.userId)}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}

@@ -24,10 +24,10 @@ const MoimInfoContainer = ({
           {/* <Label label='# 개발' color='main' style='ml-1'/>
             <Label label='# 교육' color='main' style='ml-1' />
             <Label label='# IT' color='main' style='ml-1' /> */}
-          <View className="flex flex-row items-center ml-auto">
-            <TouchableOpacity
-              className="flex flex-row items-center ml-auto"
-              onPress={onOpen}>
+          <TouchableOpacity
+            className="flex flex-row items-center ml-auto"
+            onPress={onOpen}>
+            <View className="flex flex-row items-center ml-auto">
               {moimMembers &&
                 moimMembers.length > 0 &&
                 moimMembers.map((item, index) => (
@@ -45,13 +45,13 @@ const MoimInfoContainer = ({
                     />
                   </View>
                 ))}
-            </TouchableOpacity>
+            </View>
             {moimMembers.length > 3 && (
               <Typography fontWeight="MEDIUM" className="ml-2">
                 ...
               </Typography>
             )}
-          </View>
+          </TouchableOpacity>
         </View>
       )}
 

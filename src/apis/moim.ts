@@ -103,13 +103,15 @@ const getMoimMembers = async ({
   moimId,
   cursor,
   take,
+  search,
 }: {
   moimId: number;
   cursor: number;
   take: number;
+  search: string;
 }): Promise<TMoimMembersDTO> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}`,
+    `/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}&search=${search}`,
   );
   return data?.result;
 };

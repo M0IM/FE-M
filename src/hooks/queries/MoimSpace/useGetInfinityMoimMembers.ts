@@ -10,6 +10,7 @@ import {ResponseError} from 'types/mutations/common';
 
 function useGetInfinityMoimMembers(
   moimId: number,
+  search: string,
   queryOptions?: UseInfiniteQueryOptions<
     TMoimMembersDTO,
     ResponseError,
@@ -25,6 +26,7 @@ function useGetInfinityMoimMembers(
         moimId,
         cursor: pageParam,
         take: 10,
+        search,
       }),
     queryKey: ['moimMembers', moimId],
     initialPageParam: 1,

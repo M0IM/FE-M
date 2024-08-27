@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import {ActivityIndicator, SafeAreaView, View} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
 import {PlanCalendarEventList} from 'components/@common/CalendarEventList/PlanCalendarEventList.tsx';
 import {MoimCalendar} from 'components/calendar/Calendar/MoimCalendar.tsx';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
 
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {
@@ -11,11 +14,8 @@ import {
   MoimPlanStackRouteProp,
 } from 'navigators/types';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
-import useMoimCalendarStore from '../../stores/useMoimCalendarStore.ts';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
-import useRequestMoimJoin from '../../hooks/queries/MoimSpace/useRequestMoimJoin.ts';
-import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
-import Toast from 'react-native-toast-message';
+import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
+import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin.ts';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;

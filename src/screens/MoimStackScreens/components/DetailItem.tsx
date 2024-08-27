@@ -26,7 +26,10 @@ const DetailItem = ({
       ) : (
         <IonIcons name={iconName} size={24} color="#00F0A1" />
       )}
-      <Typography className="text-gray-700 text-lg ml-2" fontWeight={'BOLD'}>
+      <Typography
+        numberOfLines={1}
+        className="text-gray-700 text-lg ml-2"
+        fontWeight={'BOLD'}>
         {title}
       </Typography>
     </View>

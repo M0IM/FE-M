@@ -1,7 +1,7 @@
 import {RouteProp} from '@react-navigation/native';
 import moment from 'moment/moment';
 import 'moment/locale/ko';
-import {View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
@@ -19,15 +19,22 @@ export default function CalendarParticipantDetailScreen({
   route,
 }: ICalendarParticipantDetailScreenProps) {
   const {id} = route.params;
-  const {data, isPending, isError} = useGetDetailMoimParticipantSchedule(id);
+  const {data, isPending, isError, error} =
+    useGetDetailMoimParticipantSchedule(id);
 
   if (isPending || isError) {
-    return <View></View>;
+    return (
+      <SafeAreaView>
+        <Typography fontWeight={'BOLD'}>
+          {error?.response?.data.message}
+        </Typography>
+      </SafeAreaView>
+    );
   }
 
   return (
     <ScreenContainer>
-      <DetailItem iconName="calendar" title="개인 일정" content={data?.title} />
+      <DetailItem iconName="calendar" title="모임 일정" content={data?.title} />
       <DetailItem
         iconName="calendar"
         title="날짜"
@@ -35,7 +42,7 @@ export default function CalendarParticipantDetailScreen({
       />
       <DetailItem
         iconName="clock"
-        title="시작 시간"
+        title="일정 시작"
         content={moment(data?.time).format('a hh시 mm분')}
       />
       <DetailItem iconName="location" title="주소" content={data?.location} />
@@ -46,7 +53,7 @@ export default function CalendarParticipantDetailScreen({
       />
       <DetailItem
         iconName="person"
-        title="참여자 수"
+        title="현재 신청자 수"
         content={`${data?.participant} 명`}
       />
       <DetailItem

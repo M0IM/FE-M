@@ -292,7 +292,7 @@ export default function PostForm({moimId}: IPostForm) {
         onChangeTime={handleChangeTime}
         onConfirmTime={handleConfirmTime}
       />
-      <View className="flex-row items-center mb-16">
+      <View className="flex-row items-center mb-2">
         <Typography className="text-gray-500 flex-1" fontWeight={'BOLD'}>
           시간별 스케줄
         </Typography>

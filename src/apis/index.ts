@@ -6,3 +6,4 @@ export * from './calendar';
 export * from './moim';
 export * from './alert';
 export * from './review';
+export * from './region';

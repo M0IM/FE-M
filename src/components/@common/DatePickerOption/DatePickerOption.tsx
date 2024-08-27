@@ -1,9 +1,9 @@
-import {Modal, Pressable, SafeAreaView, View} from 'react-native';
+import {View} from 'react-native';
+import React from 'react';
+
 import DatePicker from 'react-native-date-picker';
-import {Typography} from '../Typography/Typography.tsx';
 import BottomSheet from '../BottomSheet/BottomSheet.tsx';
 import {CustomButton} from '../CustomButton/CustomButton.tsx';
-import React from 'react';
 
 interface IDatePickerOption {
   isVisible: boolean;

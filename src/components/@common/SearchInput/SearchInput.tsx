@@ -2,7 +2,7 @@ import {TextInput, TextInputProps, View} from 'react-native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
 interface ISearchInputProps extends TextInputProps {
-  onSubmit: () => void;
+  onSubmit?: () => void;
 }
 
 export function SearchInput({onSubmit, ...props}: ISearchInputProps) {

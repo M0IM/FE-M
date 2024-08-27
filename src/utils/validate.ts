@@ -84,23 +84,14 @@ function validateSignUpStep4(values: TSignUpValues) {
 //   return '';
 // }
 
-function validateSignUpStep5(
-  values: Pick<TSignup, 'birth' | 'gender' | 'residence'>,
-) {
+function validateSignUpStep5(values: Pick<TSignup, 'birth' | 'gender'>) {
   const errors = {
     gender: '',
     birth: '',
-    residence: '',
   };
 
   if (!['FEMALE', 'MALE'].includes(values.gender)) {
     errors.gender = '유효한 성별을 선택해주세요.';
-  }
-
-  // errors.birth = validateAge(values.birth);
-
-  if (!values.residence.trim()) {
-    errors.residence = '거주지를 입력해주세요.';
   }
 
   return errors;

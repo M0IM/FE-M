@@ -1,28 +1,28 @@
-import {TouchableOpacity, View} from 'react-native';
-import {InputField} from '../../../components/@common/InputField/InputField.tsx';
+import {View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useState} from 'react';
 import Toast from 'react-native-toast-message';
-import {queryClient} from '../../../containers/TanstackQueryContainer.tsx';
-import usePost from '../../../hooks/queries/MoimBoard/usePost.ts';
 
-interface ICommentInputProps {
-  id: number;
-  postId: number;
-  commentId: number;
-  handleUpdateCommentId: (commentId: number) => void;
+import {InputField} from 'components/@common/InputField/InputField';
+import useCommentStore from 'stores/useCommentStore';
+import {queryClient} from 'containers/TanstackQueryContainer';
+import usePost from 'hooks/queries/MoimBoard/usePost';
+
+interface CommentInputProps {
+  id?: number;
+  postId?: number;
 }
 
-export function CommentInput({
-  id,
-  postId,
-  commentId,
-  handleUpdateCommentId,
-}: ICommentInputProps) {
-  const [comment, setComment] = useState('');
-  const [recomment, setRecomment] = useState('');
-
+const CommentInput = ({id, postId}: CommentInputProps) => {
+  const {
+    commentId,
+    comment,
+    recomment,
+    setComment,
+    setRecomment,
+    handleUpdateCommentId,
+  } = useCommentStore();
   const {postWriteCommentMutation, postWriteRecommentMutation} = usePost();
+
   const handleWriteComment = () => {
     if (id && postId && comment) {
       postWriteCommentMutation.mutate(
@@ -92,12 +92,15 @@ export function CommentInput({
       );
     }
   };
+
   return (
     <View className="items-center justify-between flex-row p-3">
       <View className="w-[90%]">
         <InputField
-          value={comment}
-          onChangeText={text => setComment(text)}
+          value={commentId ? recomment : comment}
+          onChangeText={text =>
+            commentId ? setRecomment(text) : setComment(text)
+          }
           className="flex-3"
           placeholder={
             commentId ? '대댓글을 입력해주세요.' : '댓글을 입력해주세요.'
@@ -117,4 +120,6 @@ export function CommentInput({
       </TouchableOpacity>
     </View>
   );
-}
+};
+
+export default CommentInput;

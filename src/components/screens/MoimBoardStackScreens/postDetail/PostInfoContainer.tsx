@@ -1,11 +1,8 @@
-import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import {Typography} from 'components/@common/Typography/Typography';
 import ImagesSlider from '../ImagesSlider';
 
-// TODO: 이미지 타입 수정 필요
 interface PostInfoContainerProps {
   postImages?: string[];
   title?: string | '';
@@ -26,7 +23,9 @@ const PostInfoContainer = ({
   handleMoimPostLike,
 }: PostInfoContainerProps) => {
   const isImages =
-    postImages && postImages?.length > 0 && postImages[0]?.split('com/')[1];
+    postImages && postImages?.length > 0 && postImages[0]?.split('com/')[1]
+      ? true
+      : false;
 
   return (
     <>
@@ -37,11 +36,9 @@ const PostInfoContainer = ({
         <Typography fontWeight="MEDIUM" className="text-sm text-dark-800 mt-2">
           {content}
         </Typography>
-
         {isImages && <ImagesSlider height={400} images={postImages} />}
       </View>
 
-      {/* 게시글 정보 (댓글, 좋아요) & 좋아요 버튼 */}
       <View className="flex flex-row items-center py-3 border-gray-200 border-b-[0.5px] mt-2 px-1.5">
         <Typography fontWeight="LIGHT" className="text-gray-300 text-xs">
           댓글 {commentCount}

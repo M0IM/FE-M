@@ -250,7 +250,7 @@ const getUserAllScheduleList = async ({
   size: number;
 }): Promise<TUserPlanResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/users/user-individual-plan?year=${year}&month=${month}&day=${day}&page=${page}&size=${size}`,
+    `/api/v1/users/daily/total-plans?year=${year}&month=${month}&day=${day}&page=${page}&size=${size}`,
   );
 
   return data.result;

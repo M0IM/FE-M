@@ -4,6 +4,7 @@ import {cva} from 'class-variance-authority';
 
 import {cn} from 'utils';
 import {Typography} from 'components/@common/Typography/Typography';
+import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon';
 import {MOIM_CATEGORY} from 'types/dtos/moim';
 import {CATEGORIES_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
 
@@ -35,7 +36,9 @@ const MoimImageBox = ({
           className="w-full h-[240px] rounded-tr-2xl rounded-tl-2xl"
         />
       ) : (
-        <View className="w-full h-[240px] bg-gray-500 rounded-tr-2xl rounded-tl-2xl" />
+        <View className="flex flex-col items-center w-full h-[240px] bg-gray-100 rounded-tr-2xl rounded-tl-2xl">
+          <DefaultIcon height={50} width={50} className="mt-16" />
+        </View>
       )}
       <LinearGradient
         colors={['rgba(255,255,255,1)', 'rgba(255,255,255,0)']}

@@ -18,19 +18,19 @@ export default function MoimMyEvent({
 }: MoimMyEventProps) {
   const {
     data: moims,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+    // fetchNextPage,
+    // hasNextPage,
+    // isFetchingNextPage,
     refetch: refetchMyActiveMoim,
     isPending,
     isError,
   } = useGetInfiniteMyActiveMoim();
 
-  const handleEndReached = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  };
+  // const handleEndReached = () => {
+  //   if (hasNextPage && !isFetchingNextPage) {
+  //     fetchNextPage();
+  //   }
+  // };
 
   useEffect(() => {
     const refetch = async () => {

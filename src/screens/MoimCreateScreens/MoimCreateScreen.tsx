@@ -6,19 +6,17 @@ import Toast from 'react-native-toast-message';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
+import CustomDropdown from 'components/@common/Dropdown/CustomDropdown';
 import {ScreenContainer} from 'components/ScreenContainer';
-import CategoryDropdown from 'components/screens/MoimCreateScreen/CategoryDropdown';
-import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
 
-import useTags from 'hooks/useTags';
 import usePermission from 'hooks/usePermission';
-import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
 import useCreateMoim from 'hooks/queries/MoimCreateScreen/useCreateMoim';
 import useSingleImagePicker from 'hooks/useSingleImagePicker';
+import useDropdown from 'hooks/useDropdown';
 
 import {HomeStackNavigationProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
-import {MOIM_REQUEST_TYPE} from 'types/enums';
+import {CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
 
 interface MoimCreateScreenProps {
   navigation: HomeStackNavigationProp;
@@ -27,15 +25,13 @@ interface MoimCreateScreenProps {
 const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
   usePermission('PHOTO');
 
-  const {tags, addTagField, handleTagChange, removeTagField} = useTags();
+  // const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({});
+  const {isPressed, category, handleCategory, handleSelectedCategory} =
+    useDropdown();
   const createMoimMutation = useCreateMoim();
   const platform = Platform.OS;
-  const [isPressed, setIsPressed] = useState(false);
-  const [selectedCategory, setSelectedCategory] =
-    useState<MOIM_REQUEST_TYPE | null>(null);
-  const [category, setCategory] = useState('');
   const [data, setData] = useState({
     title: '',
     location: '',
@@ -47,29 +43,14 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
     title: '',
     location: '',
   });
-  const categoryKeys = Object.keys(CATEGORY_LIST);
-
-  const handleSelectedCategory = (selected: any) => {
-    setSelectedCategory(CATEGORY_LIST[selected] || null);
-    setCategory(selected);
-  };
-
-  const handleCategory = () => {
-    setIsPressed(prev => !prev);
-  };
 
   const handleOnSubmit = () => {
-    if (
-      data?.title &&
-      data?.location &&
-      data?.introduction &&
-      selectedCategory
-    ) {
+    if (data?.title && data?.location && data?.introduction && category?.key) {
       createMoimMutation.mutate(
         {
           title: data?.title,
           location: data?.location,
-          moimCategory: selectedCategory,
+          moimCategory: category?.key,
           introduceVideoKeyName: data?.introduceVideoKeyName,
           introduceVideoTitle: data?.introduceVideoTitle,
           introduction: data?.introduction,
@@ -98,7 +79,7 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
         },
       );
     } else {
-      if (!selectedCategory) {
+      if (!category?.key) {
         Toast.show({
           type: 'error',
           text1: '카테고리를 선택해주세요.',
@@ -184,13 +165,19 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
       </View>
 
       {/* 카테고리 드롭다운 */}
-      <CategoryDropdown
-        onPress={handleCategory}
+      <CustomDropdown
         isPressed={isPressed}
-        menuList={categoryKeys}
-        handleSelect={handleSelectedCategory}
         selectedMenu={category}
         placeholder="카테고리"
+        menuList={CATEGORIES_LIST_DATA.map(item => item.label)}
+        handleSelect={(label: any) => {
+          const selected = CATEGORIES_LIST_DATA.find(
+            item => item.label === label,
+          );
+          handleSelectedCategory(selected);
+        }}
+        onPress={handleCategory}
+        height={200}
       />
 
       <View className="flex flex-col">
@@ -245,12 +232,13 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
       </View>
 
       {/* 태그 컴포넌트 */}
-      <MoimTagContainer
+      {/* TODO: 다음 버전에서 추가 */}
+      {/* <MoimTagContainer
         tags={tags}
         addTagField={addTagField}
         removeTagField={removeTagField}
         handleTagChange={handleTagChange}
-      />
+      /> */}
 
       {/* 모임 소개 영상 게시 */}
       {/* TODO: 다음 버전에서 추가 */}

@@ -18,6 +18,7 @@ import {
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 import {MOIM_JOIN_STATUS} from 'types/enums';
+import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -49,6 +50,9 @@ export default function MoimDetailScreen({
             text1: '가입 신청되었습니다.',
             visibilityTime: 2000,
             position: 'bottom',
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['moimSpaceInfo', moimId],
           });
         },
         onError: error => {

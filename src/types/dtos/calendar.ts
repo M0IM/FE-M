@@ -1,10 +1,12 @@
 type TPlanListDTO = {
   planId: number;
   title: string;
+  time: string;
   location: string;
   locationDetail: string;
-  time: string;
   memo: string;
+  moimName: null | string;
+  planType: 'MOIM_PLAN' | 'INDIVIDUAL_PLAN';
 };
 
 type TMoimPlanListDTO = {

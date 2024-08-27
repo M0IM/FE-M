@@ -30,12 +30,14 @@ const getMoimCalendar = async ({
   return data.result.planList;
 };
 
+// 특정 날짜 (연, 월): 개인 일정 리스트 조회 (deprecated)
+// 모든 타입 일정 리스트 조회
 const getPersonalCalendar = async ({
   year,
   month,
 }: Omit<TCalndarProps, 'moimId'>): Promise<TCalendarPersonalResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/users/calender?year=${year}&month=${month}`,
+    `/api/v1/users/monthly/total-plans?year=${year}&month=${month}`,
   );
 
   return data.result.planList;

@@ -6,6 +6,8 @@ import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
+import {useNavigation} from '@react-navigation/native';
+import {CalendarStackNavigationProp} from '../../../navigators/types';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -43,6 +45,8 @@ export default function MoimScheduleEvent({
     return <View></View>;
   }
 
+  const navigation = useNavigation<CalendarStackNavigationProp>();
+
   return (
     <View className="flex flex-col gap-2 mt-1">
       <Typography className="text-2xl mt-5" fontWeight={'BOLD'}>
@@ -57,7 +61,25 @@ export default function MoimScheduleEvent({
         data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
         renderItem={({item}) => {
-          return <ScheduleCard item={item} />;
+          console.log(item.planType);
+          console.log(item.planType);
+
+          return (
+            <ScheduleCard
+              item={item}
+              onPress={() => {
+                item.planType === 'MOIM_PLAN'
+                  ? navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
+                      id: item.planId,
+                      type: 'MOIM_PLAN',
+                    })
+                  : navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
+                      id: item.planId,
+                      type: 'INDIVIDUAL_PLAN',
+                    });
+              }}
+            />
+          );
         }}
         keyExtractor={item => String(item.planId)}
         contentContainerStyle={{

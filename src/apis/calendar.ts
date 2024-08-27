@@ -258,6 +258,23 @@ const getUserAllScheduleList = async ({
   return data.result;
 };
 
+// 유저의 모임 참여 신청 일정 상세 조회
+const getDetailIndividualSchedule = async ({
+  type,
+  planId,
+}: {
+  type: string;
+  planId: number;
+}) => {
+  let planType;
+  type === 'MOIM_PLAN'
+    ? (planType = 'moim-plan')
+    : (planType = 'individual-plan');
+  const {data} = await axiosInstance.get(`/api/v1/users/${planType}/${planId}`);
+
+  return data.result;
+};
+
 export {
   getMoimCalendar,
   getPersonalCalendar,
@@ -272,4 +289,5 @@ export {
   getUserTodayParticipantSchedules,
   getUserTodaySchedules,
   getUserAllScheduleList,
+  getDetailIndividualSchedule,
 };

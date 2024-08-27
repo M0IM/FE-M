@@ -58,6 +58,7 @@ type TPostDetailDto = {
   updateAt: string;
   createAt: string;
   writerId: number;
+  postType: POST_LIST_TYPE;
 };
 
 export type TPostRecommentDto = {

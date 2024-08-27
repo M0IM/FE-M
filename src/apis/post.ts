@@ -240,7 +240,10 @@ const createAnnouncementPost = async ({
 // 공지사항 읽음으로 체크
 const confirmAnnouncementPost = async ({postId}: {postId: number}) => {
   const {data} = await axiosInstance.post(
-    `/api/v1//moims/posts/announcement/confirm?postId=${postId}`,
+    `/api/v1/moims/posts/announcement/confirm`,
+    {
+      postId,
+    },
   );
   return data?.result;
 };

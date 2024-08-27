@@ -33,6 +33,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     reportMoimPostMutation,
     blockMoimPostMutation,
     useGetUnReadUser,
+    confirmAnnouncementPostMutation,
   } = usePost();
   const {
     data,
@@ -154,6 +155,36 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     }
   };
 
+  const handleConfirmPost = () => {
+    if (postId) {
+      confirmAnnouncementPostMutation.mutate(
+        {
+          postId,
+        },
+        {
+          onSuccess: () => {
+            Toast.show({
+              type: 'success',
+              text1: '게시글이 읽음 처리 되었습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+          onError: error => {
+            Toast.show({
+              type: 'error',
+              text1:
+                error?.response?.data.message ||
+                '게시글 읽음 처리 중 에러가 발생했습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            });
+          },
+        },
+      );
+    }
+  };
+
   const handleUpdateMoimPost = () => {
     if (id && postId) {
       navigation.navigate('MOIM_POST_EDIT', {id, postId});
@@ -197,6 +228,21 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     }
   };
 
+  const AnnouncementPostMenuList = [
+    {
+      title: '게시글 읽음 표시',
+      onPress: () => handleConfirmPost(),
+    },
+    {
+      title: '게시글 신고',
+      onPress: () => handleReportMoimPost(),
+    },
+    {
+      title: '게시글 차단',
+      onPress: () => handleBlockMoimPost(),
+    },
+  ];
+
   const PostMenuList = [
     {
       title: '게시글 신고',
@@ -209,6 +255,21 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
   ];
 
   const PostMyMenuList = [
+    {
+      title: '게시글 수정',
+      onPress: () => handleUpdateMoimPost(),
+    },
+    {
+      title: '게시글 삭제',
+      onPress: () => handleDeleteMoimPost(),
+    },
+  ];
+
+  const AnnouncementPostMyMenuList = [
+    {
+      title: '게시글 읽음 표시',
+      onPress: () => handleConfirmPost(),
+    },
     {
       title: '게시글 수정',
       onPress: () => handleUpdateMoimPost(),
@@ -241,8 +302,16 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         writer={data?.writer}
         updatedAt={data?.updateAt && formatKoreanDate(new Date(data?.updateAt))}
         profileImage={data?.profileImage}
-        PostMenuList={PostMenuList}
-        PostMyMenuList={PostMyMenuList}
+        PostMenuList={
+          data?.postType === 'ANNOUNCEMENT'
+            ? AnnouncementPostMenuList
+            : PostMenuList
+        }
+        PostMyMenuList={
+          data?.postType === 'ANNOUNCEMENT'
+            ? AnnouncementPostMyMenuList
+            : PostMyMenuList
+        }
         isWriter={userInfo?.result.nickname === data?.writer}
         onPress={() =>
           navigation.navigate('MOIM_MEMBER_PROFILE', {

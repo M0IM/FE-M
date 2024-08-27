@@ -21,12 +21,16 @@ import useDropdown from 'hooks/useDropdown';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 import usePermission from 'hooks/usePermission.ts';
-import {POST_WRITE_LIST} from 'constants/screens/MoimBoardStackScreens/PostList';
+import {
+  POST_WRITE_LIST,
+  POST_WRITE_MEMBER_LIST,
+} from 'constants/screens/MoimBoardStackScreens/PostList';
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
 
 interface MoimPostWriteScreenProps {
   route: MoimPostStackRouteProp;
@@ -51,6 +55,8 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   const {moimPostMutation} = usePost();
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({});
+  const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
+  const isMember = moimInfo?.myMoimRole === 'MEMBER';
 
   const handleOnSubmit = () => {
     if (moimId && category && data.title) {
@@ -64,7 +70,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
         },
         {
           onSuccess: () => {
-            navigation.navigate('MOIM_BOARD_HOME', moimId);
+            navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
           },
           onError: error => {
             Toast.show({
@@ -103,14 +109,18 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
         isPressed={isPressed}
         selectedMenu={category}
         placeholder="카테고리 선택"
-        menuList={POST_WRITE_LIST.map(item => item.label)}
+        menuList={
+          isMember
+            ? POST_WRITE_MEMBER_LIST.map(item => item.label)
+            : POST_WRITE_LIST.map(item => item.label)
+        }
         handleSelect={(label: any) => {
           const selected = POST_WRITE_LIST.find(item => item.label === label);
           console.log(selected);
           handleSelectedCategory(selected);
         }}
         onPress={handleCategory}
-        height={160}
+        height={isMember ? 130 : 160}
       />
       {category && category?.label === '공지사항' && (
         <TouchableOpacity

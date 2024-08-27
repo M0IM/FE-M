@@ -51,12 +51,14 @@ export default function ParticipantList({
           data={participants.pages.flat()}
           renderItem={({item}) => {
             return (
-              <View
-                key={item?.userId}
-                className="flex-row items-center gap-x-2">
-                <Avatar uri={item?.imageUrl} />
-                <Typography fontWeight={'BOLD'}>{item?.nickname}</Typography>
-              </View>
+              <>
+                <View
+                  key={item?.userId}
+                  className="flex-row items-center gap-x-2">
+                  <Avatar uri={item?.imageUrl} />
+                  <Typography fontWeight={'BOLD'}>{item?.nickname}</Typography>
+                </View>
+              </>
             );
           }}
           keyExtractor={item => String(item.userId)}
@@ -64,6 +66,7 @@ export default function ParticipantList({
           contentContainerStyle={{
             paddingHorizontal: 30,
             gap: 10,
+            height: 150,
           }}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}

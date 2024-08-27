@@ -19,6 +19,7 @@ export function DateBox({
   isToday,
   isMemberBusy,
 }: IDateBoxProps) {
+  console.log(isMemberBusy);
   return (
     <Pressable
       onPress={() => onPressDate(date)}
@@ -46,16 +47,14 @@ export function DateBox({
               `}>
               {date}
             </Text>
+            {/*<View className="absolute top-7 left-[40%] mt-1">*/}
+            {/*  {isMemberBusy && hasSchedule ? (*/}
+            {/*    <View className="w-1 h-1 rounded-sm bg-main" />*/}
+            {/*  ) : null}*/}
+            {/*</View>*/}
             <View className="absolute top-7 left-[40%] mt-1">
-              {hasSchedule && !isMemberBusy ? (
+              {hasSchedule ? (
                 <View className="w-1 h-1 rounded-sm bg-main" />
-              ) : (!hasSchedule && isMemberBusy) !== undefined ? (
-                <View className="w-1 h-1 rounded-sm bg-error" />
-              ) : hasSchedule && isMemberBusy ? (
-                <View className="m-0 flex-col items-center justify-center">
-                  <View className="w-1 h-1 rounded-sm bg-main" />
-                  <View className="mt-0.5 w-1 h-1 rounded-sm bg-error" />
-                </View>
               ) : null}
             </View>
           </View>

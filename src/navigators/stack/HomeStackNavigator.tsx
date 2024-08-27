@@ -4,6 +4,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimSearchScreen from 'screens/MoimSearchScreens/MoimSearchScreen';
 import PushAlertScreen from 'screens/PushAlertScreens/PushAlertScreen';
+import CalendarIndividualDetailScreen from '../../screens/MoimStackScreens/CalendarIndividualDetailScreen.tsx';
+import CalendarParticipantDetailScreen from '../../screens/MoimStackScreens/CalendarParticipantDetailScreen.tsx';
 
 import {HomeStack} from 'navigators/constants';
 import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
@@ -16,7 +18,13 @@ export default function HomeStackNavigator() {
   const platform = Platform.OS;
 
   return (
-    <HomeStack.Navigator initialRouteName={'HOME'}>
+    <HomeStack.Navigator
+      initialRouteName={'HOME'}
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: '#fff',
+        },
+      }}>
       <HomeStack.Screen
         name={'HOME'}
         component={FeedTabNavigator}
@@ -72,6 +80,24 @@ export default function HomeStackNavigator() {
         component={MoimPostStackNavigator}
         options={{
           headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name={'CALENDAR_INDIVIDUAL_DETAIL'}
+        component={CalendarIndividualDetailScreen}
+        options={{
+          headerTitle: '나의 일정',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <HomeStack.Screen
+        name={'CALENDAR_PARTICIPANT_DETAIL'}
+        component={CalendarParticipantDetailScreen}
+        options={{
+          headerTitle: '모임 일정',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
         }}
       />
     </HomeStack.Navigator>

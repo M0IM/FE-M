@@ -3,6 +3,8 @@ import {
   TCalendarMoimResponse,
   TCalendarPersonalResponse,
   TDetailMoimCalendarDTO,
+  TIndividualResponse,
+  TMoimParticipantDetailResponse,
   TPostDetailMoimCalendarDTO,
   TUserPlanDTO,
   TUserPlanResponse,
@@ -25,18 +27,20 @@ const getMoimCalendar = async ({
     `/api/v1/moim/${moimId}/calender?year=${year}&month=${month}`,
   );
 
-  console.log(data);
-
   return data.result.planList;
 };
 
+// 특정 날짜 (연, 월): 개인 일정 리스트 조회 (deprecated)
+// 모든 타입 일정 리스트 조회
 const getPersonalCalendar = async ({
   year,
   month,
 }: Omit<TCalndarProps, 'moimId'>): Promise<TCalendarPersonalResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/users/calender?year=${year}&month=${month}`,
+    `/api/v1/users/monthly/total-plans?year=${year}&month=${month}`,
   );
+
+  console.log(data.result.planList);
 
   return data.result.planList;
 };
@@ -256,6 +260,30 @@ const getUserAllScheduleList = async ({
   return data.result;
 };
 
+// 유저의 모임 참여 신청 일정 상세 조회
+const getDetailMoimParticipantSchedule = async ({
+  planId,
+}: {
+  planId: number;
+}): Promise<TMoimParticipantDetailResponse> => {
+  const {data} = await axiosInstance.get(`/api/v1/users/moim-plan/${planId}`);
+
+  return data.result;
+};
+
+// 유저의 개인 일정 상세 조회
+const getDetailIndividualSchedule = async ({
+  planId,
+}: {
+  planId: number;
+}): Promise<TIndividualResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/users/individual-plan/${planId}`,
+  );
+
+  return data.result;
+};
+
 export {
   getMoimCalendar,
   getPersonalCalendar,
@@ -270,4 +298,6 @@ export {
   getUserTodayParticipantSchedules,
   getUserTodaySchedules,
   getUserAllScheduleList,
+  getDetailMoimParticipantSchedule,
+  getDetailIndividualSchedule,
 };

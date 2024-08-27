@@ -17,12 +17,9 @@ import {CalendarStackNavigationProp} from 'navigators/types';
 import useMyCalendarStore from 'stores/useMyCalendarStore.ts';
 import useUpdateMyCalendarSchedule from 'hooks/queries/CalendarHomeScreen/useUpdateMyCalendarSchedule.ts';
 import {TimePickerOption} from '../@common/TimePickerOption/TimePickerOption.tsx';
+import {useNavigation} from '@react-navigation/native';
 
-function CalendarPostForm({
-  navigation,
-}: {
-  navigation: CalendarStackNavigationProp;
-}) {
+function CalendarPostForm() {
   const datePickerModal = useModal();
   const timePickerModal = useModal();
   const [isDatePicked, setIsDatePicked] = useState(false);
@@ -50,6 +47,7 @@ function CalendarPostForm({
 
   const {mutate: postCalendar} = usePostMyCalendarSchedule();
   const {mutate: modifyCalendar} = useUpdateMyCalendarSchedule();
+  const navigation = useNavigation<CalendarStackNavigationProp>();
 
   const writeMyCalendar = useForm({
     initialValue: {

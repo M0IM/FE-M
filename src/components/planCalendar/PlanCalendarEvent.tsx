@@ -5,6 +5,7 @@ import {cva} from 'class-variance-authority';
 import {cn} from 'utils/cn.ts';
 import {MoimPlanStackNavigationProp} from 'navigators/types';
 import {TMoimPlanListDTO} from 'types/dtos/calendar.ts';
+import {getMonthYearDetails} from '../../utils';
 
 interface ICalendarEventProps extends PressableProps {
   post: TMoimPlanListDTO;
@@ -13,6 +14,7 @@ interface ICalendarEventProps extends PressableProps {
 export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
   const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const platform = Platform.OS;
+  const {month, year, day} = getMonthYearDetails(new Date(post.time));
 
   return (
     <Pressable
@@ -33,7 +35,9 @@ export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
           {post.title}
         </Text>
         <View className="mt-1">
-          <Text className="text-xs text-gray-400">{post.time}</Text>
+          <Text className="text-xs text-gray-400">
+            {year}년 {month}월 {day}일
+          </Text>
           <View className="flex-row gap-x-2">
             <Text className="text-xs text-gray-400">
               {post.location ?? '장소가 표기되지 않았습니다.'}

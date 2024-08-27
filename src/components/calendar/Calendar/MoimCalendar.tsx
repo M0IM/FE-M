@@ -87,7 +87,6 @@ export function MoimCalendar({
             date: i - firstDOW + 1,
           }))}
           renderItem={({item}) => {
-            console.log(schedules[21], 'hi');
             return (
               <DateBox
                 date={item.date}

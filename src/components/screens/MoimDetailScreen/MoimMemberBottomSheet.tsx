@@ -1,11 +1,12 @@
+import {useState} from 'react';
+import {View, TouchableOpacity, FlatList} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import Avatar from 'components/@common/Avatar/Avatar';
 import BottomSheet from 'components/@common/BottomSheet/BottomSheet';
 import Label from 'components/@common/Label/Label';
 import {Typography} from 'components/@common/Typography/Typography';
 import useGetInfinityMoimMembers from 'hooks/queries/MoimSpace/useGetInfinityMoimMembers';
-import {useState} from 'react';
-import {View, TouchableOpacity, FlatList} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface MoimMemberBottomSheetProps {
   isOpen: boolean;

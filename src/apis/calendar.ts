@@ -25,8 +25,6 @@ const getMoimCalendar = async ({
     `/api/v1/moim/${moimId}/calender?year=${year}&month=${month}`,
   );
 
-  console.log(data);
-
   return data.result.planList;
 };
 
@@ -39,6 +37,8 @@ const getPersonalCalendar = async ({
   const {data} = await axiosInstance.get(
     `/api/v1/users/monthly/total-plans?year=${year}&month=${month}`,
   );
+
+  console.log(data.result.planList);
 
   return data.result.planList;
 };

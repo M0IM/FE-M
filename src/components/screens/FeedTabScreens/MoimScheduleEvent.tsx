@@ -43,8 +43,6 @@ export default function MoimScheduleEvent({
     return <View></View>;
   }
 
-  console.log(calendars.pages.flatMap(calendar => calendar.userPlanDTOList));
-
   return (
     <View className="flex flex-col gap-2 mt-1">
       <Typography className="text-2xl mt-5" fontWeight={'BOLD'}>

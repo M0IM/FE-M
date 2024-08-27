@@ -32,6 +32,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     deleteMoimPostMutation,
     reportMoimPostMutation,
     blockMoimPostMutation,
+    useGetUnReadUser,
   } = usePost();
   const {
     data,
@@ -39,6 +40,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     isError,
     refetch: postRefetch,
   } = useGetMoimPostDetail(id, postId);
+  const {data: unReadUsers} = useGetUnReadUser(id, postId);
   const {data: userInfo} = useGetMyProfile();
 
   useEffect(() => {
@@ -256,6 +258,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         commentCount={data?.commentCount}
         likeCount={data?.likeCount}
         isLike={data?.isLike}
+        unReadUsers={unReadUsers}
         handleMoimPostLike={handleMoimPostLike}
       />
     </View>

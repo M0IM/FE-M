@@ -2,6 +2,9 @@ import {View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Typography} from 'components/@common/Typography/Typography';
 import ImagesSlider from '../ImagesSlider';
+import {FlatList} from 'react-native-gesture-handler';
+import Avatar from 'components/@common/Avatar/Avatar';
+import {TUnReadUserDTO} from 'types/dtos/post';
 
 interface PostInfoContainerProps {
   postImages?: string[];
@@ -11,6 +14,7 @@ interface PostInfoContainerProps {
   likeCount?: number;
   isLike?: boolean;
   handleMoimPostLike: () => void;
+  unReadUsers?: TUnReadUserDTO[];
 }
 
 const PostInfoContainer = ({
@@ -21,6 +25,7 @@ const PostInfoContainer = ({
   likeCount,
   isLike,
   handleMoimPostLike,
+  unReadUsers,
 }: PostInfoContainerProps) => {
   const isImages =
     postImages && postImages?.length > 0 && postImages[0]?.split('com/')[1]
@@ -38,6 +43,24 @@ const PostInfoContainer = ({
         </Typography>
         {isImages && <ImagesSlider height={400} images={postImages} />}
       </View>
+
+      {unReadUsers && unReadUsers?.length > 0 && (
+        <>
+          <Typography
+            fontWeight="BOLD"
+            className="flex text-sm text-gray-400 mt-6 ml-2">
+            안 읽은 사람
+          </Typography>
+          <FlatList
+            horizontal
+            data={unReadUsers}
+            renderItem={({item}) => <Avatar uri={item.imageKeyName} />}
+            contentContainerStyle={{
+              marginTop: 10,
+            }}
+          />
+        </>
+      )}
 
       <View className="flex flex-row items-center py-3 border-gray-200 border-b-[0.5px] mt-2 px-1.5">
         <Typography fontWeight="LIGHT" className="text-gray-300 text-xs">

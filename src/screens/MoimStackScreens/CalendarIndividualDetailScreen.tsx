@@ -1,10 +1,18 @@
 import {SafeAreaView} from 'react-native';
-import {Typography} from '../../components/@common/Typography/Typography.tsx';
+import {RouteProp} from '@react-navigation/native';
 
-export default function CalendarIndividualDetailScreen() {
-  return (
-    <SafeAreaView>
-      <Typography fontWeight={'BOLD'}>Individual</Typography>
-    </SafeAreaView>
-  );
+import {HomeStackParamList} from 'navigators/types';
+import useGetDetailIndividualSchedule from 'hooks/queries/MoimStack/useGetDetailIndividualSchedule.ts';
+
+interface ICalendarIndividualDetailScreenProps {
+  route: RouteProp<HomeStackParamList, 'CALENDAR_INDIVIDUAL_DETAIL'>;
+}
+
+export default function CalendarIndividualDetailScreen({
+  route,
+}: ICalendarIndividualDetailScreenProps) {
+  const {id} = route.params;
+  const {data, isPending, isError} = useGetDetailIndividualSchedule(id);
+
+  return <SafeAreaView></SafeAreaView>;
 }

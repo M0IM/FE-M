@@ -105,7 +105,10 @@ export default function MoimPlanDetailScreen({
             </TouchableOpacity>
           </PopoverMenu>
         </View>
-        <TitleSubTitleBox title={'날짜'} subTitle={data?.date} />
+        <TitleSubTitleBox
+          title={'날짜'}
+          subTitle={moment(data?.date).format('YYYY년 MM월 DD일')}
+        />
         <TitleSubTitleBox title={'장소'} subTitle={data?.location} />
         <TitleSubTitleBox
           title={'세부 장소'}
@@ -113,7 +116,7 @@ export default function MoimPlanDetailScreen({
         />
         <TitleSubTitleBox
           title={'시작 시간'}
-          subTitle={moment(data?.date).format('A h시 m분 s초')}
+          subTitle={moment(data?.date).format('A h시 m분')}
         />
         <TitleSubTitleBox title={'비용'} subTitle={`${data?.cost} 원`} />
         <TitleSubTitleBox

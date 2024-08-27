@@ -1,5 +1,8 @@
-import {Typography} from 'components/@common/Typography/Typography';
 import {View} from 'react-native';
+import moment from 'moment';
+import 'moment/locale/ko';
+
+import {Typography} from 'components/@common/Typography/Typography';
 
 // TODO: 예시 타입입니다. 추후에 변경 예정
 type DetailScheduleType = {
@@ -21,7 +24,7 @@ const DetailSchedules = ({
 
   return (
     <View className="flex flex-row">
-      <View className="w-[4px] h-full rounded-md bg-main mr-5" />
+      <View className="w-[4px] h-full rounded-md bg-main mr-2" />
       <View className="flex-col gap-y-4">
         {(type === 'full' ? detailSchedules : scheduleList).map(
           (item, index) => (
@@ -29,7 +32,7 @@ const DetailSchedules = ({
               <Typography
                 fontWeight="MEDIUM"
                 className="text-gray-500 text-xs mr-5">
-                {item.startTime}
+                {moment(item.startTime).format('A hh시 mm분')}
               </Typography>
               <Typography fontWeight="MEDIUM" className="text-gray-500 text-xs">
                 {item.title}

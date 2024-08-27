@@ -86,7 +86,7 @@ export default function HomeStackNavigator() {
         name={'CALENDAR_INDIVIDUAL_DETAIL'}
         component={CalendarIndividualDetailScreen}
         options={{
-          headerTitle: '',
+          headerTitle: '나의 일정',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
         }}
@@ -95,7 +95,7 @@ export default function HomeStackNavigator() {
         name={'CALENDAR_PARTICIPANT_DETAIL'}
         component={CalendarParticipantDetailScreen}
         options={{
-          headerTitle: '',
+          headerTitle: '모임 일정',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
         }}

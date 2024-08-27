@@ -16,7 +16,7 @@ export default function CalendarParticipantDetailScreen({
   console.log(route);
   const {id} = route.params;
   const {data, isPending, isError} = useGetDetailMoimParticipantSchedule(id);
-
+  console.log(data);
   return (
     <SafeAreaView>
       <Typography fontWeight={'BOLD'}>Participant</Typography>

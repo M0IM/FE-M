@@ -22,6 +22,8 @@ export type HomeStackParamList = {
       postId: number;
     };
   };
+  CALENDAR_INDIVIDUAL_DETAIL: {id: number};
+  CALENDAR_PARTICIPANT_DETAIL: {id: number};
 };
 
 export type FeedTabParamList = {

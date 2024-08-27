@@ -21,6 +21,7 @@ import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScre
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
 import {getMonthYearDetails} from 'utils/date.ts';
+import {ScreenContainer} from '../../components/ScreenContainer.tsx';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
@@ -54,7 +55,14 @@ export default function MoimPlanDetailScreen({
       title: '수정하기',
       onPress: () => {
         setIsEditMode(true);
-        setMoimCalendar({...data, planId});
+        setMoimCalendar({
+          ...data,
+          planId,
+          schedules: data?.schedules.map(schedule => ({
+            ...schedule,
+            startTime: moment(schedule.startTime).format('A hh시 mm분'),
+          })),
+        });
         navigation.navigate('MOIM_PLAN_WRITE', {id: moimId});
       },
     },
@@ -105,7 +113,10 @@ export default function MoimPlanDetailScreen({
             </TouchableOpacity>
           </PopoverMenu>
         </View>
-        <TitleSubTitleBox title={'날짜'} subTitle={data?.date} />
+        <TitleSubTitleBox
+          title={'날짜'}
+          subTitle={moment(data?.date).format('YYYY년 MM월 DD일')}
+        />
         <TitleSubTitleBox title={'장소'} subTitle={data?.location} />
         <TitleSubTitleBox
           title={'세부 장소'}
@@ -113,7 +124,7 @@ export default function MoimPlanDetailScreen({
         />
         <TitleSubTitleBox
           title={'시작 시간'}
-          subTitle={moment(data?.date).format('A h시 m분 s초')}
+          subTitle={moment(data?.date).format('A h시 m분')}
         />
         <TitleSubTitleBox title={'비용'} subTitle={`${data?.cost} 원`} />
         <TitleSubTitleBox

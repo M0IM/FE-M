@@ -1,6 +1,6 @@
 import CalendarHomeScreen from 'screens/CalendarStackScreens/CalendarHomeScreen.tsx';
 
-import CalendarWriteScreen from 'screens/CalendarStackScreens/CalendarWriteScreen.tsx';
+import CalendarWriteScreen from '../../screens/MoimStackScreens/CalendarWriteScreen.tsx';
 import CalendarModifyScreen from 'screens/CalendarStackScreens/CalendarModifyScreen.tsx';
 
 import {CalendarStack} from '../constants';

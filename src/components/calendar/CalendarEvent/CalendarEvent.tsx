@@ -81,7 +81,14 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
         activeOpacity={0.5}
         className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"
         key={post.planId}>
-        <View className="bg-main w-1 rounded-l-full h-full z-10" />
+        {post.planType === 'INDIVIDUAL_PLAN' ? (
+          // If Individual Plan
+          <View className="bg-main w-1 rounded-l-full h-full z-10" />
+        ) : (
+          // If MoimPlan
+          <View className="bg-error w-1 rounded-l-full h-full z-10" />
+        )}
+
         <View className={cn(CalenderEventVariant({platform}))}>
           <Text
             numberOfLines={1}

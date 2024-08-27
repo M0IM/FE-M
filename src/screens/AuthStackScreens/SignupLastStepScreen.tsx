@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import {Pressable, TextInput, View} from 'react-native';
+import {useState} from 'react';
+import {Pressable, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from '@react-native-community/checkbox';
@@ -8,7 +8,6 @@ import moment from 'moment';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
-import {InputField} from 'components/@common/InputField/InputField.tsx';
 import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOption.tsx';
 
 import useForm from 'hooks/useForm.ts';
@@ -20,6 +19,7 @@ import {getDateWithSeparator} from 'utils';
 import {AuthStackNavigationProp} from 'navigators/types';
 import {TSignup} from 'types/dtos/auth.ts';
 import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
+import {RegionPickerOption} from '../../components/RegionPickerOption/RegionPickerOption.tsx';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -31,12 +31,14 @@ export default function SignupLastStepScreen({
   signUpInfo,
 }: TSignUpScreenProps) {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const residenceRef = useRef<TextInput | null>();
   const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
   const {signUpMutation} = useAuth();
   const datePickerModal = useModal();
+  const regionPickerModal = useModal();
   const [date, setDate] = useState<Date>(new Date());
   const [isPicked, setIsPicked] = useState(false);
+  const [isPickedRegion, setIsPickedRegion] = useState(false);
+  const [region, setRegion] = useState('');
   const handleChangeDate = (pickedDate: Date) => {
     setDate(pickedDate);
   };
@@ -44,12 +46,16 @@ export default function SignupLastStepScreen({
     setIsPicked(true);
     datePickerModal.hide();
   };
-  console.log(date);
+
+  const handleConfirmRegion = () => {
+    setIsPickedRegion(true);
+    regionPickerModal.hide();
+  };
+
   const form = useForm({
     initialValue: {
       gender: 'MALE',
       birth: '',
-      residence: '',
     },
     validate: validateSignUpStep5,
   });
@@ -63,7 +69,7 @@ export default function SignupLastStepScreen({
       ...prevInfo,
       gender,
       birth: form.values.birth,
-      residence: form.values.residence,
+      residence: region,
     }));
     signUpMutation.mutate({
       provider: signUpInfo.provider,
@@ -74,7 +80,7 @@ export default function SignupLastStepScreen({
       role: 'ROLE_USER',
       gender: signUpInfo.gender,
       birth: moment(date).format('YYYY-MM-DD'),
-      residence: form.values.residence,
+      residence: region,
     });
   };
 
@@ -162,20 +168,10 @@ export default function SignupLastStepScreen({
           <Typography className="mb-4" fontWeight={'MEDIUM'}>
             {FIFTH_STEP.RESIDENCE}
           </Typography>
-          <InputField
-            ref={residenceRef}
-            placeholder={FIFTH_STEP.WRITE_RESIDENCE}
-            error={form.errors.residence}
-            touched={form.touched.residence}
-            inputMode="text"
-            returnKeyType="join"
-            onSubmitEditing={() => {
-              // 데이터 통신 로직
-              if (!isDisabled) {
-                // console.log(signUpInfo);
-              }
-            }}
-            {...form.getTextInputProps('residence')}
+          <CustomButton
+            variant="gray"
+            label={isPickedRegion ? region : '지역 선택'}
+            onPress={regionPickerModal.show}
           />
         </View>
         <DatePickerOption
@@ -187,6 +183,12 @@ export default function SignupLastStepScreen({
           onConfirmDate={handleConfirmDate}
         />
       </View>
+      <RegionPickerOption
+        visible={regionPickerModal.isVisible}
+        onClose={regionPickerModal.hide}
+        setRegion={setRegion}
+        handleConfirmRegion={handleConfirmRegion}
+      />
     </ScreenContainer>
   );
 }

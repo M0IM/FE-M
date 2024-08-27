@@ -40,13 +40,14 @@ const likeMoimPost = async ({postId}: {postId: number}) => {
   const {data} = await axiosInstance.post('/api/v1/moims/posts/like', {
     postId,
   });
-  console.log(data);
+
   return data;
 };
 
 // 게시글 삭제
 const deleteMoimPost = async ({postId}: {postId: number}): Promise<string> => {
   const {data} = await axiosInstance.delete(`/api/v1/moims/posts/${postId}`);
+
   return data?.result;
 };
 
@@ -62,6 +63,7 @@ const reportMoimPost = async ({
     moimId,
     postId,
   });
+
   return data?.result;
 };
 
@@ -77,6 +79,7 @@ const blockMoimPost = async ({
     moimId,
     postId,
   });
+
   return data?.result;
 };
 
@@ -95,6 +98,7 @@ const updateMoimPost = async ({
     content,
     imageKeyNames,
   });
+
   return data?.result;
 };
 
@@ -109,7 +113,7 @@ const writeMoimPostComment = async ({
     postId,
     content,
   });
-  console.log(data);
+
   return data;
 };
 
@@ -129,6 +133,7 @@ const writeMoimPostRecomment = async ({
       content,
     },
   );
+
   return data?.result;
 };
 
@@ -137,7 +142,7 @@ const likeMoimPostComment = async ({commentId}: {commentId: number}) => {
   const {data} = await axiosInstance.post('/api/v1/moims/comments/Like', {
     commentId,
   });
-  console.log(data);
+
   return data;
 };
 
@@ -151,6 +156,7 @@ const getMoimPostList = async ({
   const {data} = await axiosInstance.get(
     `/api/v1/moims/${moimId}/posts?postType=${postType}&cursor=${cursor}&take=${take}`,
   );
+
   return data?.result;
 };
 

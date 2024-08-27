@@ -215,13 +215,15 @@ export default function AuthHomeScreen({
           </Typography>
         </View>
       </View>
-      <View className="w-full gap-y-10">
+      <View className="w-full gap-y-5">
         <View className="flex-row items-center justify-center gap-10">
-          <SocialButton
-            provider={'GOOGLE'}
-            size={'MD'}
-            onPress={handlePressGoogleLoginButton}
-          />
+          {Platform.OS === 'ios' && (
+            <SocialButton
+              provider={'GOOGLE'}
+              size={'MD'}
+              onPress={handlePressGoogleLoginButton}
+            />
+          )}
           <SocialButton
             provider={'NAVER'}
             size={'MD'}
@@ -233,7 +235,6 @@ export default function AuthHomeScreen({
             onPress={handlePressKakaoLoginButton}
           />
         </View>
-
         <View className="flex-col gap-y-3 w-full">
           {Platform.OS === 'ios' && (
             <AppleButton
@@ -246,23 +247,24 @@ export default function AuthHomeScreen({
               onPress={handlePressAppleLoginButton}
             />
           )}
-          <CustomButton
-            label={AuthHome.EMAIL_LOGIN}
-            textStyle={'text-white font-bold text-xl'}
-            variant={'filled'}
-            size={'large'}
-            onPress={() => {
-              navigation.navigate('LOGIN');
-            }}
-          />
-          <CustomButton
-            textStyle={'text-sm'}
-            variant={'outlined'}
-            label={AuthHome.SIGN_UP}
-            onPress={() => {
-              navigation.navigate('STEP_2');
-            }}
-          />
+          {/* TODO: 번호 인증 도입 후, 추가 */}
+          {/*<CustomButton*/}
+          {/*  label={AuthHome.EMAIL_LOGIN}*/}
+          {/*  textStyle={'text-white font-bold text-xl'}*/}
+          {/*  variant={'filled'}*/}
+          {/*  size={'large'}*/}
+          {/*  onPress={() => {*/}
+          {/*    navigation.navigate('LOGIN');*/}
+          {/*  }}*/}
+          {/*/>*/}
+          {/*<CustomButton*/}
+          {/*  textStyle={'text-sm'}*/}
+          {/*  variant={'outlined'}*/}
+          {/*  label={AuthHome.SIGN_UP}*/}
+          {/*  onPress={() => {*/}
+          {/*    navigation.navigate('STEP_2');*/}
+          {/*  }}*/}
+          {/*/>*/}
         </View>
       </View>
     </View>

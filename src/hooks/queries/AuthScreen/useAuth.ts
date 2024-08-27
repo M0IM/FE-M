@@ -101,7 +101,7 @@ function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.message,
+        text1: error?.response?.data.message,
         visibilityTime: 2000,
         position: 'bottom',
       });
@@ -174,9 +174,10 @@ function useDeleteUser(mutationOptions?: UseMutationCustomOptions) {
       removeEncryptStorage(storageKeys.REFRESH_TOKEN);
       removeHeader('Authorization');
       queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
+      queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
       Toast.show({
         type: 'success',
-        text1: data.message && '로그아웃에 성공하였습니다.',
+        text1: data.message,
         visibilityTime: 2000,
         position: 'bottom',
       });
@@ -184,7 +185,7 @@ function useDeleteUser(mutationOptions?: UseMutationCustomOptions) {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.message,
+        text1: error?.response?.data.message,
         visibilityTime: 2000,
         position: 'bottom',
       });

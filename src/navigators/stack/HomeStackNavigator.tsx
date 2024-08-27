@@ -4,8 +4,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimSearchScreen from 'screens/MoimSearchScreens/MoimSearchScreen';
 import PushAlertScreen from 'screens/PushAlertScreens/PushAlertScreen';
-import CalendarIndividualDetailScreen from 'screens/CalendarStackScreens/CalendarIndividualDetailScreen';
-import CalendarParticipantDetailScreen from 'screens/CalendarStackScreens/CalendarParticipantDetailScreen';
+import CalendarIndividualDetailScreen from '../../screens/MoimStackScreens/CalendarIndividualDetailScreen.tsx';
+import CalendarParticipantDetailScreen from '../../screens/MoimStackScreens/CalendarParticipantDetailScreen.tsx';
 
 import {HomeStack} from 'navigators/constants';
 import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';

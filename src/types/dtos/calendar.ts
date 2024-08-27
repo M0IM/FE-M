@@ -1,3 +1,5 @@
+import {getDetailMoimParticipantSchedule} from '../../apis';
+
 type TPlanListDTO = {
   planId: number;
   title: string;
@@ -84,6 +86,30 @@ type TUserPlanResponse = {
   userPlanDTOList: TUserPlanDTO[];
 };
 
+type TMoimParticipantDetailResponse = {
+  planId: number;
+  writerId: number;
+  title: string;
+  date: string;
+  location: string;
+  locationDetail: string;
+  cost: string;
+  participant: number;
+  schedules: TScheduleDTO[];
+  isParticipant: boolean;
+};
+
+type TIndividualResponse = {
+  planId: number;
+  title: string;
+  time: string;
+  location: string;
+  locationDetail: string;
+  memo: string;
+  moimName: string;
+  planType: string;
+};
+
 export type {
   TPlanListDTO,
   TMoimPlanListDTO,
@@ -96,4 +122,6 @@ export type {
   TUserSchedulesCountResponse,
   TUserPlanDTO,
   TUserPlanResponse,
+  TMoimParticipantDetailResponse,
+  TIndividualResponse,
 };

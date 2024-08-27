@@ -7,7 +7,10 @@ import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
 import {useNavigation} from '@react-navigation/native';
-import {CalendarStackNavigationProp} from '../../../navigators/types';
+import {
+  CalendarStackNavigationProp,
+  HomeStackNavigationProp,
+} from '../../../navigators/types';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -45,7 +48,7 @@ export default function MoimScheduleEvent({
     return <View></View>;
   }
 
-  const navigation = useNavigation<CalendarStackNavigationProp>();
+  const navigation = useNavigation<HomeStackNavigationProp>();
 
   return (
     <View className="flex flex-col gap-2 mt-1">
@@ -71,11 +74,9 @@ export default function MoimScheduleEvent({
                 item.planType === 'MOIM_PLAN'
                   ? navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
                       id: item.planId,
-                      type: 'MOIM_PLAN',
                     })
                   : navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
                       id: item.planId,
-                      type: 'INDIVIDUAL_PLAN',
                     });
               }}
             />

@@ -3,6 +3,8 @@ import {
   TCalendarMoimResponse,
   TCalendarPersonalResponse,
   TDetailMoimCalendarDTO,
+  TIndividualResponse,
+  TMoimParticipantDetailResponse,
   TPostDetailMoimCalendarDTO,
   TUserPlanDTO,
   TUserPlanResponse,
@@ -259,18 +261,25 @@ const getUserAllScheduleList = async ({
 };
 
 // 유저의 모임 참여 신청 일정 상세 조회
-const getDetailIndividualSchedule = async ({
-  type,
+const getDetailMoimParticipantSchedule = async ({
   planId,
 }: {
-  type: string;
   planId: number;
-}) => {
-  let planType;
-  type === 'MOIM_PLAN'
-    ? (planType = 'moim-plan')
-    : (planType = 'individual-plan');
-  const {data} = await axiosInstance.get(`/api/v1/users/${planType}/${planId}`);
+}): Promise<TMoimParticipantDetailResponse> => {
+  const {data} = await axiosInstance.get(`/api/v1/users/moim-plan/${planId}`);
+
+  return data.result;
+};
+
+// 유저의 개인 일정 상세 조회
+const getDetailIndividualSchedule = async ({
+  planId,
+}: {
+  planId: number;
+}): Promise<TIndividualResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/users/individual-plan/${planId}`,
+  );
 
   return data.result;
 };
@@ -289,5 +298,6 @@ export {
   getUserTodayParticipantSchedules,
   getUserTodaySchedules,
   getUserAllScheduleList,
+  getDetailMoimParticipantSchedule,
   getDetailIndividualSchedule,
 };

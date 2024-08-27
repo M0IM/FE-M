@@ -1,7 +1,9 @@
+import {useEffect} from 'react';
 import {View} from 'react-native';
+
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import PostPreviewBox from '../../home/PostPreviewBox/PostPreviewBox.tsx';
-import {useEffect} from 'react';
+
 import useGetMoimAllPosts from 'hooks/queries/FeedHome/useGetMoimAllPosts.ts';
 
 interface MoimHappeningEventProps {

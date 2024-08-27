@@ -1,11 +1,11 @@
 import {FlatList, TouchableOpacity, View} from 'react-native';
+import {useEffect} from 'react';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
-import {useEffect} from 'react';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -29,8 +29,6 @@ export default function MoimScheduleEvent({
     refetch: refetchAllUserSchedules,
   } = useGetInfiniteAllUserScheduleList(year, month, day, 8);
 
-  console.log(calendars.pages.flatMap(calendar => calendar.userPlanDTOList));
-
   useEffect(() => {
     const refetch = async () => {
       if (isRefreshing) {
@@ -44,6 +42,8 @@ export default function MoimScheduleEvent({
   if (calendarsLoading || calendarsError) {
     return <View></View>;
   }
+
+  console.log(calendars.pages.flatMap(calendar => calendar.userPlanDTOList));
 
   return (
     <View className="flex flex-col gap-2 mt-1">

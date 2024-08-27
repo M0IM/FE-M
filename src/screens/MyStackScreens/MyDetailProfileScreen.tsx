@@ -69,7 +69,7 @@ export default function MyDetailProfileScreen({
           </InfoSquareCard>
           <InfoSquareCard title="모임 평가">
             <Typography fontWeight={'BOLD'} className="text-gray-600text-sm">
-              {userInfo?.rating}
+              {userInfo?.rating.toFixed(1)}
             </Typography>
           </InfoSquareCard>
           <InfoSquareCard title="가입 모임">

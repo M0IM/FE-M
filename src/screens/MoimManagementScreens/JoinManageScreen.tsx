@@ -17,6 +17,8 @@ interface JoinManageScreenProps {
 
 const JoinManageScreen = ({route}: JoinManageScreenProps) => {
   const moimId = route?.params?.id;
+  const [search, setSearch] = useState('');
+
   const {
     useGetInfinityMoimRequest,
     acceptMoimJoinRequestMutation,
@@ -30,7 +32,7 @@ const JoinManageScreen = ({route}: JoinManageScreenProps) => {
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimRequest(moimId);
+  } = useGetInfinityMoimRequest(moimId, search);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleEndReached = () => {
@@ -60,6 +62,9 @@ const JoinManageScreen = ({route}: JoinManageScreenProps) => {
               visibilityTime: 2000,
               position: 'bottom',
             });
+            queryClient.invalidateQueries({
+              queryKey: ['moimRequests', moimId],
+            });
           },
           onError: error => {
             console.error(error.response);
@@ -70,11 +75,6 @@ const JoinManageScreen = ({route}: JoinManageScreenProps) => {
                 '신청 승인 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
-            });
-          },
-          onSettled: () => {
-            queryClient.invalidateQueries({
-              queryKey: ['moimRequests', moimId],
             });
           },
         },
@@ -119,6 +119,12 @@ const JoinManageScreen = ({route}: JoinManageScreenProps) => {
     }
   };
 
+  const handleSearchUser = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['moimRequests', moimId],
+    });
+  };
+
   if (isPending) {
     return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
   }
@@ -130,9 +136,14 @@ const JoinManageScreen = ({route}: JoinManageScreenProps) => {
   const renderHeader = () => (
     <View className="flex flex-row items-center justify-between mt-5">
       <View className="w-[90%]">
-        <InputField touched placeholder="멤버 검색" />
+        <InputField
+          touched
+          placeholder="멤버 검색"
+          value={search}
+          onChangeText={text => setSearch(text)}
+        />
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSearchUser}>
         <Ionicons name="search" size={27} color={'#1D2002'} />
       </TouchableOpacity>
     </View>

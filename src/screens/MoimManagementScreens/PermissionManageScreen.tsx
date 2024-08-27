@@ -20,6 +20,7 @@ interface PermissionManageScreenProps {
 const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
   const moimId = route.params.id;
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [search, setSearch] = useState('');
   const {useGetInfinityMoimMembers, updateMoimAuthoritiesMutation} =
     useMoimManagment();
   const {
@@ -30,7 +31,7 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimMembers(moimId);
+  } = useGetInfinityMoimMembers(moimId, search);
 
   const handleNowRole = (role: TMoimRole) => {
     if (role === 'ADMIN') {
@@ -86,6 +87,12 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
     }
   };
 
+  const handleSearchUser = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['moimMembers', moimId],
+    });
+  };
+
   if (isPending) {
     return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
   }
@@ -97,9 +104,14 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
   const renderHeader = () => (
     <View className="flex flex-row items-center justify-between mt-5">
       <View className="w-[90%]">
-        <InputField touched placeholder="멤버 검색" />
+        <InputField
+          touched
+          placeholder="멤버 검색"
+          value={search}
+          onChangeText={text => setSearch(text)}
+        />
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSearchUser}>
         <Ionicons name="search" size={27} color={'#1D2002'} />
       </TouchableOpacity>
     </View>

@@ -18,6 +18,7 @@ import {ResponseError, UseMutationCustomOptions} from 'types/mutations/common';
 
 function useGetInfinityMoimRequest(
   moimId: number,
+  search: string,
   queryOptions?: UseInfiniteQueryOptions<
     TMoimRequestUsers,
     ResponseError,
@@ -33,6 +34,7 @@ function useGetInfinityMoimRequest(
         moimId,
         cursor: pageParam,
         take: 10,
+        search,
       }),
     queryKey: ['moimRequests', moimId],
     initialPageParam: 1,
@@ -45,6 +47,7 @@ function useGetInfinityMoimRequest(
 
 function useGetInfinityMoimMembers(
   moimId: number,
+  search: string,
   queryOptions?: UseInfiniteQueryOptions<
     TGetMoimMembers,
     ResponseError,
@@ -60,6 +63,7 @@ function useGetInfinityMoimMembers(
         moimId,
         cursor: pageParam,
         take: 30,
+        search,
       }),
     queryKey: ['moimMembers', moimId],
     initialPageParam: 1,

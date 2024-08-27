@@ -169,6 +169,9 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
               visibilityTime: 2000,
               position: 'bottom',
             });
+            queryClient.invalidateQueries({
+              queryKey: ['unReadUsers', id, postId],
+            });
           },
           onError: error => {
             Toast.show({

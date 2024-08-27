@@ -1,4 +1,5 @@
 import {COMMENT_STATUS} from 'types/enums';
+import {TMoimRole} from './moimManage';
 
 export enum POST_TYPE {
   ANNOUNCEMENT = '공지사항',
@@ -90,6 +91,13 @@ type TPostCommentListDto = {
   hasNext: boolean;
 };
 
+type TUnReadUserDTO = {
+  userId: number;
+  nickname: string;
+  imageKeyName: string;
+  moimRole: TMoimRole;
+};
+
 type TMoimPostParams = {
   moimId: number;
   title: string;
@@ -144,6 +152,14 @@ type TUpdateMoimPostParams = {
   imageKeyNames: string[];
 };
 
+type TCreateAnnouncementPostParams = {
+  moimId: number;
+  title: string;
+  content: string;
+  imageKeyNames: string[];
+  userIds: number[];
+};
+
 export type {
   TMoimPostParams,
   TMoimPostCommentParams,
@@ -153,9 +169,11 @@ export type {
   TMoimPostCommentsParams,
   TReportMoimPostCommentParams,
   TUpdateMoimPostParams,
+  TCreateAnnouncementPostParams,
   TPostDto,
   TPostListDto,
   TPostDetailDto,
   TPostCommentListDto,
   TMoimPreviewListDto,
+  TUnReadUserDTO,
 };

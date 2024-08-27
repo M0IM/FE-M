@@ -21,6 +21,7 @@ import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScre
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
 import {getMonthYearDetails} from 'utils/date.ts';
+import {ScreenContainer} from '../../components/ScreenContainer.tsx';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;

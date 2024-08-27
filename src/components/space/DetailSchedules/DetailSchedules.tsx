@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/ko';
 
@@ -25,7 +25,7 @@ const DetailSchedules = ({
   return (
     <View className="flex flex-row">
       <View className="w-[4px] h-full rounded-md bg-main mr-2" />
-      <View className="flex-col gap-y-4">
+      <ScrollView className="flex-col h-[200] gap-y-4">
         {(type === 'full' ? detailSchedules : scheduleList).map(
           (item, index) => (
             <View key={index} className="flex flex-row">
@@ -40,7 +40,7 @@ const DetailSchedules = ({
             </View>
           ),
         )}
-      </View>
+      </ScrollView>
     </View>
   );
 };

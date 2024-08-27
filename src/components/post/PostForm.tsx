@@ -57,6 +57,7 @@ export default function PostForm({moimId}: IPostForm) {
   const [schedules, setSchedules] = useState<TSchedules[]>(
     isEdit ? moimCalendar?.schedules : [],
   );
+  console.log(schedules);
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const addPost = useForm({

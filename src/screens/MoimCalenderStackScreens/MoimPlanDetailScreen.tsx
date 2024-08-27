@@ -54,7 +54,14 @@ export default function MoimPlanDetailScreen({
       title: '수정하기',
       onPress: () => {
         setIsEditMode(true);
-        setMoimCalendar({...data, planId});
+        setMoimCalendar({
+          ...data,
+          planId,
+          schedules: data?.schedules.map(schedule => ({
+            ...schedule,
+            startTime: moment(schedule.startTime).format('A hh시 mm분'),
+          })),
+        });
         navigation.navigate('MOIM_PLAN_WRITE', {id: moimId});
       },
     },

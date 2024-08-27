@@ -199,7 +199,7 @@ const PostCommentContainer = ({
     <Pressable onPress={() => targetCommentId && handleUpdateCommentId(null)}>
       <View className="flex flex-col">
         <View
-          className="flex flex-col border-b-[0.5px] border-gray-200 py-4"
+          className="flex flex-col border-b-[0.5px] border-gray-200 py-4 px-4"
           style={{
             backgroundColor:
               targetCommentId === commentData.commentId

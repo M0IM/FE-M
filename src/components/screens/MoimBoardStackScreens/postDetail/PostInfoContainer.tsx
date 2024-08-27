@@ -29,7 +29,7 @@ const PostInfoContainer = ({
 
   return (
     <>
-      <View className="flex flex-col pl-1">
+      <View className="flex flex-col pl-1 px-4">
         <Typography fontWeight="BOLD" className="text-base text-dark-800">
           {title}
         </Typography>

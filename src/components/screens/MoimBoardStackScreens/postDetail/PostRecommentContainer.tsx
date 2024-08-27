@@ -193,7 +193,7 @@ const PostRecommentContainer = ({
   }
 
   return (
-    <View className="flex flex-col border-b-[0.5px] border-gray-200 bg-gray-50 py-4 ml-3">
+    <View className="flex flex-col border-b-[0.5px] border-gray-200 bg-gray-50 py-4 px-4 ml-3">
       <View className="flex flex-row items-center">
         <Avatar size="XS" uri={recommentData.profileImage} />
         <View className="flex flex-col justify-center ml-2">

@@ -234,7 +234,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
   }
 
   return (
-    <View className="pb-0 pt-4">
+    <View className="pb-0 pt-4 px-4">
       <PostUserProfile
         writer={data?.writer}
         updatedAt={data?.updateAt && formatKoreanDate(new Date(data?.updateAt))}

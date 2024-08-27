@@ -17,11 +17,17 @@ interface PostCommentViewProps {
     MyStackNavigationProp
   >;
   isRefreshing: boolean;
+  isEndReached: boolean;
 }
 
-const PostCommentView = ({id, postId, isRefreshing}: PostCommentViewProps) => {
+const PostCommentView = ({
+  id,
+  postId,
+  isRefreshing,
+  isEndReached,
+}: PostCommentViewProps) => {
+  const {commentId, handleUpdateCommentId} = useCommentStore();
   const {useGetInfiniteMoimPostComment} = usePost();
-
   const {
     data: comments,
     hasNextPage,
@@ -31,15 +37,19 @@ const PostCommentView = ({id, postId, isRefreshing}: PostCommentViewProps) => {
   } = useGetInfiniteMoimPostComment(id, postId);
 
   useEffect(() => {
+    if (hasNextPage && !isFetchingNextPage && isEndReached) {
+      fetchNextPage();
+    }
+  }, [isEndReached]);
+
+  useEffect(() => {
     const refetch = async () => {
       if (isRefreshing) {
         await refetchComment();
       }
     };
     refetch();
-  }, [isRefreshing]);
-
-  const {commentId, handleUpdateCommentId} = useCommentStore();
+  }, [isRefreshing, refetchComment]);
 
   return (
     <>

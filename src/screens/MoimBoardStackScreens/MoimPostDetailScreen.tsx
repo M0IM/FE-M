@@ -1,5 +1,5 @@
-import {KeyboardAvoidingView, Platform} from 'react-native';
-import {useCallback, useState} from 'react';
+import {KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import {useCallback, useRef, useState} from 'react';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {CompositeNavigationProp} from '@react-navigation/native';
 
@@ -10,7 +10,6 @@ import {
 } from 'navigators/types';
 import CommentInput from 'components/screens/MoimBoardStackScreens/postDetail/CommentInput';
 import PostInfo from 'components/screens/MoimBoardStackScreens/postDetail/PostInfo';
-import {ScreenContainer} from 'components/ScreenContainer';
 import PostCommentView from 'components/screens/MoimBoardStackScreens/postDetail/PostCommentView';
 
 interface MoimPostDetailScreenProps {
@@ -30,10 +29,22 @@ const MoimPostDetailScreen = ({
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isEndReached, setIsEndReached] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
     wait(2000).then(() => setIsRefreshing(false));
+  }, []);
+
+  const handleScroll = useCallback((event: any) => {
+    const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
+    const contentHeight = contentSize.height;
+    const scrollHeight = layoutMeasurement.height + contentOffset.y;
+
+    if (scrollHeight >= contentHeight - 100) {
+      setIsEndReached(true);
+    }
   }, []);
 
   return (
@@ -41,10 +52,13 @@ const MoimPostDetailScreen = ({
       keyboardVerticalOffset={Platform.OS === 'ios' ? 120 : 70}
       behavior="padding"
       className="flex-1">
-      <ScreenContainer
+      <ScrollView
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-        }>
+        }
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        scrollEventThrottle={400}>
         <PostInfo
           id={id}
           postId={postId}
@@ -56,8 +70,9 @@ const MoimPostDetailScreen = ({
           postId={postId}
           navigation={navigation}
           isRefreshing={isRefreshing}
+          isEndReached={isEndReached}
         />
-      </ScreenContainer>
+      </ScrollView>
 
       <CommentInput id={id} postId={postId} />
     </KeyboardAvoidingView>

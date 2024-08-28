@@ -7,10 +7,7 @@ import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
 import {useNavigation} from '@react-navigation/native';
-import {
-  CalendarStackNavigationProp,
-  HomeStackNavigationProp,
-} from '../../../navigators/types';
+import {HomeStackNavigationProp} from 'navigators/types';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -64,9 +61,6 @@ export default function MoimScheduleEvent({
         data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
         renderItem={({item}) => {
-          console.log(item.planType);
-          console.log(item.planType);
-
           return (
             <ScheduleCard
               item={item}

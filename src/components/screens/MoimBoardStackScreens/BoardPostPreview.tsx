@@ -35,12 +35,11 @@ const BoardPostPreview = ({
       activeOpacity={0.8}
       className="flex flex-col border-gray-200 border-[0.5px] p-4 rounded-lg">
       <View className="flex flex-row items-center">
-        {/* TODO: 백엔드 수정 필요 */}
         <Avatar
           size="XS"
           onPress={() =>
             navigation.navigate('MOIM_MEMBER_PROFILE', {
-              id: 1,
+              id: postPreview.writerId,
               userName: postPreview.writer,
             })
           }

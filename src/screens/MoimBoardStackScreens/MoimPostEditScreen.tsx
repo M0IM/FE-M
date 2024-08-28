@@ -99,7 +99,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
 
   if (isPending) {
     return (
-      <SafeAreaView className="flex flex-col flex-1 items-center justify-center">
+      <SafeAreaView className="flex flex-col flex-1 items-center justify-center bg-white">
         <ActivityIndicator size="large" />
       </SafeAreaView>
     );

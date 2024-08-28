@@ -44,6 +44,8 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
     location: '',
   });
 
+  const createIsLoading = createMoimMutation.isPending;
+
   const handleOnSubmit = () => {
     if (data?.title && data?.location && data?.introduction && category?.key) {
       createMoimMutation.mutate(
@@ -111,6 +113,7 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
           label="모임 만들기"
           textStyle="text-white font-bold text-base"
           onPress={() => handleOnSubmit()}
+          isLoading={createIsLoading}
         />
       }>
       <View className="flex flex-col gap-y-2 pt-7">

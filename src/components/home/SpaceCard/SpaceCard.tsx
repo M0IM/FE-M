@@ -16,7 +16,7 @@ const SpaceCard = ({item, ...props}: SpaceCardProps) => {
       {...props}
       activeOpacity={0.8}
       className="flex flex-col items-center gap-3 w-[140]">
-      {!item?.profileImageUrl ? (
+      {item?.profileImageUrl ? (
         <FastImage
           source={{uri: item?.profileImageUrl}}
           className="w-[120px] h-[120px] rounded-[30px]"

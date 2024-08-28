@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {View, Image, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,6 +8,7 @@ import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/us
 import {HomeStackNavigationProp} from 'navigators/types';
 import {TMoimPreviewListDto} from 'types/dtos/post';
 import {detailDate} from 'utils';
+import DefaultIcon from '../../@common/DefaultIcon/DefaultIcon.tsx';
 
 interface MoimFeedPreviewProps {
   isRefreshing: boolean;
@@ -56,7 +57,7 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
         />
       ) : (
         <View className="flex flex-col items-center justify-center w-full h-[200px] rounded-tl-lg rounded-tr-lg">
-          <Ionicons name="home" color="#E9ECEF" size={50} />
+          <DefaultIcon height={75} width={75} />
         </View>
       )}
       <View className="flex flex-col p-3">

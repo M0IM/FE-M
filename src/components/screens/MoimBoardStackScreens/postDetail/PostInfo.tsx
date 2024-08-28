@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import React, {useEffect} from 'react';
 import Toast from 'react-native-toast-message';
 import {CompositeNavigationProp} from '@react-navigation/native';
@@ -14,6 +14,7 @@ import {
 import PostUserProfile from './PostUserProfile';
 import {formatKoreanDate} from 'utils';
 import PostInfoContainer from './PostInfoContainer';
+import PostInfoSkeleton from './skeleton/PostInfoSkeleton';
 
 interface PostInfoProps {
   id?: number;
@@ -285,9 +286,9 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
 
   if (isPending) {
     return (
-      <Typography fontWeight="BOLD" className="">
-        로딩 중
-      </Typography>
+      <SafeAreaView>
+        <PostInfoSkeleton />
+      </SafeAreaView>
     );
   }
 

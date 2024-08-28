@@ -1,5 +1,11 @@
 import React, {ReactNode} from 'react';
-import {Pressable, Text, PressableProps, View} from 'react-native';
+import {
+  Pressable,
+  Text,
+  PressableProps,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 
 type CustomButtonVariant = 'filled' | 'outlined' | 'gray';
 type CustomButtonSize = 'large' | 'medium';
@@ -11,6 +17,7 @@ interface CustomButtonProps extends PressableProps {
   inValid?: boolean;
   textStyle?: string;
   icon?: ReactNode;
+  isLoading?: boolean;
 }
 
 const filled = 'bg-main active:bg-hover';
@@ -38,22 +45,29 @@ export const CustomButton = ({
   textStyle,
   className,
   icon = null,
+  isLoading,
   ...props
 }: CustomButtonProps) => (
   <Pressable
     {...props}
-    disabled={inValid}
+    disabled={isLoading || inValid}
     className={`rounded-2xl ${className} 
       ${buttonSize[size]} 
       ${buttonVariant[variant]} 
       ${inValid && 'bg-gray-200'} 
       ${variant === 'outlined' && 'p-2 rounded-full'}`}>
     <View className={`flex flex-row items-center justify-center`}>
-      {icon}
-      <Text
-        className={`${textStyle} ${variant === 'outlined' && 'text-gray-500'}`}>
-        {label}
-      </Text>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          {icon}
+          <Text
+            className={`${textStyle} ${variant === 'outlined' && 'text-gray-500'}`}>
+            {label}
+          </Text>
+        </>
+      )}
     </View>
   </Pressable>
 );

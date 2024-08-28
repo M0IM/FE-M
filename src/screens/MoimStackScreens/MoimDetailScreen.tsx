@@ -19,6 +19,7 @@ import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 import {MOIM_JOIN_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import MoimDetailSkeleton from 'components/screens/MoimHomeScreens/Skeleton/MoimDetailSkeleton';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -35,7 +36,18 @@ export default function MoimDetailScreen({
   const [refreshing, setRefreshing] = useState(false);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const open = () => setIsOpen(true);
+  const open = () => {
+    if (data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE) {
+      setIsOpen(true);
+    } else {
+      Toast.show({
+        type: 'success',
+        text1: '모임 멤버만 확인할 수 있습니다.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    }
+  };
   const close = () => setIsOpen(false);
 
   const handleRequestMoimJoin = () => {
@@ -82,7 +94,11 @@ export default function MoimDetailScreen({
   }
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <MoimDetailSkeleton />
+      </SafeAreaView>
+    );
   }
 
   return (

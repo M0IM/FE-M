@@ -5,6 +5,8 @@ import {
   FlatList,
   Image,
   Pressable,
+  SafeAreaView,
+  ActivityIndicator,
 } from 'react-native';
 import {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -34,7 +36,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
   usePermission('PHOTO');
   const {id, postId} = route.params;
   const {useGetMoimPostDetail, updateMoimPostMutation} = usePost();
-  const {data: postData} = useGetMoimPostDetail(id, postId);
+  const {data: postData, isPending} = useGetMoimPostDetail(id, postId);
   const [data, setData] = useState({
     title: postData?.title,
     content: postData?.content,
@@ -43,15 +45,13 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({initialImage});
 
+  const updateIsLoading = updateMoimPostMutation.isPending;
+
   const handleSelectImages = async () => {
     handleChange();
   };
 
   const handleOnSubmit = () => {
-    const initialImages = postData?.imageKeyNames.map(
-      item => item.split('com/')[1],
-    );
-    console.log(initialImages);
     if (id && postId && data.title && data.content) {
       updateMoimPostMutation.mutate(
         {
@@ -59,7 +59,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
           postId,
           title: data.title,
           content: data.content,
-          imageKeyNames: uploadUri ? [uploadUri] : initialImages,
+          imageKeyNames: uploadUri ? [uploadUri] : postData?.imageKeyNames,
         },
         {
           onSuccess: () => {
@@ -96,6 +96,14 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
       });
     }
   };
+
+  if (isPending) {
+    return (
+      <SafeAreaView className="flex flex-col flex-1 items-center justify-center bg-white">
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <ScreenContainer>
@@ -165,6 +173,7 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
         label="수정하기"
         textStyle="text-white text-base font-bold"
         className="mt-auto"
+        isLoading={updateIsLoading}
       />
     </ScreenContainer>
   );

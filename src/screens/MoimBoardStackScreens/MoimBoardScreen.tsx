@@ -1,5 +1,11 @@
 import {useCallback, useState} from 'react';
-import {FlatList, Pressable, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
@@ -12,6 +18,7 @@ import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
+import MoimBoardSkeleton from 'components/screens/MoimHomeScreens/Skeleton/MoimBoardSkeleton';
 
 type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
@@ -24,8 +31,14 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
   const [isSelected, setIsSelected] = useState<BoardTitleType>('ALL');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {useGetInfiniteMoimPostList} = usePost();
-  const {data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch} =
-    useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+    isPending,
+  } = useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
   console.log('board route', route);
 
   const handleEndReached = () => {
@@ -49,6 +62,14 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
       setIsSelected('ALL');
     }, []),
   );
+
+  if (isPending) {
+    return (
+      <SafeAreaView>
+        <MoimBoardSkeleton />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <>

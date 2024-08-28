@@ -1,4 +1,4 @@
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
@@ -22,6 +22,9 @@ const CommentInput = ({id, postId}: CommentInputProps) => {
     handleUpdateCommentId,
   } = useCommentStore();
   const {postWriteCommentMutation, postWriteRecommentMutation} = usePost();
+
+  const isCommentLoading = postWriteCommentMutation.isPending;
+  const isRecommentLoading = postWriteRecommentMutation.isPending;
 
   const handleWriteComment = () => {
     if (id && postId && comment) {
@@ -110,13 +113,18 @@ const CommentInput = ({id, postId}: CommentInputProps) => {
       </View>
       <TouchableOpacity
         className="m-3"
-        onPress={commentId ? handleWriteRecomment : handleWriteComment}>
-        <Ionicons
-          name="send"
-          size={25}
-          color={'#00F0A1'}
-          style={{transform: [{rotate: '-45deg'}]}}
-        />
+        onPress={commentId ? handleWriteRecomment : handleWriteComment}
+        disabled={isCommentLoading || isRecommentLoading}>
+        {isCommentLoading || isRecommentLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Ionicons
+            name="send"
+            size={25}
+            color={'#00F0A1'}
+            style={{transform: [{rotate: '-45deg'}]}}
+          />
+        )}
       </TouchableOpacity>
     </View>
   );

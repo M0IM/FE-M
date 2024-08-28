@@ -1,4 +1,12 @@
-import {View, TouchableOpacity, Image, Platform, Pressable} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ActivityIndicator,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useState} from 'react';
 import {useRoute} from '@react-navigation/native';
@@ -10,10 +18,10 @@ import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
 import CategoryDropdown from 'components/screens/MoimCreateScreen/CategoryDropdown';
-import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
+// import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
 
 import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
-import useTags from 'hooks/useTags';
+// import useTags from 'hooks/useTags';
 import useSingleImagePicker from 'hooks/useSingleImagePicker';
 
 import {
@@ -36,9 +44,9 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
   const platform = Platform.OS;
   const moimId = route.params.id;
 
-  const {tags, addTagField, handleTagChange, removeTagField} = useTags();
+  // const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const {updateMoimInfoMutation} = useMoimManagment();
-  const {data: moimData} = useGetMoimSpaceInfo(moimId);
+  const {data: moimData, isPending} = useGetMoimSpaceInfo(moimId);
 
   const isImgUri =
     moimData?.profileImageUrl?.split('com/') &&
@@ -67,6 +75,8 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
   });
   const categoryKeys = Object.keys(CATEGORY_LIST);
 
+  const updateIsLoading = updateMoimInfoMutation.isPending;
+
   const handleSelectedCategory = (selected: any) => {
     setSelectedCategory(CATEGORY_LIST[selected] || null);
     setCategory(selected);
@@ -76,7 +86,7 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
     setIsPressed(prev => !prev);
   };
 
-  const hahndleOnSubmit = () => {
+  const handleOnSubmit = () => {
     if (
       data?.title &&
       data?.location &&
@@ -139,13 +149,22 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
     }
   };
 
+  if (isPending) {
+    return (
+      <SafeAreaView className="flex flex-col flex-1 items-center justify-center bg-white">
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <ScreenContainer
       fixedBottomComponent={
         <CustomButton
           label="모임 정보 수정"
           textStyle="text-white font-bold text-base"
-          onPress={hahndleOnSubmit}
+          onPress={handleOnSubmit}
+          isLoading={updateIsLoading}
         />
       }>
       <View className="flex flex-col">
@@ -249,12 +268,13 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
       </View>
 
       {/* 태그 컴포넌트 */}
-      <MoimTagContainer
+      {/* TODO: 다음 버전에서 추가 */}
+      {/* <MoimTagContainer
         tags={tags}
         addTagField={addTagField}
         removeTagField={removeTagField}
         handleTagChange={handleTagChange}
-      />
+      /> */}
 
       {/* 모임 소개 영상 게시 */}
       {/* TODO: 다음 버전에서 추가 */}

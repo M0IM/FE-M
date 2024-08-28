@@ -44,6 +44,7 @@ const BoardPostPreview = ({
               userName: postPreview.writer,
             })
           }
+          uri={postPreview.ownerProfileImageUrl}
         />
         <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs ml-2">
           {postPreview.writer}

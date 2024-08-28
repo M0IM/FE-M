@@ -67,6 +67,9 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
     );
   };
 
+  const announcementIsLoading = createAnnouncementPostMutation.isPending;
+  const postIsLoading = moimPostMutation.isPending;
+
   const handleOnSubmit = () => {
     if (moimId && category && data.title) {
       if (category.key === 'ANNOUNCEMENT') {
@@ -241,6 +244,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
         label="게시하기"
         textStyle="text-white text-base font-bold"
         className="mt-3"
+        isLoading={announcementIsLoading || postIsLoading}
       />
       <ReadersBottomSheet
         moimId={moimId}

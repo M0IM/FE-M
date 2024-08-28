@@ -37,6 +37,7 @@ type TMoimPreviewListDto = {
   likeCount: number;
   postType: POST_LIST_TYPE;
   createAt: string;
+  writerId: number;
 };
 
 type TPostListDto = {

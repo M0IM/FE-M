@@ -10,6 +10,7 @@ import {TitleSubTitleBox} from 'components/screens/MoimPlanDetailScreen/TitleSub
 import ParticipantList from 'components/screens/MoimPlanDetailScreen/ParticipantList.tsx';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
+import MoimPlanDetailSkeleton from 'components/screens/MoimCalenderScreen/MoimPlanDetailSkeleton.tsx';
 
 import {
   MoimPlanStackNavigationProp,
@@ -21,7 +22,7 @@ import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScre
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
 import {getMonthYearDetails} from 'utils/date.ts';
-import {ScreenContainer} from '../../components/ScreenContainer.tsx';
+import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;
@@ -37,6 +38,7 @@ export default function MoimPlanDetailScreen({
   const moimId = route.params.id as number;
   const planId = route.params.planId as number;
 
+  const {data: userInfo} = useGetMyProfile();
   const {data, isPending, isError} = useGetDetailMoimCalendar({
     moimId,
     planId,
@@ -46,8 +48,16 @@ export default function MoimPlanDetailScreen({
   const {mutate: cancelSchedule} = useDeleteMoimScheduleParticipation();
   const {setMoimCalendar, setIsEditMode} = useMoimCalendarStore();
 
-  if (isPending || isError) {
+  if (isError) {
     return <></>;
+  }
+
+  if (isPending) {
+    return (
+      <SafeAreaView className="bg-white flex-1">
+        <MoimPlanDetailSkeleton />
+      </SafeAreaView>
+    );
   }
 
   const PostMyMenuList = [
@@ -102,16 +112,22 @@ export default function MoimPlanDetailScreen({
           <Typography className="text-lg mb-3" fontWeight={'BOLD'}>
             {data?.title}
           </Typography>
-          <PopoverMenu
-            menu={PostMyMenuList}
-            isPopover={isPopOverOpen}
-            onPress={() => setIsPopOverOpen(prev => !prev)}>
-            <TouchableOpacity
-              className="relative"
+          {userInfo?.result.userId === data?.writerId && (
+            <PopoverMenu
+              menu={PostMyMenuList}
+              isPopover={isPopOverOpen}
               onPress={() => setIsPopOverOpen(prev => !prev)}>
-              <Ionicons name="ellipsis-vertical" size={20} color={'#C9CCD1'} />
-            </TouchableOpacity>
-          </PopoverMenu>
+              <TouchableOpacity
+                className="relative"
+                onPress={() => setIsPopOverOpen(prev => !prev)}>
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={20}
+                  color={'#C9CCD1'}
+                />
+              </TouchableOpacity>
+            </PopoverMenu>
+          )}
         </View>
         <TitleSubTitleBox
           title={'날짜'}
@@ -131,12 +147,12 @@ export default function MoimPlanDetailScreen({
           title={'신청 인원'}
           subTitle={`${data?.participant} 명`}
         />
-        <View className="border-b-gray-100 border-b-4 my-5" />
+        <View className="border-b-gray-100 border-b-2 my-6" />
         <Typography className="text-lg mb-3" fontWeight={'BOLD'}>
           일정 스케줄
         </Typography>
         <DetailSchedules detailSchedules={data?.schedules} />
-        <View className="border-b-gray-100 border-b-4 my-5" />
+        <View className="border-b-gray-100 border-b-2 my-6" />
         <ParticipantList moimId={moimId} planId={planId} />
         <View className="absolute right-0 left-0 bottom-3 m-5 flex-row items-center justify-center gap-y-2">
           <CustomButton

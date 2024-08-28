@@ -24,7 +24,7 @@ function FeedTabBarIcons(route: FeedTabRouteProp, focused: boolean) {
       break;
     }
     case 'NEW_FEED_HOME': {
-      iconName = focused ? 'newspaper-outline' : 'newspaper-sharp';
+      iconName = focused ? 'newspaper-sharp' : 'newspaper-outline';
       break;
     }
     case 'MY_HOME': {

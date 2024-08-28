@@ -16,7 +16,7 @@ import useDropdown from 'hooks/useDropdown';
 
 import {HomeStackNavigationProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
-import {CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
+import {CREATE_CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
 
 interface MoimCreateScreenProps {
   navigation: HomeStackNavigationProp;
@@ -172,9 +172,9 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
         isPressed={isPressed}
         selectedMenu={category}
         placeholder="카테고리"
-        menuList={CATEGORIES_LIST_DATA.map(item => item.label)}
+        menuList={CREATE_CATEGORIES_LIST_DATA.map(item => item.label)}
         handleSelect={(label: any) => {
-          const selected = CATEGORIES_LIST_DATA.find(
+          const selected = CREATE_CATEGORIES_LIST_DATA.find(
             item => item.label === label,
           );
           handleSelectedCategory(selected);
@@ -247,7 +247,7 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
       {/* TODO: 다음 버전에서 추가 */}
       {/* <MoimIntroVideo /> */}
 
-      <View className={platform === 'android' ? 'mt-16' : 'mt-6'} />
+      <View className={platform === 'android' ? 'mt-16' : 'mt-14'} />
     </ScreenContainer>
   );
 };

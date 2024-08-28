@@ -28,6 +28,7 @@ import usePostDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/usePostDeta
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useUpdateDetailMoimCalendar from '../../hooks/queries/MoimWriteScreen/useUpdateDetailMoimCalendar.ts';
+import Toast from 'react-native-toast-message';
 
 interface IPostForm {
   moimId: number;
@@ -70,8 +71,10 @@ export default function PostForm({moimId}: IPostForm) {
     validate: validateAddMoimPosts,
   });
 
-  const {mutate: writePost} = usePostDetailMoimCalendar();
-  const {mutate: updatePost} = useUpdateDetailMoimCalendar();
+  const {mutate: writePost, isPending: writePostIsLoading} =
+    usePostDetailMoimCalendar();
+  const {mutate: updatePost, isPending: updateIsLoading} =
+    useUpdateDetailMoimCalendar();
 
   const handleSubmit = () => {
     const postData = {
@@ -90,6 +93,41 @@ export default function PostForm({moimId}: IPostForm) {
         };
       }),
     };
+
+    if (!postData?.title) {
+      Toast.show({
+        type: 'error',
+        text1: '일정 제목을 입력해주세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+      return;
+    } else if (!postData.location) {
+      Toast.show({
+        type: 'error',
+        text1: '활동 장소를 입력해주세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+      return;
+    } else if (!postData.locationDetail) {
+      Toast.show({
+        type: 'error',
+        text1: '세부 활동 장소를 입력해주세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+      return;
+    } else if (!postData.cost) {
+      Toast.show({
+        type: 'error',
+        text1: '활동 비용을 입력해주세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+      return;
+    }
+
     isEdit
       ? updatePost(
           {
@@ -196,6 +234,7 @@ export default function PostForm({moimId}: IPostForm) {
           label="일정 작성"
           textStyle="text-white font-bold text-base"
           onPress={handleSubmit}
+          isLoading={writePostIsLoading || updateIsLoading}
         />
       }>
       <View className="mt-2">
@@ -247,7 +286,6 @@ export default function PostForm({moimId}: IPostForm) {
         />
       </View>
       <InputField
-        className="flex-1"
         placeholder={'세부 주소를 입력해주세요.'}
         {...addPost.getTextInputProps('locationDetail')}
         error={addPost.errors.locationDetail}
@@ -261,7 +299,6 @@ export default function PostForm({moimId}: IPostForm) {
           비용
         </Typography>
         <InputField
-          className="flex-1"
           placeholder={'비용을 입력해주세요.'}
           {...addPost.getTextInputProps('cost')}
           error={addPost.errors.cost}
@@ -292,7 +329,7 @@ export default function PostForm({moimId}: IPostForm) {
         onChangeTime={handleChangeTime}
         onConfirmTime={handleConfirmTime}
       />
-      <View className="flex-row items-center mb-2">
+      <View className="flex-row items-center">
         <Typography className="text-gray-500 flex-1" fontWeight={'BOLD'}>
           시간별 스케줄
         </Typography>
@@ -300,25 +337,29 @@ export default function PostForm({moimId}: IPostForm) {
           <IonIcons name={'add'} size={24} color="lightgray" />
         </TouchableOpacity>
       </View>
-      {schedules.map((schedule, index) => (
-        <View
-          key={index}
-          className="flex-col p-5 border-gray-300 border-2 rounded-2xl mt-3">
-          {isEditing === index ? (
-            <ScheduleEditEvent
-              schedule={schedule}
-              onSave={saveSchedule}
-              onChange={(key, value) => handleScheduleChange(index, key, value)}
-            />
-          ) : (
-            <ScheduleEvent
-              schedule={schedule}
-              onEdit={() => editSchedule(index)}
-              onDelete={() => deleteSchedule(index)}
-            />
-          )}
-        </View>
-      ))}
+      <View className="flex flex-col mb-14">
+        {schedules.map((schedule, index) => (
+          <View
+            key={index}
+            className="flex-col p-5 border-gray-300 border-2 rounded-2xl mb-3">
+            {isEditing === index ? (
+              <ScheduleEditEvent
+                schedule={schedule}
+                onSave={saveSchedule}
+                onChange={(key, value) =>
+                  handleScheduleChange(index, key, value)
+                }
+              />
+            ) : (
+              <ScheduleEvent
+                schedule={schedule}
+                onEdit={() => editSchedule(index)}
+                onDelete={() => deleteSchedule(index)}
+              />
+            )}
+          </View>
+        ))}
+      </View>
     </ScreenContainer>
   );
 }

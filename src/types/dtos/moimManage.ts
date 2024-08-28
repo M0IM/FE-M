@@ -50,7 +50,7 @@ type TUpdateMoimInfoParams = {
   moimId: number;
   title: string;
   address: string;
-  category: string;
+  moimCategory: string;
   description: string;
   imageKeyName: string;
 };

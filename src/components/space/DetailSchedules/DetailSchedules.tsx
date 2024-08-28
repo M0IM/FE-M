@@ -22,9 +22,8 @@ const DetailSchedules = ({
   const scheduleList =
     detailSchedules.length > 6 ? detailSchedules.slice(0, 5) : detailSchedules;
   return (
-    <View className="flex flex-row">
-      <View className="w-[4px] h-full rounded-md bg-main mr-2" />
-      <ScrollView className="flex-col h-[100] gap-y-4">
+    <View className="flex flex-row border-l-2 border-main pl-3">
+      <ScrollView className="flex-col max-h-[100] gap-y-4">
         {(type === 'full' ? detailSchedules : scheduleList).map(
           (item, index) => (
             <View key={index} className="flex flex-row">

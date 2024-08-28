@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
@@ -17,23 +17,20 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
-import CategoryDropdown from 'components/screens/MoimCreateScreen/CategoryDropdown';
 // import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
 
 import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
 // import useTags from 'hooks/useTags';
 import useSingleImagePicker from 'hooks/useSingleImagePicker';
 
-import {
-  CATEGORIES_LIST,
-  CATEGORY_LIST,
-} from 'constants/screens/MoimSearchScreen/CategoryList';
-import {MOIM_REQUEST_TYPE} from 'types/enums';
+import {CREATE_CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
 import {
   MoimManagementNavigationProp,
   MoimManagementRouteProp,
 } from 'navigators/types';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
+import CustomDropdown from 'components/@common/Dropdown/CustomDropdown';
+import useDropdown from 'hooks/useDropdown';
 
 interface MoimInfoEditScreenProps {
   navigation: MoimManagementNavigationProp;
@@ -58,12 +55,8 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
     useSingleImagePicker(
       isImgUri ? {initialImage: moimData?.profileImageUrl} : {},
     );
-  const [isPressed, setIsPressed] = useState(false);
-  const [selectedCategory, setSelectedCategory] =
-    useState<MOIM_REQUEST_TYPE | null>(null);
-  const [category, setCategory] = useState(
-    moimData?.category && CATEGORIES_LIST[moimData?.category],
-  );
+  const {isPressed, category, handleCategory, handleSelectedCategory} =
+    useDropdown();
   const [data, setData] = useState({
     title: moimData?.title,
     location: moimData?.address,
@@ -73,35 +66,37 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
     title: '',
     location: '',
   });
-  const categoryKeys = Object.keys(CATEGORY_LIST);
 
   const updateIsLoading = updateMoimInfoMutation.isPending;
 
-  const handleSelectedCategory = (selected: any) => {
-    setSelectedCategory(CATEGORY_LIST[selected] || null);
-    setCategory(selected);
-  };
-
-  const handleCategory = () => {
-    setIsPressed(prev => !prev);
-  };
+  useEffect(() => {
+    if (moimData?.category) {
+      const selected = CREATE_CATEGORIES_LIST_DATA.find(
+        item => item.key === moimData?.category,
+      );
+      handleSelectedCategory(selected);
+    }
+  }, [moimData]);
 
   const handleOnSubmit = () => {
+    console.log(data);
+    console.log(category?.key);
+
     if (
       data?.title &&
       data?.location &&
       data?.introduction &&
       moimId &&
-      moimData?.category
+      category?.key
     ) {
       updateMoimInfoMutation.mutate(
         {
           moimId: moimId,
           title: data?.title,
           address: data?.location,
-          category: selectedCategory || moimData?.category,
+          moimCategory: category?.key || moimData?.category,
           description: data?.introduction,
-          imageKeyName: uploadUri,
+          imageKeyName: uploadUri || moimData?.profileImageUrl,
         },
         {
           onSuccess: () => {
@@ -146,6 +141,14 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
           visibilityTime: 2000,
           position: 'bottom',
         });
+      if (!category?.key) {
+        Toast.show({
+          type: 'error',
+          text1: '카테고리를 선택해주세요.',
+          visibilityTime: 2000,
+          position: 'bottom',
+        });
+      }
     }
   };
 
@@ -205,16 +208,20 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
       </View>
 
       {/* 카테고리 드롭다운 */}
-      {category && (
-        <CategoryDropdown
-          onPress={handleCategory}
-          isPressed={isPressed}
-          menuList={categoryKeys}
-          handleSelect={handleSelectedCategory}
-          selectedMenu={category}
-          placeholder="카테고리"
-        />
-      )}
+      <CustomDropdown
+        isPressed={isPressed}
+        selectedMenu={category}
+        placeholder="카테고리"
+        menuList={CREATE_CATEGORIES_LIST_DATA.map(item => item.label)}
+        handleSelect={(label: any) => {
+          const selected = CREATE_CATEGORIES_LIST_DATA.find(
+            item => item.label === label,
+          );
+          handleSelectedCategory(selected);
+        }}
+        onPress={handleCategory}
+        height={200}
+      />
 
       {/* 카메라 연결 */}
       <View className="flex flex-col">

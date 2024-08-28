@@ -235,7 +235,16 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
   const AnnouncementPostMenuList = [
     {
       title: '게시글 읽음 표시',
-      onPress: () => handleConfirmPost(),
+      onPress: () => {
+        unReadUsers && unReadUsers.length <= 0
+          ? Toast.show({
+              type: 'error',
+              text1: '읽을 사람이 없습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            })
+          : handleConfirmPost();
+      },
     },
     {
       title: '게시글 신고',
@@ -272,7 +281,16 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
   const AnnouncementPostMyMenuList = [
     {
       title: '게시글 읽음 표시',
-      onPress: () => handleConfirmPost(),
+      onPress: () => {
+        unReadUsers && unReadUsers.length <= 0
+          ? Toast.show({
+              type: 'error',
+              text1: '읽을 사람이 없습니다.',
+              visibilityTime: 2000,
+              position: 'bottom',
+            })
+          : handleConfirmPost();
+      },
     },
     {
       title: '게시글 수정',

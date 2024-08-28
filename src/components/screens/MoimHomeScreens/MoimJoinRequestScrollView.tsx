@@ -1,5 +1,10 @@
 import {useEffect} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import Avatar from 'components/@common/Avatar/Avatar';
@@ -124,7 +129,11 @@ const MoimJoinRequestScrollView = ({
   };
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <SafeAreaView className="flex flex-col items-center justify-center bg-white">
+        <ActivityIndicator size="large" className="mt-10" />
+      </SafeAreaView>
+    );
   }
 
   if (isError) {
@@ -133,6 +142,12 @@ const MoimJoinRequestScrollView = ({
 
   return (
     <>
+      {moimRequests.pages.flatMap(page => page.userPreviewDTOList).length <=
+        0 && (
+        <Typography fontWeight="MEDIUM" className="text-gray-400 mt-3">
+          가입 신청이 없습니다.
+        </Typography>
+      )}
       {moimRequests.pages
         .flatMap(page => page.userPreviewDTOList)
         .map(item => (

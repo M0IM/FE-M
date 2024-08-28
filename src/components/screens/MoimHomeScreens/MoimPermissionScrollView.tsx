@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import Label from 'components/@common/Label/Label';
@@ -9,6 +9,7 @@ import Avatar from 'components/@common/Avatar/Avatar';
 import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
 import {TMoimRole} from 'types/dtos/moimManage';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import {SafeAreaView} from 'react-native';
 
 interface MoimPermissionScrollViewProps {
   moimId?: number;
@@ -93,7 +94,11 @@ const MoimPermissionScrollView = ({
   };
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <SafeAreaView className="flex flex-col items-center justify-center bg-white">
+        <ActivityIndicator size="large" className="mt-10" />
+      </SafeAreaView>
+    );
   }
 
   if (isError) {

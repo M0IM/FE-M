@@ -1,5 +1,3 @@
-import {getDetailMoimParticipantSchedule} from '../../apis';
-
 type TPlanListDTO = {
   planId: number;
   title: string;
@@ -45,6 +43,7 @@ type TDetailMoimCalendarDTO = {
   participant: number;
   schedules: TScheduleDTO[];
   isParticipant: boolean;
+  writerId: number;
 };
 
 type TPostDetailMoimCalendarDTO = {

@@ -44,8 +44,12 @@ export default function MoimPlanDetailScreen({
     planId,
   });
   const {mutate: deletePost} = useDeleteDetailMoimCalendar();
-  const {mutate: participationSchedule} = usePostMoimScheduleParticipation();
-  const {mutate: cancelSchedule} = useDeleteMoimScheduleParticipation();
+  const {
+    mutate: participationSchedule,
+    isPending: participationScheduleIsLoading,
+  } = usePostMoimScheduleParticipation();
+  const {mutate: cancelSchedule, isPending: cancelScheduleIsLoading} =
+    useDeleteMoimScheduleParticipation();
   const {setMoimCalendar, setIsEditMode} = useMoimCalendarStore();
 
   if (isError) {
@@ -190,6 +194,9 @@ export default function MoimPlanDetailScreen({
                     },
                   );
             }}
+            isLoading={
+              participationScheduleIsLoading || cancelScheduleIsLoading
+            }
           />
         </View>
       </View>

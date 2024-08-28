@@ -1,4 +1,5 @@
 import {Image, View} from 'react-native';
+
 import Avatar from '../../@common/Avatar/Avatar.tsx';
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import InfoSquareCard from '../../me/InfoSquareCard/InfoSquareCard.tsx';

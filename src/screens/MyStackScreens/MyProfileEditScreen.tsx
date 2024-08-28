@@ -26,7 +26,11 @@ export default function MyProfileEditScreen() {
   const [moimList, setMoimList] = useState([]);
   const uploadImages = useMutateImages();
   const {mutate: createPresignedUrl} = useCreatePresignedURL();
-  const [keyName, setKeyName] = useState<string>('');
+  const [keyName, setKeyName] = useState<string | null>(
+    isEdit && detailProfile && detailProfile.imageUrl
+      ? detailProfile.imageUrl.match(/(?<=com\/).+/)?.[0] || ''
+      : '',
+  );
   const navigation = useNavigation();
   const isEditMode = isEdit && detailProfile;
   const [imageUrl, setImageUrl] = useState(detailProfile?.imageUrl);
@@ -62,7 +66,7 @@ export default function MyProfileEditScreen() {
     );
   };
 
-  console.log(Config.AWS_S3_URL);
+  console.log(detailProfile.imageUrl.match(/(?<=com\/).+/)[0]);
 
   return (
     <ScreenContainer

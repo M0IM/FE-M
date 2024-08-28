@@ -23,7 +23,7 @@ const SpaceCard = ({item, ...props}: SpaceCardProps) => {
           resizeMode={FastImage.resizeMode.cover}
         />
       ) : (
-        <View className="flex flex-col justify-center items-center w-[120] h-[100] rounded-[30px] bg-gray-100">
+        <View className="flex flex-col justify-center items-center w-[120] h-[120] rounded-[30px] bg-gray-100">
           <DefaultIcon height={50} width={50} />
         </View>
       )}

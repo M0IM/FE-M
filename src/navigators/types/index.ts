@@ -101,6 +101,8 @@ export type MyStackParamList = {
   MY_SERVICE_TERM: undefined;
   // 비밀번호 변경
   MY_PASSWORD_CHANGE: undefined;
+  // 유저 가입 목록 리스트
+  MOIM_JOIN_LIST: {id: number};
 };
 
 export type MoimTopTabParamList = {

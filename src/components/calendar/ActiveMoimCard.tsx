@@ -1,11 +1,11 @@
-import {Image, Pressable, PressableProps, View} from 'react-native';
+import {Pressable, PressableProps, View} from 'react-native';
 import React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Typography} from '../@common/Typography/Typography.tsx';
 
 import {TMoimDTOResponse} from 'types/dtos/moim.ts';
 import FastImage from 'react-native-fast-image';
+import DefaultIcon from '../@common/DefaultIcon/DefaultIcon.tsx';
 
 interface IActiveMoimCardProps extends PressableProps {
   moim: TMoimDTOResponse;
@@ -16,6 +16,7 @@ export function ActiveMoimCard({
   onPress,
   ...props
 }: IActiveMoimCardProps) {
+  console.log(moim);
   return (
     <Pressable
       {...props}
@@ -29,19 +30,19 @@ export function ActiveMoimCard({
         />
       ) : (
         <View className="flex flex-col items-center justify-center bg-gray-100 w-[55] h-[55] rounded-lg">
-          <Ionicons name="home" size={20} color="#E9ECEF" />
+          <DefaultIcon height={30} width={30} />
         </View>
       )}
-      <View className="flex flex-col ml-3 gap-y-0.5">
+      <View className="flex flex-col ml-3 w-[250] gap-y-0.5">
         <Typography
           fontWeight="BOLD"
-          className="text-dark-800 text-base w-[300]"
+          className="text-dark-800 text-base"
           numberOfLines={1}>
           {moim?.title}
         </Typography>
         <Typography
           fontWeight="BOLD"
-          className="text-gray-400 text-xs w-[300]"
+          className="text-gray-400 text-xs w-full"
           numberOfLines={1}>
           {moim?.description}
         </Typography>

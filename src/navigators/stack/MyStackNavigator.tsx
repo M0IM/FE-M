@@ -15,6 +15,7 @@ import MyPasswordChangeScreen from 'screens/MyStackScreens/MyPasswordChangeScree
 import RevokeMoimStackNavigator from './my/RevokeMoimStackNavigator';
 import AppInfoStackNavigator from './my/AppInfoStackNavigator';
 import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
+import MyJoinMoimListScreen from '../../screens/MyStackScreens/MyJoinMoimListScreen.tsx';
 // import MemberProfileScreen from '../../screens/MyStackScreens/MemberProfileScreen.tsx';
 
 export default function MyStackNavigator() {
@@ -162,6 +163,16 @@ export default function MyStackNavigator() {
         component={MoimEditInfoScreen}
         options={{
           headerTitle: '모임 정보 수정',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <MyStack.Screen
+        name={'MOIM_JOIN_LIST'}
+        component={MyJoinMoimListScreen}
+        options={{
+          headerTitle: '가입 모임 목록',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',

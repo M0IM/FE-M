@@ -44,7 +44,7 @@ export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
         {/* <MoimRecommendationEvent /> */}
         {/* <MoimIntroduceEvent /> */}
       </ScreenContainer>
-      <FloatingButton onPress={() => navigation.navigate('MOIM_CREATE')} />
+      {/*<FloatingButton onPress={() => navigation.navigate('MOIM_CREATE')} />*/}
     </>
   );
 }

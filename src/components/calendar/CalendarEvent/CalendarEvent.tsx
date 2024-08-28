@@ -14,9 +14,10 @@ import useMyCalendarStore from 'stores/useMyCalendarStore.ts';
 
 interface ICalendarEventProps {
   post: TPlanListDTO;
+  onPress?: () => void;
 }
 
-export function CalendarEvent({post, ...props}: ICalendarEventProps) {
+export function CalendarEvent({post, onPress, ...props}: ICalendarEventProps) {
   const platform = Platform.OS;
   const {month, year, day} = getMonthYearDetails(new Date(post.time));
   const {mutate} = useDeleteMyCalendarSchedule();
@@ -77,6 +78,7 @@ export function CalendarEvent({post, ...props}: ICalendarEventProps) {
       dragOffsetFromLeftEdge={10}
       renderRightActions={rightSwipe}>
       <TouchableOpacity
+        onPress={onPress}
         {...props}
         activeOpacity={0.5}
         className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"

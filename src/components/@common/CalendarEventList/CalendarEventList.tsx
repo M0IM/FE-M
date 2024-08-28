@@ -5,6 +5,8 @@ import {CalendarEvent} from '../../calendar/CalendarEvent/CalendarEvent.tsx';
 import {Typography} from '../Typography/Typography.tsx';
 
 import {TPlanListDTO} from 'types/dtos/calendar.ts';
+import {useNavigation} from '@react-navigation/native';
+import {HomeStackNavigationProp} from '../../../navigators/types';
 
 interface ICalendarEventListProps {
   posts?: TPlanListDTO[];
@@ -12,6 +14,7 @@ interface ICalendarEventListProps {
 
 export function CalendarEventList({posts}: ICalendarEventListProps) {
   const {bottom} = useSafeAreaInsets();
+  const navigation = useNavigation<HomeStackNavigationProp>();
 
   if (!posts) {
     return (
@@ -30,7 +33,21 @@ export function CalendarEventList({posts}: ICalendarEventListProps) {
           marginBottom: bottom,
         }}
         className="p-4 items-center justify-center">
-        {posts?.map(post => <CalendarEvent key={post.planId} post={post} />)}
+        {posts?.map(post => (
+          <CalendarEvent
+            key={post.planId}
+            post={post}
+            onPress={() => {
+              post.planType === 'MOIM_PLAN'
+                ? navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
+                    id: post.planId,
+                  })
+                : navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
+                    id: post.planId,
+                  });
+            }}
+          />
+        ))}
       </View>
     </ScrollView>
   );

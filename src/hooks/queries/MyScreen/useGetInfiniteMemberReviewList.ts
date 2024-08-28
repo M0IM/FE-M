@@ -24,10 +24,10 @@ function useGetInfiniteMemberReviewList(
   return useSuspenseInfiniteQuery({
     queryFn: ({pageParam}) =>
       getMemberReviewList({userId, page: pageParam, size}),
-    queryKey: ['review', 'myReviews', userId],
+    queryKey: ['review', userId],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.hanNext ? allPages.length + 1 : undefined;
+      return lastPage.hasNext ? allPages.length + 1 : undefined;
     },
     ...queryOptions,
   });

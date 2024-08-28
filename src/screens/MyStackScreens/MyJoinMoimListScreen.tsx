@@ -1,34 +1,37 @@
-import {FlatList, SafeAreaView} from 'react-native';
+import {FlatList, SafeAreaView, View} from 'react-native';
 import {useState} from 'react';
 
-import {NewFeedCard} from 'components/screens/NewFeedHomeScreen/NewFeedCard.tsx';
-import {NewFeedCardSkeleton} from 'components/screens/NewFeedHomeScreen/skeleton/NewFeedCardSkeleton.tsx';
+import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard.tsx';
 
-import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts.ts';
+import {useInfiniteGetMembersActiveMoimList} from 'hooks/queries/MyScreen/useInfiniteGetMembersActiveMoimList.ts';
 import {
   HomeStackNavigationProp,
-  NewFeedHomeNavigationProp,
-  NewFeedHomeRouteProp,
+  MyStackNavigationProp,
+  MyStackRouteProp,
 } from 'navigators/types';
 import {CompositeNavigationProp} from '@react-navigation/native';
 
-interface INewFeedHomeScreenProps {
+export default function MyJoinMoimListScreen({
+  route,
+  navigation,
+}: {
+  route: MyStackRouteProp;
   navigation: CompositeNavigationProp<
-    NewFeedHomeNavigationProp,
+    MyStackNavigationProp,
     HomeStackNavigationProp
   >;
-}
-
-function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
+}) {
+  const userId = route.params?.id as number;
   const {
-    data: randomPosts,
+    data: moims,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimIntroducePosts(3);
+  } = useInfiniteGetMembersActiveMoimList(userId, 7);
+
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleEndReached = () => {
@@ -43,26 +46,20 @@ function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
     setIsRefreshing(false);
   };
 
-  if (isPending) {
-    return (
-      <SafeAreaView className="flex-1 bg-white">
-        {Array(2)
-          .fill(null)
-          .map((_, index) => {
-            return <NewFeedCardSkeleton key={index} />;
-          })}
-      </SafeAreaView>
-    );
+  if (isPending || isError) {
+    return <View></View>;
   }
+
+  const moimList = moims.pages.flatMap(page => page.moimPreviewList);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       <FlatList
-        data={randomPosts?.pages.flatMap(page => page.moimPreviewList)}
+        data={moimList}
         renderItem={({item}) => {
+          // TODO: 제네릭으로, 유연한 타입 만들기
           return (
-            <NewFeedCard
-              item={item}
+            <ActiveMoimCard
               onPress={() =>
                 navigation.navigate('MOIM_STACK', {
                   screen: 'MOIM_SPACE',
@@ -71,23 +68,22 @@ function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
                   },
                 })
               }
+              moim={item}
             />
           );
         }}
+        keyExtractor={item => String(item.moimId)}
+        numColumns={1}
         contentContainerStyle={{
-          justifyContent: 'center',
-          gap: 15,
-          padding: 20,
+          paddingHorizontal: 30,
         }}
-        keyExtractor={item => String(item.moimPostId)}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         refreshing={isRefreshing}
         onRefresh={handleRefresh}
         scrollIndicatorInsets={{right: 1}}
+        indicatorStyle={'black'}
       />
     </SafeAreaView>
   );
 }
-
-export default NewFeedHomeScreen;

@@ -8,15 +8,13 @@ import {Typography} from 'components/@common/Typography/Typography';
 
 import {queryClient} from 'containers/TanstackQueryContainer';
 import MoimMembersScrollView from './MoimMembersScrollView';
+import {wait} from 'utils/wait';
 
 interface MoimMembersViewProps {
   moimId: number;
 }
 
 const MoimMembersView = ({moimId}: MoimMembersViewProps) => {
-  const wait = (timeout: any) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
   const [search, setSearch] = useState('');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEndReached, setIsEndReached] = useState(false);

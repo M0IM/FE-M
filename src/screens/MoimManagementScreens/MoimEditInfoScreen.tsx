@@ -249,12 +249,13 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
       </View>
 
       {/* 태그 컴포넌트 */}
-      <MoimTagContainer
+      {/* TODO: 다음 버전에서 추가 */}
+      {/* <MoimTagContainer
         tags={tags}
         addTagField={addTagField}
         removeTagField={removeTagField}
         handleTagChange={handleTagChange}
-      />
+      /> */}
 
       {/* 모임 소개 영상 게시 */}
       {/* TODO: 다음 버전에서 추가 */}

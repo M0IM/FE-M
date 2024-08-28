@@ -62,7 +62,7 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
         onScroll={handleScroll}
-        contentContainerStyle={{paddingHorizontal: 10, gap: 10, marginTop: 10}}
+        contentContainerStyle={{gap: 10, marginTop: 10}}
         scrollEventThrottle={400}>
         <MoimPermissionScrollView
           moimId={moimId}

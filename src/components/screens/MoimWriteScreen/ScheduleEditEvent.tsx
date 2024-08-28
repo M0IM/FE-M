@@ -55,10 +55,12 @@ const ScheduleEditEvent = ({schedule, onSave, onChange}: ScheduleEditProps) => {
           value={schedule.title}
           onChangeText={text => onChange('title', text)}
         />
-        <TouchableOpacity
-          className="border-b-2 border-b-black"
-          onPress={handleOnSave}>
-          <Typography fontWeight={'BOLD'}>저장</Typography>
+        <TouchableOpacity onPress={handleOnSave}>
+          <Typography
+            fontWeight={'BOLD'}
+            className="border-b-2 border-b-black pb-1">
+            저장
+          </Typography>
         </TouchableOpacity>
       </View>
       <View className="flex-row">

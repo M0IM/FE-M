@@ -337,7 +337,7 @@ export default function PostForm({moimId}: IPostForm) {
           <IonIcons name={'add'} size={24} color="lightgray" />
         </TouchableOpacity>
       </View>
-      <View className="flex flex-col mb-5">
+      <View className="flex flex-col mb-14">
         {schedules.map((schedule, index) => (
           <View
             key={index}

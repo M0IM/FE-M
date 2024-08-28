@@ -10,6 +10,7 @@ import {TitleSubTitleBox} from 'components/screens/MoimPlanDetailScreen/TitleSub
 import ParticipantList from 'components/screens/MoimPlanDetailScreen/ParticipantList.tsx';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
+import MoimPlanDetailSkeleton from 'components/screens/MoimCalenderScreen/MoimPlanDetailSkeleton.tsx';
 
 import {
   MoimPlanStackNavigationProp,
@@ -47,8 +48,16 @@ export default function MoimPlanDetailScreen({
   const {mutate: cancelSchedule} = useDeleteMoimScheduleParticipation();
   const {setMoimCalendar, setIsEditMode} = useMoimCalendarStore();
 
-  if (isPending || isError) {
+  if (isError) {
     return <></>;
+  }
+
+  if (isPending) {
+    return (
+      <SafeAreaView className="bg-white flex-1">
+        <MoimPlanDetailSkeleton />
+      </SafeAreaView>
+    );
   }
 
   const PostMyMenuList = [

@@ -6,6 +6,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {useState} from 'react';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 import {Typography} from 'components/@common/Typography/Typography';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -45,12 +47,9 @@ const PushAlertScreen = () => {
           text: '삭제',
           style: 'destructive',
           onPress: () => {
-            deleteAllAlerts(
-              {},
-              {
-                onError: error => console.log(error),
-              },
-            );
+            deleteAllAlerts(null, {
+              onError: error => console.log(error),
+            });
           },
         },
         {
@@ -61,65 +60,82 @@ const PushAlertScreen = () => {
     );
   };
 
+  const alarmResponseDTO = alerts.pages.flatMap(
+    item => item.alarmResponseDTOList,
+  );
+
   return (
     <SafeAreaView className="bg-white flex-1">
       <TouchableOpacity
-        className="p-5"
+        className={`p-5`}
         activeOpacity={0.8}
+        disabled={alarmResponseDTO.length === 0}
         onPress={handleDelteAllAlert}>
         <Typography
           fontWeight="BOLD"
-          className="text-main text-sm underline mt-4">
+          className={`text-main text-sm underline mt-4  ${alarmResponseDTO.length === 0 && 'text-gray-500'}`}>
           전체 삭제
         </Typography>
       </TouchableOpacity>
-      <FlatList
-        data={alerts.pages.flatMap(item => item.alarmResponseDTOList)}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              className="flex flex-row items-center bg-gray-100 py-3 px-4 rounded-2xl">
-              <View className="bg-gray-200 items-center justify-center p-2 rounded-full w-[50] h-[50]">
-                <Ionicons
-                  name="notifications-outline"
-                  size={30}
-                  color={'#00F0A1'}
-                />
-              </View>
-              <View className="flex flex-col gap-y-0.5 ml-4">
-                <Typography fontWeight="BOLD" className="text-sm text-dark-800">
-                  {item.title}
-                </Typography>
-                <Typography
-                  fontWeight="MEDIUM"
-                  className="text-xs text-gray-300">
-                  {/* 시간데이터 넣기 */}
-                  {item.content}
-                </Typography>
-                <Typography
-                  fontWeight="MEDIUM"
-                  className="text-sm text-dark-800 pt-1 max-w-[95%]"
-                  numberOfLines={1}>
-                  {item.content}
-                </Typography>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-        keyExtractor={item => String(item.alarmId)}
-        numColumns={1}
-        contentContainerStyle={{
-          paddingHorizontal: 30,
-          gap: 10,
-        }}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        refreshing={isRefreshing}
-        onRefresh={handleRefresh}
-        scrollIndicatorInsets={{right: 1}}
-        indicatorStyle={'black'}
-      />
+      {alarmResponseDTO.length !== 0 ? (
+        <FlatList
+          data={alarmResponseDTO}
+          renderItem={({item}) => {
+            return (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                className="flex flex-row items-center bg-gray-100 py-4 px-4 rounded-2xl">
+                <View className="bg-gray-200 items-center justify-center p-2 rounded-full w-[50] h-[50]">
+                  <Ionicons
+                    name="notifications-outline"
+                    size={30}
+                    color={'#00F0A1'}
+                  />
+                </View>
+                <View className="flex flex-col gap-y-0.5 ml-4 w-[220]">
+                  <Typography
+                    numberOfLines={1}
+                    fontWeight="BOLD"
+                    className="text-gray-600">
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    numberOfLines={1}
+                    fontWeight="MEDIUM"
+                    className="text-xs text-gray-300">
+                    {/* 시간데이터 넣기 */}
+                    {moment(item.createdAt).fromNow()}
+                  </Typography>
+                  <Typography
+                    fontWeight="MEDIUM"
+                    className="text-sm text-dark-800 pt-1 max-w-[95%]"
+                    numberOfLines={1}>
+                    {item.content}
+                  </Typography>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+          keyExtractor={item => String(item.alarmId)}
+          numColumns={1}
+          contentContainerStyle={{
+            paddingHorizontal: 30,
+            gap: 10,
+          }}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          scrollIndicatorInsets={{right: 1}}
+          indicatorStyle={'black'}
+        />
+      ) : (
+        <View className="flex-row items-center justify-center h-[70%]">
+          <Typography fontWeight="LIGHT" className="text-gray-600 text-base">
+            알림 목록이 존재하지 않습니다.
+          </Typography>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

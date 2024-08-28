@@ -17,10 +17,9 @@ interface INewFeedHomeScreenProps {
     NewFeedHomeNavigationProp,
     HomeStackNavigationProp
   >;
-  route: NewFeedHomeRouteProp;
 }
 
-function NewFeedHomeScreen({navigation, route}: INewFeedHomeScreenProps) {
+function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
   const {
     data: randomPosts,
     fetchNextPage,

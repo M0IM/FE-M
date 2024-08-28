@@ -16,14 +16,14 @@ const SpaceCard = ({item, ...props}: SpaceCardProps) => {
       {...props}
       activeOpacity={0.8}
       className="flex flex-col items-center gap-3 w-[140]">
-      {item?.profileImageUrl ? (
+      {!item?.profileImageUrl ? (
         <FastImage
           source={{uri: item?.profileImageUrl}}
           className="w-[120px] h-[120px] rounded-[30px]"
           resizeMode={FastImage.resizeMode.cover}
         />
       ) : (
-        <View className="flex flex-col justify-center items-center w-[120] h-[100] rounded-[30px] bg-gray-100">
+        <View className="flex flex-col justify-center items-center w-[120] h-[120] rounded-[30px] bg-gray-100">
           <DefaultIcon height={50} width={50} />
         </View>
       )}

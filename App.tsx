@@ -110,6 +110,7 @@ PushNotification.createChannel(
 
 function App() {
   const {setFcmToken} = useFcmTokenStore();
+
   useEffect(() => {
     async function getToken() {
       try {
@@ -119,7 +120,6 @@ function App() {
         const phoneToken = await messaging().getToken();
         console.log(phoneToken);
         setFcmToken(phoneToken);
-        console.log(phoneToken, 'hi');
       } catch (e) {
         console.log(e);
       }

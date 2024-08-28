@@ -2,10 +2,11 @@ import {TouchableOpacity, TouchableOpacityProps, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment/moment';
+import NoImage from 'assets/images/NoImageLogo.png';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import Avatar from '../../@common/Avatar/Avatar.tsx';
-import {TMoimPreviewListDto} from '../../../types/dtos/post.ts';
+import {TMoimPreviewListDto} from 'types/dtos/post.ts';
 
 interface INewFeedCardProps extends TouchableOpacityProps {
   item: TMoimPreviewListDto;
@@ -15,13 +16,22 @@ export function NewFeedCard({item, ...props}: INewFeedCardProps) {
   return (
     <>
       <TouchableOpacity className="bg-white" activeOpacity={0.8} {...props}>
-        <FastImage
-          source={{uri: item.moimImageUrl}}
-          className="w-full aspect-[4/2] rounded-2xl relative"
-          resizeMode={FastImage.resizeMode.cover}
-        />
+        {item.moimImageUrl ? (
+          <FastImage
+            source={{uri: item.moimImageUrl}}
+            className="w-full aspect-[4/2] rounded-2xl relative"
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        ) : (
+          <FastImage
+            source={NoImage}
+            className="w-full aspect-[4/2] rounded-2xl relative"
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        )}
+
         <LinearGradient
-          colors={['transparent', 'rgba(0,0,0,0.8)']}
+          colors={['transparent', 'rgba(0,0,0,0.4)']}
           style={{
             position: 'absolute',
             bottom: 0,

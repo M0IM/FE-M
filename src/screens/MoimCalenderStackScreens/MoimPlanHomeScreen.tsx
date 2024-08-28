@@ -16,6 +16,7 @@ import {
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin.ts';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
@@ -27,8 +28,9 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
   const requestMoimJoimMutation = useRequestMoimJoin();
-
   const moimId = route.params.id as number;
+
+  const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
   const {setIsEditMode} = useMoimCalendarStore();
 
   const {
@@ -119,15 +121,17 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
         moimId={moimId}
         posts={posts[selectedDate]?.planList}
       />
-      <FloatingButton
-        type={'add'}
-        onPress={() => {
-          navigation.navigate('MOIM_PLAN_WRITE', {
-            id: moimId,
-          });
-          setIsEditMode(false);
-        }}
-      />
+      {!(moimInfo?.myMoimRole === 'MEMBER') && (
+        <FloatingButton
+          type={'add'}
+          onPress={() => {
+            navigation.navigate('MOIM_PLAN_WRITE', {
+              id: moimId,
+            });
+            setIsEditMode(false);
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 };

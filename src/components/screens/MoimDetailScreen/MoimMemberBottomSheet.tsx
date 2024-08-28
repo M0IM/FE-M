@@ -19,7 +19,7 @@ const MoimMemberBottomSheet = ({
       isBottomSheetOpen={isOpen}
       onOpen={onOpen}
       onClose={onClose}
-      height={700}>
+      height={550}>
       <MoimMembersView moimId={moimId} onClose={onClose} />
     </BottomSheet>
   );

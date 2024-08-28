@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Avatar from 'components/@common/Avatar/Avatar';
@@ -61,7 +61,11 @@ const MoimMembersScrollView = ({
   }, [isRefreshing, refetchMembers]);
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <View className="flex-col items-center justify-center h-[300]">
+        <ActivityIndicator size="large" color={'#00F0A1'} />
+      </View>
+    );
   }
 
   if (isError) {

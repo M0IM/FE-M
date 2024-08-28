@@ -22,15 +22,11 @@ const MoimImageBox = ({
   address,
 }: MoimImageBoxProps) => {
   const platform = Platform.OS;
-  // console.log(backgroundImage);
-  const isImgUri =
-    backgroundImage?.split('com/') && backgroundImage?.split('com/')[1]
-      ? true
-      : false;
+  const slicedAddress = address?.split(' ')[0];
 
   return (
     <View className="flex flex-col items-center relative">
-      {backgroundImage && isImgUri ? (
+      {backgroundImage ? (
         <Image
           source={{uri: backgroundImage}}
           className="w-full h-[240px] rounded-tr-2xl rounded-tl-2xl"
@@ -56,7 +52,7 @@ const MoimImageBox = ({
                 </TouchableOpacity>
             </View> */}
       <View className={cn(MoimImageBoxVaraint({platform}))}>
-        <View className="flex flex-row items-center gap-x-9">
+        <View className="flex flex-row items-center gap-x-7">
           <View className="flex flex-col items-center">
             <Typography fontWeight="LIGHT" className="text-gray-300 text-sm">
               인원 수
@@ -86,7 +82,7 @@ const MoimImageBox = ({
             <Typography
               fontWeight="MEDIUM"
               className="text-gray-500 text-base mt-1">
-              {address}
+              {slicedAddress}
             </Typography>
           </View>
         </View>

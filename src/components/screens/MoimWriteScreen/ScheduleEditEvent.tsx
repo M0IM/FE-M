@@ -4,6 +4,7 @@ import {TextInput, TouchableOpacity, View} from 'react-native';
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import {TimePickerOption} from '../../@common/TimePickerOption/TimePickerOption.tsx';
 import {formatTime} from 'utils';
+import Toast from 'react-native-toast-message';
 
 type TSchedules = {
   title: string;
@@ -25,6 +26,26 @@ const ScheduleEditEvent = ({schedule, onSave, onChange}: ScheduleEditProps) => {
     setIsTimePickerVisible(false);
   };
 
+  const handleOnSave = () => {
+    if (!schedule.title) {
+      Toast.show({
+        type: 'error',
+        text1: '스케줄 제목을 입력해주세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    } else if (!schedule.startTime) {
+      Toast.show({
+        type: 'error',
+        text1: '시작 시간을 선택해주세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    } else {
+      onSave();
+    }
+  };
+
   return (
     <View className="flex-col gap-y-4">
       <View className="flex-row">
@@ -36,7 +57,7 @@ const ScheduleEditEvent = ({schedule, onSave, onChange}: ScheduleEditProps) => {
         />
         <TouchableOpacity
           className="border-b-2 border-b-black"
-          onPress={onSave}>
+          onPress={handleOnSave}>
           <Typography fontWeight={'BOLD'}>저장</Typography>
         </TouchableOpacity>
       </View>

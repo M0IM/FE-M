@@ -19,6 +19,7 @@ import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 import {MOIM_JOIN_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import MoimDetailSkeleton from 'components/screens/MoimHomeScreens/Skeleton/MoimDetailSkeleton';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -82,7 +83,11 @@ export default function MoimDetailScreen({
   }
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <MoimDetailSkeleton />
+      </SafeAreaView>
+    );
   }
 
   return (

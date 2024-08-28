@@ -46,7 +46,7 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
           screen: 'MOIM_SPACE',
           params: {
             // TODO: API 반환 데이터 변경
-            id: 8,
+            id: item.moimId,
           },
         })
       }>

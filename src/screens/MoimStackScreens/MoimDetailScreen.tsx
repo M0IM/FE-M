@@ -10,6 +10,7 @@ import MoimContentsPreview from '../../components/screens/MoimDetailScreen/MoimC
 import MoimMemberBottomSheet from 'components/screens/MoimDetailScreen/MoimMemberBottomSheet';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {Typography} from 'components/@common/Typography/Typography';
+import MoimDetailSkeleton from 'components/screens/MoimHomeScreens/Skeleton/MoimDetailSkeleton';
 
 import {
   MoimPostStackNavigationProp,
@@ -19,7 +20,6 @@ import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 import {MOIM_JOIN_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
-import MoimDetailSkeleton from 'components/screens/MoimHomeScreens/Skeleton/MoimDetailSkeleton';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;

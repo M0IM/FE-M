@@ -58,7 +58,7 @@ const updateMoimInfo = async ({
   moimId,
   title,
   address,
-  category,
+  moimCategory,
   description,
   imageKeyName,
 }: TUpdateMoimInfoParams): Promise<string> => {
@@ -66,7 +66,7 @@ const updateMoimInfo = async ({
     moimId,
     title,
     address,
-    category,
+    moimCategory,
     description,
     imageKeyName,
   });
@@ -74,7 +74,7 @@ const updateMoimInfo = async ({
     moimId,
     title,
     address,
-    category,
+    moimCategory,
     description,
     imageKeyName,
   });

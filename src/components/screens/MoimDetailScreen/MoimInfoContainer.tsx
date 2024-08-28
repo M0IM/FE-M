@@ -1,7 +1,8 @@
 // import Label from 'components/@common/Label/Label';
-import {Typography} from 'components/@common/Typography/Typography';
 import {Image, TouchableOpacity, View} from 'react-native';
+import {Typography} from 'components/@common/Typography/Typography';
 import {TUserPreviewDTO} from 'types/dtos/moim';
+import user from 'assets/icons/user.png';
 
 interface MoimInfoContainerProps {
   title: string;
@@ -33,7 +34,9 @@ const MoimInfoContainer = ({
                 moimMembers.map((item, index) => (
                   <View key={index} style={{marginLeft: -7 * index}}>
                     <Image
-                      source={{uri: item.imageKeyName}}
+                      source={
+                        item.imageKeyName ? {uri: item.imageKeyName} : user
+                      }
                       style={{
                         width: 25,
                         height: 25,

@@ -105,6 +105,8 @@ const MoimSearchScreen = ({
         contentContainerStyle={{
           paddingHorizontal: 30,
           gap: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}

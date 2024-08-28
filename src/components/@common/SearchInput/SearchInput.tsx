@@ -7,7 +7,7 @@ interface ISearchInputProps extends TextInputProps {
 
 export function SearchInput({onSubmit, ...props}: ISearchInputProps) {
   return (
-    <View className="flex-row  bg-gray-100 items-center justify-between border border-black px-2 py-3 rounded-3xl">
+    <View className="flex-row  bg-gray-100 items-center justify-between border border-gray-300 px-2 py-3 rounded-3xl">
       <TextInput
         className="flex-1 text-sm pl-0 px-0 color-black"
         autoCapitalize="none"

@@ -12,9 +12,10 @@ import {wait} from 'utils/wait';
 
 interface MoimMembersViewProps {
   moimId: number;
+  onClose: () => void;
 }
 
-const MoimMembersView = ({moimId}: MoimMembersViewProps) => {
+const MoimMembersView = ({moimId, onClose}: MoimMembersViewProps) => {
   const [search, setSearch] = useState('');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEndReached, setIsEndReached] = useState(false);
@@ -76,6 +77,7 @@ const MoimMembersView = ({moimId}: MoimMembersViewProps) => {
           isEndReached={isEndReached}
           search={search}
           moimId={moimId}
+          onClose={onClose}
         />
       </ScrollView>
     </View>

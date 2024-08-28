@@ -82,7 +82,7 @@ export default function MyDetailProfileScreen({
                 });
               }}>
               <Typography fontWeight={'BOLD'} className="text-gray-600 text-sm">
-                API없음
+                {userInfo?.participateMoimCnt} 개
               </Typography>
             </InfoSquareCard>
           </View>

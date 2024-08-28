@@ -153,7 +153,6 @@ function CalendarPostForm() {
           주소
         </Typography>
         <InputField
-          autoFocus
           placeholder={'주소를 입력해주세요.'}
           error={writeMyCalendar.errors.location}
           touched={writeMyCalendar.touched.location}
@@ -168,7 +167,6 @@ function CalendarPostForm() {
           상세 주소
         </Typography>
         <InputField
-          autoFocus
           placeholder={'상세 주소를 입력해주세요.'}
           error={writeMyCalendar.errors.locationDetail}
           touched={writeMyCalendar.touched.locationDetail}
@@ -183,7 +181,6 @@ function CalendarPostForm() {
           메모
         </Typography>
         <InputField
-          autoFocus
           placeholder={'메모'}
           error={writeMyCalendar.errors.memo}
           touched={writeMyCalendar.touched.memo}

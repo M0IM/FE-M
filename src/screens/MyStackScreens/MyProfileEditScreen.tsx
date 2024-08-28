@@ -28,7 +28,7 @@ export default function MyProfileEditScreen() {
   const {mutate: createPresignedUrl} = useCreatePresignedURL();
   const [keyName, setKeyName] = useState<string | null>(
     isEdit && detailProfile && detailProfile.imageUrl
-      ? detailProfile.imageUrl.match(/(?<=com\/).+/)?.[0] || ''
+      ? detailProfile?.imageUrl?.match(/(?<=com\/).+/)?.[0] || ''
       : '',
   );
   const navigation = useNavigation();
@@ -65,8 +65,6 @@ export default function MyProfileEditScreen() {
       },
     );
   };
-
-  console.log(detailProfile.imageUrl.match(/(?<=com\/).+/)[0]);
 
   return (
     <ScreenContainer

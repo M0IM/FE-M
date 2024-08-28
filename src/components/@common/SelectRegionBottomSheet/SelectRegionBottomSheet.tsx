@@ -4,16 +4,19 @@ import {
   KeyboardAvoidingView,
   FlatList,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
-import BottomSheet from '../BottomSheet/BottomSheet';
 import {useEffect, useState} from 'react';
+import {TouchableWithoutFeedback, Animated} from 'react-native';
+import Octicons from 'react-native-vector-icons/Octicons';
+
 import useDebounce from 'hooks/useDebounce';
-import {Animated} from 'react-native';
 import useGetInfinityRegion from 'hooks/queries/Region/useGetInfinityRegion';
 import {Typography} from '../Typography/Typography';
-import {TouchableWithoutFeedback} from 'react-native';
 import {SearchInput} from '../SearchInput/SearchInput';
-import Octicons from 'react-native-vector-icons/Octicons';
+import BottomSheet from '../BottomSheet/BottomSheet';
+
+const {height: screenHeight} = Dimensions.get('window');
 
 interface SelectRegionBottomSheetProps {
   isBottomSheetOpen: boolean;
@@ -84,7 +87,7 @@ const SelectRegionBottomSheet = ({
       isBottomSheetOpen={isBottomSheetOpen}
       onOpen={onOpen}
       onClose={onClose}
-      height={550}>
+      height={screenHeight * 0.5}>
       <View className="flex-1 w-full h-full">
         <TouchableWithoutFeedback onPress={onClose}>
           <KeyboardAvoidingView>

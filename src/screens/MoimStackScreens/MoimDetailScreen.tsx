@@ -36,7 +36,18 @@ export default function MoimDetailScreen({
   const [refreshing, setRefreshing] = useState(false);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const open = () => setIsOpen(true);
+  const open = () => {
+    if (data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE) {
+      setIsOpen(true);
+    } else {
+      Toast.show({
+        type: 'success',
+        text1: '모임 멤버만 확인할 수 있습니다.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    }
+  };
   const close = () => setIsOpen(false);
 
   const handleRequestMoimJoin = () => {

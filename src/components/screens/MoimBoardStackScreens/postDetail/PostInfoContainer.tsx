@@ -1,10 +1,14 @@
 import {View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Typography} from 'components/@common/Typography/Typography';
-import ImagesSlider from '../ImagesSlider';
+import {useNavigation} from '@react-navigation/native';
 import {FlatList} from 'react-native-gesture-handler';
+
+import {Typography} from 'components/@common/Typography/Typography';
 import Avatar from 'components/@common/Avatar/Avatar';
+
+import ImagesSlider from '../ImagesSlider';
 import {TUnReadUserDTO} from 'types/dtos/post';
+import {MoimPostStackNavigationProp} from 'navigators/types';
 
 interface PostInfoContainerProps {
   postImages?: string[];
@@ -27,6 +31,7 @@ const PostInfoContainer = ({
   handleMoimPostLike,
   unReadUsers,
 }: PostInfoContainerProps) => {
+  const navigation = useNavigation<MoimPostStackNavigationProp>();
   const isImages =
     postImages && postImages?.length > 0 && postImages[0]?.split('com/')[1]
       ? true
@@ -54,7 +59,17 @@ const PostInfoContainer = ({
           <FlatList
             horizontal
             data={unReadUsers}
-            renderItem={({item}) => <Avatar uri={item.imageKeyName} />}
+            renderItem={({item}) => (
+              <Avatar
+                uri={item.imageKeyName}
+                onPress={() =>
+                  navigation.navigate('MOIM_MEMBER_PROFILE', {
+                    id: item.userId,
+                    userName: item.nickname,
+                  })
+                }
+              />
+            )}
             contentContainerStyle={{
               marginTop: 10,
             }}

@@ -16,6 +16,7 @@ export function ActiveMoimCard({
   onPress,
   ...props
 }: IActiveMoimCardProps) {
+  console.log(moim);
   return (
     <Pressable
       {...props}

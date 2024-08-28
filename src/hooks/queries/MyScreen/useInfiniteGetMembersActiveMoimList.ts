@@ -6,31 +6,31 @@ import {
 } from '@tanstack/react-query';
 
 import {ResponseError} from 'types/mutations/common.ts';
-import {ReviewListResponse} from 'types/dtos/review.ts';
-import {getMemberReviewList} from 'apis/review.ts';
+import {TActiveMoimList} from 'types/dtos/moim.ts';
+import {getMembersActiveMoimList} from 'apis';
 
-function useGetInfiniteMemberReviewList(
+function useInfiniteGetMembersActiveMoimList(
   userId: number,
   size: number,
   queryOptions?: UseInfiniteQueryOptions<
-    ReviewListResponse,
+    TActiveMoimList,
     ResponseError,
-    InfiniteData<ReviewListResponse, number>,
-    ReviewListResponse,
+    InfiniteData<TActiveMoimList, number>,
+    TActiveMoimList,
     QueryKey,
     number
   >,
 ) {
   return useSuspenseInfiniteQuery({
     queryFn: ({pageParam}) =>
-      getMemberReviewList({userId, page: pageParam, size}),
-    queryKey: ['review', userId],
+      getMembersActiveMoimList({userId, cursor: pageParam, take: size}),
+    queryKey: ['moim', userId],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.hasNext ? allPages.length + 1 : undefined;
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
     },
     ...queryOptions,
   });
 }
 
-export {useGetInfiniteMemberReviewList};
+export {useInfiniteGetMembersActiveMoimList};

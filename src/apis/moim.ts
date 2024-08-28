@@ -1,6 +1,7 @@
 import axiosInstance from './axiosInstance.ts';
 
 import {
+  TActiveMoimList,
   TCreateMoimParams,
   TCreateMoimResponse,
   TGetMyActiveMoimResponse,
@@ -10,6 +11,7 @@ import {
   TMoimSpaceInfoDTO,
   TWithdrawMoimResponse,
 } from 'types/dtos/moim.ts';
+import axios from 'axios';
 
 const createMoim = async ({
   title,
@@ -144,6 +146,23 @@ const getMoimAllPostPreviews = async (): Promise<TMoimAllPostsPreviews[]> => {
   return data?.result;
 };
 
+// 다른 멤버가 활동중인 모임 확인 API
+const getMembersActiveMoimList = async ({
+  userId,
+  cursor,
+  take,
+}: {
+  userId: number;
+  cursor: number;
+  take: number;
+}): Promise<TActiveMoimList> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/list/${userId}?cursor=${cursor}&take=${take}`,
+  );
+
+  return data.result;
+};
+
 export {
   getMyActiveMoim,
   getDetailMoimParticipantsList,
@@ -155,4 +174,5 @@ export {
   requestMoimJoin,
   withdrawMoim,
   getMoimAllPostPreviews,
+  getMembersActiveMoimList,
 };

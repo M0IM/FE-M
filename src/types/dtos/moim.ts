@@ -30,8 +30,8 @@ type TMoimDTOResponse = {
   address: string;
   profileImageUrl: string;
   memberCount: number;
-  createdAt: Date;
-  updateAt: Date;
+  createdAt: string;
+  updateAt: string;
 };
 
 type TGetMyActiveMoimResponse = {
@@ -145,6 +145,24 @@ type TMoimAllPostsPreviews = {
   moimPostPreviewDTOList: TMoimPostPreviewDTOList[];
 };
 
+type TMoimPostPreviewDTO = {
+  moimId: number;
+  title: string;
+  description: string;
+  category: string;
+  address: string;
+  profileImageUrl: string;
+  memberCount: number;
+  createAt: string;
+  updateAt: string;
+};
+
+type TActiveMoimList = {
+  moimPreviewList: TMoimPostPreviewDTO[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
 export type {
   TMoimDTOResponse,
   TGetMyActiveMoimResponse,
@@ -157,4 +175,5 @@ export type {
   TWithdrawMoimResponse,
   TMoimPreviewListResponse,
   TMoimAllPostsPreviews,
+  TActiveMoimList,
 };

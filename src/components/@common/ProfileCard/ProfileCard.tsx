@@ -1,4 +1,5 @@
 import {View} from 'react-native';
+import moment from 'moment';
 
 import Avatar from '../Avatar/Avatar.tsx';
 import {Typography} from '../Typography/Typography.tsx';
@@ -17,7 +18,7 @@ export function ProfileCard({userInfo}: IProfileCardProps) {
         <Typography numberOfLines={1} fontWeight={'BOLD'} className="text-lg">
           {userInfo?.nickname}
         </Typography>
-        <View className="w-full flex flex-row items-center gap-x-2">
+        <View className="w-full flex flex-col items-start gap-y-1">
           <Typography
             numberOfLines={1}
             fontWeight={'MEDIUM'}
@@ -28,7 +29,7 @@ export function ProfileCard({userInfo}: IProfileCardProps) {
             numberOfLines={1}
             fontWeight={'MEDIUM'}
             className="text-gray-500">
-            {userInfo?.birth}
+            {moment(userInfo?.birth).format('YYYY년 MM월 DD일')}
           </Typography>
         </View>
       </View>

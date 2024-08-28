@@ -32,6 +32,7 @@ type TUserDTO = {
   createdAt: string;
   rating: number;
   introduction: string;
+  participateMoimCnt: number;
 };
 
 export type TMoimJoinRequestDTOList = {

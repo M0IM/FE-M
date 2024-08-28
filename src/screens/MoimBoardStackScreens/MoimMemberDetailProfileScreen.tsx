@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
 import {useState} from 'react';
 
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
@@ -80,14 +74,23 @@ export default function MoimMemberDetailProfileScreen({
               {userInfo?.rating.toFixed(1)}
             </Typography>
           </InfoSquareCard>
-          <InfoSquareCard title="가입 모임">
-            <Typography fontWeight={'BOLD'}>API없음</Typography>
+          <InfoSquareCard
+            title="가입 모임"
+            onPress={() =>
+              navigation.navigate('MOIM_JOIN_LIST', {
+                id: userId,
+                userName: userInfo?.nickname as string,
+              })
+            }>
+            <Typography fontWeight={'BOLD'}>
+              {userInfo?.participateMoimCnt} 개
+            </Typography>
           </InfoSquareCard>
         </View>
       </View>
       <View>
         <View className="flex-row justify-between items-center px-7">
-          <Typography className="p-4 text-xl" fontWeight={'BOLD'}>
+          <Typography className="p-4 text-lg" fontWeight={'BOLD'}>
             유저 리뷰
           </Typography>
           {/*<TouchableOpacity>*/}

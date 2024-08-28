@@ -26,7 +26,7 @@ function useInfiniteGetMembersActiveMoimList(
       getMembersActiveMoimList({userId, cursor: pageParam, take: size}),
     queryKey: ['moim', userId],
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: lastPage => {
       return lastPage.hasNext ? lastPage.nextCursor : undefined;
     },
     ...queryOptions,

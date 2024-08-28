@@ -14,9 +14,7 @@ import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts
 import {getMonthYearDetails} from 'utils';
 import useDetailProfileStore from 'stores/useDetailProfileStore.ts';
 import {TUserDTO} from 'types/dtos/user.ts';
-import {useInfiniteGetMembersActiveMoimList} from '../../hooks/queries/MyScreen/useInfiniteGetMembersActiveMoimList.ts';
-import {useState} from 'react';
-import {ActiveMoimCard} from '../../components/calendar/ActiveMoimCard.tsx';
+
 import {CompositeNavigationProp} from '@react-navigation/native';
 
 interface IMyDetailProfileScreenProps {
@@ -39,30 +37,6 @@ export default function MyDetailProfileScreen({
     new Date(userInfo?.createdAt as string),
   );
 
-  const {
-    data: moims,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    refetch,
-    isPending: moimLoading,
-    isError: moimError,
-  } = useInfiniteGetMembersActiveMoimList(userId, 2);
-
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const handleEndReached = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  };
-
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
-    await refetch();
-    setIsRefreshing(false);
-  };
-
   const handleEditPost = () => {
     if (!userInfo) {
       return;
@@ -80,8 +54,6 @@ export default function MyDetailProfileScreen({
       </View>
     );
   }
-
-  const moimList = moims.pages.flatMap(page => page.moimPreviewList);
 
   return (
     <SafeAreaView className="flex-1">
@@ -102,7 +74,13 @@ export default function MyDetailProfileScreen({
                 {userInfo?.rating.toFixed(1)}
               </Typography>
             </InfoSquareCard>
-            <InfoSquareCard title="가입 모임">
+            <InfoSquareCard
+              title="가입 모임"
+              onPress={() => {
+                navigation.navigate('MOIM_JOIN_LIST', {
+                  id: userId,
+                });
+              }}>
               <Typography fontWeight={'BOLD'} className="text-gray-600 text-sm">
                 API없음
               </Typography>
@@ -122,44 +100,13 @@ export default function MyDetailProfileScreen({
             </Typography>
           </View>
         </View>
-        <View className="h-[200]">
-          <FlatList
-            data={moimList}
-            renderItem={({item}) => {
-              return (
-                <ActiveMoimCard
-                  onPress={() =>
-                    navigation.navigate('MOIM_STACK', {
-                      screen: 'MOIM_SPACE',
-                      params: {
-                        id: item.moimId,
-                      },
-                    })
-                  }
-                  moim={item}
-                />
-              );
-            }}
-            keyExtractor={item => String(item.moimId)}
-            numColumns={1}
-            contentContainerStyle={{
-              paddingHorizontal: 30,
-            }}
-            onEndReached={handleEndReached}
-            onEndReachedThreshold={0.5}
-            refreshing={isRefreshing}
-            onRefresh={handleRefresh}
-            scrollIndicatorInsets={{right: 1}}
-            indicatorStyle={'black'}
-          />
-        </View>
-        <View className="absolute right-0 left-0 bottom-0 m-5 flex-row items-center justify-center gap-y-2">
-          <CustomButton
-            onPress={handleEditPost}
-            label={'수정하기'}
-            textStyle="text-white font-bold text-lg"
-          />
-        </View>
+      </View>
+      <View className="absolute right-0 left-0 bottom-0 m-5 flex-row items-center justify-center gap-y-2">
+        <CustomButton
+          onPress={handleEditPost}
+          label={'수정하기'}
+          textStyle="text-white font-bold text-lg"
+        />
       </View>
     </SafeAreaView>
   );

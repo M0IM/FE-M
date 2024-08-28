@@ -60,20 +60,22 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
           <DefaultIcon height={75} width={75} />
         </View>
       )}
-      <View className="flex flex-col p-3">
-        <Typography
-          fontWeight="BOLD"
-          className="text-dark-800 text-base"
-          numberOfLines={1}>
-          {item.title}
-        </Typography>
-        <Typography
-          fontWeight="MEDIUM"
-          className="text-gray-600 text-sm"
-          numberOfLines={3}>
-          {item.content}
-        </Typography>
-        <View className="flex flex-row items-center mt-4">
+      <View className="flex flex-col p-3 flex-1">
+        <View className="flex-1">
+          <Typography
+            fontWeight="BOLD"
+            className="text-dark-800 text-base"
+            numberOfLines={1}>
+            {item.title}
+          </Typography>
+          <Typography
+            fontWeight="MEDIUM"
+            className="text-gray-600 text-sm"
+            numberOfLines={3}>
+            {item.content}
+          </Typography>
+        </View>
+        <View className="flex flex-row items-center">
           <Typography
             fontWeight="MEDIUM"
             className="text-gray-400 text-xs mr-2">

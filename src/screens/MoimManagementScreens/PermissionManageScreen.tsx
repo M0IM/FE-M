@@ -8,6 +8,7 @@ import {MoimManagementRouteProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import MoimPermissionScrollView from 'components/screens/MoimHomeScreens/MoimPermissionScrollView';
 import {wait} from 'utils/wait';
+import useDebounce from '../../hooks/useDebounce.ts';
 
 interface PermissionManageScreenProps {
   route: MoimManagementRouteProp;
@@ -19,10 +20,11 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
   const [isEndReached, setIsEndReached] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 1000);
 
   const handleSearchUser = () => {
     queryClient.invalidateQueries({
-      queryKey: ['moimMembers', moimId],
+      queryKey: ['moimMembers', moimId, debouncedSearch],
     });
   };
 
@@ -66,7 +68,7 @@ const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
         scrollEventThrottle={400}>
         <MoimPermissionScrollView
           moimId={moimId}
-          search={search}
+          search={debouncedSearch}
           isEndReached={isEndReached}
           isRefreshing={isRefreshing}
         />

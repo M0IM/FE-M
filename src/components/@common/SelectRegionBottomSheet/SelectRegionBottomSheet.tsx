@@ -50,14 +50,6 @@ const SelectRegionBottomSheet = ({
     isError,
   } = useGetInfinityRegion(debouncedValue);
 
-  useEffect(() => {
-    Animated.timing(animation, {
-      toValue: isBottomSheetOpen ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  }, [isBottomSheetOpen]);
-
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();

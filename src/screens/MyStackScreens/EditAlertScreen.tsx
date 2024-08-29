@@ -1,23 +1,34 @@
+import {ActivityIndicator, View} from 'react-native';
+
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
-import {View} from 'react-native';
 import ToggleSwitch from 'components/@common/ToggleSwitch/ToggleSwitch';
-import useSwitch from 'hooks/useSwitch';
-import useGetDetailMoimCalendar from '../../hooks/queries/MyScreen/useGetAlertStatus.ts';
-import usePostEventAlertStatus from '../../hooks/queries/MyScreen/usePostEventAlertStatus.ts';
-import usePostPushAlertStatus from '../../hooks/queries/MyScreen/usePostPushAlertStatus.ts';
-import useGetAlertStatus from '../../hooks/queries/MyScreen/useGetAlertStatus.ts';
-import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import {queryClient} from 'containers/TanstackQueryContainer.tsx';
+
+import usePostEventAlertStatus from 'hooks/queries/MyScreen/usePostEventAlertStatus.ts';
+import usePostPushAlertStatus from 'hooks/queries/MyScreen/usePostPushAlertStatus.ts';
+import useGetAlertStatus from 'hooks/queries/MyScreen/useGetAlertStatus.ts';
 
 export default function EditAlertScreen() {
-  const {data} = useGetAlertStatus();
+  const {data, isPending, isError} = useGetAlertStatus();
   const {mutate: changeEventStatus} = usePostEventAlertStatus();
   const {mutate: changePushStatus} = usePostPushAlertStatus();
 
-  const {switches, toggleSwitch} = useSwitch({
-    push: data?.isPushAlarm as boolean,
-    event: data?.isEventAlarm as boolean,
-  });
+  if (isPending) {
+    return (
+      <View className="flex-col items-center justify-center h-[300]">
+        <ActivityIndicator size="large" color={'#00F0A1'} />
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View className="flex-col items-center justify-center h-[300]">
+        <Typography fontWeight={'BOLD'}>에러가 발생했습니다.</Typography>
+      </View>
+    );
+  }
 
   return (
     <ScreenContainer>
@@ -26,17 +37,16 @@ export default function EditAlertScreen() {
         <View className="flex flex-col gap-y-2">
           <Typography fontWeight="BOLD">푸시 알림 받기</Typography>
           <Typography fontWeight="MEDIUM" className="text-xs text-gray-400">
-            댓글, 모임 일정, 가입 상태 등에 관련된 새로운 소식을{'\n'}
-            푸시 알림으로 알려드립니다.
+            댓글, 모임 일정, 가입 상태 등에 관련된 {'\n'}새로운 소식을 푸시
+            알림으로 알려드립니다.
           </Typography>
         </View>
         <ToggleSwitch
-          isEnabled={switches.push}
+          isEnabled={data?.isPushAlarm}
           onToggle={() => {
             changePushStatus(null, {
               onSuccess: () => {
                 queryClient.invalidateQueries({queryKey: ['alertStatus']});
-                toggleSwitch('push');
               },
             });
           }}
@@ -53,14 +63,13 @@ export default function EditAlertScreen() {
           </Typography>
         </View>
         <ToggleSwitch
-          isEnabled={switches.event}
+          isEnabled={data?.isEventAlarm}
           onToggle={() => {
             changeEventStatus(
               {},
               {
                 onSuccess: () => {
                   queryClient.invalidateQueries({queryKey: ['alertStatus']});
-                  toggleSwitch('event');
                 },
               },
             );

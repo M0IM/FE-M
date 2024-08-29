@@ -19,7 +19,7 @@ import {getDateWithSeparator} from 'utils';
 import {AuthStackNavigationProp} from 'navigators/types';
 import {TSignup} from 'types/dtos/auth.ts';
 import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
-import {RegionPickerOption} from '../../components/RegionPickerOption/RegionPickerOption.tsx';
+import RegionBottomSheet from '../../components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -183,9 +183,11 @@ export default function SignupLastStepScreen({
           onConfirmDate={handleConfirmDate}
         />
       </View>
-      <RegionPickerOption
-        visible={regionPickerModal.isVisible}
+
+      <RegionBottomSheet
+        isOpen={regionPickerModal.isVisible}
         onClose={regionPickerModal.hide}
+        onOpen={regionPickerModal.show}
         setRegion={setRegion}
         handleConfirmRegion={handleConfirmRegion}
       />

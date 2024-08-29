@@ -1,4 +1,4 @@
-import {FlatList, SafeAreaView} from 'react-native';
+import {FlatList, SafeAreaView, View} from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {useGetInfiniteMyDetailReviews} from 'hooks/queries/MyScreen/useGetInfiniteMyDetailReviews.ts';
@@ -29,30 +29,37 @@ export default function MyReviewScreen({route}: {route: MyStackRouteProp}) {
     await refetch();
     setIsRefreshing(false);
   };
-
   return (
     <SafeAreaView className="flex-1">
       <Typography fontWeight={'BOLD'} className="p-7 text-xl">
         받은 후기
       </Typography>
-      <FlatList
-        data={reviews.pages.flat()}
-        renderItem={({item}) => {
-          return <ReviewCard review={item} />;
-        }}
-        keyExtractor={item => String(item.reviewId)}
-        numColumns={1}
-        contentContainerStyle={{
-          paddingHorizontal: 30,
-          gap: 10,
-        }}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        refreshing={isRefreshing}
-        onRefresh={handleRefresh}
-        scrollIndicatorInsets={{right: 1}}
-        indicatorStyle={'black'}
-      />
+      {reviews.pages.flat().length === 0 ? (
+        <View className="flex flex-col justify-center items-center h-[60%]">
+          <Typography fontWeight="LIGHT" className="text-gray-600 text-base">
+            아직 받은 후기가 없습니다.
+          </Typography>
+        </View>
+      ) : (
+        <FlatList
+          data={reviews.pages.flat()}
+          renderItem={({item}) => {
+            return <ReviewCard review={item} />;
+          }}
+          keyExtractor={item => String(item.reviewId)}
+          numColumns={1}
+          contentContainerStyle={{
+            paddingHorizontal: 30,
+            gap: 10,
+          }}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          scrollIndicatorInsets={{right: 1}}
+          indicatorStyle={'black'}
+        />
+      )}
     </SafeAreaView>
   );
 }

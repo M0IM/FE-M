@@ -109,6 +109,22 @@ const rejectMoimJoinRequest = async ({
   return data?.result;
 };
 
+// 모임장 위임하기 API
+const delegationMoimWangAuthority = async ({
+  userId,
+  moimId,
+}: {
+  userId: number;
+  moimId: number;
+}): Promise<any> => {
+  const {data} = await axiosInstance.post(`/api/v1/moims/users/leader-change`, {
+    userId,
+    moimId,
+  });
+
+  return data.result;
+};
+
 export {
   getMoimRequestUsers,
   updateMoimAuthorities,
@@ -116,4 +132,5 @@ export {
   updateMoimInfo,
   getMoimMembers,
   rejectMoimJoinRequest,
+  delegationMoimWangAuthority,
 };

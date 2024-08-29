@@ -123,8 +123,6 @@ export default function ChatRoomScreen({
     ...messages,
   ];
 
-  console.log(allMessages);
-
   return (
     <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView

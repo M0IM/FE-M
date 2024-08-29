@@ -80,6 +80,7 @@ export type TPostCommentDto = {
   likeCount: number;
   profileImage: string;
   writer: string;
+  writerId: number;
   isLike: boolean;
   updateAt: string;
   createAt: string;

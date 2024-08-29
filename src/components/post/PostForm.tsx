@@ -29,6 +29,7 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useUpdateDetailMoimCalendar from '../../hooks/queries/MoimWriteScreen/useUpdateDetailMoimCalendar.ts';
 import Toast from 'react-native-toast-message';
+import RegionBottomSheet from '../screens/RegionBottomSheet/RegionBottomSheet.tsx';
 
 interface IPostForm {
   moimId: number;
@@ -58,9 +59,17 @@ export default function PostForm({moimId}: IPostForm) {
   const [schedules, setSchedules] = useState<TSchedules[]>(
     isEdit ? moimCalendar?.schedules : [],
   );
-  console.log(schedules);
+
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [isEditing, setIsEditing] = useState<number | null>(null);
+  const regionPickerModal = useModal();
+  const [region, setRegion] = useState(isEdit ? moimCalendar?.location : '');
+  const [isPickedRegion, setIsPickedRegion] = useState(false);
+  const handleConfirmRegion = () => {
+    setIsPickedRegion(true);
+    regionPickerModal.hide();
+  };
+
   const addPost = useForm({
     initialValue: {
       title: isEdit ? moimCalendar.title : '',
@@ -81,7 +90,7 @@ export default function PostForm({moimId}: IPostForm) {
       moimId,
       title: addPost.values.title,
       date: moment(date).format('YYYY-MM-DD'),
-      location: '주소나중에 추가됨',
+      location: region,
       locationDetail: addPost.values.locationDetail,
       startTime: moment(selectedTime).format('HH:mm:ss'),
       cost: addPost.values.cost,
@@ -278,11 +287,10 @@ export default function PostForm({moimId}: IPostForm) {
         <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
           위치
         </Typography>
-        <InputField
-          className="flex-1"
-          touched={true}
-          placeholder={'위치를 입력해주세요.'}
-          icon={<Octicons name={'location'} size={24} color="lightgray" />}
+        <CustomButton
+          variant="gray"
+          label={isPickedRegion || isEdit ? region : '지역 선택'}
+          onPress={regionPickerModal.show}
         />
       </View>
       <InputField
@@ -360,6 +368,13 @@ export default function PostForm({moimId}: IPostForm) {
           </View>
         ))}
       </View>
+      <RegionBottomSheet
+        isOpen={regionPickerModal.isVisible}
+        onClose={regionPickerModal.hide}
+        onOpen={regionPickerModal.show}
+        setRegion={setRegion}
+        handleConfirmRegion={handleConfirmRegion}
+      />
     </ScreenContainer>
   );
 }

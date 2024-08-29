@@ -19,6 +19,7 @@ import {queryClient} from 'containers/TanstackQueryContainer';
 import {CREATE_CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
 import useModal from 'hooks/useModal';
 import SelectRegionBottomSheet from 'components/@common/SelectRegionBottomSheet/SelectRegionBottomSheet';
+import RegionBottomSheet from '../../components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
 
 interface MoimCreateScreenProps {
   navigation: HomeStackNavigationProp;
@@ -254,10 +255,10 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
       {/* 모임 소개 영상 게시 */}
       {/* TODO: 다음 버전에서 추가 */}
       {/* <MoimIntroVideo /> */}
-      <SelectRegionBottomSheet
-        isBottomSheetOpen={regionPickerModal.isVisible}
-        onOpen={regionPickerModal.show}
+      <RegionBottomSheet
+        isOpen={regionPickerModal.isVisible}
         onClose={regionPickerModal.hide}
+        onOpen={regionPickerModal.show}
         setRegion={setRegion}
         handleConfirmRegion={handleConfirmRegion}
       />

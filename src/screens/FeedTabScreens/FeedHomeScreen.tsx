@@ -3,7 +3,6 @@ import MoimScheduleEvent from 'components/screens/FeedTabScreens/MoimScheduleEve
 import MoimMyEvent from 'components/screens/FeedTabScreens/MoimMyEvent.tsx';
 import MoimHappeningEvent from 'components/screens/FeedTabScreens/MoimHappeningEvent.tsx';
 import MoimFeedPreview from 'components/screens/FeedTabScreens/MoimFeedPreview';
-import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import {MoimWriteBar} from 'components/home/MoimWriteBar/MoimWriteBar.tsx';
 
 import {HomeStackNavigationProp} from 'navigators/types';

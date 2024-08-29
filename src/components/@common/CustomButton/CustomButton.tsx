@@ -11,7 +11,7 @@ type CustomButtonVariant = 'filled' | 'outlined' | 'gray';
 type CustomButtonSize = 'large' | 'medium';
 
 interface CustomButtonProps extends PressableProps {
-  label: string;
+  label: string | ReactNode;
   variant?: CustomButtonVariant;
   size?: CustomButtonSize;
   inValid?: boolean;

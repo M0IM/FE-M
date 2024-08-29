@@ -154,7 +154,6 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
         }
         handleSelect={(label: any) => {
           const selected = POST_WRITE_LIST.find(item => item.label === label);
-          console.log(selected);
           handleSelectedCategory(selected);
         }}
         onPress={handleCategory}

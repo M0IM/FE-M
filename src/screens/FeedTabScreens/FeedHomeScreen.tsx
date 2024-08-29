@@ -1,13 +1,49 @@
-import {Text, View} from 'react-native';
-import CatSvg from 'assets/icons/cat.svg';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {ScreenContainer} from 'components/ScreenContainer.tsx';
+import MoimScheduleEvent from 'components/screens/FeedTabScreens/MoimScheduleEvent.tsx';
+import MoimMyEvent from 'components/screens/FeedTabScreens/MoimMyEvent.tsx';
+import MoimHappeningEvent from 'components/screens/FeedTabScreens/MoimHappeningEvent.tsx';
+import MoimFeedPreview from 'components/screens/FeedTabScreens/MoimFeedPreview';
+import {MoimWriteBar} from 'components/home/MoimWriteBar/MoimWriteBar.tsx';
 
-export default function FeedHomeScreen() {
+import {HomeStackNavigationProp} from 'navigators/types';
+import React, {useState} from 'react';
+import {RefreshControl} from 'react-native';
+
+interface FeedHomeScreenProps {
+  navigation: HomeStackNavigationProp;
+}
+
+export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
+  const wait = (timeout: any) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  // useEffect(() => {
+  //   useSocketService.initializeSocket();
+  // }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setIsRefreshing(true);
+    wait(2000).then(() => setIsRefreshing(false));
+  }, []);
+
   return (
-    <View>
-      <Text>FEED_HOME 화면입니다.</Text>
-      <CatSvg width={200} height={200} fill="#fff" />
-      <Icon name="delete" size={32} color="red" />
-    </View>
+    <>
+      <ScreenContainer
+        loading={false}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }>
+        <MoimScheduleEvent isRefreshing={isRefreshing} />
+        <MoimMyEvent isRefreshing={isRefreshing} navigation={navigation} />
+        <MoimWriteBar onPress={() => navigation.navigate('MOIM_CREATE')} />
+        {/*<RecommendBar />*/}
+        <MoimHappeningEvent isRefreshing={isRefreshing} />
+        <MoimFeedPreview isRefreshing={isRefreshing} />
+        {/* <MoimRecommendationEvent /> */}
+        {/* <MoimIntroduceEvent /> */}
+      </ScreenContainer>
+      {/*<FloatingButton onPress={() => navigation.navigate('MOIM_CREATE')} />*/}
+    </>
   );
 }

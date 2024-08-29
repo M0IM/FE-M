@@ -1,12 +1,20 @@
-import FeedTabNavigator from '../tab/FeedTabNavigator.tsx';
-import {NavigationContainer} from '@react-navigation/native';
 import AuthStackNavigator from '../stack/AuthStackNavigator.tsx';
+import {useEffect} from 'react';
+
+import SplashScreen from 'react-native-splash-screen';
+import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+import HomeStackNavigator from 'navigators/stack/HomeStackNavigator.tsx';
 
 export default function RootNavigator() {
-  const isLogin = true;
-  return (
-    <NavigationContainer>
-      {isLogin ? <FeedTabNavigator /> : <AuthStackNavigator />}
-    </NavigationContainer>
-  );
+  const {isLogin, isLoginLoading} = useAuth();
+
+  useEffect(() => {
+    if (!isLoginLoading) {
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 1000);
+    }
+  }, [isLoginLoading]);
+
+  return <>{isLogin ? <HomeStackNavigator /> : <AuthStackNavigator />}</>;
 }

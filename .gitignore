@@ -71,3 +71,8 @@ yarn-error.log
 
 # environment
 .env
+env
+ios/tmp.xcconfig
+
+.yarn
+.yarn/install-state.gz

@@ -1,4 +1,9 @@
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useEffect} from 'react';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
@@ -41,8 +46,20 @@ export default function MoimScheduleEvent({
     refetch();
   }, [isRefreshing]);
 
-  if (calendarsLoading || calendarsError) {
-    return <View></View>;
+  if (calendarsLoading) {
+    return (
+      <View className="flex-col items-center justify-center h-[300]">
+        <ActivityIndicator size="large" color={'#00F0A1'} />
+      </View>
+    );
+  }
+
+  if (calendarsError) {
+    return (
+      <View className="flex-col items-center justify-center h-[300]">
+        <Typography fontWeight={'BOLD'}>에러가 발생했습니다.</Typography>
+      </View>
+    );
   }
 
   const navigation = useNavigation<HomeStackNavigationProp>();

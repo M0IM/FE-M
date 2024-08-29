@@ -10,6 +10,8 @@ type TAlarmResponseDTOList = {
   alarmDetailType: 'COMMENT' | 'POST' | 'CHATROOM' | 'MOIM';
   targetId: number;
   createdAt: string;
+  moimId: number;
+  postId: number;
 };
 
 type TAlarmResponse = {

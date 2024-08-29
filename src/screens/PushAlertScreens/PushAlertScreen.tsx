@@ -13,8 +13,13 @@ import {Typography} from 'components/@common/Typography/Typography';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useGetInfiniteAllAlertList} from 'hooks/queries/PushAlertScreen/useGetInfiniteAllAlertList.ts';
 import useDeleteAllAlertList from 'hooks/queries/PushAlertScreen/useDeleteAllAlertList.ts';
+import {HomeStackNavigationProp} from '../../navigators/types';
 
-const PushAlertScreen = () => {
+const PushAlertScreen = ({
+  navigation,
+}: {
+  navigation: HomeStackNavigationProp;
+}) => {
   const {
     data: alerts,
     fetchNextPage,
@@ -37,6 +42,8 @@ const PushAlertScreen = () => {
     await refetch();
     setIsRefreshing(false);
   };
+
+  console.log(alerts);
 
   const handleDelteAllAlert = () => {
     Alert.alert(
@@ -83,6 +90,31 @@ const PushAlertScreen = () => {
           renderItem={({item}) => {
             return (
               <TouchableOpacity
+                onPress={() => {
+                  if (item.alarmDetailType === 'COMMENT') {
+                    navigation.navigate('MOIM_BOARD_STACK', {
+                      screen: 'MOIM_POST_DETAIL',
+                      params: {
+                        id: item.moimId,
+                        postId: item.postId,
+                      },
+                    });
+                  } else if (item.alarmDetailType === 'MOIM') {
+                    navigation.navigate('MOIM_STACK', {
+                      screen: 'MOIM_SPACE',
+                      params: {
+                        id: item.moimId,
+                      },
+                    });
+                  } else if (item.alarmDetailType === 'POST') {
+                    navigation.navigate('MOIM_STACK', {
+                      screen: 'MOIM_SPACE',
+                      params: {
+                        id: item.moimId,
+                      },
+                    });
+                  }
+                }}
                 activeOpacity={0.8}
                 className="flex flex-row items-center bg-gray-100 py-4 px-4 rounded-2xl">
                 <View className="bg-gray-200 items-center justify-center p-2 rounded-full w-[50] h-[50]">

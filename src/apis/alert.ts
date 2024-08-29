@@ -1,6 +1,10 @@
 import axiosInstance from './axiosInstance.ts';
 
-import {TAlarmResponse, TAlertStatusDTO} from 'types/dtos/alert.ts';
+import {
+  TAlarmCountResponse,
+  TAlarmResponse,
+  TAlertStatusDTO,
+} from 'types/dtos/alert.ts';
 
 const getAlertStatus = async (): Promise<TAlertStatusDTO> => {
   const {data} = await axiosInstance.get(`/api/v1/users/alarms/status`);
@@ -42,10 +46,17 @@ const deleteAllAlertList = async (): Promise<any> => {
   return data.result;
 };
 
+const getAlertCount = async (): Promise<TAlarmCountResponse> => {
+  const {data} = await axiosInstance.get(`/api/v1/alarms/alarms/count`);
+
+  return data.result;
+};
+
 export {
   getAlertStatus,
   postEventAlertStatus,
   postPushAlertStatus,
   getAlertList,
   deleteAllAlertList,
+  getAlertCount,
 };

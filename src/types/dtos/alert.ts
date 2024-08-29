@@ -20,4 +20,8 @@ type TAlarmResponse = {
   alarmResponseDTOList: TAlarmResponseDTOList[];
 };
 
-export type {TAlertStatusDTO, TAlarmResponse};
+type TAlarmCountResponse = {
+  remainAlarms: number;
+};
+
+export type {TAlertStatusDTO, TAlarmResponse, TAlarmCountResponse};

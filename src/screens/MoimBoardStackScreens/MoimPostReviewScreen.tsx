@@ -12,6 +12,7 @@ import {
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import usePostReviewMutation from '../../hooks/queries/MoimPostReviewScreen/usePostReviewMutation.ts';
+import {ActivityIndicator} from 'react-native';
 
 export default function MoimPostReviewScreen({
   route,
@@ -22,16 +23,15 @@ export default function MoimPostReviewScreen({
 }) {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
-  const {mutate} = usePostReviewMutation();
+  const {mutate, error, isPending} = usePostReviewMutation();
   const targetUserId = route.params.id as number;
-
-  console.log(targetUserId);
 
   return (
     <ScreenContainer
       fixedBottomComponent={
         <CustomButton
-          label="후기 작성하기"
+          disabled={isPending}
+          label={isPending ? <ActivityIndicator /> : '후기 작성'}
           textStyle="text-lg text-white font-bold"
           onPress={() => {
             mutate(

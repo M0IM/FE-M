@@ -19,7 +19,6 @@ export function DateBox({
   isToday,
   isMemberBusy,
 }: IDateBoxProps) {
-  console.log(isMemberBusy);
   return (
     <Pressable
       onPress={() => onPressDate(date)}

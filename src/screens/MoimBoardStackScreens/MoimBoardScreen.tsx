@@ -39,7 +39,6 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
     refetch,
     isPending,
   } = useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
-  console.log('board route', route);
 
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {

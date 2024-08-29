@@ -66,11 +66,17 @@ export default function MoimScheduleEvent({
 
   return (
     <View className="flex flex-col gap-2 mt-1">
-      <Typography className="text-2xl mt-5" fontWeight={'BOLD'}>
+      <Typography
+        numberOfLines={1}
+        className="text-2xl mt-5"
+        fontWeight={'BOLD'}>
         {isProfilePending ? '안녕하세요' : `${profile?.nickname}님`}
       </Typography>
       <TouchableOpacity>
-        <Typography className="text-gray-400 mb-3" fontWeight={'LIGHT'}>
+        <Typography
+          numberOfLines={1}
+          className="text-gray-400 mb-3"
+          fontWeight={'LIGHT'}>
           오늘 {profile?.dailyPlanCnt ?? 0}개의 예정된 일정이 있어요
         </Typography>
       </TouchableOpacity>

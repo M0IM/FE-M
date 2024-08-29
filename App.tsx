@@ -96,17 +96,17 @@ PushNotification.configure({
    */
   requestPermissions: true,
 });
-PushNotification.createChannel(
-  {
-    channelId: 'noti',
-    channelName: '공지사항용',
-    channelDescription: '앱 실행하는 알림',
-    soundName: 'default',
-    importance: 4,
-    vibrate: true,
-  },
-  (created: boolean) => console.log(`channel 생성, ${created}`),
-);
+// PushNotification.createChannel(
+//   {
+//     channelId: 'noti',
+//     channelName: '공지사항용',
+//     channelDescription: '앱 실행하는 알림',
+//     soundName: 'default',
+//     importance: 4,
+//     vibrate: true,
+//   },
+//   (created: boolean) => console.log(`channel 생성, ${created}`),
+// );
 
 function App() {
   const {setFcmToken} = useFcmTokenStore();
@@ -118,7 +118,6 @@ function App() {
           await messaging().registerDeviceForRemoteMessages();
         }
         const phoneToken = await messaging().getToken();
-        console.log(phoneToken);
         setFcmToken(phoneToken);
       } catch (e) {
         console.log(e);

@@ -2,13 +2,13 @@ import {Pressable, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {HomeStackNavigationProp} from '../../navigators/types';
-import {useEffect, useState} from 'react';
-import axiosInstance from '../../apis/axiosInstance.ts';
+
 import {Typography} from '../@common/Typography/Typography.tsx';
 import useGetAlertCount from '../../hooks/queries/PushAlertScreen/useGetAlertCount.ts';
 
 export function FeedTabHeaderRight(navigation: HomeStackNavigationProp) {
   const {data} = useGetAlertCount();
+  console.log(data?.remainAlarms);
 
   return (
     <View className="flex flex-row items-center justify-center">

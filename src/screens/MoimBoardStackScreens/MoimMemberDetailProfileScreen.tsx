@@ -9,13 +9,14 @@ import {ReviewCard} from 'components/screens/MyStackScreens/ReviewCard.tsx';
 
 import {useGetInfiniteMyDetailReviews} from 'hooks/queries/MyScreen/useGetInfiniteMyDetailReviews.ts';
 import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts';
+import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
+
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {getMonthYearDetails} from 'utils';
 import {TUserDTO} from 'types/dtos/user.ts';
-import {useGetMyProfile} from '../../hooks/queries/MyScreen/useGetProfile.ts';
 
 export default function MoimMemberDetailProfileScreen({
   route,

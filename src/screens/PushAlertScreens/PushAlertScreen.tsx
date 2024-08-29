@@ -27,6 +27,7 @@ const PushAlertScreen = ({
     isFetchingNextPage,
     refetch,
   } = useGetInfiniteAllAlertList(8);
+  console.log(alerts);
   const {mutate: deleteAllAlerts} = useDeleteAllAlertList();
 
   const [isRefreshing, setIsRefreshing] = useState(false);

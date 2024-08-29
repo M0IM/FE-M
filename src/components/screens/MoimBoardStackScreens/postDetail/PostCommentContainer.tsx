@@ -15,6 +15,11 @@ import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
 import {COMMENT_STATUS} from 'types/enums';
 import {TPostCommentDto} from 'types/dtos/post';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  MoimPostStackNavigationProp,
+  MyStackNavigationProp,
+} from '../../../../navigators/types';
 
 interface PostCommentContainerProps {
   moimId?: number;
@@ -31,6 +36,13 @@ const PostCommentContainer = ({
   handleUpdateCommentId,
   targetCommentId,
 }: PostCommentContainerProps) => {
+  const navigation =
+    useNavigation<
+      CompositeNavigationProp<
+        MoimPostStackNavigationProp,
+        MyStackNavigationProp
+      >
+    >();
   const {isPopover, handlePopover} = usePopover();
   const {data: userInfo} = useGetMyProfile();
   const {
@@ -207,7 +219,17 @@ const PostCommentContainer = ({
                 : 'white',
           }}>
           <View className="flex flex-row items-center">
-            <Avatar size="XS" uri={commentData?.profileImage} />
+            <Avatar
+              onPress={() => {
+                console.log(commentData);
+                navigation.navigate('MOIM_MEMBER_PROFILE', {
+                  id: commentData.writerId as number,
+                  userName: commentData.writer ? commentData.writer : '프로필',
+                });
+              }}
+              size="XS"
+              uri={commentData?.profileImage}
+            />
             <View className="flex flex-col justify-center ml-2">
               <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
                 {commentData?.writer}

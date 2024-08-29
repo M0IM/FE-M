@@ -1,27 +1,20 @@
 import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
-import {useState} from 'react';
-
-import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard.tsx';
-
-import {useInfiniteGetMembersActiveMoimList} from 'hooks/queries/MyScreen/useInfiniteGetMembersActiveMoimList.ts';
 import {
-  HomeStackNavigationProp,
-  MyStackNavigationProp,
-  MyStackRouteProp,
+  MoimPostStackNavigationProp,
+  MoimPostStackRouteProp,
 } from 'navigators/types';
-import {CompositeNavigationProp} from '@react-navigation/native';
+import {useInfiniteGetMembersActiveMoimList} from '../../hooks/queries/MyScreen/useInfiniteGetMembersActiveMoimList.ts';
+import {useState} from 'react';
+import {ActiveMoimCard} from '../../components/calendar/ActiveMoimCard.tsx';
 
-export default function MyJoinMoimListScreen({
+export default function MoimParticipantMoimScreen({
   route,
   navigation,
 }: {
-  route: MyStackRouteProp;
-  navigation: CompositeNavigationProp<
-    MyStackNavigationProp,
-    HomeStackNavigationProp
-  >;
+  navigation: MoimPostStackNavigationProp;
+  route: MoimPostStackRouteProp;
 }) {
-  const userId = route.params?.id as number;
+  const userId = route.params.id as number;
   const {
     data: moims,
     fetchNextPage,

@@ -9,13 +9,16 @@ import {Typography} from 'components/@common/Typography/Typography';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import MoimMembersScrollView from './MoimMembersScrollView';
 import {wait} from 'utils/wait';
+import useDebounce from '../../../hooks/useDebounce.ts';
 
 interface MoimMembersViewProps {
   moimId: number;
+  onClose: () => void;
 }
 
-const MoimMembersView = ({moimId}: MoimMembersViewProps) => {
+const MoimMembersView = ({moimId, onClose}: MoimMembersViewProps) => {
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 1000);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEndReached, setIsEndReached] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -74,8 +77,9 @@ const MoimMembersView = ({moimId}: MoimMembersViewProps) => {
         <MoimMembersScrollView
           isRefreshing={isRefreshing}
           isEndReached={isEndReached}
-          search={search}
+          search={debouncedSearch}
           moimId={moimId}
+          onClose={onClose}
         />
       </ScrollView>
     </View>

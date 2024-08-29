@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Avatar from 'components/@common/Avatar/Avatar';
@@ -7,12 +7,18 @@ import Label from 'components/@common/Label/Label';
 import {Typography} from 'components/@common/Typography/Typography';
 
 import useGetInfinityMoimMembers from 'hooks/queries/MoimSpace/useGetInfinityMoimMembers';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  MoimPostStackNavigationProp,
+  MyStackNavigationProp,
+} from 'navigators/types';
 
 interface MoimMembersScrollViewProps {
   isRefreshing: boolean;
   isEndReached: boolean;
   search: string;
   moimId: number;
+  onClose: () => void;
 }
 
 const MoimMembersScrollView = ({
@@ -20,7 +26,15 @@ const MoimMembersScrollView = ({
   isEndReached,
   search,
   moimId,
+  onClose,
 }: MoimMembersScrollViewProps) => {
+  const navigation =
+    useNavigation<
+      CompositeNavigationProp<
+        MoimPostStackNavigationProp,
+        MyStackNavigationProp
+      >
+    >();
   const {
     data: members,
     fetchNextPage,
@@ -47,7 +61,11 @@ const MoimMembersScrollView = ({
   }, [isRefreshing, refetchMembers]);
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <View className="flex-col items-center justify-center h-[300]">
+        <ActivityIndicator size="large" color={'#00F0A1'} />
+      </View>
+    );
   }
 
   if (isError) {
@@ -59,7 +77,16 @@ const MoimMembersScrollView = ({
       {members?.pages
         .flatMap(page => page.userPreviewDTOList)
         .map(item => (
-          <TouchableOpacity key={item.userId} className="flex flex-row w-full">
+          <TouchableOpacity
+            key={item.userId}
+            className="flex flex-row w-full"
+            onPress={() => {
+              navigation.navigate('MOIM_MEMBER_PROFILE', {
+                id: item.userId as number,
+                userName: item.nickname ? item.nickname : '프로필',
+              });
+              onClose();
+            }}>
             <View className="flex flex-row items-center">
               <Avatar uri={item.imageKeyName} />
               <Typography

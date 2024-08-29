@@ -56,7 +56,7 @@ export function ActiveMoimCard({
             {moim?.address}
           </Typography>
           <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-            참여 인원 {moim?.memberCount}명
+            {moim?.memberCount}명
           </Typography>
         </View>
       </View>

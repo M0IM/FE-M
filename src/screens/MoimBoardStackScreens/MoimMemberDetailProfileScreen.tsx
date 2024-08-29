@@ -25,6 +25,7 @@ export default function MoimMemberDetailProfileScreen({
 }) {
   const userId = route.params.id as number;
   const {data: userInfo, isPending, isError} = useGetDetailProfile(userId);
+
   const {
     data: reviews,
     fetchNextPage,
@@ -57,6 +58,9 @@ export default function MoimMemberDetailProfileScreen({
       </View>
     );
   }
+
+  const me = userInfo?.userId;
+  console.log(me, userId);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -132,20 +136,22 @@ export default function MoimMemberDetailProfileScreen({
           </View>
         )}
       </View>
-      <View className="absolute right-0 left-0 bottom-3 m-5 flex-row items-center justify-center gap-y-2">
-        <CustomButton
-          textStyle={'text-lg font-bold color-white'}
-          onPress={() =>
-            navigation.navigate('MOIM_POST_REVIEW', {
-              id: userInfo?.userId as number,
-              userName: userInfo?.nickname
-                ? `${userInfo?.nickname} 후기 작성`
-                : '후기 작성',
-            })
-          }
-          label={'후기 작성하기'}
-        />
-      </View>
+      {me === userId ? null : (
+        <View className="absolute right-0 left-0 bottom-3 m-5 flex-row items-center justify-center gap-y-2">
+          <CustomButton
+            textStyle={'text-lg font-bold color-white'}
+            onPress={() =>
+              navigation.navigate('MOIM_POST_REVIEW', {
+                id: userInfo?.userId as number,
+                userName: userInfo?.nickname
+                  ? `${userInfo?.nickname} 후기 작성`
+                  : '후기 작성',
+              })
+            }
+            label={'후기 작성하기'}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

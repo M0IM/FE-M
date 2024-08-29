@@ -26,6 +26,22 @@ export default function MoimPostReviewScreen({
   const {mutate, error, isPending} = usePostReviewMutation();
   const targetUserId = route.params.id as number;
 
+  const handlePressReview = () => {
+    mutate(
+      {targetUserId, rating, content: review},
+      {
+        onSuccess: data => {
+          console.log(data);
+          queryClient.invalidateQueries({queryKey: ['review']});
+          navigation.goBack();
+        },
+        onError: error => {
+          console.log(error);
+        },
+      },
+    );
+  };
+
   return (
     <ScreenContainer
       fixedBottomComponent={
@@ -33,21 +49,7 @@ export default function MoimPostReviewScreen({
           disabled={isPending}
           label={isPending ? <ActivityIndicator /> : '후기 작성'}
           textStyle="text-lg text-white font-bold"
-          onPress={() => {
-            mutate(
-              {targetUserId, rating, content: review},
-              {
-                onSuccess: data => {
-                  console.log(data);
-                  queryClient.invalidateQueries({queryKey: ['review']});
-                  navigation.goBack();
-                },
-                onError: error => {
-                  console.log(error);
-                },
-              },
-            );
-          }}
+          onPress={handlePressReview}
         />
       }>
       <Typography fontWeight={'BOLD'} className="text-lg mt-4">
@@ -62,7 +64,6 @@ export default function MoimPostReviewScreen({
         starStyle={{marginHorizontal: 5}}
         maxStars={5}
       />
-
       <InputField
         touched
         className="h-[200px] mt-4"
@@ -70,6 +71,7 @@ export default function MoimPostReviewScreen({
         textAlignVertical="top"
         placeholder="해당 유저가 모임에서 어떻게 활동했는지, 작성해주세요!"
         value={review}
+        returnKeyType="join"
         onChangeText={text => setReview(text)}
       />
     </ScreenContainer>

@@ -121,15 +121,19 @@ const MoimPermissionScrollView = ({
               </Typography>
               <Label label={translatedRole} color="dark" />
               {item.moimRole !== 'OWNER' && (
-                <TouchableOpacity
-                  className="p-2 rounded-xl bg-gray-200 ml-auto"
-                  onPress={() => handleMemberAuth(item.userId, item.moimRole)}>
-                  <Typography
-                    fontWeight="MEDIUM"
-                    className="text-gray-600 text-xs">
-                    {item.moimRole === 'ADMIN' ? '권한 취소' : '권한 부여'}
-                  </Typography>
-                </TouchableOpacity>
+                <>
+                  <TouchableOpacity
+                    className="p-2 rounded-xl bg-gray-200 ml-auto"
+                    onPress={() =>
+                      handleMemberAuth(item.userId, item.moimRole)
+                    }>
+                    <Typography
+                      fontWeight="MEDIUM"
+                      className="text-gray-600 text-xs">
+                      {item.moimRole === 'ADMIN' ? '권한 취소' : '권한 부여'}
+                    </Typography>
+                  </TouchableOpacity>
+                </>
               )}
             </View>
           );

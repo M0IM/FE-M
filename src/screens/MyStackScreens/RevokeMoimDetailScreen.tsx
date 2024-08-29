@@ -13,6 +13,7 @@ import {
 import useDebounce from 'hooks/useDebounce.ts';
 import useWithdrawMoim from 'hooks/queries/MyScreen/useWithdrawMoim.ts';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
+import Toast from 'react-native-toast-message';
 
 interface RevokeMoimDetailScreenProps {
   route: RevokeMoimStackRouteProp;
@@ -52,7 +53,12 @@ const RevokeMoimDetailScreen = ({
                           navigation.navigate('REVOKE_MOIM_LIST');
                         },
                         onError: error => {
-                          console.log(error);
+                          Toast.show({
+                            type: 'error',
+                            text1: error?.response?.data.message,
+                            visibilityTime: 2000,
+                            position: 'bottom',
+                          });
                         },
                       },
                     );

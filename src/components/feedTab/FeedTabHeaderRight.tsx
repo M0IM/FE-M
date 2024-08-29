@@ -8,7 +8,6 @@ import useGetAlertCount from '../../hooks/queries/PushAlertScreen/useGetAlertCou
 
 export function FeedTabHeaderRight(navigation: HomeStackNavigationProp) {
   const {data} = useGetAlertCount();
-  console.log(data?.remainAlarms);
 
   return (
     <View className="flex flex-row items-center justify-center">

@@ -48,6 +48,7 @@ const CustomTabBar = ({
         'PERMISSION_MANAGEMENT',
         'JOIN_MANAGEMENT',
         'MOIM_INFO_EDIT',
+        'DELEGATION_AUTHORITY_SCREEN',
       ];
       const moimBoardState = state.routes.find(
         route => route.name === 'MOIM_MANAGEMENT',

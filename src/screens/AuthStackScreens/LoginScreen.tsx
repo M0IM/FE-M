@@ -40,10 +40,9 @@ export default function LoginScreen() {
           });
         },
         onError: error => {
-          console.log(error);
           Toast.show({
             type: 'error',
-            text1: error.response?.data.message || '로그인 에러발생',
+            text1: error.response?.data.message,
             visibilityTime: 2000,
             position: 'bottom',
           });

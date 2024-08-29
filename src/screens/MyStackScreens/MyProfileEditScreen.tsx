@@ -67,10 +67,7 @@ export default function MyProfileEditScreen() {
   };
 
   return (
-    <ScreenContainer
-      fixedBottomComponent={
-        <CustomButton label={'수정 완료'} onPress={handleSubmit} />
-      }>
+    <ScreenContainer>
       <View className="flex items-center justify-center mt-4">
         <Avatar
           size={'LG'}
@@ -150,12 +147,19 @@ export default function MyProfileEditScreen() {
         </Typography>
         <InputField
           {...editProfile.getTextInputProps('introduction')}
-          error={editProfile.errors.introduction}
+          // error={editProfile.errors.introduction}
           touched={editProfile.touched.introduction}
           returnKeyType="next"
           multiline={true}
+          placeholder="소개를 입력해주세요."
         />
       </View>
+      <CustomButton
+        label={'수정 완료'}
+        onPress={handleSubmit}
+        className="mt-auto"
+        textStyle="text-white text-base font-bold"
+      />
     </ScreenContainer>
   );
 }

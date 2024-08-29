@@ -18,19 +18,21 @@ import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
 // import MoimTagContainer from 'components/screens/MoimCreateScreen/MoimTagContainer';
+import CustomDropdown from 'components/@common/Dropdown/CustomDropdown';
+import SelectRegionBottomSheet from 'components/@common/SelectRegionBottomSheet/SelectRegionBottomSheet';
 
 import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
+import useModal from 'hooks/useModal';
 // import useTags from 'hooks/useTags';
 import useSingleImagePicker from 'hooks/useSingleImagePicker';
+import useDropdown from 'hooks/useDropdown';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 
 import {CREATE_CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
 import {
   MoimManagementNavigationProp,
   MoimManagementRouteProp,
 } from 'navigators/types';
-import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
-import CustomDropdown from 'components/@common/Dropdown/CustomDropdown';
-import useDropdown from 'hooks/useDropdown';
 
 interface MoimInfoEditScreenProps {
   navigation: MoimManagementNavigationProp;
@@ -41,6 +43,9 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
   const platform = Platform.OS;
   const moimId = route.params.id;
 
+  const [region, setRegion] = useState('');
+
+  const regionPickerModal = useModal();
   // const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const {updateMoimInfoMutation} = useMoimManagment();
   const {data: moimData, isPending} = useGetMoimSpaceInfo(moimId);
@@ -59,12 +64,10 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
     useDropdown();
   const [data, setData] = useState({
     title: moimData?.title,
-    location: moimData?.address,
     introduction: moimData?.description,
   });
   const [error, setError] = useState({
     title: '',
-    location: '',
   });
 
   const updateIsLoading = updateMoimInfoMutation.isPending;
@@ -76,6 +79,9 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
       );
       handleSelectedCategory(selected);
     }
+    if (moimData?.address) {
+      setRegion(moimData?.address);
+    }
   }, [moimData]);
 
   const handleOnSubmit = () => {
@@ -84,7 +90,7 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
 
     if (
       data?.title &&
-      data?.location &&
+      region &&
       data?.introduction &&
       moimId &&
       category?.key
@@ -93,7 +99,7 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
         {
           moimId: moimId,
           title: data?.title,
-          address: data?.location,
+          address: region,
           moimCategory: category?.key || moimData?.category,
           description: data?.introduction,
           imageKeyName: uploadUri || moimData?.profileImageUrl,
@@ -129,11 +135,13 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
     } else {
       if (!data?.title)
         setError(prev => ({...prev, title: '모임 이름을 입력해주세요.'}));
-      if (!data?.location)
-        setError(prev => ({
-          ...prev,
-          location: '모임 활동 지역을 입력해주세요.',
-        }));
+      if (!region)
+        Toast.show({
+          type: 'error',
+          text1: '모임 활동 지역을 선택해주세요.',
+          visibilityTime: 2000,
+          position: 'bottom',
+        });
       if (!data?.introduction)
         Toast.show({
           type: 'error',
@@ -150,6 +158,10 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
         });
       }
     }
+  };
+
+  const handleConfirmRegion = () => {
+    regionPickerModal.hide();
   };
 
   if (isPending) {
@@ -179,6 +191,7 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
         <InputField
           touched
           placeholder="모임 이름 입력"
+          error={data?.title ? '' : error.title}
           value={data.title}
           onChangeText={text => setData(prev => ({...prev, title: text}))}
         />
@@ -191,14 +204,10 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
         </Typography>
         <View className="flex flex-row w-full items-center justify-around gap-x-2">
           <View className="flex-1">
-            <InputField
-              touched
-              placeholder="활동 지역 찾기"
-              error={data?.location ? '' : error.location}
-              value={data?.location}
-              onChangeText={text =>
-                setData(prev => ({...prev, location: text}))
-              }
+            <CustomButton
+              variant="gray"
+              label={region ? region : '활동 지역 선택'}
+              onPress={regionPickerModal.show}
             />
           </View>
           <TouchableOpacity activeOpacity={0.8}>
@@ -286,7 +295,13 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
       {/* 모임 소개 영상 게시 */}
       {/* TODO: 다음 버전에서 추가 */}
       {/* <MoimIntroVideo /> */}
-
+      <SelectRegionBottomSheet
+        isBottomSheetOpen={regionPickerModal.isVisible}
+        onOpen={regionPickerModal.show}
+        onClose={regionPickerModal.hide}
+        setRegion={setRegion}
+        handleConfirmRegion={handleConfirmRegion}
+      />
       <View className={platform === 'android' ? 'mt-16' : 'mt-6'} />
     </ScreenContainer>
   );

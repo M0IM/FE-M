@@ -17,6 +17,8 @@ import useDropdown from 'hooks/useDropdown';
 import {HomeStackNavigationProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {CREATE_CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
+import useModal from 'hooks/useModal';
+import SelectRegionBottomSheet from 'components/@common/SelectRegionBottomSheet/SelectRegionBottomSheet';
 
 interface MoimCreateScreenProps {
   navigation: HomeStackNavigationProp;
@@ -24,7 +26,7 @@ interface MoimCreateScreenProps {
 
 const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
   usePermission('PHOTO');
-
+  const regionPickerModal = useModal();
   // const {tags, addTagField, handleTagChange, removeTagField} = useTags();
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({});
@@ -32,9 +34,10 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
     useDropdown();
   const createMoimMutation = useCreateMoim();
   const platform = Platform.OS;
+  const [region, setRegion] = useState('');
+  const [isPickedRegion, setIsPickedRegion] = useState(false);
   const [data, setData] = useState({
     title: '',
-    location: '',
     introduceVideoKeyName: 'string',
     introduceVideoTitle: 'string',
     introduction: '',
@@ -47,11 +50,11 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
   const createIsLoading = createMoimMutation.isPending;
 
   const handleOnSubmit = () => {
-    if (data?.title && data?.location && data?.introduction && category?.key) {
+    if (data?.title && region && data?.introduction && category?.key) {
       createMoimMutation.mutate(
         {
           title: data?.title,
-          location: data?.location,
+          location: region,
           moimCategory: category?.key,
           introduceVideoKeyName: data?.introduceVideoKeyName,
           introduceVideoTitle: data?.introduceVideoTitle,
@@ -91,11 +94,13 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
       }
       if (!data?.title)
         setError(prev => ({...prev, title: '모임 이름을 입력해주세요.'}));
-      if (!data?.location)
-        setError(prev => ({
-          ...prev,
-          location: '모임 활동 지역을 입력해주세요.',
-        }));
+      if (!region)
+        Toast.show({
+          type: 'error',
+          text1: '모임 활동 지역을 선택해주세요.',
+          visibilityTime: 2000,
+          position: 'bottom',
+        });
       if (!data?.introduction)
         Toast.show({
           type: 'error',
@@ -104,6 +109,11 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
           position: 'bottom',
         });
     }
+  };
+
+  const handleConfirmRegion = () => {
+    setIsPickedRegion(true);
+    regionPickerModal.hide();
   };
 
   return (
@@ -151,17 +161,15 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
         </Typography>
         <View className="flex flex-row w-full items-center justify-around gap-x-2">
           <View className="flex-1">
-            <InputField
-              touched
-              placeholder="활동 지역 찾기"
-              error={data?.location ? '' : error.location}
-              value={data?.location}
-              onChangeText={text =>
-                setData(prev => ({...prev, location: text}))
-              }
+            <CustomButton
+              variant="gray"
+              label={isPickedRegion ? region : '활동 지역 선택'}
+              onPress={regionPickerModal.show}
             />
           </View>
-          <TouchableOpacity activeOpacity={0.8}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={regionPickerModal.show}>
             <Ionicons name="search" size={30} color={'#C9CCD1'} />
           </TouchableOpacity>
         </View>
@@ -246,7 +254,13 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
       {/* 모임 소개 영상 게시 */}
       {/* TODO: 다음 버전에서 추가 */}
       {/* <MoimIntroVideo /> */}
-
+      <SelectRegionBottomSheet
+        isBottomSheetOpen={regionPickerModal.isVisible}
+        onOpen={regionPickerModal.show}
+        onClose={regionPickerModal.hide}
+        setRegion={setRegion}
+        handleConfirmRegion={handleConfirmRegion}
+      />
       <View className={platform === 'android' ? 'mt-16' : 'mt-14'} />
     </ScreenContainer>
   );

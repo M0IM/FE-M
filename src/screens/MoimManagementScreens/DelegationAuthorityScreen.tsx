@@ -98,10 +98,13 @@ export default function DelegationAuthorityScreen({
                     position: 'bottom',
                   });
                   queryClient.invalidateQueries({
-                    queryKey: ['moimMembers'],
+                    queryKey: ['moimRequests', moimId],
+                  });
+                  queryClient.refetchQueries({
+                    queryKey: ['moimMembers', moimId],
                   });
                   queryClient.invalidateQueries({
-                    queryKey: ['moimSpaceInfo'],
+                    queryKey: ['moimSpaceInfo', moimId],
                   });
                 },
                 onError: error => {
@@ -169,15 +172,15 @@ export default function DelegationAuthorityScreen({
             return (
               <View
                 key={item.userId}
-                className="flex flex-row items-center py-3">
+                className="flex-1 flex-row items-center py-3">
                 <Avatar uri={item.imageKeyName} />
                 <Typography
                   fontWeight="MEDIUM"
-                  className="text-dark-800 text-sm ml-3 mr-3">
+                  numberOfLines={1}
+                  className="text-dark-800 text-sm ml-3 mr-3 w-[120] truncate">
                   {item.nickname}
                 </Typography>
                 <Label label={translatedRole} color="dark" />
-                {/* 본인이 OWNER일 때만, 권한 부여가 가능합니다. 단, 본인이 OWNER가 아닌 경우에는 모임장 위임 버튼이 보이지 않아야 합니다. */}
                 {item.moimRole !== 'OWNER' && data?.myMoimRole === 'OWNER' && (
                   <>
                     <TouchableOpacity

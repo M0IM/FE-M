@@ -10,6 +10,7 @@ import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
 import {TMoimRole} from 'types/dtos/moimManage';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {SafeAreaView} from 'react-native';
+import useGetMoimSpaceInfo from '../../../hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
 
 interface MoimPermissionScrollViewProps {
   moimId?: number;
@@ -35,6 +36,7 @@ const MoimPermissionScrollView = ({
     isPending,
     isError,
   } = useGetInfinityMoimMembers(moimId, search);
+  const {data} = useGetMoimSpaceInfo(moimId);
 
   const handleNowRole = (role: TMoimRole) => {
     if (role === 'ADMIN') {
@@ -84,8 +86,11 @@ const MoimPermissionScrollView = ({
             });
           },
           onSettled: () => {
-            queryClient.invalidateQueries({
+            queryClient.refetchQueries({
               queryKey: ['moimMembers', moimId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['moimRequests', moimId],
             });
           },
         },
@@ -111,6 +116,7 @@ const MoimPermissionScrollView = ({
         .flatMap(page => page.userPreviewDTOList)
         .map(item => {
           const translatedRole = handleNowRole(item.moimRole);
+          console.log(item.moimRole, 'hihihihi');
           return (
             <View key={item.userId} className="flex flex-row items-center py-3">
               <Avatar uri={item.imageKeyName} />
@@ -120,7 +126,8 @@ const MoimPermissionScrollView = ({
                 {item.nickname}
               </Typography>
               <Label label={translatedRole} color="dark" />
-              {item.moimRole !== 'OWNER' && (
+
+              {data?.myMoimRole === 'OWNER' && item.moimRole !== 'OWNER' && (
                 <>
                   <TouchableOpacity
                     className="p-2 rounded-xl bg-gray-200 ml-auto"

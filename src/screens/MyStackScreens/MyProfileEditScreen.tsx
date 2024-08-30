@@ -125,7 +125,7 @@ export default function MyProfileEditScreen() {
         </Typography>
         <InputField
           {...editProfile.getTextInputProps('nickname')}
-          error={editProfile.errors.nickname}
+          // error={editProfile.errors.nickname}
           touched={editProfile.touched.nickname}
           returnKeyType="next"
         />
@@ -136,7 +136,7 @@ export default function MyProfileEditScreen() {
         </Typography>
         <InputField
           {...editProfile.getTextInputProps('residence')}
-          error={editProfile.errors.residence}
+          // error={editProfile.errors.residence}
           touched={editProfile.touched.residence}
           returnKeyType="next"
         />

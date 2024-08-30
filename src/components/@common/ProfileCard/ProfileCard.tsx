@@ -15,14 +15,17 @@ export function ProfileCard({userInfo}: IProfileCardProps) {
     <View className="flex flex-row items-center gap-x-4 mb-4 px-4">
       <Avatar size={'LG'} uri={userInfo?.imageUrl} />
       <View className="flex-col gap-y-2">
-        <Typography numberOfLines={1} fontWeight={'BOLD'} className="text-lg">
+        <Typography
+          numberOfLines={1}
+          fontWeight={'BOLD'}
+          className="text-lg w-[200]">
           {userInfo?.nickname}
         </Typography>
         <View className="w-full flex flex-col items-start gap-y-1">
           <Typography
             numberOfLines={1}
             fontWeight={'MEDIUM'}
-            className="text-gray-500">
+            className="text-gray-500 w-[200]">
             {userInfo?.residence}
           </Typography>
           <Typography

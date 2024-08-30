@@ -16,7 +16,6 @@ import {GoogleSignin, User} from '@react-native-google-signin/google-signin';
 import {Logo} from 'components/@common/Logo/Logo.tsx';
 import {SocialButton} from 'components/@common/SocialButton/SocialButton.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
-import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 
 import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';

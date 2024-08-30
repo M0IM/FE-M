@@ -20,6 +20,7 @@ import {AuthStackNavigationProp} from 'navigators/types';
 import {TSignup} from 'types/dtos/auth.ts';
 import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 import RegionBottomSheet from '../../components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
+import useFcmTokenStore from '../../stores/useFcmTokenStore.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -39,6 +40,8 @@ export default function SignupLastStepScreen({
   const [isPicked, setIsPicked] = useState(false);
   const [isPickedRegion, setIsPickedRegion] = useState(false);
   const [region, setRegion] = useState('');
+  const {fcmToken} = useFcmTokenStore();
+
   const handleChangeDate = (pickedDate: Date) => {
     setDate(pickedDate);
   };
@@ -81,6 +84,7 @@ export default function SignupLastStepScreen({
       gender: signUpInfo.gender,
       birth: moment(date).format('YYYY-MM-DD'),
       residence: region,
+      fcmToken: fcmToken as string,
     });
   };
 

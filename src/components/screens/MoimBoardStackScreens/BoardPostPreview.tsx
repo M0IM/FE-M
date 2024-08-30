@@ -1,4 +1,4 @@
-import {TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import {View} from 'react-native';
 
 import Avatar from 'components/@common/Avatar/Avatar';
@@ -37,12 +37,16 @@ const BoardPostPreview = ({
       <View className="flex flex-row items-center">
         <Avatar
           size="XS"
-          onPress={() =>
-            navigation.navigate('MOIM_MEMBER_PROFILE', {
-              id: postPreview.writerId,
-              userName: postPreview.writer,
-            })
-          }
+          onPress={() => {
+            if (postPreview.writerId !== null && postPreview.writer !== null) {
+              navigation.navigate('MOIM_MEMBER_PROFILE', {
+                id: postPreview.writerId,
+                userName: postPreview.writer,
+              });
+            } else {
+              Alert.alert('탈퇴 또는 차단 된 유저입니다.');
+            }
+          }}
           uri={postPreview.ownerProfileImageUrl}
         />
         <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs ml-2">

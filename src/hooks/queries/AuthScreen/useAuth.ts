@@ -36,7 +36,6 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
       setHeader('Authorization', accessToken);
       setEncryptStorage(storageKeys.ACCESS_TOKEN, accessToken);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
-      queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
       queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
       Toast.show({
         type: 'success',
@@ -45,15 +44,10 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
         position: 'bottom',
       });
     },
-    onSettled: () => {
-      queryClient.refetchQueries({
-        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
-      });
-    },
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.message || '회원가입 도중 에러가 발생했습니다.',
+        text1: error?.response?.data.message,
         visibilityTime: 2000,
         position: 'bottom',
       });
@@ -81,6 +75,14 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
         queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
       });
     },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
     throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
@@ -90,13 +92,9 @@ function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: socialLogin,
     onSuccess: ({result}) => {
+      console.log(result, '야호야호야호야호');
       setHeader('Authorization', result.accessToken);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, result.refreshToken);
-    },
-    onSettled: () => {
-      queryClient.refetchQueries({
-        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
-      });
     },
     onError: error => {
       Toast.show({
@@ -123,9 +121,9 @@ function useGetRefreshToken() {
 
   useEffect(() => {
     if (isSuccess) {
-      setHeader('Authorization', `Bearer ${data?.result.accessToken}`);
-      setEncryptStorage(storageKeys.ACCESS_TOKEN, data.result.accessToken);
-      setEncryptStorage(storageKeys.REFRESH_TOKEN, data.result.refreshToken);
+      setHeader('Authorization', `Bearer ${data?.result?.accessToken}`);
+      setEncryptStorage(storageKeys.ACCESS_TOKEN, data?.result?.accessToken);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, data?.result?.refreshToken);
     }
   }, [isSuccess]);
 
@@ -147,6 +145,7 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
       removeHeader('Authorization');
       queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
       queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
+      queryClient.clear();
       Toast.show({
         type: 'success',
         text1: data.message && '로그아웃에 성공하였습니다.',
@@ -157,7 +156,7 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
     onError: error => {
       Toast.show({
         type: 'error',
-        text1: error.message,
+        text1: error?.response?.data.message,
         visibilityTime: 2000,
         position: 'bottom',
       });
@@ -175,6 +174,7 @@ function useDeleteUser(mutationOptions?: UseMutationCustomOptions) {
       removeHeader('Authorization');
       queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
       queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
+      queryClient.clear();
       Toast.show({
         type: 'success',
         text1: data.message,

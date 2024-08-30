@@ -31,6 +31,7 @@ const postSignup = async ({
   gender,
   birth,
   residence,
+  fcmToken,
 }: TSignup): Promise<TResponseSignup> => {
   const {data} = await axiosInstance.post('/api/v1/auth/join', {
     provider,
@@ -42,6 +43,7 @@ const postSignup = async ({
     gender,
     birth,
     residence,
+    fcmToken,
   });
 
   return data;
@@ -55,7 +57,7 @@ const postLogin = async ({
   password,
   fcmToken,
 }: TLogin): Promise<TResponseSignup> => {
-  const {data} = await axiosInstance.post('/api/v1/auth/login', {
+  const {data} = await axios.post(`${Config.SERVER_URL}/api/v1/auth/login`, {
     email,
     password,
     fcmToken,
@@ -72,7 +74,7 @@ const socialLogin = async ({
   idToken,
   fcmToken,
 }: TSocial): Promise<TResponseSignup> => {
-  const {data} = await axiosInstance.post(`/api/v1/auth/oAuth`, {
+  const {data} = await axios.post(`${Config.SERVER_URL}/api/v1/auth/oAuth`, {
     provider: type,
     token: idToken,
     fcmToken,

@@ -10,6 +10,7 @@ type TSignup = {
   gender: 'FEMALE' | 'MALE';
   birth: string;
   residence: string;
+  fcmToken: string;
 };
 
 type TResponseToken = {

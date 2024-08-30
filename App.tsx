@@ -109,22 +109,6 @@ PushNotification.configure({
 // );
 
 function App() {
-  const {setFcmToken} = useFcmTokenStore();
-
-  useEffect(() => {
-    async function getToken() {
-      try {
-        if (!messaging().isDeviceRegisteredForRemoteMessages) {
-          await messaging().registerDeviceForRemoteMessages();
-        }
-        const phoneToken = await messaging().getToken();
-        setFcmToken(phoneToken);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getToken();
-  }, []);
   return (
     <AppSetupContainer>
       <GestureHandlerRootView>

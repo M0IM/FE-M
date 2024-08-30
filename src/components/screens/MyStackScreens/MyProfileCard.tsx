@@ -20,7 +20,10 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
     <>
       <View className={'flex-row items-center mt-7 pl-2 mb-2'}>
         <Avatar size="LG" uri={profile?.result.imageUrl} alt="Avatar" />
-        <Typography fontWeight={'BOLD'} className="ml-4 text-xl text-dark-800">
+        <Typography
+          numberOfLines={1}
+          fontWeight={'BOLD'}
+          className="ml-4 text-xl text-dark-800 w-[200]">
           {profile?.result.nickname}
         </Typography>
       </View>

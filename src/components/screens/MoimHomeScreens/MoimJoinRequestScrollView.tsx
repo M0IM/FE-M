@@ -74,6 +74,9 @@ const MoimJoinRequestScrollView = ({
             queryClient.invalidateQueries({
               queryKey: ['moimRequests', moimId],
             });
+            queryClient.invalidateQueries({
+              queryKey: ['moimMembers', moimId],
+            });
           },
           onError: error => {
             console.error(error.response);

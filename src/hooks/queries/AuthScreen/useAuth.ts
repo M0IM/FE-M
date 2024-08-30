@@ -92,6 +92,7 @@ function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: socialLogin,
     onSuccess: ({result}) => {
+      console.log(result, '야호야호야호야호');
       setHeader('Authorization', result.accessToken);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, result.refreshToken);
     },
@@ -144,6 +145,7 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
       removeHeader('Authorization');
       queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
       queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
+      queryClient.clear();
       Toast.show({
         type: 'success',
         text1: data.message && '로그아웃에 성공하였습니다.',
@@ -172,6 +174,7 @@ function useDeleteUser(mutationOptions?: UseMutationCustomOptions) {
       removeHeader('Authorization');
       queryClient.resetQueries({queryKey: [queryKeys.AUTH, 'getAccessToken']});
       queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
+      queryClient.clear();
       Toast.show({
         type: 'success',
         text1: data.message,

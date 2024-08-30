@@ -1,4 +1,4 @@
-import {SafeAreaView, View} from 'react-native';
+import {Alert, SafeAreaView, View} from 'react-native';
 import React, {useEffect} from 'react';
 import Toast from 'react-native-toast-message';
 import {CompositeNavigationProp} from '@react-navigation/native';
@@ -335,12 +335,16 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
             : PostMyMenuList
         }
         isWriter={userInfo?.result.nickname === data?.writer}
-        onPress={() =>
-          navigation.navigate('MOIM_MEMBER_PROFILE', {
-            id: data?.writerId as number,
-            userName: data?.writer ? data?.writer : '프로필',
-          })
-        }
+        onPress={() => {
+          if (data?.writerId !== null && data?.writer !== null) {
+            navigation.navigate('MOIM_MEMBER_PROFILE', {
+              id: data?.writerId as number,
+              userName: data?.writer ? data?.writer : '프로필',
+            });
+          } else {
+            Alert.alert('탈퇴 또는 차단 된 유저입니다.');
+          }
+        }}
       />
       <PostInfoContainer
         postImages={data?.imageKeyNames}

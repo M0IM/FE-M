@@ -1,4 +1,4 @@
-import {View, Pressable} from 'react-native';
+import {View, Pressable, Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
@@ -207,6 +207,8 @@ const PostCommentContainer = ({
     return <></>;
   }
 
+  console.log(commentData);
+
   return (
     <Pressable onPress={() => targetCommentId && handleUpdateCommentId(null)}>
       <View className="flex flex-col">
@@ -221,18 +223,27 @@ const PostCommentContainer = ({
           <View className="flex flex-row items-center">
             <Avatar
               onPress={() => {
-                console.log(commentData);
-                navigation.navigate('MOIM_MEMBER_PROFILE', {
-                  id: commentData.writerId as number,
-                  userName: commentData.writer ? commentData.writer : '프로필',
-                });
+                if (
+                  commentData.writerId !== null &&
+                  commentData.writer !== null
+                ) {
+                  navigation.navigate('MOIM_MEMBER_PROFILE', {
+                    id: commentData.writerId as number,
+                    userName: commentData.writer
+                      ? commentData.writer
+                      : '프로필',
+                  });
+                } else {
+                  Alert.alert('탈퇴 또는 차단 된 유저입니다');
+                }
               }}
               size="XS"
               uri={commentData?.profileImage}
             />
             <View className="flex flex-col justify-center ml-2">
               <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
-                {commentData?.writer}
+                {/* TODO: 탈퇴한 유저, 차단한 유저 분리해서 백엔드 요구사항 받은 후 처리 */}
+                {commentData?.writer ?? '알 수 없는 사용자'}
               </Typography>
               <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
                 {formatKoreanDate(new Date(commentData?.createAt))}

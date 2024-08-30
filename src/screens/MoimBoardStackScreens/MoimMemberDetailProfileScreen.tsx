@@ -54,7 +54,9 @@ export default function MoimMemberDetailProfileScreen({
     setIsRefreshing(false);
   };
 
-  if (isPending || isError) {
+  console.log(userInfo, 'hihihi');
+
+  if (!userId || !userInfo) {
     return (
       <View className="flex-1 items-center justify-center">
         <ActivityIndicator size="large" color="#00F0A1" />

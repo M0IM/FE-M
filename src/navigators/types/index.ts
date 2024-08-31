@@ -167,6 +167,7 @@ export type MoimManagementParamList = {
   JOIN_MANAGEMENT: {id: number | undefined};
   MOIM_INFO_EDIT: {id: number | undefined};
   DELEGATION_AUTHORITY_SCREEN: {id: number | undefined};
+  MOIM_CREATE_TODO: {id: number | undefined};
 };
 
 export type NewFeedHomeStackParamList = {

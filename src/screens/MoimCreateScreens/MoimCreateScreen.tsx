@@ -18,7 +18,6 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {CREATE_CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
 import useModal from 'hooks/useModal';
-import SelectRegionBottomSheet from 'components/@common/SelectRegionBottomSheet/SelectRegionBottomSheet';
 import RegionBottomSheet from '../../components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
 
 interface MoimCreateScreenProps {

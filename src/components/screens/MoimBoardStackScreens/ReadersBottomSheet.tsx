@@ -32,7 +32,7 @@ const ReadersBottomSheet = ({
 }: ReadersBottomSheetProps) => {
   const [search, setSearch] = useState('');
   const {data: members} = useGetInfinityMoimMembers(moimId, search);
-
+  console.log(moimId);
   const handleSearch = () => {
     queryClient.invalidateQueries({
       queryKey: ['moimMembers', moimId],

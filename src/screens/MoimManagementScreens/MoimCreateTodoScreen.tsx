@@ -1,31 +1,31 @@
-import {
-  Image,
-  Pressable,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-
-import {Typography} from 'components/@common/Typography/Typography.tsx';
-import {MoimManagementRouteProp} from '../../navigators/types';
-import useForm from '../../hooks/useForm.ts';
-import {getDateWithSeparator, validateTodo} from '../../utils';
-import {ScreenContainer} from '../../components/ScreenContainer.tsx';
-import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
-import {InputField} from '../../components/@common/InputField/InputField.tsx';
+import {Image, Pressable, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import useModal from '../../hooks/useModal.ts';
-import {DatePickerOption} from '../../components/@common/DatePickerOption/DatePickerOption.tsx';
-import usePermission from '../../hooks/usePermission.ts';
-import useSingleImagePicker from '../../hooks/useSingleImagePicker.ts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import ReadersBottomSheet from '../../components/screens/MoimBoardStackScreens/ReadersBottomSheet.tsx';
+
+import {ScreenContainer} from 'components/ScreenContainer.tsx';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
+import {InputField} from 'components/@common/InputField/InputField.tsx';
+import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOption.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
 import ReaderPickerBottomSheet from './components/ReaderPickerBottomSheet.tsx';
+
+import {
+  MoimManagementNavigationProp,
+  MoimManagementRouteProp,
+} from 'navigators/types';
+import {getDateWithSeparator, validateTodo} from 'utils';
+import useForm from 'hooks/useForm.ts';
+import useModal from 'hooks/useModal.ts';
+import usePermission from 'hooks/usePermission.ts';
+import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
+import useTodo from 'hooks/useTodo.ts';
 
 export default function MoimCreateTodoScreen({
   route,
+  navigation,
 }: {
   route: MoimManagementRouteProp;
+  navigation: MoimManagementNavigationProp;
 }) {
   usePermission('PHOTO');
 
@@ -38,12 +38,10 @@ export default function MoimCreateTodoScreen({
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({});
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const {createTodoMutation} = useTodo();
 
   const handleToggleSelectedIds = (id: number) => {
     setSelectedIds(prev =>
-      // 필터
-      // 현재 클릭한 아이디를 포함하고 있으면, 필터 제거
-      // 아니면 추가
       prev.includes(id)
         ? prev.filter(selectedId => selectedId !== id)
         : [...prev, id],
@@ -68,24 +66,33 @@ export default function MoimCreateTodoScreen({
   });
 
   const handleSubmit = () => {
-    console.log({
-      moimId,
-      title: addTodo.values.title,
-      content: addTodo.values.content,
-      dueDate: date,
-      imageKeyList: [uploadUri],
-      targetUserIdList: selectAll ? [] : selectedIds,
-      isAssignedSelectAll: selectAll,
-    });
+    createTodoMutation.mutate(
+      {
+        moimId,
+        title: addTodo.values.title,
+        content: addTodo.values.content,
+        dueDate: date,
+        imageKeyList: [uploadUri],
+        targetUserIdList: selectAll ? [] : selectedIds,
+        isAssignedSelectAll: selectAll,
+      },
+      {
+        onSuccess: () => {
+          navigation.goBack();
+        },
+      },
+    );
   };
 
   return (
     <ScreenContainer
       fixedBottomComponent={
         <CustomButton
+          className={`${createTodoMutation.isPending ? 'bg-gray-300' : ''}`}
           textStyle="text-white text-lg font-bold"
-          label="할 일 배정"
+          label={`${createTodoMutation.isPending ? '배정 중...' : '할 일 배정'}`}
           onPress={handleSubmit}
+          disabled={createTodoMutation.isPending}
         />
       }>
       <View className="mt-4">

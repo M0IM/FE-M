@@ -200,11 +200,11 @@ function validateTodo(values: TValidateTodo) {
     content: '',
   };
 
-  if (values.title?.trim()) {
+  if (!values.title?.trim()) {
     errors.title = '할 일 제목을 입력해주세요.';
   }
 
-  if (values.content?.trim()) {
+  if (!values.content?.trim()) {
     errors.content = '할 일 내용을 입력해주세요.';
   }
 

@@ -2,9 +2,9 @@ import {useCallback, useState} from 'react';
 import {
   FlatList,
   Pressable,
-  SafeAreaView,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -14,11 +14,11 @@ import BoardPostPreview from 'components/screens/MoimBoardStackScreens/BoardPost
 
 import {BOARD_TITLES} from 'constants/screens/MoimBoardStackScreens/PostList';
 import usePost from 'hooks/queries/MoimBoard/usePost';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
-import MoimBoardSkeleton from 'components/screens/MoimHomeScreens/Skeleton/MoimBoardSkeleton';
 
 type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
@@ -28,6 +28,7 @@ interface MoimBoardScreenProps {
 }
 
 const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
+  const moimId = route?.params.id;
   const [isSelected, setIsSelected] = useState<BoardTitleType>('ALL');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {useGetInfiniteMoimPostList} = usePost();
@@ -39,6 +40,7 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
     refetch,
     isPending,
   } = useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
+  const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
 
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -64,9 +66,32 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
 
   if (isPending) {
     return (
-      <SafeAreaView>
-        <MoimBoardSkeleton />
-      </SafeAreaView>
+      <>
+        <View className="flex flex-row justify-around border-b-[1px] border-gray-200 px-3 mb-3">
+          {BOARD_TITLES.map(({key, label}) => (
+            <Pressable
+              key={key}
+              onPress={() => handleSelect(key)}
+              className={`${isSelected === key ? 'border-b-2 border-dark-800' : ''}`}>
+              <Typography
+                fontWeight="BOLD"
+                className={`text-gray-200 text-base p-2 ${isSelected === key ? 'text-dark-800' : ''}`}>
+                {label}
+              </Typography>
+            </Pressable>
+          ))}
+        </View>
+        <View className="h-[80%] justify-center items-center">
+          <ActivityIndicator size={'large'} />
+        </View>
+
+        <FloatingButton
+          type="add"
+          onPress={() =>
+            navigation.navigate('MOIM_POST_WRITE', {id: route.params.id})
+          }
+        />
+      </>
     );
   }
 
@@ -120,10 +145,17 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
               if (isSelected === 'ALL') {
                 navigation.navigate('MOIM_POST_WRITE', {id: route.params.id});
               } else {
-                navigation.navigate('MOIM_POST_WRITE', {
-                  id: route.params.id,
-                  postType: isSelected,
-                });
+                if (
+                  moimInfo?.myMoimRole === 'MEMBER' &&
+                  isSelected === 'ANNOUNCEMENT'
+                ) {
+                  navigation.navigate('MOIM_POST_WRITE', {id: route.params.id});
+                } else {
+                  navigation.navigate('MOIM_POST_WRITE', {
+                    id: route.params.id,
+                    postType: isSelected,
+                  });
+                }
               }
             }}>
             <Typography fontWeight="BOLD" className="text-gray-500 text-sm">

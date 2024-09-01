@@ -32,7 +32,7 @@ const MoimInfoContainer = ({
               {moimMembers &&
                 moimMembers.length > 0 &&
                 moimMembers.map((item, index) => (
-                  <View key={index} style={{marginLeft: -7 * index}}>
+                  <View key={index} style={{marginLeft: -3 * (index + 1)}}>
                     <Image
                       source={
                         item.imageKeyName ? {uri: item.imageKeyName} : user

@@ -107,12 +107,12 @@ type TWithdrawMoimResponse = {
   result: string;
 };
 
-type TMoimPreviewListDTO = {
+export type TMoimPreviewListDTO = {
   moimPostId: number;
   moimId: number;
   title: string;
   content: string;
-  moimImageUrl: string[];
+  moimImageUrl: string;
   ownerProfileImageUrl: string;
   writer: string;
   commentCount: number;

@@ -30,7 +30,7 @@ export default function MoimHappeningEvent({
     refetch();
   }, [isRefreshing]);
 
-  if (!isPending) {
+  if (isPending) {
     return (
       <View className="flex flex-col">
         <Typography className="text-lg mb-4 text-dark-800" fontWeight={'BOLD'}>

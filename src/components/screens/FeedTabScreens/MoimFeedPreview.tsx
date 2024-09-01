@@ -9,6 +9,7 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import {TMoimPreviewListDto} from 'types/dtos/post';
 import {detailDate} from 'utils';
 import DefaultIcon from '../../@common/DefaultIcon/DefaultIcon.tsx';
+import MoimFeedPreviewSkeleton from './skeleton/MoimFeedPreviewSkeleton.tsx';
 
 interface MoimFeedPreviewProps {
   isRefreshing: boolean;
@@ -38,6 +39,7 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
         <Typography className="text-lg mb-2 text-dark-800" fontWeight={'BOLD'}>
           여러 모임을 둘러보세요
         </Typography>
+        <MoimFeedPreviewSkeleton />
       </View>
     );
   }

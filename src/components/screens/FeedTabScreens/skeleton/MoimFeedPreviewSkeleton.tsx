@@ -4,8 +4,8 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 const MoimFeedPreviewSkeleton = () => {
   return (
     <>
-      <SkeletonPlaceholder borderRadius={30}>
-        <View style={{width: '100%', height: 200}} />
+      <SkeletonPlaceholder borderRadius={10}>
+        <View style={{width: '100%', height: 300}} />
       </SkeletonPlaceholder>
     </>
   );

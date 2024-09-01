@@ -6,6 +6,7 @@ import {Typography} from '../../@common/Typography/Typography.tsx';
 import SpaceCard from '../../home/SpaceCard/SpaceCard.tsx';
 import {HomeStackNavigationProp} from 'navigators/types/index.ts';
 import {useGetInfiniteMyActiveMoim} from 'hooks/queries/MoimHomeScreen/useGetInfiniteMyActiveMoim.ts';
+import MoimMyEventSkeleton from './skeleton/MoimMyEventSkeleton.tsx';
 
 interface MoimMyEventProps {
   navigation: HomeStackNavigationProp;
@@ -41,8 +42,26 @@ export default function MoimMyEvent({
     refetch();
   }, [isRefreshing]);
 
-  if (isPending || isError) {
+  if (isError) {
     return <></>;
+  }
+
+  if (isPending) {
+    return (
+      <View className="flex flex-col">
+        <Typography className="text-lg mb-4" fontWeight={'BOLD'}>
+          내 모임
+        </Typography>
+
+        <FlatList
+          scrollEnabled={false}
+          horizontal
+          data={Array(3).fill(null)}
+          renderItem={() => <MoimMyEventSkeleton />}
+          ItemSeparatorComponent={() => <View className="w-2" />}
+        />
+      </View>
+    );
   }
 
   const activeMoim = moims.pages.flatMap(page => page.moimPreviewList);

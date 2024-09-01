@@ -1,18 +1,14 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import {useEffect} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
 
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
-import {useNavigation} from '@react-navigation/native';
 import {HomeStackNavigationProp} from 'navigators/types';
+import MoimScheduleEventSkeleton from './skeleton/MoimScheduleEventSkeleton.tsx';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -46,10 +42,10 @@ export default function MoimScheduleEvent({
     refetch();
   }, [isRefreshing]);
 
-  if (calendarsLoading) {
+  if (isProfilePending || calendarsLoading) {
     return (
-      <View className="flex-col items-center justify-center h-[300]">
-        <ActivityIndicator size="large" color={'#00F0A1'} />
+      <View className="flex flex-col gap-2 mt-1">
+        <MoimScheduleEventSkeleton />
       </View>
     );
   }

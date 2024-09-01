@@ -33,7 +33,13 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
   }, [isRefreshing]);
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <View className="flex flex-col gap-y-3">
+        <Typography className="text-lg mb-2 text-dark-800" fontWeight={'BOLD'}>
+          여러 모임을 둘러보세요
+        </Typography>
+      </View>
+    );
   }
 
   const card = (item: TMoimPreviewListDto) => (

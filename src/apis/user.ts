@@ -10,7 +10,7 @@ import {
 
 const getUserProfile = async (): Promise<TMyProfileResponse> => {
   const {data} = await axiosInstance.get('/api/v1/users/profile');
-  console.log(data);
+
   return data;
 };
 

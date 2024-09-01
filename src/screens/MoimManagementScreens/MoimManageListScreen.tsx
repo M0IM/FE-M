@@ -49,6 +49,13 @@ const MoimManageListScreen = ({
           모임 정보 수정
         </Typography>
       </TouchableOpacity>
+      <TouchableOpacity
+        className="m-3"
+        onPress={() => navigation.navigate('MOIM_CREATE_TODO', {id})}>
+        <Typography fontWeight="BOLD" className="text-lg text-dark-800">
+          모임 멤버 할 일 배정
+        </Typography>
+      </TouchableOpacity>
     </ScreenContainer>
   );
 };

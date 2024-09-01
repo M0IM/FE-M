@@ -14,8 +14,6 @@ import Toast, {
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
-import {useEffect} from 'react';
-import useFcmTokenStore from './src/stores/useFcmTokenStore.ts';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (

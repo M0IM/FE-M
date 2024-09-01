@@ -5,7 +5,8 @@ import JoinManageScreen from 'screens/MoimManagementScreens/JoinManageScreen';
 import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
 import MoimManageListScreen from 'screens/MoimManagementScreens/MoimManageListScreen';
 import PermissionManageScreen from 'screens/MoimManagementScreens/PermissionManageScreen';
-import DelegationAuthorityScreen from '../../screens/MoimManagementScreens/DelegationAuthorityScreen.tsx';
+import DelegationAuthorityScreen from 'screens/MoimManagementScreens/DelegationAuthorityScreen.tsx';
+import MoimCreateTodoScreen from '../../screens/MoimManagementScreens/MoimCreateTodoScreen.tsx';
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();
@@ -56,6 +57,16 @@ const MoimManagementStackNavigator = () => {
         component={MoimEditInfoScreen}
         options={{
           headerTitle: '모임 정보 수정',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_CREATE_TODO'}
+        component={MoimCreateTodoScreen}
+        options={{
+          headerTitle: '할 일 배정',
           headerTintColor: '#000',
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,

@@ -189,6 +189,28 @@ function validateEditProfile(values: TValidateEditProfile) {
   return errors;
 }
 
+type TValidateTodo = {
+  title: string;
+  content: string;
+};
+
+function validateTodo(values: TValidateTodo) {
+  const errors = {
+    title: '',
+    content: '',
+  };
+
+  if (!values.title?.trim()) {
+    errors.title = '할 일 제목을 입력해주세요.';
+  }
+
+  if (!values.content?.trim()) {
+    errors.content = '할 일 내용을 입력해주세요.';
+  }
+
+  return errors;
+}
+
 export {
   validateLogin,
   validateSignUpStep3,
@@ -197,4 +219,5 @@ export {
   validateCalendarWrite,
   validateAddMoimPosts,
   validateEditProfile,
+  validateTodo,
 };

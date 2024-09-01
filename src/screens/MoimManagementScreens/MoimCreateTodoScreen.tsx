@@ -39,6 +39,7 @@ export default function MoimCreateTodoScreen({
     useSingleImagePicker({});
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const {createTodoMutation} = useTodo();
+  console.log(moimId);
 
   const handleToggleSelectedIds = (id: number) => {
     setSelectedIds(prev =>

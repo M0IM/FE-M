@@ -33,6 +33,8 @@ function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function getInfiniteMoimTodoList(moimId: number) {}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
 

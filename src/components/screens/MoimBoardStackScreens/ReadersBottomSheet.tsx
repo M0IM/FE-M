@@ -32,7 +32,6 @@ const ReadersBottomSheet = ({
 }: ReadersBottomSheetProps) => {
   const [search, setSearch] = useState('');
   const {data: members} = useGetInfinityMoimMembers(moimId, search);
-  console.log(moimId);
   const handleSearch = () => {
     queryClient.invalidateQueries({
       queryKey: ['moimMembers', moimId],
@@ -107,7 +106,6 @@ const ReadersBottomSheet = ({
           contentContainerStyle={{
             padding: 20,
             gap: 20,
-            height: '100%',
           }}
         />
         <View className="w-full mb-5 px-3">

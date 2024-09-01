@@ -20,6 +20,7 @@ import usePermission from '../../hooks/usePermission.ts';
 import useSingleImagePicker from '../../hooks/useSingleImagePicker.ts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ReadersBottomSheet from '../../components/screens/MoimBoardStackScreens/ReadersBottomSheet.tsx';
+import ReaderPickerBottomSheet from './components/ReaderPickerBottomSheet.tsx';
 
 export default function MoimCreateTodoScreen({
   route,
@@ -28,21 +29,27 @@ export default function MoimCreateTodoScreen({
 }) {
   usePermission('PHOTO');
 
-  const moimId = route.params.id;
+  const moimId = route.params.id as number;
   const datePickerModal = useModal();
   const memberSelectModal = useModal();
   const [date, setDate] = useState(new Date());
   const [pickedDate, setPickedDate] = useState(false);
+  const [selectAll, setSelectAll] = useState(false);
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({});
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const handleToggleSelect = (id: number) => {
-    setSelectedIds(prevSelectedIds =>
-      prevSelectedIds.includes(id)
-        ? prevSelectedIds.filter(selectedId => selectedId !== id)
-        : [...prevSelectedIds, id],
+
+  const handleToggleSelectedIds = (id: number) => {
+    setSelectedIds(prev =>
+      // 필터
+      // 현재 클릭한 아이디를 포함하고 있으면, 필터 제거
+      // 아니면 추가
+      prev.includes(id)
+        ? prev.filter(selectedId => selectedId !== id)
+        : [...prev, id],
     );
   };
+
   const handleChangeDate = (pickedDate: Date) => {
     setDate(pickedDate);
   };
@@ -51,6 +58,7 @@ export default function MoimCreateTodoScreen({
     setPickedDate(true);
     datePickerModal.hide();
   };
+
   const addTodo = useForm({
     initialValue: {
       title: '',
@@ -66,7 +74,8 @@ export default function MoimCreateTodoScreen({
       content: addTodo.values.content,
       dueDate: date,
       imageKeyList: [uploadUri],
-      targetUserIdList: selectedIds,
+      targetUserIdList: selectAll ? [] : selectedIds,
+      isAssignedSelectAll: selectAll,
     });
   };
 
@@ -149,24 +158,61 @@ export default function MoimCreateTodoScreen({
           )}
         </View>
       </View>
-      <View className="mt-4">
-        <TouchableOpacity
-          onPress={memberSelectModal.show}
-          activeOpacity={0.8}
-          className="flex flex-row border-0.5 border-gray-100 rounded-xl bg-gray-100 p-4">
-          <Typography fontWeight="MEDIUM" className="text-sm text-gray-400">
-            {selectedIds.length > 0
-              ? `${selectedIds.length}명`
-              : '읽을 사람 선택'}
-          </Typography>
-          <Ionicons
-            name="chevron-up-outline"
-            color={'#535353'}
-            size={15}
-            style={{marginLeft: 'auto'}}
-          />
+
+      <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
+        멤버 선택
+      </Typography>
+      <View className="flex-row gap-x-3">
+        <TouchableOpacity onPress={() => setSelectAll(prev => !prev)}>
+          <View className="flex-row items-center w-full">
+            <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+              <View
+                className={`${
+                  selectAll ? 'bg-main' : ''
+                } rounded-full w-[10] h-[10]`}
+              />
+            </View>
+            <Typography className="text-gray-500" fontWeight={'BOLD'}>
+              전체
+            </Typography>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setSelectAll(prev => !prev)}>
+          <View className="flex-row items-center w-full">
+            <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+              <View
+                className={`${
+                  selectAll ? '' : 'bg-main'
+                } rounded-full w-[10] h-[10]`}
+              />
+            </View>
+            <Typography className="text-gray-500" fontWeight={'BOLD'}>
+              개인
+            </Typography>
+          </View>
         </TouchableOpacity>
       </View>
+
+      {!selectAll && (
+        <TouchableOpacity className="mt-4">
+          <TouchableOpacity
+            onPress={memberSelectModal.show}
+            activeOpacity={0.8}
+            className="flex flex-row border-0.5 border-gray-100 rounded-xl bg-gray-100 p-4">
+            <Typography fontWeight="MEDIUM" className="text-sm text-gray-400">
+              {selectedIds.length > 0
+                ? `${selectedIds.length}명`
+                : '멤버 개별 선택'}
+            </Typography>
+            <Ionicons
+              name="chevron-up-outline"
+              color={'#535353'}
+              size={15}
+              style={{marginLeft: 'auto'}}
+            />
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )}
 
       <DatePickerOption
         isVisible={datePickerModal.isVisible}
@@ -177,12 +223,13 @@ export default function MoimCreateTodoScreen({
         onConfirmDate={handleConfirmDate}
       />
 
-      <ReadersBottomSheet
+      <ReaderPickerBottomSheet
         moimId={moimId}
         isOpen={memberSelectModal.isVisible}
         onOpen={memberSelectModal.show}
         onClose={memberSelectModal.hide}
-        handleToggleSelect={handleToggleSelect}
+        handleToggleSelect={handleToggleSelectedIds}
+        setSelectedIds={setSelectedIds}
         selectedIds={selectedIds}
       />
     </ScreenContainer>

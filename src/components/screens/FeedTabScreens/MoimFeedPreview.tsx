@@ -3,9 +3,13 @@ import {View, FlatList} from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography';
 import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts';
-
-import {TMoimPreviewListDTO} from 'types/dtos/moim';
+import {HomeStackNavigationProp} from 'navigators/types';
+import {TMoimPreviewListDto} from 'types/dtos/post';
+import {detailDate} from 'utils';
+import DefaultIcon from '../../@common/DefaultIcon/DefaultIcon.tsx';
+import MoimFeedPreviewSkeleton from './skeleton/MoimFeedPreviewSkeleton.tsx';
 import Card from './Card';
+
 
 interface MoimFeedPreviewProps {
   isRefreshing: boolean;
@@ -35,7 +39,14 @@ const MoimFeedPreview = ({isRefreshing}: MoimFeedPreviewProps) => {
   }, [data]);
 
   if (isPending) {
-    return <Typography fontWeight="MEDIUM">로딩 중</Typography>;
+    return (
+      <View className="flex flex-col gap-y-3">
+        <Typography className="text-lg mb-2 text-dark-800" fontWeight={'BOLD'}>
+          여러 모임을 둘러보세요
+        </Typography>
+        <MoimFeedPreviewSkeleton />
+      </View>
+    );
   }
 
   return (

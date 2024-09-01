@@ -180,22 +180,28 @@ export default function DelegationAuthorityScreen({
                   className="text-dark-800 text-sm ml-3 mr-3 w-[120] truncate">
                   {item.nickname}
                 </Typography>
-                <Label label={translatedRole} color="dark" />
-                {item.moimRole !== 'OWNER' && data?.myMoimRole === 'OWNER' && (
-                  <>
-                    <TouchableOpacity
-                      className="p-2 rounded-xl ml-auto bg-error"
-                      onPress={() =>
-                        handleDelegationAuthority({moimId, userId: item.userId})
-                      }>
-                      <Typography
-                        fontWeight="BOLD"
-                        className="text-xs text-white">
-                        모임장 위임
-                      </Typography>
-                    </TouchableOpacity>
-                  </>
-                )}
+                <View className="flex flex-row ml-auto">
+                  <Label label={translatedRole} color="dark" />
+                  {item.moimRole !== 'OWNER' &&
+                    data?.myMoimRole === 'OWNER' && (
+                      <>
+                        <TouchableOpacity
+                          className="p-2 rounded-xl bg-error ml-2"
+                          onPress={() =>
+                            handleDelegationAuthority({
+                              moimId,
+                              userId: item.userId,
+                            })
+                          }>
+                          <Typography
+                            fontWeight="BOLD"
+                            className="text-xs text-white">
+                            모임장 위임
+                          </Typography>
+                        </TouchableOpacity>
+                      </>
+                    )}
+                </View>
               </View>
             );
           }}

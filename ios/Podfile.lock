@@ -1119,7 +1119,7 @@ PODS:
     - react-native-config/App (= 1.5.3)
   - react-native-config/App (1.5.3):
     - React-Core
-  - react-native-date-picker (5.0.5):
+  - react-native-date-picker (5.0.7):
     - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
@@ -1761,7 +1761,7 @@ SPEC CHECKSUMS:
   React-logger: 87a4232dd55485435edfa6803ff0de0b5c9eea1a
   React-Mapbuffer: 6c229dc8f1640457d1f665f0b7d79ab8f604dc8b
   react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
-  react-native-date-picker: d84884921fd05b6e3575f6ed1a319899adea2a26
+  react-native-date-picker: 06a4d96ab525a163c7a90bccd68833d136b0bb13
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-pager-view: 7c45504fe805a954ebabd005d369937ea1c04de1
   react-native-safe-area-context: ab8f4a3d8180913bd78ae75dd599c94cce3d5e9a

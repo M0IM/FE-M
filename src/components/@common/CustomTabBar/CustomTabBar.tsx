@@ -23,7 +23,7 @@ const CustomTabBar = ({
   state,
   descriptors,
   navigation,
-  position,
+  // position,
 }: CustomTabBarProps) => {
   const currentRouteName = state.routes[state.index].name;
 
@@ -117,16 +117,6 @@ const CustomTabBar = ({
               });
             };
 
-            const inputRange =
-              state.routes.map((_: any, i: any) => i).length > 2
-                ? state.routes.map((_: any, i: any) => i)
-                : [0, 1];
-
-            const opacity = position.interpolate({
-              inputRange,
-              outputRange: inputRange?.map((i: any) => (i === index ? 1 : 0.2)),
-            });
-
             return (
               <TouchableOpacity
                 key={index}
@@ -138,7 +128,7 @@ const CustomTabBar = ({
                 onLongPress={onLongPress}
                 className="flex ml-3 bg-white">
                 <Animated.Text
-                  style={{opacity}}
+                  style={{opacity: state.index === index ? 1 : 0.2}}
                   className="text-2xl text-dark-800 font-bold">
                   {label}
                 </Animated.Text>

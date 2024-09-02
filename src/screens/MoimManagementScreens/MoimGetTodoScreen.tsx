@@ -1,18 +1,23 @@
 import {FlatList, Pressable, SafeAreaView, View} from 'react-native';
+import {useState} from 'react';
+import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import 'moment/locale/ko';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
-import useTodo from '../../hooks/useTodo.ts';
-import {MoimManagementRouteProp} from '../../navigators/types';
-import {useState} from 'react';
-import FastImage from 'react-native-fast-image';
-import DefaultIcon from '../../components/@common/DefaultIcon/DefaultIcon.tsx';
+import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
+import useTodo from 'hooks/useTodo.ts';
+import {
+  MoimManagementNavigationProp,
+  MoimManagementRouteProp,
+} from 'navigators/types';
 
 export default function MoimGetTodoScreen({
   route,
+  navigation,
 }: {
   route: MoimManagementRouteProp;
+  navigation: MoimManagementNavigationProp;
 }) {
   const moimId = route.params.id as number;
   const {getInfiniteMoimTodoList} = useTodo();
@@ -25,7 +30,6 @@ export default function MoimGetTodoScreen({
     isPending,
     isError,
   } = getInfiniteMoimTodoList(moimId, 8);
-  console.log(todos);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -52,7 +56,11 @@ export default function MoimGetTodoScreen({
             return (
               <Pressable
                 className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
-                onPress={() => console.log(item.todoId)}>
+                onPress={() =>
+                  navigation.navigate('MOIM_DETAIL_TODO', {
+                    id: item.todoId,
+                  })
+                }>
                 {item.imageUrlList[0] ? (
                   <FastImage
                     source={{uri: item.imageUrlList[0]}}

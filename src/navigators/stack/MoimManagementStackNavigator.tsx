@@ -8,6 +8,7 @@ import PermissionManageScreen from 'screens/MoimManagementScreens/PermissionMana
 import DelegationAuthorityScreen from 'screens/MoimManagementScreens/DelegationAuthorityScreen.tsx';
 import MoimCreateTodoScreen from 'screens/MoimManagementScreens/MoimCreateTodoScreen.tsx';
 import MoimGetTodoScreen from '../../screens/MoimManagementScreens/MoimGetTodoScreen.tsx';
+import MoimTodoDetailScreen from '../../screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();
@@ -78,6 +79,16 @@ const MoimManagementStackNavigator = () => {
         component={MoimGetTodoScreen}
         options={{
           headerTitle: '모임 할 일 확인',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_DETAIL_TODO'}
+        component={MoimTodoDetailScreen}
+        options={{
+          headerTitle: '할 일 자세히 보기',
           headerTintColor: '#000',
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,

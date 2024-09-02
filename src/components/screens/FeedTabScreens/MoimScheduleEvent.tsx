@@ -9,6 +9,7 @@ import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedul
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
 import {HomeStackNavigationProp} from 'navigators/types';
 import MoimScheduleEventSkeleton from './skeleton/MoimScheduleEventSkeleton.tsx';
+import {TUserPlanDTO} from 'types/dtos/calendar.ts';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -17,6 +18,7 @@ interface MoimScheduleEventProps {
 export default function MoimScheduleEvent({
   isRefreshing,
 }: MoimScheduleEventProps) {
+  const navigation = useNavigation<HomeStackNavigationProp>();
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
   const day = new Date().getDate();
@@ -58,7 +60,22 @@ export default function MoimScheduleEvent({
     );
   }
 
-  const navigation = useNavigation<HomeStackNavigationProp>();
+  const renderScheduleCard = ({item}: {item: TUserPlanDTO}) => (
+    <ScheduleCard
+      item={item}
+      onPress={() => {
+        if (item.planType === 'MOIM_PLAN') {
+          navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
+            id: item.planId,
+          });
+        } else {
+          navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
+            id: item.planId,
+          });
+        }
+      }}
+    />
+  );
 
   return (
     <View className="flex flex-col gap-2 mt-1">
@@ -79,22 +96,7 @@ export default function MoimScheduleEvent({
       <FlatList
         data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
-        renderItem={({item}) => {
-          return (
-            <ScheduleCard
-              item={item}
-              onPress={() => {
-                item.planType === 'MOIM_PLAN'
-                  ? navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
-                      id: item.planId,
-                    })
-                  : navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
-                      id: item.planId,
-                    });
-              }}
-            />
-          );
-        }}
+        renderItem={renderScheduleCard}
         keyExtractor={item => String(item.planId)}
         contentContainerStyle={{
           gap: 10,

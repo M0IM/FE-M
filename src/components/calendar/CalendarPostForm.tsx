@@ -108,7 +108,15 @@ function CalendarPostForm() {
   };
 
   return (
-    <ScreenContainer>
+    <ScreenContainer
+      fixedBottomComponent={
+        <CustomButton
+          variant={'filled'}
+          label={'작성 완료'}
+          textStyle={'font-bold text-white text-lg'}
+          onPress={isEdit ? handleModifyMyScheule : handleSubmitMySchedule}
+        />
+      }>
       <View className="mt-5">
         <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
           개인 일정
@@ -176,7 +184,7 @@ function CalendarPostForm() {
           {...writeMyCalendar.getTextInputProps('locationDetail')}
         />
       </View>
-      <View className="mt-5">
+      <View className="mt-5 mb-28">
         <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
           메모
         </Typography>
@@ -205,12 +213,6 @@ function CalendarPostForm() {
         time={time}
         onChangeTime={handleChangeTime}
         onConfirmTime={handleConfirmTime}
-      />
-      <CustomButton
-        variant={'filled'}
-        label={'작성 완료'}
-        textStyle={'font-bold text-white text-lg'}
-        onPress={isEdit ? handleModifyMyScheule : handleSubmitMySchedule}
       />
     </ScreenContainer>
   );

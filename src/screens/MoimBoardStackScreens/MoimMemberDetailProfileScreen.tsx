@@ -1,4 +1,10 @@
-import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  SafeAreaView,
+  View,
+} from 'react-native';
 import {useState} from 'react';
 
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
@@ -17,6 +23,8 @@ import {
 } from 'navigators/types';
 import {getMonthYearDetails} from 'utils';
 import {TUserDTO} from 'types/dtos/user.ts';
+
+const deviceHeight = Dimensions.get('screen').height;
 
 export default function MoimMemberDetailProfileScreen({
   route,
@@ -66,9 +74,9 @@ export default function MoimMemberDetailProfileScreen({
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="px-4 py-2">
+      <View className="px-5 py-3">
         <ProfileCard userInfo={userInfo as TUserDTO} />
-        <View className="flex-row justify-between">
+        <View className="flex-row justify-around">
           <InfoSquareCard title="가입 날짜">
             <Typography fontWeight={'BOLD'}>{year}년</Typography>
             <Typography fontWeight={'BOLD'}>
@@ -94,52 +102,49 @@ export default function MoimMemberDetailProfileScreen({
           </InfoSquareCard>
         </View>
       </View>
-      <View>
-        <View className="flex-row justify-between items-center px-7">
-          <Typography className="p-4 text-lg" fontWeight={'BOLD'}>
-            유저 리뷰
+      <Typography
+        className="p-2 px-7 text-xs text-gray-300"
+        fontWeight={'BOLD'}>
+        유저 리뷰
+      </Typography>
+      {/*<TouchableOpacity>*/}
+      {/*  <Typography className="text-gray-500" fontWeight={'BOLD'}>*/}
+      {/*    자세히 보기*/}
+      {/*  </Typography>*/}
+      {/*  <View className="border-b-0.5 border-b-gray-400" />*/}
+      {/*</TouchableOpacity>*/}
+      {reviews.pages.flat().length === 0 ? (
+        <View className="flex-col gap-y-2 items-center justify-center">
+          <Typography className="text-gray-500" fontWeight={'BOLD'}>
+            해당 유저의 리뷰가 존재하지 않습니다.
           </Typography>
-          {/*<TouchableOpacity>*/}
-          {/*  <Typography className="text-gray-500" fontWeight={'BOLD'}>*/}
-          {/*    자세히 보기*/}
-          {/*  </Typography>*/}
-          {/*  <View className="border-b-0.5 border-b-gray-400" />*/}
-          {/*</TouchableOpacity>*/}
+          <Typography className="text-gray-500" fontWeight={'BOLD'}>
+            아래 후기 작성 버튼을 클릭하여 리뷰를 남겨주세요!
+          </Typography>
         </View>
-        {reviews.pages.flat().length === 0 ? (
-          <View className="flex-col gap-y-2 items-center justify-center">
-            <Typography className="text-gray-500" fontWeight={'BOLD'}>
-              해당 유저의 리뷰가 존재하지 않습니다.
-            </Typography>
-            <Typography className="text-gray-500" fontWeight={'BOLD'}>
-              아래 후기 작성 버튼을 클릭하여 리뷰를 남겨주세요!
-            </Typography>
-          </View>
-        ) : (
-          <View className="h-[300]">
-            <FlatList
-              data={reviews.pages.flat().reverse()}
-              renderItem={({item}) => {
-                return <ReviewCard review={item} />;
-              }}
-              keyExtractor={item => String(item.reviewId)}
-              numColumns={1}
-              contentContainerStyle={{
-                paddingHorizontal: 30,
-                gap: 10,
-              }}
-              onEndReached={handleEndReached}
-              onEndReachedThreshold={0.5}
-              refreshing={isRefreshing}
-              onRefresh={handleRefresh}
-              scrollIndicatorInsets={{right: 1}}
-              indicatorStyle={'black'}
-            />
-          </View>
-        )}
-      </View>
+      ) : (
+        <FlatList
+          data={reviews.pages.flat().reverse()}
+          renderItem={({item}) => {
+            return <ReviewCard review={item} />;
+          }}
+          keyExtractor={item => String(item.reviewId)}
+          numColumns={1}
+          contentContainerStyle={{
+            paddingHorizontal: 30,
+            gap: 10,
+          }}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          scrollIndicatorInsets={{right: 1}}
+          indicatorStyle={'black'}
+        />
+      )}
+      <View style={{height: deviceHeight * 0.085}} />
       {me?.result.userId === userId ? null : (
-        <View className="absolute right-0 left-0 bottom-3 m-5 flex-row items-center justify-center gap-y-2">
+        <View className="absolute right-0 left-0 bottom-3 mx-3 flex-row items-center justify-center">
           <CustomButton
             textStyle={'text-lg font-bold color-white'}
             onPress={() =>

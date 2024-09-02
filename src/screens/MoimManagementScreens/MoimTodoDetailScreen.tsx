@@ -1,5 +1,5 @@
 import {SafeAreaView, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {RouteProp} from '@react-navigation/native';
@@ -24,7 +24,7 @@ export default function MoimTodoDetailScreen({
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View>
+      <View className="flex-col items-center">
         <View className="m-4 p-4 bg-white rounded-2xl shadow-lg">
           <View className="w-full aspect-[4/3] rounded-lg overflow-hidden mb-4">
             {todo?.imageUrlList[0] ? (
@@ -55,8 +55,10 @@ export default function MoimTodoDetailScreen({
               ? moment(todo.dueDate).format('YYYY년 MM월 DD일')
               : '마감 기한 없음'}
           </Typography>
+          <View className="flex-1">
+            <ParticipantList moimId={moimId} todoId={todoId} />
+          </View>
         </View>
-        <ParticipantList moimId={moimId} todoId={todoId} />
       </View>
     </SafeAreaView>
   );

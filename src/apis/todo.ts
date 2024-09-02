@@ -3,6 +3,7 @@ import axiosInstance from './axiosInstance.ts';
 import {
   TCreateTodoDTO,
   TCreateTodoResponse,
+  TIndividualAssignmentTodoListResponse,
   TTodoDetailDTO,
   TTodoListResponse,
   TTodoParticipantResponse,
@@ -82,9 +83,26 @@ const getDetailTodoMemberList = async ({
   return data.result;
 };
 
+const getIndividualAssignmentTodoList = async ({
+  moimId,
+  cursor,
+  take,
+}: {
+  moimId: number;
+  cursor: number;
+  take: number;
+}): Promise<TIndividualAssignmentTodoListResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/${moimId}/todos/by-me?cursor=${cursor}&take=${take}`,
+  );
+
+  return data.result;
+};
+
 export {
   createMoimTodo,
   getMoimTodoList,
   getDetailTodo,
   getDetailTodoMemberList,
+  getIndividualAssignmentTodoList,
 };

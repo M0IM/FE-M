@@ -63,6 +63,13 @@ const MoimManageListScreen = ({
           모임 할 일 확인
         </Typography>
       </TouchableOpacity>
+      <TouchableOpacity
+        className="m-3"
+        onPress={() => navigation.navigate('MOIM_ASSIGNMENT_TODO', {id})}>
+        <Typography fontWeight="BOLD" className="text-lg text-dark-800">
+          내가 할당한 할 일 확인
+        </Typography>
+      </TouchableOpacity>
     </ScreenContainer>
   );
 };

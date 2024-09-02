@@ -4,6 +4,7 @@ const queryKeys = {
   GET_PROFILE: 'getProfile',
   TODOS: 'todos',
   TODOS_MEMBER: 'todosMember',
+  TODOS_INDIVIDUAL: 'todosIndividual',
 } as const;
 
 const storageKeys = {

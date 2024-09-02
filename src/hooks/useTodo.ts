@@ -17,12 +17,14 @@ import {
   createMoimTodo,
   getDetailTodo,
   getDetailTodoMemberList,
+  getIndividualAssignmentTodoList,
   getMoimTodoList,
 } from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
 import {queryKeys} from '../constants/storageKeys/keys.ts';
 import {
+  TIndividualAssignmentTodoListResponse,
   TTodoDetailDTO,
   TTodoListResponse,
   TTodoParticipantResponse,
@@ -115,6 +117,30 @@ function getInfiniteMoimTodoParticipantList(
   });
 }
 
+function getInfiniteIndividualAssignmentTodoList(
+  moimId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TIndividualAssignmentTodoListResponse,
+    ResponseError,
+    InfiniteData<TIndividualAssignmentTodoListResponse, number>,
+    TIndividualAssignmentTodoListResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getIndividualAssignmentTodoList({moimId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_INDIVIDUAL, moimId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
 
@@ -123,6 +149,7 @@ function useTodo() {
     getInfiniteMoimTodoList,
     useGetMoimTodoDetail,
     getInfiniteMoimTodoParticipantList,
+    getInfiniteIndividualAssignmentTodoList,
   };
 }
 

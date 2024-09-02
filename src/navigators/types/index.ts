@@ -170,6 +170,7 @@ export type MoimManagementParamList = {
   MOIM_CREATE_TODO: {id: number | undefined};
   MOIM_GET_TODO: {id: number | undefined};
   MOIM_DETAIL_TODO: {id: number; moimId: number};
+  MOIM_ASSIGNMENT_TODO: {id: number | undefined};
 };
 
 export type NewFeedHomeStackParamList = {

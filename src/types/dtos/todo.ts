@@ -55,6 +55,24 @@ type TTodoParticipantResponse = {
   hasNext: boolean;
 };
 
+type TIndividualAssignmentTodoListDTO = {
+  todoId: number;
+  title: string;
+  dueDate: Date;
+  writerNickname: string;
+  writerProfileImageUrl: string;
+  writerMoimRole: string;
+  moimId: number;
+  moimName: string;
+  imageUrlList: string[];
+};
+
+type TIndividualAssignmentTodoListResponse = {
+  list: TIndividualAssignmentTodoListDTO[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
 export type {
   TCreateTodoDTO,
   TCreateTodoResponse,
@@ -62,4 +80,5 @@ export type {
   TTodoDetailDTO,
   TTodoParticipantMemberListDTO,
   TTodoParticipantResponse,
+  TIndividualAssignmentTodoListResponse,
 };

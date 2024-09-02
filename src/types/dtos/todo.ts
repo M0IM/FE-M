@@ -33,4 +33,18 @@ type TTodoListResponse = {
   list: TTodoListDTO[];
 };
 
-export type {TCreateTodoDTO, TCreateTodoResponse, TTodoListResponse};
+type TTodoDetailDTO = {
+  todoId: number;
+  title: string;
+  content: string;
+  dueDate: Date;
+  imageUrlList: string[];
+  status: 'LOADING' | 'COMPLETE';
+};
+
+export type {
+  TCreateTodoDTO,
+  TCreateTodoResponse,
+  TTodoListResponse,
+  TTodoDetailDTO,
+};

@@ -58,6 +58,7 @@ export default function MoimGetTodoScreen({
                 className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
                 onPress={() =>
                   navigation.navigate('MOIM_DETAIL_TODO', {
+                    moimId,
                     id: item.todoId,
                   })
                 }>

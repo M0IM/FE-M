@@ -3,6 +3,7 @@ import {
   QueryKey,
   UseInfiniteQueryOptions,
   useMutation,
+  useQuery,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
@@ -10,12 +11,13 @@ import Toast from 'react-native-toast-message';
 import {
   ResponseError,
   UseMutationCustomOptions,
+  UseQueryCustomOptions,
 } from 'types/mutations/common.ts';
-import {createMoimTodo, getMoimTodoList} from 'apis/todo.ts';
+import {createMoimTodo, getDetailTodo, getMoimTodoList} from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
 import {queryKeys} from '../constants/storageKeys/keys.ts';
-import {TTodoListResponse} from '../types/dtos/todo.ts';
+import {TTodoDetailDTO, TTodoListResponse} from '../types/dtos/todo.ts';
 
 function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -67,12 +69,25 @@ function getInfiniteMoimTodoList(
   });
 }
 
+function useGetMoimTodoDetail(
+  moimId: number,
+  todoId: number,
+  queryOptions?: UseQueryCustomOptions<TTodoDetailDTO>,
+) {
+  return useQuery({
+    queryFn: () => getDetailTodo({moimId, todoId}),
+    queryKey: [queryKeys.TODOS, moimId, todoId],
+    ...queryOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
 
   return {
     createTodoMutation,
     getInfiniteMoimTodoList,
+    useGetMoimTodoDetail,
   };
 }
 

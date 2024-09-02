@@ -7,8 +7,8 @@ import MoimManageListScreen from 'screens/MoimManagementScreens/MoimManageListSc
 import PermissionManageScreen from 'screens/MoimManagementScreens/PermissionManageScreen';
 import DelegationAuthorityScreen from 'screens/MoimManagementScreens/DelegationAuthorityScreen.tsx';
 import MoimCreateTodoScreen from 'screens/MoimManagementScreens/MoimCreateTodoScreen.tsx';
-import MoimGetTodoScreen from '../../screens/MoimManagementScreens/MoimGetTodoScreen.tsx';
-import MoimTodoDetailScreen from '../../screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
+import MoimGetTodoScreen from 'screens/MoimManagementScreens/MoimGetTodoScreen.tsx';
+import MoimTodoDetailScreen from 'screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();

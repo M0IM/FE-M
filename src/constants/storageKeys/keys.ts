@@ -3,6 +3,7 @@ const queryKeys = {
   GET_ACCESS_TOKEN: 'getAccessToken',
   GET_PROFILE: 'getProfile',
   TODOS: 'todos',
+  TODOS_MEMBER: 'todosMember',
 } as const;
 
 const storageKeys = {

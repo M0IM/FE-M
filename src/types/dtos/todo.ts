@@ -42,9 +42,24 @@ type TTodoDetailDTO = {
   status: 'LOADING' | 'COMPLETE';
 };
 
+type TTodoParticipantMemberListDTO = {
+  assigneeId: number;
+  nickname: string;
+  profileImageUrl: string;
+  todoStatus: 'LOADING' | 'COMPLETE';
+};
+
+type TTodoParticipantResponse = {
+  list: TTodoParticipantMemberListDTO[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
 export type {
   TCreateTodoDTO,
   TCreateTodoResponse,
   TTodoListResponse,
   TTodoDetailDTO,
+  TTodoParticipantMemberListDTO,
+  TTodoParticipantResponse,
 };

@@ -13,11 +13,20 @@ import {
   UseMutationCustomOptions,
   UseQueryCustomOptions,
 } from 'types/mutations/common.ts';
-import {createMoimTodo, getDetailTodo, getMoimTodoList} from 'apis/todo.ts';
+import {
+  createMoimTodo,
+  getDetailTodo,
+  getDetailTodoMemberList,
+  getMoimTodoList,
+} from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
 import {queryKeys} from '../constants/storageKeys/keys.ts';
-import {TTodoDetailDTO, TTodoListResponse} from '../types/dtos/todo.ts';
+import {
+  TTodoDetailDTO,
+  TTodoListResponse,
+  TTodoParticipantResponse,
+} from '../types/dtos/todo.ts';
 
 function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -81,6 +90,31 @@ function useGetMoimTodoDetail(
   });
 }
 
+function getInfiniteMoimTodoParticipantList(
+  moimId: number,
+  todoId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TTodoParticipantResponse,
+    ResponseError,
+    InfiniteData<TTodoParticipantResponse, number>,
+    TTodoParticipantResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getDetailTodoMemberList({moimId, todoId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_MEMBER, moimId, todoId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
 
@@ -88,6 +122,7 @@ function useTodo() {
     createTodoMutation,
     getInfiniteMoimTodoList,
     useGetMoimTodoDetail,
+    getInfiniteMoimTodoParticipantList,
   };
 }
 

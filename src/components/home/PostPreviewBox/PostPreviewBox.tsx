@@ -13,6 +13,9 @@ interface PostPreviewBoxProps {
 }
 
 const PostPreviewBox = ({allPosts}: PostPreviewBoxProps) => {
+  const filteredPosts = allPosts.filter(
+    post => post.moimPostPreviewDTOList.length > 0,
+  );
   const [showAll, setShowAll] = useState(false);
 
   const initialPostCount = 4;
@@ -21,35 +24,33 @@ const PostPreviewBox = ({allPosts}: PostPreviewBoxProps) => {
     setShowAll(!showAll);
   };
 
-  const postsToShow = showAll ? allPosts : allPosts?.slice(0, initialPostCount);
+  const postsToShow = showAll
+    ? filteredPosts
+    : filteredPosts?.slice(0, initialPostCount);
 
   useEffect(() => {
-    if (allPosts.length < 5) {
+    if (filteredPosts.length < 5) {
       setShowAll(true);
     }
-  }, [allPosts]);
+  }, [filteredPosts]);
 
   return (
     <View className="flex flex-col px-7 py-3 rounded-3xl bg-gray-50 border-gray-100 border-[1px]">
       {postsToShow?.map((moimItem, index) => (
         <View key={index}>
-          {moimItem.moimPostPreviewDTOList.length < 1 ? (
-            <></>
-          ) : (
-            <View className="flex flex-col py-4">
-              <Typography className="text-base" fontWeight="MEDIUM">
-                {moimItem.moimTitle}
-              </Typography>
-              <AllMoimPost
-                postList={moimItem.moimPostPreviewDTOList}
-                moimId={moimItem.moimId}
-              />
-            </View>
-          )}
+          <View className="flex flex-col py-4">
+            <Typography className="text-base" fontWeight="MEDIUM">
+              {moimItem.moimTitle}
+            </Typography>
+            <AllMoimPost
+              postList={moimItem.moimPostPreviewDTOList}
+              moimId={moimItem.moimId}
+            />
+          </View>
         </View>
       ))}
 
-      {allPosts && allPosts.length > initialPostCount && (
+      {filteredPosts && filteredPosts.length > initialPostCount && (
         <TouchableOpacity
           onPress={toggleShowAll}
           className="flex flex-row items-center gap-x-3 mt-2 self-center">

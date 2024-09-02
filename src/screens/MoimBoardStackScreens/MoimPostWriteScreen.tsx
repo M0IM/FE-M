@@ -21,6 +21,8 @@ import useDropdown from 'hooks/useDropdown';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 import usePermission from 'hooks/usePermission.ts';
+import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
+
 import {
   POST_WRITE_LIST,
   POST_WRITE_MEMBER_LIST,
@@ -30,7 +32,6 @@ import {
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
-import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
 
 interface MoimPostWriteScreenProps {
   route: MoimPostStackRouteProp;

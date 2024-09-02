@@ -48,6 +48,7 @@ export default function BottomSheet({
       ref={bottomSheetRef}
       onOpen={handleOpenBottomSheet}
       onClose={handleCloseBottomSheet}
+      closeOnPressBack={true}
       keyboardAvoidingViewEnabled={true}
       height={height ?? 200}
       customStyles={bottomSheetStyles}>

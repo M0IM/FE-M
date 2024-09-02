@@ -3,13 +3,9 @@ import {View, FlatList} from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography';
 import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/useGetInfinityMoimIntroducePosts';
-import {HomeStackNavigationProp} from 'navigators/types';
-import {TMoimPreviewListDto} from 'types/dtos/post';
-import {detailDate} from 'utils';
-import DefaultIcon from '../../@common/DefaultIcon/DefaultIcon.tsx';
 import MoimFeedPreviewSkeleton from './skeleton/MoimFeedPreviewSkeleton.tsx';
 import Card from './Card';
-
+import {TMoimPreviewListDTO} from 'types/dtos/moim.ts';
 
 interface MoimFeedPreviewProps {
   isRefreshing: boolean;

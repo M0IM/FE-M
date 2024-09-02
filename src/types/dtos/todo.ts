@@ -2,7 +2,7 @@ type TCreateTodoDTO = {
   moimId: number;
   title: string;
   content: string;
-  dueDate: Date;
+  dueDate: string;
   imageKeyList: string[];
   targetUserIdList: number[];
   isAssignedSelectAll: boolean;
@@ -15,4 +15,22 @@ type TCreateTodoResponse = {
   result: number;
 };
 
-export type {TCreateTodoDTO, TCreateTodoResponse};
+type TTodoListDTO = {
+  todoId: number;
+  title: string;
+  dueDate: Date;
+  writerNickname: string;
+  writerProfileImageUrl: string;
+  writerMoimRole: string;
+  moimId: number;
+  moimName: string;
+  imageUrlList: string[];
+};
+
+type TTodoListResponse = {
+  nextCursor: number;
+  hasNext: boolean;
+  list: TTodoListDTO[];
+};
+
+export type {TCreateTodoDTO, TCreateTodoResponse, TTodoListResponse};

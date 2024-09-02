@@ -1,6 +1,10 @@
 import axiosInstance from './axiosInstance.ts';
 
-import {TCreateTodoDTO, TCreateTodoResponse} from 'types/dtos/todo.ts';
+import {
+  TCreateTodoDTO,
+  TCreateTodoResponse,
+  TTodoListResponse,
+} from 'types/dtos/todo.ts';
 
 // POST: 모임 todo 생성
 const createMoimTodo = async ({
@@ -26,7 +30,7 @@ const createMoimTodo = async ({
 };
 
 // GET: 특정 모임의 todo 리스트 조회 (모임 관리자)
-const getMoimTodo = async ({
+const getMoimTodoList = async ({
   moimId,
   cursor,
   take,
@@ -34,12 +38,12 @@ const getMoimTodo = async ({
   moimId: number;
   cursor: number;
   take: number;
-}) => {
+}): Promise<TTodoListResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/${cursor}/todos/admins?cursor=${cursor}&take=${take}`,
+    `/api/v1/moims/${moimId}/todos/admins?cursor=${cursor}&take=${take}`,
   );
 
   return data.result;
 };
 
-export {createMoimTodo, getMoimTodo};
+export {createMoimTodo, getMoimTodoList};

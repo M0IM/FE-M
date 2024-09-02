@@ -1,11 +1,21 @@
-import {useMutation} from '@tanstack/react-query';
+import {
+  InfiniteData,
+  QueryKey,
+  UseInfiniteQueryOptions,
+  useMutation,
+  useSuspenseInfiniteQuery,
+} from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
 
-import {UseMutationCustomOptions} from 'types/mutations/common.ts';
-import {createMoimTodo} from 'apis/todo.ts';
+import {
+  ResponseError,
+  UseMutationCustomOptions,
+} from 'types/mutations/common.ts';
+import {createMoimTodo, getMoimTodoList} from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
 import {queryKeys} from '../constants/storageKeys/keys.ts';
+import {TTodoListResponse} from '../types/dtos/todo.ts';
 
 function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -33,13 +43,36 @@ function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function getInfiniteMoimTodoList(moimId: number) {}
+function getInfiniteMoimTodoList(
+  moimId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TTodoListResponse,
+    ResponseError,
+    InfiniteData<TTodoListResponse, number>,
+    TTodoListResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getMoimTodoList({moimId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, moimId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
 
 function useTodo() {
   const createTodoMutation = useCreateTodo();
 
   return {
     createTodoMutation,
+    getInfiniteMoimTodoList,
   };
 }
 

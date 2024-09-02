@@ -3,16 +3,19 @@ import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment/moment';
 import NoImage from 'assets/images/NoImageLogo.png';
+import {useNavigation} from '@react-navigation/native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import Avatar from '../../@common/Avatar/Avatar.tsx';
 import {TMoimPreviewListDto} from 'types/dtos/post.ts';
+import {HomeStackNavigationProp} from 'navigators/types/index.ts';
 
 interface INewFeedCardProps extends TouchableOpacityProps {
   item: TMoimPreviewListDto;
 }
 
 export function NewFeedCard({item, ...props}: INewFeedCardProps) {
+  const navigation = useNavigation<HomeStackNavigationProp>();
   return (
     <>
       <TouchableOpacity className="bg-white" activeOpacity={0.8} {...props}>
@@ -43,7 +46,18 @@ export function NewFeedCard({item, ...props}: INewFeedCardProps) {
           }}>
           <View className="flex-col gap-2 px-4 absolute bottom-0 pb-4">
             <View className="flex-row items-center">
-              <Avatar uri={item.ownerProfileImageUrl} />
+              <Avatar
+                uri={item.ownerProfileImageUrl}
+                onPress={() =>
+                  navigation.navigate('USER_DETAIL_PROFILE', {
+                    screen: 'USER_PROFILE',
+                    params: {
+                      id: item.writerId,
+                      userName: item.writer,
+                    },
+                  })
+                }
+              />
               <Typography
                 className="ml-2 text-white"
                 fontWeight={'BOLD'}

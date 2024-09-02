@@ -11,6 +11,7 @@ import {HomeStack} from 'navigators/constants';
 import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
 import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
 import MoimPostStackNavigator from './MoimPostStackNavigator';
+import UserProfileStackNavigator from './UserProfileStackNavigator.tsx';
 
 export default function HomeStackNavigator() {
   const insets = useSafeAreaInsets();
@@ -99,6 +100,13 @@ export default function HomeStackNavigator() {
           headerTintColor: '#000',
           headerBackTitleVisible: false,
         }}
+      />
+      <HomeStack.Screen
+        name={'USER_DETAIL_PROFILE'}
+        component={UserProfileStackNavigator}
+        options={() => ({
+          headerShown: false,
+        })}
       />
     </HomeStack.Navigator>
   );

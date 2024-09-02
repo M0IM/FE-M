@@ -145,7 +145,7 @@ type TMoimAllPostsPreviews = {
   moimPostPreviewDTOList: TMoimPostPreviewDTOList[];
 };
 
-type TMoimPostPreviewDTO = {
+export type TMoimPostPreviewDTO = {
   moimId: number;
   title: string;
   description: string;

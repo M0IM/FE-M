@@ -16,8 +16,8 @@ export default function MoimTodoDetailScreen({
 }: {
   route: RouteProp<MoimManagementParamList, 'MOIM_DETAIL_TODO'>;
 }) {
-  const moimId = route.params.moimId as number;
-  const todoId = route.params.id as number;
+  const moimId = route.params?.moimId as number;
+  const todoId = route.params?.id as number;
 
   const {useGetMoimTodoDetail} = useTodo();
   const {data: todo} = useGetMoimTodoDetail(moimId, todoId);

@@ -9,7 +9,7 @@ import DelegationAuthorityScreen from 'screens/MoimManagementScreens/DelegationA
 import MoimCreateTodoScreen from 'screens/MoimManagementScreens/MoimCreateTodoScreen.tsx';
 import MoimGetTodoScreen from 'screens/MoimManagementScreens/MoimGetTodoScreen.tsx';
 import MoimTodoDetailScreen from 'screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
-import MyMoimAssignmentCheckScreen from '../../screens/MoimManagementScreens/MyMoimAssignmentCheckScreen.tsx';
+import MyMoimAssignmentCheckScreen from 'screens/MoimManagementScreens/MyMoimAssignmentCheckScreen.tsx';
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();

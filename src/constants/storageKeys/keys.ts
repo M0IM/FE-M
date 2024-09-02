@@ -5,6 +5,7 @@ const queryKeys = {
   TODOS: 'todos',
   TODOS_MEMBER: 'todosMember',
   TODOS_INDIVIDUAL: 'todosIndividual',
+  TODOS_MY: 'todosMy',
 } as const;
 
 const storageKeys = {

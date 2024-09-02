@@ -83,6 +83,7 @@ const getDetailTodoMemberList = async ({
   return data.result;
 };
 
+// GET: 특정 모임 관리자 회원이 부여한 todo 리스트 조회 (모임 관리자)
 const getIndividualAssignmentTodoList = async ({
   moimId,
   cursor,
@@ -99,10 +100,26 @@ const getIndividualAssignmentTodoList = async ({
   return data.result;
 };
 
+// GET: 내가 부여한 TODO 확인
+const getMyAssignmentTodoList = async ({
+  cursor,
+  take,
+}: {
+  cursor: number;
+  take: number;
+}): Promise<TIndividualAssignmentTodoListResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/todos/by-me?cursor=${cursor}&take=${take}`,
+  );
+
+  return data.result;
+};
+
 export {
   createMoimTodo,
   getMoimTodoList,
   getDetailTodo,
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
+  getMyAssignmentTodoList,
 };

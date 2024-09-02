@@ -19,6 +19,7 @@ import {
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
   getMoimTodoList,
+  getMyAssignmentTodoList,
 } from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
@@ -141,6 +142,29 @@ function getInfiniteIndividualAssignmentTodoList(
   });
 }
 
+function getInfiniteMyAssignmentTodoList(
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TIndividualAssignmentTodoListResponse,
+    ResponseError,
+    InfiniteData<TIndividualAssignmentTodoListResponse, number>,
+    TIndividualAssignmentTodoListResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getMyAssignmentTodoList({cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_MY],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
 
@@ -150,6 +174,7 @@ function useTodo() {
     useGetMoimTodoDetail,
     getInfiniteMoimTodoParticipantList,
     getInfiniteIndividualAssignmentTodoList,
+    getInfiniteMyAssignmentTodoList,
   };
 }
 

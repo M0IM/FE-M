@@ -7,7 +7,7 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 
 import {MyStackNavigationProp} from 'navigators/types';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
-import {useGetMyProfile} from '../../hooks/queries/MyScreen/useGetProfile.ts';
+import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
 
 interface IMyHomeScreenProps {
   navigation: MyStackNavigationProp;
@@ -57,6 +57,10 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
           <SettingItem
             title={'가입 신청 상태 확인하기'}
             onPress={() => navigation.navigate('MY_MOIM_JOIN_STATUS')}
+          />
+          <SettingItem
+            title={'내가 할당한 할 일 확인'}
+            onPress={() => navigation.navigate('TODO_ASSIGNMENT_LIST')}
           />
           {/* <SettingItem
             title={'모임 정보 수정하기'}

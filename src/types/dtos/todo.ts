@@ -49,6 +49,12 @@ export enum TODO_ASSIGNEE_STATUS {
   OVERDUE = 'OVERDUE',
 }
 
+export enum TODO_STATUS {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  EXPIRED = 'EXPIRED',
+}
+
 type TTodoParticipantMemberListDTO = {
   assigneeId: number;
   nickname: string;
@@ -80,6 +86,22 @@ type TIndividualAssignmentTodoListResponse = {
   hasNext: boolean;
 };
 
+type TMyAssignmentTodoResponse = {
+  todoId: number;
+  title: string;
+  content: string;
+  dueDate: Date;
+  imageUrlList: string[];
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
+  todoStatus: TODO_STATUS;
+};
+
+type TMyTodoStatus = {
+  todoId: number;
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
+  todoStatus: TODO_STATUS;
+};
+
 export type {
   TCreateTodoDTO,
   TCreateTodoResponse,
@@ -88,4 +110,6 @@ export type {
   TTodoParticipantMemberListDTO,
   TTodoParticipantResponse,
   TIndividualAssignmentTodoListResponse,
+  TMyAssignmentTodoResponse,
+  TMyTodoStatus,
 };

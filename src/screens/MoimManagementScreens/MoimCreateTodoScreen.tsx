@@ -117,9 +117,8 @@ export default function MoimCreateTodoScreen({
           isAssigneeSelectAll: selectAll,
         },
         {
-          onSuccess: data => {
+          onSuccess: () => {
             setIsEditMode(false);
-            console.log(data);
             navigation.goBack();
           },
         },

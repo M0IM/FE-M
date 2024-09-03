@@ -4,6 +4,9 @@ import {
   TCreateTodoDTO,
   TCreateTodoResponse,
   TIndividualAssignmentTodoListResponse,
+  TMyAssignmentTodoResponse,
+  TMyTodoStatus,
+  TODO_ASSIGNEE_STATUS,
   TTodoDetailDTO,
   TTodoListResponse,
   TTodoParticipantResponse,
@@ -156,6 +159,41 @@ const deleteMoimTodo = async ({
   return data.result;
 };
 
+const getMyAssignedTodo = async ({
+  moimId,
+  todoId,
+}: {
+  moimId: number;
+  todoId: number;
+}): Promise<TMyAssignmentTodoResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/${moimId}/todos/${todoId}/for-me`,
+  );
+
+  return data.result;
+};
+
+// PUT: 부여된 todo 상태 업데이트
+const modifyMyTodoStatus = async ({
+  moimId,
+  todoId,
+  todoAssigneeStatus,
+}: {
+  moimId: number;
+  todoId: number;
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
+}): Promise<TMyTodoStatus> => {
+  const {data} = await axiosInstance.put(
+    `/api/v1/moims/${moimId}/todos/assignee/${todoId}`,
+    {
+      todoId,
+      todoAssigneeStatus,
+    },
+  );
+
+  return data.result;
+};
+
 export {
   createMoimTodo,
   getMoimTodoList,
@@ -165,4 +203,6 @@ export {
   getMyAssignmentTodoList,
   modifyMoimTodo,
   deleteMoimTodo,
+  getMyAssignedTodo,
+  modifyMyTodoStatus,
 };

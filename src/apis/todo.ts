@@ -17,7 +17,7 @@ const createMoimTodo = async ({
   dueDate,
   imageKeyList,
   targetUserIdList,
-  isAssignedSelectAll,
+  isAssigneeSelectAll,
 }: TCreateTodoDTO): Promise<TCreateTodoResponse> => {
   const {data} = await axiosInstance.post(`/api/v1/moims/${moimId}/todos`, {
     moimId,
@@ -26,7 +26,7 @@ const createMoimTodo = async ({
     dueDate,
     imageKeyList,
     targetUserIdList,
-    isAssignedSelectAll,
+    isAssigneeSelectAll,
   });
 
   return data.result;
@@ -124,7 +124,7 @@ const modifyMoimTodo = async ({
   dueDate,
   imageKeyList,
   targetUserIdList,
-  isAssignedSelectAll,
+  isAssigneeSelectAll,
 }: TCreateTodoDTO & {todoId: number}): Promise<TCreateTodoResponse> => {
   const {data} = await axiosInstance.put(
     `/api/v1/moims/${moimId}/todos/admin/${todoId}`,
@@ -135,7 +135,7 @@ const modifyMoimTodo = async ({
       dueDate,
       imageKeyList,
       targetUserIdList,
-      isAssignedSelectAll,
+      isAssigneeSelectAll,
     },
   );
 

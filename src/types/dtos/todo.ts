@@ -5,7 +5,7 @@ type TCreateTodoDTO = {
   dueDate: string;
   imageKeyList: string[];
   targetUserIdList: number[];
-  isAssignedSelectAll: boolean;
+  isAssigneeSelectAll: boolean;
 };
 
 type TCreateTodoResponse = {
@@ -42,11 +42,18 @@ type TTodoDetailDTO = {
   status: 'LOADING' | 'COMPLETE';
 };
 
+export enum TODO_ASSIGNEE_STATUS {
+  LOADING = 'LOADING',
+  COMPLETE = 'COMPLETE',
+  PENDING = 'PENDING',
+  OVERDUE = 'OVERDUE',
+}
+
 type TTodoParticipantMemberListDTO = {
   assigneeId: number;
   nickname: string;
   profileImageUrl: string;
-  todoStatus: 'LOADING' | 'COMPLETE';
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
 };
 
 type TTodoParticipantResponse = {

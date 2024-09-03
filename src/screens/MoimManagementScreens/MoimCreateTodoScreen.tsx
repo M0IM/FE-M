@@ -83,13 +83,12 @@ export default function MoimCreateTodoScreen({
         dueDate: moment(date).format('YYYY-MM-DD'),
         imageKeyList: [uploadUri],
         targetUserIdList: selectAll ? [] : selectedIds,
-        isAssignedSelectAll: selectAll,
+        isAssigneeSelectAll: selectAll,
       },
       {
         onSuccess: () => {
           navigation.goBack();
         },
-        onError: error => console.log(error),
       },
     );
   };
@@ -115,7 +114,7 @@ export default function MoimCreateTodoScreen({
           dueDate: moment(date).format('YYYY-MM-DD'),
           imageKeyList: [imageKey],
           targetUserIdList: selectAll ? [] : selectedIds,
-          isAssignedSelectAll: selectAll,
+          isAssigneeSelectAll: selectAll,
         },
         {
           onSuccess: data => {
@@ -128,16 +127,7 @@ export default function MoimCreateTodoScreen({
   };
 
   return (
-    <ScreenContainer
-      fixedBottomComponent={
-        <CustomButton
-          className={`${createTodoMutation.isPending ? 'bg-gray-300' : ''}`}
-          textStyle="text-white text-lg font-bold"
-          label={`${createTodoMutation.isPending ? '배정 중...' : '할 일 배정'}`}
-          onPress={isEdit ? handleModifyTodo : handleCreateTodo}
-          disabled={createTodoMutation.isPending}
-        />
-      }>
+    <ScreenContainer>
       <View className="mt-4">
         <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
           제목
@@ -267,7 +257,13 @@ export default function MoimCreateTodoScreen({
           </TouchableOpacity>
         </TouchableOpacity>
       )}
-
+      <CustomButton
+        className={`${createTodoMutation.isPending ? 'bg-gray-300' : ''}`}
+        textStyle="text-white text-lg font-bold"
+        label={`${createTodoMutation.isPending ? '배정 중...' : '할 일 배정'}`}
+        onPress={isEdit ? handleModifyTodo : handleCreateTodo}
+        disabled={createTodoMutation.isPending}
+      />
       <DatePickerOption
         isVisible={datePickerModal.isVisible}
         onOpen={datePickerModal.show}
@@ -276,7 +272,6 @@ export default function MoimCreateTodoScreen({
         onChangeDate={handleChangeDate}
         onConfirmDate={handleConfirmDate}
       />
-
       <ReaderPickerBottomSheet
         moimId={moimId}
         isOpen={memberSelectModal.isVisible}

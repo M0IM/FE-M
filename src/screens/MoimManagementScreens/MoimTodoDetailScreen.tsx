@@ -63,8 +63,7 @@ export default function MoimTodoDetailScreen({
         deleteTodoMutation.mutate(
           {moimId, todoId},
           {
-            onSuccess: data => {
-              console.log(data);
+            onSuccess: () => {
               navigation.goBack();
             },
           },

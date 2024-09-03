@@ -216,6 +216,8 @@ function useTodo() {
     getInfiniteMoimTodoParticipantList,
     getInfiniteIndividualAssignmentTodoList,
     getInfiniteMyAssignmentTodoList,
+    modifyTodoMutation,
+    deleteTodoMutation,
   };
 }
 

@@ -126,19 +126,17 @@ const modifyMoimTodo = async ({
   content,
   dueDate,
   imageKeyList,
-  targetUserIdList,
-  isAssigneeSelectAll,
-}: TCreateTodoDTO & {todoId: number}): Promise<TCreateTodoResponse> => {
+}: Pick<
+  TCreateTodoDTO,
+  'moimId' | 'title' | 'content' | 'dueDate' | 'imageKeyList'
+> & {todoId: number}): Promise<TCreateTodoResponse> => {
   const {data} = await axiosInstance.put(
     `/api/v1/moims/${moimId}/todos/admin/${todoId}`,
     {
-      moimId,
       title,
       content,
       dueDate,
       imageKeyList,
-      targetUserIdList,
-      isAssigneeSelectAll,
     },
   );
 
@@ -194,6 +192,66 @@ const modifyMyTodoStatus = async ({
   return data.result;
 };
 
+// GET:todo 할당 받 멤버 제외한 모임 멤버 조회.
+const getNoneAssignedMemberList = async ({
+  moimId,
+  todoId,
+  cursor,
+  take,
+}: {
+  moimId: number;
+  todoId: number;
+  cursor: number;
+  take: number;
+}): Promise<TTodoParticipantResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/${moimId}/todos/${todoId}/admins/non-assignee-list?cursor=${cursor}&take=${take}`,
+  );
+
+  return data.result;
+};
+
+// PUT: todo assignee 추가
+const addTodoMember = async ({
+  moimId,
+  todoId,
+  addAssigneeIdList,
+}: {
+  moimId: number;
+  todoId: number;
+  addAssigneeIdList: number[];
+}) => {
+  const {data} = await axiosInstance.put(
+    `/api/v1/moims/todos/admin/assignees`,
+    {
+      moimId,
+      todoId,
+      addAssigneeIdList,
+    },
+  );
+
+  return data.result;
+};
+
+// DELETE: todo assignee 삭제
+// TODO: BE에게 DeleteMethod는 body가 없음을 알리자...
+// PUT요청으로 모든걸 해결할 수 있을 것 같..
+const deleteTodoMember = async ({
+  moimId,
+  todoId,
+  deleteAssigneeIdList,
+}: {
+  moimId: number;
+  todoId: number;
+  deleteAssigneeIdList: number[];
+}) => {
+  const {data} = await axiosInstance.delete(
+    `/api/v1/moims/todos/admin/assignees`,
+  );
+
+  return data.result;
+};
+
 export {
   createMoimTodo,
   getMoimTodoList,
@@ -205,4 +263,6 @@ export {
   deleteMoimTodo,
   getMyAssignedTodo,
   modifyMyTodoStatus,
+  getNoneAssignedMemberList,
+  addTodoMember,
 };

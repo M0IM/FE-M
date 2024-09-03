@@ -14,6 +14,7 @@ import {
   UseQueryCustomOptions,
 } from 'types/mutations/common.ts';
 import {
+  addTodoMember,
   createMoimTodo,
   deleteMoimTodo,
   getDetailTodo,
@@ -22,6 +23,7 @@ import {
   getMoimTodoList,
   getMyAssignedTodo,
   getMyAssignmentTodoList,
+  getNoneAssignedMemberList,
   modifyMoimTodo,
   modifyMyTodoStatus,
 } from 'apis/todo.ts';
@@ -239,11 +241,57 @@ function useModifyMyTodoStatus(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useGetInfiniteNoneAssignedMemberList(
+  moimId: number,
+  todoId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TTodoParticipantResponse,
+    ResponseError,
+    InfiniteData<TTodoParticipantResponse, number>,
+    TTodoParticipantResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getNoneAssignedMemberList({moimId, todoId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_MEMBER, todoId, moimId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
+function useAddMemberMutation(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: addTodoMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS_MY]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
   const modifyTodoMutation = useModifyMoimTodo();
   const deleteTodoMutation = useDeleteMoimTodo();
   const modifyMyTodoStatus = useModifyMyTodoStatus();
+  const updateAssignedMember = useAddMemberMutation();
 
   return {
     createTodoMutation,
@@ -256,6 +304,8 @@ function useTodo() {
     deleteTodoMutation,
     useGetMyAssignedTodo,
     modifyMyTodoStatus,
+    useGetInfiniteNoneAssignedMemberList,
+    updateAssignedMember,
   };
 }
 

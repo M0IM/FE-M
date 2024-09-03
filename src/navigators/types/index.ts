@@ -185,6 +185,14 @@ export type MoimManagementParamList = {
   MOIM_GET_TODO: {id: number | undefined};
   MOIM_DETAIL_TODO: {id: number; moimId: number};
   MOIM_ASSIGNMENT_TODO: {id: number | undefined};
+  MOIM_ADD_MEMBER: {
+    moimId: number | undefined;
+    todoId: number | undefined;
+  };
+  MOIM_DELETE_MEMBER: {
+    moimId: number | undefined;
+    todoId: number | undefined;
+  };
 };
 
 export type NewFeedHomeStackParamList = {

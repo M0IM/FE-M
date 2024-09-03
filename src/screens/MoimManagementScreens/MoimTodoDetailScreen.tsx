@@ -46,6 +46,24 @@ export default function MoimTodoDetailScreen({
   const {setTodoList, setIsEditMode} = useTodoStore();
   const PostMyMenuList = [
     {
+      title: '멤버 추가',
+      onPress: () => {
+        navigation.navigate('MOIM_ADD_MEMBER', {
+          moimId,
+          todoId,
+        });
+      },
+    },
+    {
+      title: '멤버 삭제',
+      onPress: () => {
+        navigation.navigate('MOIM_DELETE_MEMBER', {
+          moimId,
+          todoId,
+        });
+      },
+    },
+    {
       title: '할 일 수정',
       onPress: () => {
         if (todo) {

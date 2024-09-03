@@ -1,4 +1,10 @@
-import {FlatList, Pressable, SafeAreaView, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  View,
+} from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {
@@ -6,7 +12,7 @@ import {
   MoimManagementRouteProp,
 } from 'navigators/types';
 import useTodo from '../../hooks/useTodo.ts';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import DefaultIcon from '../../components/@common/DefaultIcon/DefaultIcon.tsx';
 import moment from 'moment/moment';
@@ -44,6 +50,18 @@ export default function MyMoimAssignmentCheckScreen({
     setIsRefreshing(false);
   };
 
+  if (isPending) {
+    return (
+      <View className="flex-col items-center justify-center flex-1 bg-white">
+        <ActivityIndicator size="large" color={'#00F0A1'} />
+      </View>
+    );
+  }
+
+  if (isError) {
+    return <View></View>;
+  }
+
   const todoList = todos.pages.flatMap(page => page.list);
 
   return (
@@ -80,12 +98,12 @@ export default function MyMoimAssignmentCheckScreen({
                     numberOfLines={1}>
                     {item.title}
                   </Typography>
-                  <Typography
-                    fontWeight="BOLD"
-                    className="text-gray-400 text-xs w-full"
-                    numberOfLines={1}>
-                    담당자: {item.writerNickname}
-                  </Typography>
+                  {/*<Typography*/}
+                  {/*  fontWeight="BOLD"*/}
+                  {/*  className="text-gray-400 text-xs w-full"*/}
+                  {/*  numberOfLines={1}>*/}
+                  {/*  담당자: {item.todoStatus}*/}
+                  {/*</Typography>*/}
                   <View className="flex flex-row gap-2">
                     <Typography
                       fontWeight="LIGHT"

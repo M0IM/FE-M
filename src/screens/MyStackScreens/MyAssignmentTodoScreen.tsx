@@ -1,5 +1,11 @@
-import {FlatList, Pressable, SafeAreaView, View} from 'react-native';
-import {useState} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 
@@ -48,6 +54,18 @@ export default function MyAssignmentTodoScreen({
     setIsRefreshing(false);
   };
 
+  if (isPending) {
+    return (
+      <View className="flex-col items-center justify-center flex-1 bg-white">
+        <ActivityIndicator size="large" color={'#00F0A1'} />
+      </View>
+    );
+  }
+
+  if (isError) {
+    return <View></View>;
+  }
+
   const todoList = todos.pages.flatMap(page => page.list);
 
   return (
@@ -95,7 +113,7 @@ export default function MyAssignmentTodoScreen({
                     fontWeight="BOLD"
                     className="text-gray-400 text-xs w-full"
                     numberOfLines={1}>
-                    담당자: {item.writerNickname}
+                    모임명: {item.moimName}
                   </Typography>
                   <View className="flex flex-row gap-2">
                     <Typography

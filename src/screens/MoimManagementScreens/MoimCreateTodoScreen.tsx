@@ -113,8 +113,6 @@ export default function MoimCreateTodoScreen({
           content: addTodo.values.content,
           dueDate: moment(date).format('YYYY-MM-DD'),
           imageKeyList: [imageKey],
-          targetUserIdList: selectAll ? [] : selectedIds,
-          isAssigneeSelectAll: selectAll,
         },
         {
           onSuccess: () => {
@@ -202,41 +200,45 @@ export default function MoimCreateTodoScreen({
         </View>
       </View>
 
-      <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
-        멤버 선택
-      </Typography>
-      <View className="flex-row gap-x-3">
-        <TouchableOpacity onPress={() => setSelectAll(prev => !prev)}>
-          <View className="flex-row items-center w-full">
-            <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
-              <View
-                className={`${
-                  selectAll ? 'bg-main' : ''
-                } rounded-full w-[10] h-[10]`}
-              />
-            </View>
-            <Typography className="text-gray-500" fontWeight={'BOLD'}>
-              전체
-            </Typography>
+      {!isEdit && (
+        <>
+          <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
+            멤버 선택
+          </Typography>
+          <View className="flex-row gap-x-3">
+            <TouchableOpacity onPress={() => setSelectAll(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      selectAll ? 'bg-main' : ''
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  전체
+                </Typography>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setSelectAll(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      selectAll ? '' : 'bg-main'
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  개인
+                </Typography>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectAll(prev => !prev)}>
-          <View className="flex-row items-center w-full">
-            <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
-              <View
-                className={`${
-                  selectAll ? '' : 'bg-main'
-                } rounded-full w-[10] h-[10]`}
-              />
-            </View>
-            <Typography className="text-gray-500" fontWeight={'BOLD'}>
-              개인
-            </Typography>
-          </View>
-        </TouchableOpacity>
-      </View>
+        </>
+      )}
 
-      {!selectAll && (
+      {!isEdit && !selectAll && (
         <TouchableOpacity className="mt-4">
           <TouchableOpacity
             onPress={memberSelectModal.show}

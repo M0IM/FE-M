@@ -23,7 +23,7 @@ function useGetInfiniteMyActiveMoim(
     queryFn: ({pageParam}) => getMyActiveMoim(pageParam),
     queryKey: ['myMoim'],
     initialPageParam: 1,
-    getNextPageParam: (lastPage, _) => {
+    getNextPageParam: lastPage => {
       return lastPage.hasNext ? lastPage.nextCursor : undefined;
     },
     ...queryOptions,

@@ -11,7 +11,6 @@ import {
   TMoimSpaceInfoDTO,
   TWithdrawMoimResponse,
 } from 'types/dtos/moim.ts';
-import axios from 'axios';
 
 const createMoim = async ({
   title,

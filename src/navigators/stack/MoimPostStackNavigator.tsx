@@ -6,6 +6,7 @@ import MoimPostDetailScreen from 'screens/MoimBoardStackScreens/MoimPostDetailSc
 import MoimPostEditScreen from 'screens/MoimBoardStackScreens/MoimPostEditScreen';
 import MoimPostWriteScreen from 'screens/MoimBoardStackScreens/MoimPostWriteScreen';
 import MoimMemberDetailProfileScreen from 'screens/MoimBoardStackScreens/MoimMemberDetailProfileScreen.tsx';
+import MoimUserReviewScreen from 'screens/MoimBoardStackScreens/MoimUserReviewScreen.tsx';
 
 import {MoimPostStackRouteProp} from 'navigators/types';
 import {MoimPostStack} from 'navigators/constants';
@@ -90,6 +91,17 @@ export default function MoimPostStackNavigator() {
       <MoimPostStack.Screen
         name={'MOIM_JOIN_LIST'}
         component={MoimParticipantMoimScreen}
+        options={({route}) => ({
+          headerTitle: route.params.userName,
+          headerShown: true,
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        })}
+      />
+      <MoimPostStack.Screen
+        name={'MOIM_REVIEW_LIST'}
+        component={MoimUserReviewScreen}
         options={({route}) => ({
           headerTitle: route.params.userName,
           headerShown: true,

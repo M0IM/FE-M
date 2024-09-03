@@ -1,4 +1,5 @@
-import {ActivityIndicator, SafeAreaView, View} from 'react-native';
+import {useEffect, useRef} from 'react';
+import {ActivityIndicator, Animated, SafeAreaView, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
@@ -20,6 +21,29 @@ export default function UserDetailProfileScreen() {
   const {year, month, day} = getMonthYearDetails(
     new Date(userInfo?.createdAt as string),
   );
+
+  const floatAnimation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const startFloating = () => {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(floatAnimation, {
+            toValue: -10,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(floatAnimation, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]),
+      ).start();
+    };
+
+    startFloating();
+  }, [floatAnimation]);
 
   if (!userId || !userInfo) {
     return (
@@ -44,21 +68,37 @@ export default function UserDetailProfileScreen() {
               {month}월 {day}일
             </Typography>
           </InfoSquareCard>
-          <InfoSquareCard
-            title="모임 평가"
-            onPress={() =>
-              navigation.navigate('USER_DETAIL_PROFILE', {
-                screen: 'USER_REVIEW',
-                params: {
-                  id: userId,
-                  userName: userInfo.nickname,
-                },
-              })
-            }>
-            <Typography fontWeight={'BOLD'}>
-              {userInfo?.rating.toFixed(1)}
-            </Typography>
-          </InfoSquareCard>
+          <View className="relative">
+            <InfoSquareCard
+              title="모임 평가"
+              onPress={() =>
+                navigation.navigate('USER_DETAIL_PROFILE', {
+                  screen: 'USER_REVIEW',
+                  params: {
+                    id: userId,
+                    userName: userInfo.nickname,
+                  },
+                })
+              }>
+              <Typography fontWeight={'BOLD'}>
+                {userInfo?.rating.toFixed(1)}
+              </Typography>
+            </InfoSquareCard>
+            <Animated.View
+              style={{
+                transform: [{translateY: floatAnimation}],
+                position: 'absolute',
+                padding: 5,
+                top: -8,
+                right: -10,
+                borderRadius: 10,
+                backgroundColor: '#84DE77',
+              }}>
+              <Typography fontWeight="BOLD" className="text-white text-xs">
+                눌러서 평가 보기
+              </Typography>
+            </Animated.View>
+          </View>
           <InfoSquareCard
             title="가입 모임"
             onPress={() =>

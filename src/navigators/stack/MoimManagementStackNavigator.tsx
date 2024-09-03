@@ -6,7 +6,10 @@ import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen
 import MoimManageListScreen from 'screens/MoimManagementScreens/MoimManageListScreen';
 import PermissionManageScreen from 'screens/MoimManagementScreens/PermissionManageScreen';
 import DelegationAuthorityScreen from 'screens/MoimManagementScreens/DelegationAuthorityScreen.tsx';
-import MoimCreateTodoScreen from '../../screens/MoimManagementScreens/MoimCreateTodoScreen.tsx';
+import MoimCreateTodoScreen from 'screens/MoimManagementScreens/MoimCreateTodoScreen.tsx';
+import MoimGetTodoScreen from 'screens/MoimManagementScreens/MoimGetTodoScreen.tsx';
+import MoimTodoDetailScreen from 'screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
+import MyMoimAssignmentCheckScreen from 'screens/MoimManagementScreens/MyMoimAssignmentCheckScreen.tsx';
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();
@@ -67,6 +70,36 @@ const MoimManagementStackNavigator = () => {
         component={MoimCreateTodoScreen}
         options={{
           headerTitle: '할 일 배정',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_GET_TODO'}
+        component={MoimGetTodoScreen}
+        options={{
+          headerTitle: '모임 할 일 확인',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_DETAIL_TODO'}
+        component={MoimTodoDetailScreen}
+        options={{
+          headerTitle: '할 일 자세히 보기',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_ASSIGNMENT_TODO'}
+        component={MyMoimAssignmentCheckScreen}
+        options={{
+          headerTitle: '내가 할당한 할 일 확인',
           headerTintColor: '#000',
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,

@@ -31,7 +31,6 @@ export default function MoimScheduleEvent({
     isError: calendarsError,
     refetch: refetchAllUserSchedules,
   } = useGetInfiniteAllUserScheduleList(year, month, day, 8);
-
   useEffect(() => {
     const refetch = async () => {
       if (isRefreshing) {
@@ -80,10 +79,12 @@ export default function MoimScheduleEvent({
         data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
         renderItem={({item}) => {
+          console.log(item);
           return (
             <ScheduleCard
               item={item}
               onPress={() => {
+                // MOIM_PLAN, INDIVIDUAL_PLAN, TODO_PLAN
                 item.planType === 'MOIM_PLAN'
                   ? navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
                       id: item.planId,

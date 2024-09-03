@@ -16,6 +16,7 @@ import RevokeMoimStackNavigator from './my/RevokeMoimStackNavigator';
 import AppInfoStackNavigator from './my/AppInfoStackNavigator';
 import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
 import MyJoinMoimListScreen from '../../screens/MyStackScreens/MyJoinMoimListScreen.tsx';
+import MyAssignmentTodoScreen from '../../screens/MyStackScreens/MyAssignmentTodoScreen.tsx';
 // import MemberProfileScreen from '../../screens/MyStackScreens/MemberProfileScreen.tsx';
 
 export default function MyStackNavigator() {
@@ -173,6 +174,16 @@ export default function MyStackNavigator() {
         component={MyJoinMoimListScreen}
         options={{
           headerTitle: '가입 모임 목록',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <MyStack.Screen
+        name={'TODO_ASSIGNMENT_LIST'}
+        component={MyAssignmentTodoScreen}
+        options={{
+          headerTitle: '내가 할당한 할 일 확인',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',

@@ -1,13 +1,10 @@
-import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
-import {useState} from 'react';
+import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {ProfileCard} from 'components/@common/ProfileCard/ProfileCard.tsx';
 import InfoSquareCard from 'components/me/InfoSquareCard/InfoSquareCard.tsx';
-import {ReviewCard} from 'components/screens/MyStackScreens/ReviewCard.tsx';
 
-import {useGetInfiniteMyDetailReviews} from 'hooks/queries/MyScreen/useGetInfiniteMyDetailReviews.ts';
 import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts';
 
 import {getMonthYearDetails} from 'utils';
@@ -20,30 +17,9 @@ export default function UserDetailProfileScreen() {
   const userId = route?.params?.id as number;
   const {data: userInfo, isPending, isError} = useGetDetailProfile(userId);
 
-  const {
-    data: reviews,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    refetch,
-  } = useGetInfiniteMyDetailReviews(userId);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
   const {year, month, day} = getMonthYearDetails(
     new Date(userInfo?.createdAt as string),
   );
-
-  const handleEndReached = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  };
-
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
-    await refetch();
-    setIsRefreshing(false);
-  };
 
   if (!userId || !userInfo) {
     return (
@@ -59,16 +35,26 @@ export default function UserDetailProfileScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="px-5 py-3">
+      <View className="px-5 py-7">
         <ProfileCard userInfo={userInfo as TUserDTO} />
-        <View className="flex-row justify-around">
+        <View className="flex-row justify-around mb-3 mt-3">
           <InfoSquareCard title="가입 날짜" disabled>
             <Typography fontWeight={'BOLD'}>{year}년</Typography>
             <Typography fontWeight={'BOLD'}>
               {month}월 {day}일
             </Typography>
           </InfoSquareCard>
-          <InfoSquareCard title="모임 평가" disabled>
+          <InfoSquareCard
+            title="모임 평가"
+            onPress={() =>
+              navigation.navigate('USER_DETAIL_PROFILE', {
+                screen: 'USER_REVIEW',
+                params: {
+                  id: userId,
+                  userName: userInfo.nickname,
+                },
+              })
+            }>
             <Typography fontWeight={'BOLD'}>
               {userInfo?.rating.toFixed(1)}
             </Typography>
@@ -101,37 +87,6 @@ export default function UserDetailProfileScreen() {
           {userInfo?.introduction || '아직 소개를 작성하지 않았습니다.'}
         </Typography>
       </View>
-      <Typography
-        className="p-2 px-7 text-xs text-gray-300"
-        fontWeight={'BOLD'}>
-        유저 리뷰
-      </Typography>
-      {reviews.pages.flat().length === 0 ? (
-        <View className="flex-col mt-6 items-center justify-center">
-          <Typography className="text-gray-500" fontWeight={'MEDIUM'}>
-            해당 유저의 리뷰가 존재하지 않습니다.
-          </Typography>
-        </View>
-      ) : (
-        <FlatList
-          data={reviews.pages.flat().reverse()}
-          renderItem={({item}) => {
-            return <ReviewCard review={item} />;
-          }}
-          keyExtractor={item => String(item.reviewId)}
-          numColumns={1}
-          contentContainerStyle={{
-            paddingHorizontal: 30,
-            gap: 10,
-          }}
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.5}
-          refreshing={isRefreshing}
-          onRefresh={handleRefresh}
-          scrollIndicatorInsets={{right: 1}}
-          indicatorStyle={'black'}
-        />
-      )}
     </SafeAreaView>
   );
 }

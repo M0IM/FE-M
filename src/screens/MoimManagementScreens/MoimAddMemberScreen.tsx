@@ -71,13 +71,11 @@ export default function MoimAddMemberScreen({
     return <View></View>;
   }
 
-  console.log(selectedIds);
   const handlePressAddMembers = () => {
     updateAssignedMember.mutate(
       {moimId, todoId, addAssigneeIdList: selectedIds},
       {
-        onSuccess: data => {
-          console.log(data);
+        onSuccess: () => {
           navigation.goBack();
         },
       },

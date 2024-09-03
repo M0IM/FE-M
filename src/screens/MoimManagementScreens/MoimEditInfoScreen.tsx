@@ -50,16 +50,8 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
   const {updateMoimInfoMutation} = useMoimManagment();
   const {data: moimData, isPending} = useGetMoimSpaceInfo(moimId);
 
-  const isImgUri =
-    moimData?.profileImageUrl?.split('com/') &&
-    moimData?.profileImageUrl?.split('com/')[1]
-      ? true
-      : false;
-
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
-    useSingleImagePicker(
-      isImgUri ? {initialImage: moimData?.profileImageUrl} : {},
-    );
+    useSingleImagePicker({});
   const {isPressed, category, handleCategory, handleSelectedCategory} =
     useDropdown();
   const [data, setData] = useState({
@@ -85,24 +77,22 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
   }, [moimData]);
 
   const handleOnSubmit = () => {
-    console.log(data);
-    console.log(category?.key);
-
     if (
       data?.title &&
       region &&
       data?.introduction &&
       moimId &&
-      category?.key
+      category?.key &&
+      moimData?.category
     ) {
       updateMoimInfoMutation.mutate(
         {
           moimId: moimId,
           title: data?.title,
           address: region,
-          moimCategory: category?.key || moimData?.category,
+          moimCategory: category?.key || moimData.category,
           description: data?.introduction,
-          imageKeyName: uploadUri || moimData?.profileImageUrl,
+          imageKeyName: uploadUri || moimData.profileImageUrl.split('.com/')[1],
         },
         {
           onSuccess: () => {
@@ -248,10 +238,22 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
               style={{padding: 10}}
             />
           </TouchableOpacity>
-          {imageUri && (
+          {imageUri ? (
             <View className="w-[80] h-[100]">
               <Image
                 source={{uri: imageUri}}
+                className="w-full h-full rounded-2xl"
+              />
+              <Pressable
+                onPress={() => deleteImageUri()}
+                className="flex flex-col items-center justify-center absolute bottom-0 w-[80] bg-white h-2/5 rounded-b-2xl border-[1px] border-gray-200">
+                <Ionicons name="trash" size={15} color={'#9EA4AA'} />
+              </Pressable>
+            </View>
+          ) : (
+            <View className="w-[80] h-[100]">
+              <Image
+                source={{uri: moimData?.profileImageUrl}}
                 className="w-full h-full rounded-2xl"
               />
               <Pressable

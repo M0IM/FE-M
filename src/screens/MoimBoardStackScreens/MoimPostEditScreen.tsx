@@ -52,14 +52,16 @@ const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
   };
 
   const handleOnSubmit = () => {
-    if (id && postId && data.title && data.content) {
+    if (id && postId && data.title && data.content && postData?.imageKeyNames) {
       updateMoimPostMutation.mutate(
         {
           moimId: id,
           postId,
           title: data.title,
           content: data.content,
-          imageKeyNames: uploadUri ? [uploadUri] : postData?.imageKeyNames,
+          imageKeyNames: uploadUri
+            ? [uploadUri]
+            : [postData?.imageKeyNames[0].split('.com/')[1]],
         },
         {
           onSuccess: () => {

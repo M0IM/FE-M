@@ -4,6 +4,9 @@ import {
   TCreateTodoDTO,
   TCreateTodoResponse,
   TIndividualAssignmentTodoListResponse,
+  TMyAssignmentTodoResponse,
+  TMyTodoStatus,
+  TODO_ASSIGNEE_STATUS,
   TTodoDetailDTO,
   TTodoListResponse,
   TTodoParticipantResponse,
@@ -17,7 +20,7 @@ const createMoimTodo = async ({
   dueDate,
   imageKeyList,
   targetUserIdList,
-  isAssignedSelectAll,
+  isAssigneeSelectAll,
 }: TCreateTodoDTO): Promise<TCreateTodoResponse> => {
   const {data} = await axiosInstance.post(`/api/v1/moims/${moimId}/todos`, {
     moimId,
@@ -26,7 +29,7 @@ const createMoimTodo = async ({
     dueDate,
     imageKeyList,
     targetUserIdList,
-    isAssignedSelectAll,
+    isAssigneeSelectAll,
   });
 
   return data.result;
@@ -115,6 +118,82 @@ const getMyAssignmentTodoList = async ({
   return data.result;
 };
 
+// PUT: TODO 수정
+const modifyMoimTodo = async ({
+  moimId,
+  todoId,
+  title,
+  content,
+  dueDate,
+  imageKeyList,
+  targetUserIdList,
+  isAssigneeSelectAll,
+}: TCreateTodoDTO & {todoId: number}): Promise<TCreateTodoResponse> => {
+  const {data} = await axiosInstance.put(
+    `/api/v1/moims/${moimId}/todos/admin/${todoId}`,
+    {
+      moimId,
+      title,
+      content,
+      dueDate,
+      imageKeyList,
+      targetUserIdList,
+      isAssigneeSelectAll,
+    },
+  );
+
+  return data.result;
+};
+// DELETE: TODO 삭제
+const deleteMoimTodo = async ({
+  moimId,
+  todoId,
+}: {
+  moimId: number;
+  todoId: number;
+}) => {
+  const {data} = await axiosInstance.delete(
+    `/api/v1/moims/${moimId}/todos/admin/${todoId}`,
+  );
+
+  return data.result;
+};
+
+const getMyAssignedTodo = async ({
+  moimId,
+  todoId,
+}: {
+  moimId: number;
+  todoId: number;
+}): Promise<TMyAssignmentTodoResponse> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/${moimId}/todos/${todoId}/for-me`,
+  );
+
+  return data.result;
+};
+
+// PUT: 부여된 todo 상태 업데이트
+const modifyMyTodoStatus = async ({
+  moimId,
+  todoId,
+  todoAssigneeStatus,
+}: {
+  moimId: number;
+  todoId: number;
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
+}): Promise<TMyTodoStatus> => {
+  const {data} = await axiosInstance.put(
+    `/api/v1/moims/${moimId}/todos/assignee/${todoId}`,
+    {
+      todoId,
+      todoAssigneeStatus,
+    },
+  );
+
+  return data.result;
+};
+
 export {
   createMoimTodo,
   getMoimTodoList,
@@ -122,4 +201,8 @@ export {
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
   getMyAssignmentTodoList,
+  modifyMoimTodo,
+  deleteMoimTodo,
+  getMyAssignedTodo,
+  modifyMyTodoStatus,
 };

@@ -1,5 +1,5 @@
-import {SafeAreaView, View} from 'react-native';
-import React from 'react';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {RouteProp} from '@react-navigation/native';
@@ -7,20 +7,74 @@ import {RouteProp} from '@react-navigation/native';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
 
-import {MoimManagementParamList} from 'navigators/types';
+import {
+  MoimManagementNavigationProp,
+  MoimManagementParamList,
+} from 'navigators/types';
 import useTodo from 'hooks/useTodo.ts';
 import ParticipantList from './components/ParticipantList.tsx';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import PopoverMenu from '../../components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import useTodoStore from '../../stores/useTodoStore.ts';
 
 export default function MoimTodoDetailScreen({
+  navigation,
   route,
 }: {
+  navigation: MoimManagementNavigationProp;
   route: RouteProp<MoimManagementParamList, 'MOIM_DETAIL_TODO'>;
 }) {
+  const [isPopOverOpen, setIsPopOverOpen] = useState(false);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity className="pr-2" onPress={handlePressRightIcon}>
+          <IonIcons name={'menu'} size={25} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+
   const moimId = route.params?.moimId as number;
   const todoId = route.params?.id as number;
 
-  const {useGetMoimTodoDetail} = useTodo();
+  const {useGetMoimTodoDetail, deleteTodoMutation} = useTodo();
   const {data: todo} = useGetMoimTodoDetail(moimId, todoId);
+
+  const {setTodoList, setIsEditMode} = useTodoStore();
+  const PostMyMenuList = [
+    {
+      title: '할 일 수정',
+      onPress: () => {
+        if (todo) {
+          setTodoList(todo);
+          setIsEditMode(true);
+          navigation.navigate('MOIM_CREATE_TODO', {
+            id: moimId,
+          });
+        }
+      },
+    },
+    {
+      title: '할 일 삭제',
+      onPress: () => {
+        deleteTodoMutation.mutate(
+          {moimId, todoId},
+          {
+            onSuccess: () => {
+              navigation.goBack();
+            },
+          },
+        );
+      },
+    },
+  ];
+
+  const handlePressRightIcon = () => {
+    setIsPopOverOpen(true);
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -60,6 +114,16 @@ export default function MoimTodoDetailScreen({
           </View>
         </View>
       </View>
+      <PopoverMenu
+        menu={PostMyMenuList}
+        isPopover={isPopOverOpen}
+        onPress={() => setIsPopOverOpen(prev => !prev)}>
+        <TouchableOpacity
+          className="relative"
+          onPress={() => setIsPopOverOpen(prev => !prev)}>
+          <Ionicons name="ellipsis-vertical" size={20} color={'#C9CCD1'} />
+        </TouchableOpacity>
+      </PopoverMenu>
     </SafeAreaView>
   );
 }

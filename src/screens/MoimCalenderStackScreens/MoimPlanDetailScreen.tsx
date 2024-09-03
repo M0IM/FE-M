@@ -19,10 +19,11 @@ import {
 import useGetDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useGetDetailMoimCalendar.ts';
 import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/usePostMoimScheduleParticipation.ts';
 import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
-import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
-import useDeleteDetailMoimCalendar from '../../hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
-import {getMonthYearDetails} from 'utils/date.ts';
+import useDeleteDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
+
+import {getMonthYearDetails} from 'utils/date.ts';
+import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 
 interface IMoimPlanDetailScreenProps {
   route: MoimPlanStackRouteProp;

@@ -63,14 +63,24 @@ export default function MoimScheduleEvent({
     <ScheduleCard
       item={item}
       onPress={() => {
-        if (item.planType === 'MOIM_PLAN') {
-          navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
-            id: item.planId,
-          });
-        } else {
-          navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
-            id: item.planId,
-          });
+        console.log(item);
+        switch (item.planType) {
+          case 'MOIM_PLAN':
+            navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
+              id: item.planId,
+            });
+            break;
+          case 'INDIVIDUAL_PLAN':
+            navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
+              id: item.planId,
+            });
+            break;
+          default:
+            navigation.navigate('CALENDAR_TODO_DETAIL', {
+              // todoId
+              id: item.planId,
+            });
+            break;
         }
       }}
     />

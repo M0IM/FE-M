@@ -15,17 +15,22 @@ import {
 } from 'types/mutations/common.ts';
 import {
   createMoimTodo,
+  deleteMoimTodo,
   getDetailTodo,
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
   getMoimTodoList,
+  getMyAssignedTodo,
   getMyAssignmentTodoList,
+  modifyMoimTodo,
+  modifyMyTodoStatus,
 } from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
 import {queryKeys} from '../constants/storageKeys/keys.ts';
 import {
   TIndividualAssignmentTodoListResponse,
+  TMyAssignmentTodoResponse,
   TTodoDetailDTO,
   TTodoListResponse,
   TTodoParticipantResponse,
@@ -44,7 +49,6 @@ function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
       });
     },
     onError: error => {
-      console.log(error);
       Toast.show({
         type: 'error',
         text1: error?.response?.data.message,
@@ -165,8 +169,81 @@ function getInfiniteMyAssignmentTodoList(
   });
 }
 
+function useModifyMoimTodo(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: modifyMoimTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useDeleteMoimTodo(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteMoimTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useGetMyAssignedTodo(
+  moimId: number,
+  todoId: number,
+  queryOptions?: UseQueryCustomOptions<TMyAssignmentTodoResponse>,
+) {
+  return useQuery({
+    queryFn: () => getMyAssignedTodo({moimId, todoId}),
+    queryKey: [queryKeys.TODOS_MY, moimId, todoId],
+    ...queryOptions,
+  });
+}
+
+function useModifyMyTodoStatus(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: modifyMyTodoStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS_MY]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
+  const modifyTodoMutation = useModifyMoimTodo();
+  const deleteTodoMutation = useDeleteMoimTodo();
+  const modifyMyTodoStatus = useModifyMyTodoStatus();
 
   return {
     createTodoMutation,
@@ -175,6 +252,10 @@ function useTodo() {
     getInfiniteMoimTodoParticipantList,
     getInfiniteIndividualAssignmentTodoList,
     getInfiniteMyAssignmentTodoList,
+    modifyTodoMutation,
+    deleteTodoMutation,
+    useGetMyAssignedTodo,
+    modifyMyTodoStatus,
   };
 }
 

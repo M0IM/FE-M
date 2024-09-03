@@ -2,6 +2,7 @@ import {Image, Pressable, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import Config from 'react-native-config';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
@@ -20,6 +21,7 @@ import useModal from 'hooks/useModal.ts';
 import usePermission from 'hooks/usePermission.ts';
 import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 import useTodo from 'hooks/useTodo.ts';
+import useTodoStore from 'stores/useTodoStore.ts';
 
 export default function MoimCreateTodoScreen({
   route,
@@ -29,17 +31,23 @@ export default function MoimCreateTodoScreen({
   navigation: MoimManagementNavigationProp;
 }) {
   usePermission('PHOTO');
+  const {todoList, isEditMode, setIsEditMode} = useTodoStore();
+  const isEdit = todoList && isEditMode;
 
   const moimId = route.params.id as number;
   const datePickerModal = useModal();
   const memberSelectModal = useModal();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(
+    isEdit ? new Date(todoList?.dueDate) : new Date(),
+  );
   const [pickedDate, setPickedDate] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
-    useSingleImagePicker({});
+    useSingleImagePicker(
+      isEdit ? {initialImage: todoList?.imageUrlList[0]} : {},
+    );
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const {createTodoMutation} = useTodo();
+  const {createTodoMutation, modifyTodoMutation} = useTodo();
 
   const handleToggleSelectedIds = (id: number) => {
     setSelectedIds(prev =>
@@ -60,13 +68,13 @@ export default function MoimCreateTodoScreen({
 
   const addTodo = useForm({
     initialValue: {
-      title: '',
-      content: '',
+      title: isEdit ? todoList.title : '',
+      content: isEdit ? todoList?.content : '',
     },
     validate: validateTodo,
   });
 
-  const handleSubmit = () => {
+  const handleCreateTodo = () => {
     createTodoMutation.mutate(
       {
         moimId,
@@ -75,28 +83,50 @@ export default function MoimCreateTodoScreen({
         dueDate: moment(date).format('YYYY-MM-DD'),
         imageKeyList: [uploadUri],
         targetUserIdList: selectAll ? [] : selectedIds,
-        isAssignedSelectAll: selectAll,
+        isAssigneeSelectAll: selectAll,
       },
       {
         onSuccess: () => {
           navigation.goBack();
         },
-        onError: error => console.log(error),
       },
     );
   };
 
+  const handleModifyTodo = () => {
+    const imageKey = uploadUri
+      ? // uploadUri가 존재하면 사용.
+        uploadUri
+      : // uploadUri가 없는 경우 imageUri 사용.
+        // imageUri가 도메인을 포함하면
+        imageUri.includes(Config.AWS_S3_URL)
+        ? // imageUri 도메인 제거
+          imageUri.replace(Config.AWS_S3_URL, '')
+        : // imageUri 제거
+          imageUri;
+    isEdit &&
+      modifyTodoMutation.mutate(
+        {
+          moimId,
+          todoId: todoList?.todoId as number,
+          title: addTodo.values.title,
+          content: addTodo.values.content,
+          dueDate: moment(date).format('YYYY-MM-DD'),
+          imageKeyList: [imageKey],
+          targetUserIdList: selectAll ? [] : selectedIds,
+          isAssigneeSelectAll: selectAll,
+        },
+        {
+          onSuccess: () => {
+            setIsEditMode(false);
+            navigation.goBack();
+          },
+        },
+      );
+  };
+
   return (
-    <ScreenContainer
-      fixedBottomComponent={
-        <CustomButton
-          className={`${createTodoMutation.isPending ? 'bg-gray-300' : ''}`}
-          textStyle="text-white text-lg font-bold"
-          label={`${createTodoMutation.isPending ? '배정 중...' : '할 일 배정'}`}
-          onPress={handleSubmit}
-          disabled={createTodoMutation.isPending}
-        />
-      }>
+    <ScreenContainer>
       <View className="mt-4">
         <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
           제목
@@ -134,7 +164,9 @@ export default function MoimCreateTodoScreen({
         <CustomButton
           variant="gray"
           label={
-            pickedDate ? `${getDateWithSeparator(date, '. ')}` : '마감 기한'
+            pickedDate || isEdit
+              ? `${getDateWithSeparator(date, '. ')}`
+              : '마감 기한'
           }
           onPress={datePickerModal.show}
         />
@@ -155,7 +187,9 @@ export default function MoimCreateTodoScreen({
           {imageUri && (
             <View className="w-[80] h-[100]">
               <Image
-                source={{uri: imageUri}}
+                source={{
+                  uri: imageUri,
+                }}
                 className="w-full h-full rounded-2xl"
               />
               <Pressable
@@ -222,7 +256,13 @@ export default function MoimCreateTodoScreen({
           </TouchableOpacity>
         </TouchableOpacity>
       )}
-
+      <CustomButton
+        className={`${createTodoMutation.isPending ? 'bg-gray-300' : ''}`}
+        textStyle="text-white text-lg font-bold"
+        label={`${createTodoMutation.isPending ? '배정 중...' : '할 일 배정'}`}
+        onPress={isEdit ? handleModifyTodo : handleCreateTodo}
+        disabled={createTodoMutation.isPending}
+      />
       <DatePickerOption
         isVisible={datePickerModal.isVisible}
         onOpen={datePickerModal.show}
@@ -231,7 +271,6 @@ export default function MoimCreateTodoScreen({
         onChangeDate={handleChangeDate}
         onConfirmDate={handleConfirmDate}
       />
-
       <ReaderPickerBottomSheet
         moimId={moimId}
         isOpen={memberSelectModal.isVisible}

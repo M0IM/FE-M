@@ -115,6 +115,47 @@ const getMyAssignmentTodoList = async ({
   return data.result;
 };
 
+// PUT: TODO 수정
+const modifyMoimTodo = async ({
+  moimId,
+  todoId,
+  title,
+  content,
+  dueDate,
+  imageKeyList,
+  targetUserIdList,
+  isAssignedSelectAll,
+}: TCreateTodoDTO & {todoId: number}): Promise<TCreateTodoResponse> => {
+  const {data} = await axiosInstance.put(
+    `/api/v1/moims/${moimId}/todos/admin/${todoId}`,
+    {
+      moimId,
+      title,
+      content,
+      dueDate,
+      imageKeyList,
+      targetUserIdList,
+      isAssignedSelectAll,
+    },
+  );
+
+  return data.result;
+};
+// DELETE: TODO 삭제
+const deleteMoimTodo = async ({
+  moimId,
+  todoId,
+}: {
+  moimId: number;
+  todoId: number;
+}) => {
+  const {data} = await axiosInstance.delete(
+    `/api/v1/moims/${moimId}/todos/admin/${todoId}`,
+  );
+
+  return data.result;
+};
+
 export {
   createMoimTodo,
   getMoimTodoList,
@@ -122,4 +163,6 @@ export {
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
   getMyAssignmentTodoList,
+  modifyMoimTodo,
+  deleteMoimTodo,
 };

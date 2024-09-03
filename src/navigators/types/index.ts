@@ -110,6 +110,8 @@ export type MyStackParamList = {
   MY_PASSWORD_CHANGE: undefined;
   // 유저 가입 목록 리스트
   MOIM_JOIN_LIST: {id: number};
+  // 내가 할당한 할 일 확인
+  TODO_ASSIGNMENT_LIST: undefined;
 };
 
 export type MoimTopTabParamList = {

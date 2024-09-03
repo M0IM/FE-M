@@ -15,11 +15,13 @@ import {
 } from 'types/mutations/common.ts';
 import {
   createMoimTodo,
+  deleteMoimTodo,
   getDetailTodo,
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
   getMoimTodoList,
   getMyAssignmentTodoList,
+  modifyMoimTodo,
 } from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
@@ -44,7 +46,6 @@ function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
       });
     },
     onError: error => {
-      console.log(error);
       Toast.show({
         type: 'error',
         text1: error?.response?.data.message,
@@ -165,8 +166,48 @@ function getInfiniteMyAssignmentTodoList(
   });
 }
 
+function useModifyMoimTodo(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: modifyMoimTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useDeleteMoimTodo(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteMoimTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
+  const modifyTodoMutation = useModifyMoimTodo();
+  const deleteTodoMutation = useDeleteMoimTodo();
 
   return {
     createTodoMutation,

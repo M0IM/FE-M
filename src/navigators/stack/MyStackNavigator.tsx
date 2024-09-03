@@ -14,7 +14,6 @@ import MyReviewScreen from 'screens/MyStackScreens/MyReviewScreen.tsx';
 import MyPasswordChangeScreen from 'screens/MyStackScreens/MyPasswordChangeScreen';
 import RevokeMoimStackNavigator from './my/RevokeMoimStackNavigator';
 import AppInfoStackNavigator from './my/AppInfoStackNavigator';
-import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
 import MyJoinMoimListScreen from '../../screens/MyStackScreens/MyJoinMoimListScreen.tsx';
 import MyAssignmentTodoScreen from '../../screens/MyStackScreens/MyAssignmentTodoScreen.tsx';
 // import MemberProfileScreen from '../../screens/MyStackScreens/MemberProfileScreen.tsx';
@@ -154,16 +153,6 @@ export default function MyStackNavigator() {
         component={MyPasswordChangeScreen}
         options={{
           headerTitle: '비밀번호 변경',
-          headerTintColor: '#000',
-          headerBackTitleVisible: false,
-          headerTitleAlign: 'center',
-        }}
-      />
-      <MyStack.Screen
-        name={'MOIM_EDIT_INFO'}
-        component={MoimEditInfoScreen}
-        options={{
-          headerTitle: '모임 정보 수정',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
           headerTitleAlign: 'center',

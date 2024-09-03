@@ -264,7 +264,7 @@ const MoimInfoEditScreen = ({navigation}: MoimInfoEditScreenProps) => {
         </View>
       </View>
 
-      <View className="flex flex-col">
+      <View className="flex flex-col mb-28">
         <Typography
           fontWeight={'MEDIUM'}
           className="text-sm text-gray-500 mb-2">

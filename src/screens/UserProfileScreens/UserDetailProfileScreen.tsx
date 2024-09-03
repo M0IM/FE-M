@@ -1,30 +1,21 @@
 import {useEffect, useRef} from 'react';
 import {ActivityIndicator, Animated, SafeAreaView, View} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {ProfileCard} from 'components/@common/ProfileCard/ProfileCard.tsx';
 import InfoSquareCard from 'components/me/InfoSquareCard/InfoSquareCard.tsx';
 
 import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts';
-import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
 
-import {
-  MoimPostStackNavigationProp,
-  MoimPostStackRouteProp,
-} from 'navigators/types';
 import {getMonthYearDetails} from 'utils';
 import {TUserDTO} from 'types/dtos/user.ts';
+import {HomeStackNavigationProp, HomeStackRouteProp} from 'navigators/types';
 
-export default function MoimMemberDetailProfileScreen({
-  route,
-  navigation,
-}: {
-  route: MoimPostStackRouteProp;
-  navigation: MoimPostStackNavigationProp;
-}) {
-  const userId = route.params.id as number;
-  const {data: me} = useGetMyProfile();
+export default function UserDetailProfileScreen() {
+  const route = useRoute<HomeStackRouteProp>();
+  const navigation = useNavigation<HomeStackNavigationProp>();
+  const userId = route?.params?.id as number;
   const {data: userInfo, isPending, isError} = useGetDetailProfile(userId);
 
   const {year, month, day} = getMonthYearDetails(
@@ -71,7 +62,7 @@ export default function MoimMemberDetailProfileScreen({
       <View className="px-5 py-7">
         <ProfileCard userInfo={userInfo as TUserDTO} />
         <View className="flex-row justify-around mb-3 mt-3">
-          <InfoSquareCard title="가입 날짜">
+          <InfoSquareCard title="가입 날짜" disabled>
             <Typography fontWeight={'BOLD'}>{year}년</Typography>
             <Typography fontWeight={'BOLD'}>
               {month}월 {day}일
@@ -81,9 +72,12 @@ export default function MoimMemberDetailProfileScreen({
             <InfoSquareCard
               title="모임 평가"
               onPress={() =>
-                navigation.navigate('MOIM_REVIEW_LIST', {
-                  id: userId,
-                  userName: userInfo.nickname,
+                navigation.navigate('USER_DETAIL_PROFILE', {
+                  screen: 'USER_REVIEW',
+                  params: {
+                    id: userId,
+                    userName: userInfo.nickname,
+                  },
                 })
               }>
               <Typography fontWeight={'BOLD'}>
@@ -91,9 +85,16 @@ export default function MoimMemberDetailProfileScreen({
               </Typography>
             </InfoSquareCard>
             <Animated.View
-              className="absolute p-[6px] top-[-8px] right-[-10px] rounded-lg bg-green-200"
-              style={{transform: [{translateY: floatAnimation}]}}>
-              <Typography fontWeight="LIGHT" className="text-dark-800 text-xs">
+              style={{
+                transform: [{translateY: floatAnimation}],
+                position: 'absolute',
+                padding: 5,
+                top: -8,
+                right: -10,
+                borderRadius: 10,
+                backgroundColor: '#84DE77',
+              }}>
+              <Typography fontWeight="BOLD" className="text-white text-xs">
                 눌러서 평가 보기
               </Typography>
             </Animated.View>
@@ -101,9 +102,12 @@ export default function MoimMemberDetailProfileScreen({
           <InfoSquareCard
             title="가입 모임"
             onPress={() =>
-              navigation.navigate('MOIM_JOIN_LIST', {
-                id: userId,
-                userName: userInfo?.nickname as string,
+              navigation.navigate('USER_DETAIL_PROFILE', {
+                screen: 'USER_PARTICIPANT_MOIM',
+                params: {
+                  id: userId,
+                  userName: userInfo.nickname,
+                },
               })
             }>
             <Typography fontWeight={'BOLD'}>
@@ -123,22 +127,6 @@ export default function MoimMemberDetailProfileScreen({
           {userInfo?.introduction || '아직 소개를 작성하지 않았습니다.'}
         </Typography>
       </View>
-      {me?.result.userId === userId ? null : (
-        <View className="absolute right-0 left-0 bottom-3 mx-3 flex-row items-center justify-center">
-          <CustomButton
-            textStyle={'text-lg font-bold color-white'}
-            onPress={() =>
-              navigation.navigate('MOIM_POST_REVIEW', {
-                id: userInfo?.userId as number,
-                userName: userInfo?.nickname
-                  ? `${userInfo?.nickname} 후기 작성`
-                  : '후기 작성',
-              })
-            }
-            label={'후기 작성하기'}
-          />
-        </View>
-      )}
     </SafeAreaView>
   );
 }

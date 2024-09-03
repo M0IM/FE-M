@@ -1,14 +1,14 @@
 import {Pressable, PressableProps, View} from 'react-native';
 import React from 'react';
+import FastImage from 'react-native-fast-image';
 
 import {Typography} from '../@common/Typography/Typography.tsx';
-
-import {TMoimDTOResponse} from 'types/dtos/moim.ts';
-import FastImage from 'react-native-fast-image';
 import DefaultIcon from '../@common/DefaultIcon/DefaultIcon.tsx';
 
+import {TMoimPostPreviewDTO} from 'types/dtos/moim.ts';
+
 interface IActiveMoimCardProps extends PressableProps {
-  moim: TMoimDTOResponse;
+  moim: TMoimPostPreviewDTO;
 }
 
 export function ActiveMoimCard({

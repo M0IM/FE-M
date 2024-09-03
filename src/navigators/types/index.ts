@@ -24,6 +24,13 @@ export type HomeStackParamList = {
   };
   CALENDAR_INDIVIDUAL_DETAIL: {id: number};
   CALENDAR_PARTICIPANT_DETAIL: {id: number};
+  USER_DETAIL_PROFILE: {
+    screen: UserProfileStackScreenName;
+    params: {
+      id: number;
+      userName: string;
+    };
+  };
 };
 
 export type FeedTabParamList = {
@@ -144,6 +151,10 @@ export type MoimPostStackParamList = {
     id: number;
     userName: string;
   };
+  MOIM_REVIEW_LIST: {
+    id: number;
+    userName: string;
+  };
 };
 
 export type ChatStackParamList = {
@@ -178,6 +189,21 @@ export type NewFeedHomeStackParamList = {
   NEW_FEED_DETAIL: {id: number};
 };
 
+export type UserProfileStackParamList = {
+  USER_PROFILE: {
+    id: number;
+    userName: string;
+  };
+  USER_REVIEW: {
+    id: number;
+    userName: string;
+  };
+  USER_PARTICIPANT_MOIM: {
+    id: number;
+    userName: string;
+  };
+};
+
 /** screen name */
 export type HomeStackScreenName = keyof HomeStackParamList;
 export type FeedTabScreenName = keyof FeedTabParamList;
@@ -194,6 +220,7 @@ export type AppInfoStackScreenName = keyof AppInfoStackParamList;
 export type ChatStackScreenName = keyof ChatStackParamList;
 export type MoimManagementScreenName = keyof MoimManagementParamList;
 export type NewFeedHomeStackScreenName = keyof NewFeedHomeStackParamList;
+export type UserProfileStackScreenName = keyof UserProfileStackParamList;
 
 /** route props */
 export type HomeStackRouteProp = RouteProp<
@@ -250,6 +277,10 @@ export type NewFeedHomeRouteProp = RouteProp<
   NewFeedHomeStackParamList,
   NewFeedHomeStackScreenName
 >;
+export type UserProfileStackRouteProp = RouteProp<
+  UserProfileStackParamList,
+  UserProfileStackScreenName
+>;
 
 /** navigation props */
 export type HomeStackNavigationProp = NavigationProp<HomeStackParamList>;
@@ -277,3 +308,5 @@ export type MoimManagementNavigationProp =
   StackNavigationProp<MoimManagementParamList>;
 export type NewFeedHomeNavigationProp =
   StackNavigationProp<NewFeedHomeStackParamList>;
+export type UserProfileStackNavigationProp =
+  StackNavigationProp<UserProfileStackParamList>;

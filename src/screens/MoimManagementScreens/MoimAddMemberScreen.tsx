@@ -61,7 +61,7 @@ export default function MoimAddMemberScreen({
 
   if (isPending) {
     return (
-      <View className="flex-col items-center justify-center h-[300]">
+      <View className="flex-col items-center justify-center flex-1">
         <ActivityIndicator size="large" color={'#00F0A1'} />
       </View>
     );
@@ -87,7 +87,6 @@ export default function MoimAddMemberScreen({
       <FlatList
         data={members?.pages.flatMap(page => page.list)}
         renderItem={({item}) => {
-          console.log(item);
           return (
             <TouchableOpacity
               onPress={() => handleToggleSelectedIds(item.assigneeId)}

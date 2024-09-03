@@ -1,7 +1,7 @@
 import {View, Platform, FlatList} from 'react-native';
 import {PieChart} from 'react-native-gifted-charts';
 import {cva} from 'class-variance-authority';
-import {cn} from 'utils';
+import {cn, getAgeGroup} from 'utils';
 import {Typography} from 'components/@common/Typography/Typography';
 
 interface MoimDashboardContainerProps {
@@ -26,7 +26,7 @@ const MoimDashboardContainer = ({
   const infoList = [
     {
       text: '평균 연령',
-      data: `${Math.round(averageAge)}세`,
+      data: `${getAgeGroup(Math.round(averageAge))}`,
     },
     {
       text: '이번달 일정',

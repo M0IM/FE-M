@@ -1,11 +1,35 @@
-import {useMutation} from '@tanstack/react-query';
+import {
+  InfiniteData,
+  QueryKey,
+  UseInfiniteQueryOptions,
+  useMutation,
+  useQuery,
+  useSuspenseInfiniteQuery,
+} from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
 
-import {UseMutationCustomOptions} from 'types/mutations/common.ts';
-import {createMoimTodo} from 'apis/todo.ts';
+import {
+  ResponseError,
+  UseMutationCustomOptions,
+  UseQueryCustomOptions,
+} from 'types/mutations/common.ts';
+import {
+  createMoimTodo,
+  getDetailTodo,
+  getDetailTodoMemberList,
+  getIndividualAssignmentTodoList,
+  getMoimTodoList,
+  getMyAssignmentTodoList,
+} from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
 import {queryKeys} from '../constants/storageKeys/keys.ts';
+import {
+  TIndividualAssignmentTodoListResponse,
+  TTodoDetailDTO,
+  TTodoListResponse,
+  TTodoParticipantResponse,
+} from '../types/dtos/todo.ts';
 
 function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -33,11 +57,124 @@ function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function getInfiniteMoimTodoList(
+  moimId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TTodoListResponse,
+    ResponseError,
+    InfiniteData<TTodoListResponse, number>,
+    TTodoListResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getMoimTodoList({moimId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, moimId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
+function useGetMoimTodoDetail(
+  moimId: number,
+  todoId: number,
+  queryOptions?: UseQueryCustomOptions<TTodoDetailDTO>,
+) {
+  return useQuery({
+    queryFn: () => getDetailTodo({moimId, todoId}),
+    queryKey: [queryKeys.TODOS, moimId, todoId],
+    ...queryOptions,
+  });
+}
+
+function getInfiniteMoimTodoParticipantList(
+  moimId: number,
+  todoId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TTodoParticipantResponse,
+    ResponseError,
+    InfiniteData<TTodoParticipantResponse, number>,
+    TTodoParticipantResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getDetailTodoMemberList({moimId, todoId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_MEMBER, moimId, todoId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
+function getInfiniteIndividualAssignmentTodoList(
+  moimId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TIndividualAssignmentTodoListResponse,
+    ResponseError,
+    InfiniteData<TIndividualAssignmentTodoListResponse, number>,
+    TIndividualAssignmentTodoListResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getIndividualAssignmentTodoList({moimId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_INDIVIDUAL, moimId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
+function getInfiniteMyAssignmentTodoList(
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TIndividualAssignmentTodoListResponse,
+    ResponseError,
+    InfiniteData<TIndividualAssignmentTodoListResponse, number>,
+    TIndividualAssignmentTodoListResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getMyAssignmentTodoList({cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_MY],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
 
   return {
     createTodoMutation,
+    getInfiniteMoimTodoList,
+    useGetMoimTodoDetail,
+    getInfiniteMoimTodoParticipantList,
+    getInfiniteIndividualAssignmentTodoList,
+    getInfiniteMyAssignmentTodoList,
   };
 }
 

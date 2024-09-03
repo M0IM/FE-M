@@ -1,6 +1,7 @@
 import {Image, Pressable, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
@@ -71,7 +72,7 @@ export default function MoimCreateTodoScreen({
         moimId,
         title: addTodo.values.title,
         content: addTodo.values.content,
-        dueDate: date,
+        dueDate: moment(date).format('YYYY-MM-DD'),
         imageKeyList: [uploadUri],
         targetUserIdList: selectAll ? [] : selectedIds,
         isAssignedSelectAll: selectAll,
@@ -80,6 +81,7 @@ export default function MoimCreateTodoScreen({
         onSuccess: () => {
           navigation.goBack();
         },
+        onError: error => console.log(error),
       },
     );
   };

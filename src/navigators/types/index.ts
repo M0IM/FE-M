@@ -179,6 +179,9 @@ export type MoimManagementParamList = {
   MOIM_INFO_EDIT: {id: number | undefined};
   DELEGATION_AUTHORITY_SCREEN: {id: number | undefined};
   MOIM_CREATE_TODO: {id: number | undefined};
+  MOIM_GET_TODO: {id: number | undefined};
+  MOIM_DETAIL_TODO: {id: number; moimId: number};
+  MOIM_ASSIGNMENT_TODO: {id: number | undefined};
 };
 
 export type NewFeedHomeStackParamList = {

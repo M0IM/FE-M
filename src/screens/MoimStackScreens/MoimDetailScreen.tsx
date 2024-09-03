@@ -30,7 +30,7 @@ export default function MoimDetailScreen({
   route,
   navigation,
 }: IMoimDetailScreenProps) {
-  const moimId = route.params.id;
+  const moimId = route.params?.id;
   const {data, isError, isPending, refetch} = useGetMoimSpaceInfo(moimId);
   const requestMoimJoimMutation = useRequestMoimJoin();
   const [refreshing, setRefreshing] = useState(false);

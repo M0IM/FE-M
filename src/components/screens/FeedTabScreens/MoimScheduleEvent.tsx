@@ -33,7 +33,6 @@ export default function MoimScheduleEvent({
     isError: calendarsError,
     refetch: refetchAllUserSchedules,
   } = useGetInfiniteAllUserScheduleList(year, month, day, 8);
-
   useEffect(() => {
     const refetch = async () => {
       if (isRefreshing) {

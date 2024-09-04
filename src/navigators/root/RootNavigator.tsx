@@ -4,11 +4,12 @@ import {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
 import HomeStackNavigator from 'navigators/stack/HomeStackNavigator.tsx';
-import useFcmTokenStore from '../../stores/useFcmTokenStore.ts';
+import useFcmTokenStore from 'stores/useFcmTokenStore.ts';
 import messaging from '@react-native-firebase/messaging';
 
 export default function RootNavigator() {
   const {isLogin, isLoginLoading} = useAuth();
+  console.log(isLogin, isLoginLoading);
   const {setFcmToken} = useFcmTokenStore();
 
   useEffect(() => {

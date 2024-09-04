@@ -222,7 +222,7 @@ const addTodoMember = async ({
   addAssigneeIdList: number[];
 }) => {
   const {data} = await axiosInstance.put(
-    `/api/v1/moims/todos/admin/assignees`,
+    `/api/v1/moims/todos/admin/assignees/new`,
     {
       moimId,
       todoId,
@@ -233,9 +233,7 @@ const addTodoMember = async ({
   return data.result;
 };
 
-// DELETE: todo assignee 삭제
-// TODO: BE에게 DeleteMethod는 body가 없음을 알리자...
-// PUT요청으로 모든걸 해결할 수 있을 것 같..
+// PUT: todo assignee 추가
 const deleteTodoMember = async ({
   moimId,
   todoId,
@@ -245,8 +243,13 @@ const deleteTodoMember = async ({
   todoId: number;
   deleteAssigneeIdList: number[];
 }) => {
-  const {data} = await axiosInstance.delete(
-    `/api/v1/moims/todos/admin/assignees`,
+  const {data} = await axiosInstance.put(
+    `/api/v1/moims/todos/admin/assignees/current`,
+    {
+      moimId,
+      todoId,
+      deleteAssigneeIdList,
+    },
   );
 
   return data.result;
@@ -265,4 +268,5 @@ export {
   modifyMyTodoStatus,
   getNoneAssignedMemberList,
   addTodoMember,
+  deleteTodoMember,
 };

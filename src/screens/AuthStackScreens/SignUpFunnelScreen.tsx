@@ -23,6 +23,7 @@ export default function SignUpFunnelScreen() {
     gender: 'MALE',
     birth: '',
     residence: '',
+    fcmToken: '',
   });
 
   const stepInfoList = {

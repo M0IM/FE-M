@@ -26,7 +26,7 @@ export default function MoimDeleteMemberScreen({
 }) {
   const moimId = route.params.moimId;
   const todoId = route.params.todoId;
-  const {getInfiniteMoimTodoParticipantList} = useTodo();
+  const {getInfiniteMoimTodoParticipantList, deleteAssignedMember} = useTodo();
   const {
     data: members,
     fetchNextPage,
@@ -69,15 +69,15 @@ export default function MoimDeleteMemberScreen({
     return <View></View>;
   }
 
-  const handlePressAddMembers = () => {
-    // updateAssignedMember.mutate(
-    //   {moimId, todoId, addAssigneeIdList: selectedIds},
-    //   {
-    //     onSuccess: () => {
-    //       navigation.goBack();
-    //     },
-    //   },
-    // );
+  const handlePressDeleteMembers = () => {
+    deleteAssignedMember.mutate(
+      {moimId, todoId, deleteAssigneeIdList: selectedIds},
+      {
+        onSuccess: () => {
+          navigation.goBack();
+        },
+      },
+    );
   };
 
   return (
@@ -114,12 +114,11 @@ export default function MoimDeleteMemberScreen({
         scrollIndicatorInsets={{right: 1}}
       />
       <View className="right-0 left-0 h-20 flex-col justify-center px-3 mb-3">
-        {/*<CustomButton*/}
-        {/*    label={updateAssignedMember.isPending ? '멤버 추가 중' : '멤버 추가'}*/}
-        {/*    onPress={handlePressAddMembers}*/}
-        {/*    disabled={updateAssignedMember.isPending}*/}
-        {/*/>*/}
-        <CustomButton label={'멤버 삭제'} />
+        <CustomButton
+          label={deleteAssignedMember.isPending ? '멤버 삭제 중' : '멤버 삭제'}
+          onPress={handlePressDeleteMembers}
+          disabled={deleteAssignedMember.isPending}
+        />
       </View>
     </SafeAreaView>
   );

@@ -51,7 +51,7 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
           내가 활동 중인 모임
         </Typography>
       </View>
-      {moimPreviewList ? (
+      {moimPreviewList.length !== 0 ? (
         <FlatList
           data={moimPreviewList}
           renderItem={({item}) => {
@@ -82,7 +82,7 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
       ) : (
         <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
           <Logo background={'TRANSPARENT'} size={'LG'} />
-          <Typography className="text-xl" fontWeight={'BOLD'}>
+          <Typography className="text-lg" fontWeight={'BOLD'}>
             내가 활동 중인 모임이 없습니다.
           </Typography>
           <Typography fontWeight="BOLD">

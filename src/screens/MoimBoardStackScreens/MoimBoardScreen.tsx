@@ -19,6 +19,7 @@ import {
   MoimPostStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
+import useMoimPostStore from 'stores/useMoimPostStore';
 
 type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
@@ -41,6 +42,13 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
     isPending,
   } = useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
   const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
+  const {setPostInfo} = useMoimPostStore();
+
+  useFocusEffect(
+    useCallback(() => {
+      setPostInfo(null);
+    }, [setPostInfo]),
+  );
 
   const handleEndReached = () => {
     if (hasNextPage && !isFetchingNextPage) {

@@ -32,6 +32,7 @@ import {
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import useMoimPostStore from 'stores/useMoimPostStore.ts';
 
 interface MoimPostWriteScreenProps {
   route: MoimPostStackRouteProp;
@@ -40,22 +41,28 @@ interface MoimPostWriteScreenProps {
 
 const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   usePermission('PHOTO');
+  const {postInfo} = useMoimPostStore();
+  const isEdit = !!postInfo;
   const moimId = route?.params?.id;
   const postType = route?.params?.postType;
   const {isPressed, category, handleCategory, handleSelectedCategory} =
     useDropdown();
   // const [readers, setReaders] = useState('전체 대상');
   const [data, setData] = useState({
-    title: '',
-    content: '',
-    imageKeyNames: [],
+    title: postInfo?.title || '',
+    content: postInfo?.content || '',
+    imageKeyNames: postInfo?.imageKeyNames || [],
   });
   const [isOpen, setIsOpen] = useState(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
-  const {moimPostMutation, createAnnouncementPostMutation} = usePost();
+  const {
+    moimPostMutation,
+    createAnnouncementPostMutation,
+    updateMoimPostMutation,
+  } = usePost();
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
-    useSingleImagePicker({});
+    useSingleImagePicker({initialImage: postInfo?.imageKeyNames[0] || ''});
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
   const isMember = moimInfo?.myMoimRole === 'MEMBER';
@@ -73,26 +80,38 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
 
   const handleOnSubmit = () => {
     if (moimId && category && data.title) {
-      if (category.key === 'ANNOUNCEMENT') {
-        createAnnouncementPostMutation.mutate(
+      if (isEdit) {
+        updateMoimPostMutation.mutate(
           {
             moimId: moimId,
+            postId: postInfo?.moimPostId,
             title: data.title,
             content: data.content,
-            imageKeyNames: [uploadUri],
-            userIds: selectedIds,
+            imageKeyNames: uploadUri
+              ? [uploadUri]
+              : [imageUri?.split('.com/')[1]],
           },
           {
             onSuccess: () => {
-              navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
+              Toast.show({
+                type: 'success',
+                text1: '게시글이 수정되었습니다.',
+                visibilityTime: 2000,
+                position: 'bottom',
+              });
+              navigation.navigate('MOIM_POST_DETAIL', {
+                id: moimId,
+                postId: postInfo?.moimPostId,
+              });
               queryClient.invalidateQueries({
-                queryKey: ['moim', 'post', 'ALL', moimId],
+                queryKey: ['moimPost', moimId, postInfo?.moimPostId],
               });
             },
             onError: error => {
+              console.log(error.response);
               Toast.show({
                 type: 'error',
-                text1: error.response?.data.message,
+                text1: error.message || '게시글 수정 중 에러가 발생했습니다.',
                 visibilityTime: 2000,
                 position: 'bottom',
               });
@@ -100,31 +119,59 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
           },
         );
       } else {
-        moimPostMutation.mutate(
-          {
-            moimId: moimId,
-            title: data.title,
-            content: data.content,
-            imageKeyNames: [uploadUri],
-            postType: category?.key,
-          },
-          {
-            onSuccess: () => {
-              navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
-              queryClient.invalidateQueries({
-                queryKey: ['moim', 'post', 'ALL', moimId],
-              });
+        if (category.key === 'ANNOUNCEMENT') {
+          createAnnouncementPostMutation.mutate(
+            {
+              moimId: moimId,
+              title: data.title,
+              content: data.content,
+              imageKeyNames: [uploadUri],
+              userIds: selectedIds,
             },
-            onError: error => {
-              Toast.show({
-                type: 'error',
-                text1: error.response?.data.message,
-                visibilityTime: 2000,
-                position: 'bottom',
-              });
+            {
+              onSuccess: () => {
+                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
+                queryClient.invalidateQueries({
+                  queryKey: ['moim', 'post', 'ALL', moimId],
+                });
+              },
+              onError: error => {
+                Toast.show({
+                  type: 'error',
+                  text1: error.response?.data.message,
+                  visibilityTime: 2000,
+                  position: 'bottom',
+                });
+              },
             },
-          },
-        );
+          );
+        } else {
+          moimPostMutation.mutate(
+            {
+              moimId: moimId,
+              title: data.title,
+              content: data.content,
+              imageKeyNames: [uploadUri],
+              postType: category?.key,
+            },
+            {
+              onSuccess: () => {
+                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
+                queryClient.invalidateQueries({
+                  queryKey: ['moim', 'post', 'ALL', moimId],
+                });
+              },
+              onError: error => {
+                Toast.show({
+                  type: 'error',
+                  text1: error.response?.data.message,
+                  visibilityTime: 2000,
+                  position: 'bottom',
+                });
+              },
+            },
+          );
+        }
       }
     } else {
       Toast.show({
@@ -141,25 +188,38 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
     handleSelectedCategory(selected);
   }, [postType]);
 
+  useEffect(() => {
+    if (postInfo) {
+      const selected = POST_WRITE_LIST.find(
+        item => item.key === postInfo?.postType,
+      );
+      handleSelectedCategory(selected);
+    }
+  }, [postInfo]);
+
   return (
     <ScreenContainer>
       <View className="mt-1" />
-      <CustomDropdown
-        isPressed={isPressed}
-        selectedMenu={category}
-        placeholder="카테고리 선택"
-        menuList={
-          isMember
-            ? POST_WRITE_MEMBER_LIST.map(item => item.label)
-            : POST_WRITE_LIST.map(item => item.label)
-        }
-        handleSelect={(label: any) => {
-          const selected = POST_WRITE_LIST.find(item => item.label === label);
-          handleSelectedCategory(selected);
-        }}
-        onPress={handleCategory}
-        height={isMember ? 130 : 160}
-      />
+      {isEdit ? (
+        <></>
+      ) : (
+        <CustomDropdown
+          isPressed={isPressed}
+          selectedMenu={category}
+          placeholder="카테고리 선택"
+          menuList={
+            isMember
+              ? POST_WRITE_MEMBER_LIST.map(item => item.label)
+              : POST_WRITE_LIST.map(item => item.label)
+          }
+          handleSelect={(label: any) => {
+            const selected = POST_WRITE_LIST.find(item => item.label === label);
+            handleSelectedCategory(selected);
+          }}
+          onPress={handleCategory}
+          height={isMember ? 130 : 160}
+        />
+      )}
       {category && category?.label === '공지사항' && (
         <TouchableOpacity
           onPress={open}
@@ -241,7 +301,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
       </View>
       <CustomButton
         onPress={handleOnSubmit}
-        label="게시하기"
+        label={isEdit ? '수정하기' : '게시하기'}
         textStyle="text-white text-base font-bold"
         className="mt-3"
         isLoading={announcementIsLoading || postIsLoading}

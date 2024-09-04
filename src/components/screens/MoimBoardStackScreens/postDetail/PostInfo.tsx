@@ -15,6 +15,7 @@ import PostUserProfile from './PostUserProfile';
 import {formatKoreanDate} from 'utils';
 import PostInfoContainer from './PostInfoContainer';
 import PostInfoSkeleton from './skeleton/PostInfoSkeleton';
+import useMoimPostStore from 'stores/useMoimPostStore';
 
 interface PostInfoProps {
   id?: number;
@@ -44,6 +45,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
   } = useGetMoimPostDetail(id, postId);
   const {data: unReadUsers} = useGetUnReadUser(id, postId);
   const {data: userInfo} = useGetMyProfile();
+  const {setPostInfo} = useMoimPostStore();
 
   useEffect(() => {
     const refetch = async () => {
@@ -53,6 +55,12 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     };
     refetch();
   }, [isRefreshing]);
+
+  useEffect(() => {
+    if (data) {
+      setPostInfo(data);
+    }
+  }, [data]);
 
   const handleMoimPostLike = () => {
     if (postId) {

@@ -17,6 +17,7 @@ import {
   addTodoMember,
   createMoimTodo,
   deleteMoimTodo,
+  deleteTodoMember,
   getDetailTodo,
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
@@ -286,12 +287,33 @@ function useAddMemberMutation(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useDeleteMemberMutation(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteTodoMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS_MY]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
   const modifyTodoMutation = useModifyMoimTodo();
   const deleteTodoMutation = useDeleteMoimTodo();
   const modifyMyTodoStatus = useModifyMyTodoStatus();
   const updateAssignedMember = useAddMemberMutation();
+  const deleteAssignedMember = useDeleteMemberMutation();
 
   return {
     createTodoMutation,
@@ -306,6 +328,7 @@ function useTodo() {
     modifyMyTodoStatus,
     useGetInfiniteNoneAssignedMemberList,
     updateAssignedMember,
+    deleteAssignedMember,
   };
 }
 

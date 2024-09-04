@@ -81,12 +81,14 @@ export default function SignupLastStepScreen({
       email: signUpInfo.email,
       password: signUpInfo.password,
       role: 'ROLE_USER',
-      gender: signUpInfo.gender,
+      gender,
       birth: moment(date).format('YYYY-MM-DD'),
       residence: region,
       fcmToken: fcmToken as string,
     });
   };
+
+  console.log(gender);
 
   const isDisabled = Object.values(form.errors).some(error => error);
 

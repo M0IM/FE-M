@@ -16,6 +16,7 @@ import React, {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import DefaultIcon from '../../components/@common/DefaultIcon/DefaultIcon.tsx';
 import moment from 'moment/moment';
+import {TODO_STATUS} from '../../types/dtos/todo.ts';
 
 export default function MyMoimAssignmentCheckScreen({
   route,
@@ -70,7 +71,18 @@ export default function MyMoimAssignmentCheckScreen({
         <FlatList
           data={todoList}
           renderItem={({item}) => {
-            console.log(item);
+            const getStatusLabel = (status: TODO_STATUS) => {
+              switch (status) {
+                case 'COMPLETED':
+                  return '완료';
+                case 'EXPIRED':
+                  return '기간 만료';
+                case 'IN_PROGRESS':
+                  return '진행중';
+                default:
+                  return;
+              }
+            };
             return (
               <Pressable
                 className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
@@ -110,6 +122,13 @@ export default function MyMoimAssignmentCheckScreen({
                       className="text-gray-500 text-xs">
                       마감일: {moment(item.dueDate).format('YYYY년 MM월 DD일')}
                     </Typography>
+                    <View className="bg-green-300 px-2 rounded-2xl">
+                      <Typography
+                        fontWeight="LIGHT"
+                        className="text-gray-500 text-xs">
+                        {getStatusLabel(item.todoStatus)}
+                      </Typography>
+                    </View>
                   </View>
                 </View>
               </Pressable>

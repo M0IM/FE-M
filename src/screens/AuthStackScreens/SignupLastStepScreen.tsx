@@ -70,7 +70,7 @@ export default function SignupLastStepScreen({
   const handleSubmit = () => {
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
-      gender,
+      gender: form.values.gender,
       birth: form.values.birth,
       residence: region,
     }));

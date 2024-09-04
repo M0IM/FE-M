@@ -25,6 +25,7 @@ type TTodoListDTO = {
   moimId: number;
   moimName: string;
   imageUrlList: string[];
+  todoStatus: TODO_STATUS;
 };
 
 type TTodoListResponse = {
@@ -78,6 +79,7 @@ type TIndividualAssignmentTodoListDTO = {
   moimId: number;
   moimName: string;
   imageUrlList: string[];
+  todoStatus: TODO_STATUS;
 };
 
 type TIndividualAssignmentTodoListResponse = {

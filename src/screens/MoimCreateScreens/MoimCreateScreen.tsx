@@ -77,8 +77,7 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
             address: region,
             moimCategory: category?.key || moimInfo.category,
             description: data?.introduction,
-            imageKeyName:
-              uploadUri || moimInfo.profileImageUrl.split('.com/')[1],
+            imageKeyName: uploadUri || imageUri?.split('.com/')[1],
           },
           {
             onSuccess: () => {

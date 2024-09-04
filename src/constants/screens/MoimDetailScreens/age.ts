@@ -1,5 +1,5 @@
 export const AgeGroup = {
-  INFANT: '0대 (영유아)',
+  INFANT: '10대 이하',
   TEENS: '10대',
   TWENTIES: '20대',
   THIRTIES: '30대',

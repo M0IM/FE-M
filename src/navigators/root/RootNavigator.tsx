@@ -9,7 +9,7 @@ import messaging from '@react-native-firebase/messaging';
 
 export default function RootNavigator() {
   const {isLogin, isLoginLoading} = useAuth();
-  console.log(isLogin);
+  console.log(isLogin, isLoginLoading);
   const {setFcmToken} = useFcmTokenStore();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function RootNavigator() {
       }
     }
     getToken();
-  }, [isLogin]);
+  }, []);
 
   useEffect(() => {
     if (!isLoginLoading) {

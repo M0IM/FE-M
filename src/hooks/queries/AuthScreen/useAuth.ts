@@ -100,7 +100,7 @@ function useSocialIdTokenLogin(mutationOptions?: UseMutationCustomOptions) {
         queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
       });
       queryClient.invalidateQueries({
-        queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        queryKey: [queryKeys.AUTH, 'profile'],
       });
     },
     onError: error => {

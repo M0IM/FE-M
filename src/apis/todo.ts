@@ -222,7 +222,7 @@ const addTodoMember = async ({
   addAssigneeIdList: number[];
 }) => {
   const {data} = await axiosInstance.put(
-    `/api/v1/moims/todos/admin/assignees`,
+    `/api/v1/moims/todos/admin/assignees/new`,
     {
       moimId,
       todoId,

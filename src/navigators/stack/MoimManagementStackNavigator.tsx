@@ -10,6 +10,9 @@ import MoimGetTodoScreen from 'screens/MoimManagementScreens/MoimGetTodoScreen.t
 import MoimTodoDetailScreen from 'screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
 import MyMoimAssignmentCheckScreen from 'screens/MoimManagementScreens/MyMoimAssignmentCheckScreen.tsx';
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
+import MoimAddMemberScreen from '../../screens/MoimManagementScreens/MoimAddMemberScreen.tsx';
+import MoimDeleteMemberScreen from '../../screens/MoimManagementScreens/MoimDeleteMemberScreen.tsx';
+
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();
@@ -100,6 +103,26 @@ const MoimManagementStackNavigator = () => {
         component={MyMoimAssignmentCheckScreen}
         options={{
           headerTitle: '내가 할당한 할 일 확인',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_ADD_MEMBER'}
+        component={MoimAddMemberScreen}
+        options={{
+          headerTitle: '할 일 멤버 추가',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_DELETE_MEMBER'}
+        component={MoimDeleteMemberScreen}
+        options={{
+          headerTitle: '할 일 멤버 삭제',
           headerTintColor: '#000',
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,

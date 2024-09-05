@@ -14,18 +14,26 @@ import {
   UseQueryCustomOptions,
 } from 'types/mutations/common.ts';
 import {
+  addTodoMember,
   createMoimTodo,
+  deleteMoimTodo,
+  deleteTodoMember,
   getDetailTodo,
   getDetailTodoMemberList,
   getIndividualAssignmentTodoList,
   getMoimTodoList,
+  getMyAssignedTodo,
   getMyAssignmentTodoList,
+  getNoneAssignedMemberList,
+  modifyMoimTodo,
+  modifyMyTodoStatus,
 } from 'apis/todo.ts';
 
 import {queryClient} from '../containers/TanstackQueryContainer.tsx';
 import {queryKeys} from '../constants/storageKeys/keys.ts';
 import {
   TIndividualAssignmentTodoListResponse,
+  TMyAssignmentTodoResponse,
   TTodoDetailDTO,
   TTodoListResponse,
   TTodoParticipantResponse,
@@ -44,7 +52,6 @@ function useCreateTodo(mutationOptions?: UseMutationCustomOptions) {
       });
     },
     onError: error => {
-      console.log(error);
       Toast.show({
         type: 'error',
         text1: error?.response?.data.message,
@@ -165,8 +172,148 @@ function getInfiniteMyAssignmentTodoList(
   });
 }
 
+function useModifyMoimTodo(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: modifyMoimTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useDeleteMoimTodo(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteMoimTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useGetMyAssignedTodo(
+  moimId: number,
+  todoId: number,
+  queryOptions?: UseQueryCustomOptions<TMyAssignmentTodoResponse>,
+) {
+  return useQuery({
+    queryFn: () => getMyAssignedTodo({moimId, todoId}),
+    queryKey: [queryKeys.TODOS_MY, moimId, todoId],
+    ...queryOptions,
+  });
+}
+
+function useModifyMyTodoStatus(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: modifyMyTodoStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS_MY]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useGetInfiniteNoneAssignedMemberList(
+  moimId: number,
+  todoId: number,
+  take: number,
+  queryOptions?: UseInfiniteQueryOptions<
+    TTodoParticipantResponse,
+    ResponseError,
+    InfiniteData<TTodoParticipantResponse, number>,
+    TTodoParticipantResponse,
+    QueryKey,
+    number
+  >,
+) {
+  return useSuspenseInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getNoneAssignedMemberList({moimId, todoId, cursor: pageParam, take}),
+    queryKey: [queryKeys.TODOS, queryKeys.TODOS_MEMBER, todoId, moimId],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
+function useAddMemberMutation(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: addTodoMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS_MY]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useDeleteMemberMutation(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteTodoMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS]});
+      queryClient.invalidateQueries({queryKey: [queryKeys.TODOS_MY]});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    throwOnError: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
 function useTodo() {
   const createTodoMutation = useCreateTodo();
+  const modifyTodoMutation = useModifyMoimTodo();
+  const deleteTodoMutation = useDeleteMoimTodo();
+  const modifyMyTodoStatus = useModifyMyTodoStatus();
+  const updateAssignedMember = useAddMemberMutation();
+  const deleteAssignedMember = useDeleteMemberMutation();
 
   return {
     createTodoMutation,
@@ -175,6 +322,13 @@ function useTodo() {
     getInfiniteMoimTodoParticipantList,
     getInfiniteIndividualAssignmentTodoList,
     getInfiniteMyAssignmentTodoList,
+    modifyTodoMutation,
+    deleteTodoMutation,
+    useGetMyAssignedTodo,
+    modifyMyTodoStatus,
+    useGetInfiniteNoneAssignedMemberList,
+    updateAssignedMember,
+    deleteAssignedMember,
   };
 }
 

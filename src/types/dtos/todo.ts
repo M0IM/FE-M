@@ -5,7 +5,7 @@ type TCreateTodoDTO = {
   dueDate: string;
   imageKeyList: string[];
   targetUserIdList: number[];
-  isAssignedSelectAll: boolean;
+  isAssigneeSelectAll: boolean;
 };
 
 type TCreateTodoResponse = {
@@ -25,6 +25,7 @@ type TTodoListDTO = {
   moimId: number;
   moimName: string;
   imageUrlList: string[];
+  todoStatus: TODO_STATUS;
 };
 
 type TTodoListResponse = {
@@ -42,11 +43,24 @@ type TTodoDetailDTO = {
   status: 'LOADING' | 'COMPLETE';
 };
 
+export enum TODO_ASSIGNEE_STATUS {
+  LOADING = 'LOADING',
+  COMPLETE = 'COMPLETE',
+  PENDING = 'PENDING',
+  OVERDUE = 'OVERDUE',
+}
+
+export enum TODO_STATUS {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  EXPIRED = 'EXPIRED',
+}
+
 type TTodoParticipantMemberListDTO = {
   assigneeId: number;
   nickname: string;
   profileImageUrl: string;
-  todoStatus: 'LOADING' | 'COMPLETE';
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
 };
 
 type TTodoParticipantResponse = {
@@ -65,12 +79,29 @@ type TIndividualAssignmentTodoListDTO = {
   moimId: number;
   moimName: string;
   imageUrlList: string[];
+  todoStatus: TODO_STATUS;
 };
 
 type TIndividualAssignmentTodoListResponse = {
   list: TIndividualAssignmentTodoListDTO[];
   nextCursor: number;
   hasNext: boolean;
+};
+
+type TMyAssignmentTodoResponse = {
+  todoId: number;
+  title: string;
+  content: string;
+  dueDate: Date;
+  imageUrlList: string[];
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
+  todoStatus: TODO_STATUS;
+};
+
+type TMyTodoStatus = {
+  todoId: number;
+  todoAssigneeStatus: TODO_ASSIGNEE_STATUS;
+  todoStatus: TODO_STATUS;
 };
 
 export type {
@@ -81,4 +112,6 @@ export type {
   TTodoParticipantMemberListDTO,
   TTodoParticipantResponse,
   TIndividualAssignmentTodoListResponse,
+  TMyAssignmentTodoResponse,
+  TMyTodoStatus,
 };

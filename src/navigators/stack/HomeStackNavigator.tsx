@@ -4,14 +4,15 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimSearchScreen from 'screens/MoimSearchScreens/MoimSearchScreen';
 import PushAlertScreen from 'screens/PushAlertScreens/PushAlertScreen';
-import CalendarIndividualDetailScreen from '../../screens/MoimStackScreens/CalendarIndividualDetailScreen.tsx';
-import CalendarParticipantDetailScreen from '../../screens/MoimStackScreens/CalendarParticipantDetailScreen.tsx';
+import CalendarIndividualDetailScreen from 'screens/MoimStackScreens/CalendarIndividualDetailScreen.tsx';
+import CalendarParticipantDetailScreen from 'screens/MoimStackScreens/CalendarParticipantDetailScreen.tsx';
 
 import {HomeStack} from 'navigators/constants';
 import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
 import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
 import MoimPostStackNavigator from './MoimPostStackNavigator';
 import UserProfileStackNavigator from './UserProfileStackNavigator.tsx';
+import CalendarTodoDetailScreen from '../../screens/MoimStackScreens/CalendarTodoDetailScreen.tsx';
 
 export default function HomeStackNavigator() {
   const insets = useSafeAreaInsets();
@@ -97,6 +98,15 @@ export default function HomeStackNavigator() {
         component={CalendarParticipantDetailScreen}
         options={{
           headerTitle: '모임 일정',
+          headerTintColor: '#000',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <HomeStack.Screen
+        name={'CALENDAR_TODO_DETAIL'}
+        component={CalendarTodoDetailScreen}
+        options={{
+          headerTitle: '내가 할 일',
           headerTintColor: '#000',
           headerBackTitleVisible: false,
         }}

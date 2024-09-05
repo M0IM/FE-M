@@ -24,6 +24,7 @@ export type HomeStackParamList = {
   };
   CALENDAR_INDIVIDUAL_DETAIL: {id: number};
   CALENDAR_PARTICIPANT_DETAIL: {id: number};
+  CALENDAR_TODO_DETAIL: {id: number};
   USER_DETAIL_PROFILE: {
     screen: UserProfileStackScreenName;
     params: {
@@ -110,6 +111,8 @@ export type MyStackParamList = {
   MY_PASSWORD_CHANGE: undefined;
   // 유저 가입 목록 리스트
   MOIM_JOIN_LIST: {id: number};
+  // 내가 할당한 할 일 확인
+  TODO_ASSIGNMENT_LIST: undefined;
 };
 
 export type MoimTopTabParamList = {
@@ -182,6 +185,14 @@ export type MoimManagementParamList = {
   MOIM_GET_TODO: {id: number | undefined};
   MOIM_DETAIL_TODO: {id: number; moimId: number};
   MOIM_ASSIGNMENT_TODO: {id: number | undefined};
+  MOIM_ADD_MEMBER: {
+    moimId: number | undefined;
+    todoId: number | undefined;
+  };
+  MOIM_DELETE_MEMBER: {
+    moimId: number | undefined;
+    todoId: number | undefined;
+  };
 };
 
 export type NewFeedHomeStackParamList = {

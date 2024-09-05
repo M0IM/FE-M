@@ -79,7 +79,7 @@ const MoimMembersScrollView = ({
         .map(item => (
           <TouchableOpacity
             key={item.userId}
-            className="flex flex-row w-full"
+            className="flex flex-row w-full items-center justify-between"
             onPress={() => {
               navigation.navigate('MOIM_MEMBER_PROFILE', {
                 id: item.userId as number,
@@ -87,18 +87,17 @@ const MoimMembersScrollView = ({
               });
               onClose();
             }}>
-            <View className="flex flex-row items-center">
+            <View className="flex flex-row items-center flex-1">
               <Avatar uri={item.imageKeyName} />
-              <Typography
-                fontWeight="MEDIUM"
-                className="text-dark-800 text-sm mx-4">
-                {item.nickname}
-              </Typography>
-              {item.moimRole === 'OWNER' && (
-                <View>
-                  <Label label="모임장" />
-                </View>
-              )}
+              <View className="ml-4 flex-1 flex-row items-center">
+                <Typography
+                  numberOfLines={1}
+                  fontWeight="MEDIUM"
+                  className="text-dark-800 text-sm mr-2 w-[200]">
+                  {item.nickname}
+                </Typography>
+                {item.moimRole === 'OWNER' && <Label label="모임장" />}
+              </View>
             </View>
 
             <Ionicons

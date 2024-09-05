@@ -5,6 +5,7 @@ import {
   MoimManagementNavigationProp,
   MoimManagementRouteProp,
 } from 'navigators/types';
+import useTodoStore from 'stores/useTodoStore.ts';
 
 interface MoimManageListScreenProps {
   route: MoimManagementRouteProp;
@@ -16,6 +17,7 @@ const MoimManageListScreen = ({
   navigation,
 }: MoimManageListScreenProps) => {
   const id = route.params?.id;
+  const {setIsEditMode} = useTodoStore();
 
   return (
     <ScreenContainer>
@@ -51,7 +53,10 @@ const MoimManageListScreen = ({
       </TouchableOpacity>
       <TouchableOpacity
         className="m-3"
-        onPress={() => navigation.navigate('MOIM_CREATE_TODO', {id})}>
+        onPress={() => {
+          setIsEditMode(false);
+          navigation.navigate('MOIM_CREATE_TODO', {id});
+        }}>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800">
           모임 멤버 할 일 배정
         </Typography>

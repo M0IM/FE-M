@@ -3,7 +3,6 @@ import {useRoute} from '@react-navigation/native';
 
 import MoimBoardScreen from 'screens/MoimBoardStackScreens/MoimBoardScreen';
 import MoimPostDetailScreen from 'screens/MoimBoardStackScreens/MoimPostDetailScreen';
-import MoimPostEditScreen from 'screens/MoimBoardStackScreens/MoimPostEditScreen';
 import MoimPostWriteScreen from 'screens/MoimBoardStackScreens/MoimPostWriteScreen';
 import MoimMemberDetailProfileScreen from 'screens/MoimBoardStackScreens/MoimMemberDetailProfileScreen.tsx';
 import MoimUserReviewScreen from 'screens/MoimBoardStackScreens/MoimUserReviewScreen.tsx';
@@ -56,7 +55,7 @@ export default function MoimPostStackNavigator() {
       />
       <MoimPostStack.Screen
         name={'MOIM_POST_EDIT'}
-        component={MoimPostEditScreen}
+        component={MoimPostWriteScreen}
         initialParams={{id}}
         options={{
           headerTitle: '게시글 수정',

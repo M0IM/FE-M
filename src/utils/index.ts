@@ -7,3 +7,4 @@ export * from './numbers.ts';
 export * from './date.ts';
 export * from './time.ts';
 export * from './image.ts';
+export * from './moim.ts';

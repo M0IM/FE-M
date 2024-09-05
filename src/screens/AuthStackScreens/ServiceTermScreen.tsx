@@ -1,4 +1,3 @@
-import {ScrollView, View} from 'react-native';
 import {Typography} from '../../components/@common/Typography/Typography.tsx';
 import {ScreenContainer} from '../../components/ScreenContainer.tsx';
 import {SEARVICE_CONTENT} from '../../constants/screens/MyScreens/MyServiceTermScreen.ts';

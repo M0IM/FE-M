@@ -26,7 +26,7 @@ type TMoimDTOResponse = {
   moimId: number;
   title: string;
   description: string;
-  category: string;
+  category: MOIM_REQUEST_TYPE;
   address: string;
   profileImageUrl: string;
   memberCount: number;
@@ -149,7 +149,7 @@ export type TMoimPostPreviewDTO = {
   moimId: number;
   title: string;
   description: string;
-  category: string;
+  category: MOIM_REQUEST_TYPE;
   address: string;
   profileImageUrl: string;
   memberCount: number;

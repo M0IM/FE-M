@@ -2,7 +2,7 @@ import {MOIM_REQUEST_TYPE} from 'types/enums';
 
 const CATEGORY_LIST: Record<string, MOIM_REQUEST_TYPE> = {
   스포츠: MOIM_REQUEST_TYPE.SPORTS,
-  'IT/서울': MOIM_REQUEST_TYPE.TECH,
+  IT: MOIM_REQUEST_TYPE.TECH,
   '인문/책': MOIM_REQUEST_TYPE.HUMANITY,
   '외국/언어': MOIM_REQUEST_TYPE.LANGUAGE,
   공예: MOIM_REQUEST_TYPE.ARTICLE,
@@ -17,7 +17,7 @@ const CATEGORY_LIST: Record<string, MOIM_REQUEST_TYPE> = {
 const CATEGORIES_LIST: Record<MOIM_REQUEST_TYPE, string> = {
   [MOIM_REQUEST_TYPE.ALL]: '전체',
   [MOIM_REQUEST_TYPE.SPORTS]: '스포츠',
-  [MOIM_REQUEST_TYPE.TECH]: 'IT/서울',
+  [MOIM_REQUEST_TYPE.TECH]: 'IT',
   [MOIM_REQUEST_TYPE.HUMANITY]: '인문/책',
   [MOIM_REQUEST_TYPE.LANGUAGE]: '외국/언어',
   [MOIM_REQUEST_TYPE.ARTICLE]: '공예',
@@ -32,7 +32,7 @@ const CATEGORIES_LIST: Record<MOIM_REQUEST_TYPE, string> = {
 export const CATEGORIES_LIST_DATA = [
   {key: MOIM_REQUEST_TYPE.ALL, label: '전체'},
   {key: MOIM_REQUEST_TYPE.SPORTS, label: '스포츠'},
-  {key: MOIM_REQUEST_TYPE.TECH, label: 'IT/서울'},
+  {key: MOIM_REQUEST_TYPE.TECH, label: 'IT'},
   {key: MOIM_REQUEST_TYPE.HUMANITY, label: '인문/책'},
   {key: MOIM_REQUEST_TYPE.LANGUAGE, label: '외국/언어'},
   {key: MOIM_REQUEST_TYPE.ARTICLE, label: '공예'},
@@ -46,7 +46,7 @@ export const CATEGORIES_LIST_DATA = [
 
 export const CREATE_CATEGORIES_LIST_DATA = [
   {key: MOIM_REQUEST_TYPE.SPORTS, label: '스포츠'},
-  {key: MOIM_REQUEST_TYPE.TECH, label: 'IT/서울'},
+  {key: MOIM_REQUEST_TYPE.TECH, label: 'IT'},
   {key: MOIM_REQUEST_TYPE.HUMANITY, label: '인문/책'},
   {key: MOIM_REQUEST_TYPE.LANGUAGE, label: '외국/언어'},
   {key: MOIM_REQUEST_TYPE.ARTICLE, label: '공예'},

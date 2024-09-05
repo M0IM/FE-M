@@ -115,7 +115,7 @@ export default function SignupLastStepScreen({
       }
       fixedBottomComponent={
         <CustomButton
-          textStyle={'text-sm font-bold'}
+          textStyle={'text-base text-white font-bold'}
           label={'가입 후 로그인 하기'}
           onPress={handleSubmit}
           inValid={isDisabled}
@@ -127,6 +127,10 @@ export default function SignupLastStepScreen({
         </Typography>
         <Typography fontWeight={'BOLD'} className="text-xl">
           {FIFTH_STEP.DESC_2}
+        </Typography>
+        <Typography fontWeight="MEDIUM" className="text-xs text-gray-400 mt-2">
+          성별, 생년월일, 거주지역 정보는{'\n'}모임 스페이스의 대시보드 통계
+          정보로 활용됩니다.
         </Typography>
       </View>
 

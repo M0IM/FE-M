@@ -1,4 +1,3 @@
-import {ScrollView, View} from 'react-native';
 import {ScreenContainer} from '../../components/ScreenContainer.tsx';
 import {Typography} from '../../components/@common/Typography/Typography.tsx';
 import {PRIVACY_POLICY_CONTENT} from '../../constants/screens/MyScreens/MyPrivacyPolicyScreen.ts';

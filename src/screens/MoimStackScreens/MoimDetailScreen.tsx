@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {RefreshControl, View} from 'react-native';
 import {SafeAreaView, ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -20,6 +20,7 @@ import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 import {MOIM_JOIN_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import useMoimInfoStore from 'stores/useMoimInfoStore';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -33,9 +34,16 @@ export default function MoimDetailScreen({
   const moimId = route.params?.id;
   const {data, isError, isPending, refetch} = useGetMoimSpaceInfo(moimId);
   const requestMoimJoimMutation = useRequestMoimJoin();
+  const {setMoinInfo} = useMoimInfoStore();
   const [refreshing, setRefreshing] = useState(false);
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (data) {
+      setMoinInfo(data);
+    }
+  }, [data]);
+
   const open = () => {
     if (data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE) {
       setIsOpen(true);

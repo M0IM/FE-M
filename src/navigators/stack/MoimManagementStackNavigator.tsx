@@ -2,7 +2,6 @@ import {useRoute} from '@react-navigation/native';
 import {MoimManagementStack} from 'navigators/constants';
 import {MoimManagementRouteProp} from 'navigators/types';
 import JoinManageScreen from 'screens/MoimManagementScreens/JoinManageScreen';
-import MoimEditInfoScreen from 'screens/MoimManagementScreens/MoimEditInfoScreen';
 import MoimManageListScreen from 'screens/MoimManagementScreens/MoimManageListScreen';
 import PermissionManageScreen from 'screens/MoimManagementScreens/PermissionManageScreen';
 import DelegationAuthorityScreen from 'screens/MoimManagementScreens/DelegationAuthorityScreen.tsx';
@@ -10,8 +9,10 @@ import MoimCreateTodoScreen from 'screens/MoimManagementScreens/MoimCreateTodoSc
 import MoimGetTodoScreen from 'screens/MoimManagementScreens/MoimGetTodoScreen.tsx';
 import MoimTodoDetailScreen from 'screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
 import MyMoimAssignmentCheckScreen from 'screens/MoimManagementScreens/MyMoimAssignmentCheckScreen.tsx';
+import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
 import MoimAddMemberScreen from '../../screens/MoimManagementScreens/MoimAddMemberScreen.tsx';
 import MoimDeleteMemberScreen from '../../screens/MoimManagementScreens/MoimDeleteMemberScreen.tsx';
+
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();
@@ -59,7 +60,7 @@ const MoimManagementStackNavigator = () => {
       />
       <MoimManagementStack.Screen
         name={'MOIM_INFO_EDIT'}
-        component={MoimEditInfoScreen}
+        component={MoimCreateScreen}
         options={{
           headerTitle: '모임 정보 수정',
           headerTintColor: '#000',

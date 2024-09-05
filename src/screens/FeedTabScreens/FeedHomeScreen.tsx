@@ -6,21 +6,29 @@ import MoimFeedPreview from 'components/screens/FeedTabScreens/MoimFeedPreview';
 import {MoimWriteBar} from 'components/home/MoimWriteBar/MoimWriteBar.tsx';
 
 import {HomeStackNavigationProp} from 'navigators/types';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {RefreshControl} from 'react-native';
+
+import {wait} from 'utils/wait';
+import useMoimInfoStore from 'stores/useMoimInfoStore';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface FeedHomeScreenProps {
   navigation: HomeStackNavigationProp;
 }
 
 export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
-  const wait = (timeout: any) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  };
+  const {setMoinInfo} = useMoimInfoStore();
   const [isRefreshing, setIsRefreshing] = useState(false);
   // useEffect(() => {
   //   useSocketService.initializeSocket();
   // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setMoinInfo(null);
+    }, [setMoinInfo]),
+  );
 
   const onRefresh = React.useCallback(() => {
     setIsRefreshing(true);

@@ -5,10 +5,11 @@ import FastImage from 'react-native-fast-image';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import DefaultIcon from '../@common/DefaultIcon/DefaultIcon.tsx';
 
-import {TMoimPostPreviewDTO} from 'types/dtos/moim.ts';
+import {TMoimDTOResponse} from 'types/dtos/moim.ts';
+import {CATEGORIES_LIST} from 'constants/screens/MoimSearchScreen/CategoryList.ts';
 
 interface IActiveMoimCardProps extends PressableProps {
-  moim: TMoimPostPreviewDTO;
+  moim: TMoimDTOResponse;
 }
 
 export function ActiveMoimCard({
@@ -47,7 +48,7 @@ export function ActiveMoimCard({
         </Typography>
         <View className="flex flex-row gap-2">
           <Typography fontWeight="LIGHT" className="text-gray-500 text-xs">
-            {moim?.category}
+            {moim?.category ? CATEGORIES_LIST[moim?.category] : ''}
           </Typography>
           <Typography
             fontWeight="LIGHT"

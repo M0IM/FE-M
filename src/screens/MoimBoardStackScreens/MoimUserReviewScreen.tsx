@@ -52,6 +52,7 @@ const MoimUserReviewScreen = () => {
             paddingHorizontal: 30,
             gap: 10,
             marginTop: 30,
+            paddingBottom: 30,
           }}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}

@@ -56,7 +56,7 @@ const PostPreviewBox = ({allPosts}: PostPreviewBoxProps) => {
           onPress={toggleShowAll}
           activeOpacity={0.8}
           className="flex flex-row w-full p-3 rounded-bl-3xl rounded-br-3xl justify-center items-center self-center bg-gray-50 border-gray-100 border-[1px] border-t-0">
-          <Typography fontWeight="BOLD" className="text-gray-500 text-xs">
+          <Typography fontWeight="BOLD" className="text-gray-500 text-xs mr-2">
             {showAll ? '숨기기' : '더보기'}
           </Typography>
           <Ionicons

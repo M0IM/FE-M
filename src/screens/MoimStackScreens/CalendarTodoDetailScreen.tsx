@@ -1,14 +1,19 @@
+import React, {useState} from 'react';
+import {View} from 'react-native';
 import moment from 'moment';
 import FastImage from 'react-native-fast-image';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {DetailItem} from './components/DetailItem.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
-import Label from 'components/@common/Label/Label.tsx';
+import {Typography} from 'components/@common/Typography/Typography.tsx';
+import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
+import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
 
 import useTodo from 'hooks/useTodo.ts';
 import {TODO_ASSIGNEE_STATUS} from 'types/dtos/todo.ts';
 import {HomeStackRouteProp} from 'navigators/types';
+import Label from '../../components/@common/Label/Label.tsx';
 
 export default function CalendarTodoDetailScreen({
   route,
@@ -20,19 +25,45 @@ export default function CalendarTodoDetailScreen({
 
   const {useGetMyAssignedTodo, modifyMyTodoStatus} = useTodo();
   const {data: todo} = useGetMyAssignedTodo(moimId, todoId);
+  const [isPopOverOpen, setIsPopOverOpen] = useState(false);
 
-  const handleChangeStatus = () => {
+  const handlePressPopOver = () => {
+    setIsPopOverOpen(prev => !prev);
+  };
+
+  const handleTodoStatusChange = (status: TODO_ASSIGNEE_STATUS) => {
     modifyMyTodoStatus.mutate(
       {
         moimId,
         todoId,
-        todoAssigneeStatus: TODO_ASSIGNEE_STATUS.COMPLETE,
+        todoAssigneeStatus: status,
       },
       {
         onSuccess: data => console.log(data),
       },
     );
   };
+
+  const ChangeTodoStatus = [
+    {
+      title: '완료',
+      onPress: () => {
+        handleTodoStatusChange(TODO_ASSIGNEE_STATUS.COMPLETE);
+      },
+    },
+    {
+      title: '진행 중',
+      onPress: () => {
+        handleTodoStatusChange(TODO_ASSIGNEE_STATUS.LOADING);
+      },
+    },
+    {
+      title: '시작 전',
+      onPress: () => {
+        handleTodoStatusChange(TODO_ASSIGNEE_STATUS.PENDING);
+      },
+    },
+  ];
 
   let buttonLabel = '';
 
@@ -55,17 +86,35 @@ export default function CalendarTodoDetailScreen({
 
   return (
     <ScreenContainer>
-      <Label label={buttonLabel} variant={'filled'} />
-      <DetailItem
-        iconName="calendar"
-        title="마감일"
-        content={moment(todo?.dueDate).format('YYYY년 M월 D일')}
+      {todo?.imageUrlList[0] ? (
+        <FastImage
+          source={{uri: todo?.imageUrlList[0]}}
+          resizeMode={FastImage.resizeMode.cover}
+          className="w-full aspect-video rounded-2xl"
+        />
+      ) : (
+        <View className="mt-2 flex flex-col items-center justify-center bg-gray-100 w-full h-[200] rounded-lg">
+          <DefaultIcon height={200} width={100} />
+        </View>
+      )}
+
+      <Label
+        color={
+          todo?.todoAssigneeStatus === 'COMPLETE'
+            ? 'main'
+            : todo?.todoAssigneeStatus === 'LOADING'
+              ? 'dark'
+              : 'gray'
+        }
+        label={buttonLabel}
+        variant={'filled'}
       />
-      <FastImage
-        source={{uri: todo?.imageUrlList[0]}}
-        className="h-[300] rounded-2xl w-full"
-        resizeMode={FastImage.resizeMode.cover}
-      />
+      <Typography
+        className="text-gray-500"
+        fontWeight={'BOLD'}
+        numberOfLines={1}>
+        마감 기간: {moment(todo?.dueDate).format('YYYY년 M월 D일')}
+      </Typography>
       <DetailItem iconName="pencil" title="내가 할 일" content={todo?.title} />
       <DetailItem
         isMemo={true}
@@ -73,7 +122,18 @@ export default function CalendarTodoDetailScreen({
         title="상세 내용"
         content={todo?.content}
       />
-      <CustomButton label={buttonLabel} onPress={handleChangeStatus} />
+
+      <PopoverMenu
+        menu={ChangeTodoStatus}
+        isPopover={isPopOverOpen}
+        onPress={handlePressPopOver}
+      />
+
+      <CustomButton
+        textStyle="text-white font-bold"
+        label={'상태 변경'}
+        onPress={handlePressPopOver}
+      />
     </ScreenContainer>
   );
 }

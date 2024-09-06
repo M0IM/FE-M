@@ -1,12 +1,13 @@
 type TPlanListDTO = {
   planId: number;
+  moimId: number;
   title: string;
   time: string;
   location: string;
   locationDetail: string;
   memo: string;
   moimName: null | string;
-  planType: 'MOIM_PLAN' | 'INDIVIDUAL_PLAN';
+  planType: 'MOIM_PLAN' | 'INDIVIDUAL_PLAN' | 'TODO_PLAN';
 };
 
 type TMoimPlanListDTO = {
@@ -70,13 +71,14 @@ type TUserSchedulesCountResponse = {
 
 type TUserPlanDTO = {
   planId: number;
+  moimId: number;
   title: string;
   time: string;
   location: string;
   locationDetail: string;
   memo: string;
   moimName: string;
-  planType: 'MOIM_PLAN' | 'INDIVIDUAL_PLAN';
+  planType: 'MOIM_PLAN' | 'INDIVIDUAL_PLAN' | 'TODO_PLAN';
 };
 
 type TUserPlanResponse = {

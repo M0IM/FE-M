@@ -8,16 +8,24 @@ import Label from 'components/@common/Label/Label.tsx';
 
 import useTodo from 'hooks/useTodo.ts';
 import {TODO_ASSIGNEE_STATUS} from 'types/dtos/todo.ts';
+import {HomeStackRouteProp} from 'navigators/types';
 
-export default function CalendarTodoDetailScreen() {
+export default function CalendarTodoDetailScreen({
+  route,
+}: {
+  route: HomeStackRouteProp;
+}) {
+  const moimId = route.params?.moimId;
+  const todoId = route.params?.id;
+
   const {useGetMyAssignedTodo, modifyMyTodoStatus} = useTodo();
-  const {data: todo} = useGetMyAssignedTodo(67, 48);
+  const {data: todo} = useGetMyAssignedTodo(moimId, todoId);
 
   const handleChangeStatus = () => {
     modifyMyTodoStatus.mutate(
       {
-        moimId: 67,
-        todoId: 48,
+        moimId,
+        todoId,
         todoAssigneeStatus: TODO_ASSIGNEE_STATUS.COMPLETE,
       },
       {

@@ -24,7 +24,7 @@ export type HomeStackParamList = {
   };
   CALENDAR_INDIVIDUAL_DETAIL: {id: number};
   CALENDAR_PARTICIPANT_DETAIL: {id: number};
-  CALENDAR_TODO_DETAIL: {id: number};
+  CALENDAR_TODO_DETAIL: {id: number; moimId: number};
   USER_DETAIL_PROFILE: {
     screen: UserProfileStackScreenName;
     params: {

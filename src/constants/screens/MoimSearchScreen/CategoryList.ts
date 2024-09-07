@@ -12,6 +12,7 @@ const CATEGORY_LIST: Record<string, MOIM_REQUEST_TYPE> = {
   동물: MOIM_REQUEST_TYPE.ANIMAL,
   음악: MOIM_REQUEST_TYPE.MUSIC,
   '자기 계발': MOIM_REQUEST_TYPE.SELF,
+  기타: MOIM_REQUEST_TYPE.ETC,
 };
 
 const CATEGORIES_LIST: Record<MOIM_REQUEST_TYPE, string> = {
@@ -27,6 +28,7 @@ const CATEGORIES_LIST: Record<MOIM_REQUEST_TYPE, string> = {
   [MOIM_REQUEST_TYPE.ANIMAL]: '동물',
   [MOIM_REQUEST_TYPE.MUSIC]: '음악',
   [MOIM_REQUEST_TYPE.SELF]: '자기 계발',
+  [MOIM_REQUEST_TYPE.ETC]: '기타',
 };
 
 export const CATEGORIES_LIST_DATA = [
@@ -42,6 +44,7 @@ export const CATEGORIES_LIST_DATA = [
   {key: MOIM_REQUEST_TYPE.ANIMAL, label: '동물'},
   {key: MOIM_REQUEST_TYPE.MUSIC, label: '음악'},
   {key: MOIM_REQUEST_TYPE.SELF, label: '자기 계발'},
+  {key: MOIM_REQUEST_TYPE.ETC, label: '기타'},
 ] as const;
 
 export const CREATE_CATEGORIES_LIST_DATA = [
@@ -56,6 +59,7 @@ export const CREATE_CATEGORIES_LIST_DATA = [
   {key: MOIM_REQUEST_TYPE.ANIMAL, label: '동물'},
   {key: MOIM_REQUEST_TYPE.MUSIC, label: '음악'},
   {key: MOIM_REQUEST_TYPE.SELF, label: '자기 계발'},
+  {key: MOIM_REQUEST_TYPE.ETC, label: '기타'},
 ] as const;
 
 export {CATEGORY_LIST, CATEGORIES_LIST};

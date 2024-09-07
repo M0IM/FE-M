@@ -38,23 +38,6 @@ const ReadersBottomSheet = ({
     });
   };
 
-  const handleSelectAll = () => {
-    const allIds = members?.pages.flatMap(page =>
-      page.userPreviewDTOList.map(user => user.userId),
-    );
-    if (allIds) {
-      if (selectedIds.length === allIds.length) {
-        allIds.forEach(id => handleToggleSelect(id));
-      } else {
-        allIds.forEach(id => {
-          if (!selectedIds.includes(id)) {
-            handleToggleSelect(id);
-          }
-        });
-      }
-    }
-  };
-
   return (
     <BottomSheet
       isBottomSheetOpen={isOpen}
@@ -76,13 +59,6 @@ const ReadersBottomSheet = ({
               <Ionicons name="search" size={28} color={'#1D2002'} />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity activeOpacity={0.8} onPress={handleSelectAll}>
-            <Typography
-              fontWeight="BOLD"
-              className="text-main underline ml-auto">
-              전체 선택
-            </Typography>
-          </TouchableOpacity>
         </View>
         <FlatList
           data={members?.pages.flatMap(page => page.userPreviewDTOList)}

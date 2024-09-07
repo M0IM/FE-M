@@ -5,10 +5,10 @@ import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard';
 import {SearchInput} from 'components/@common/SearchInput/SearchInput.tsx';
 import Label from 'components/@common/Label/Label.tsx';
 
-import {MOIM_REQUEST_TYPE} from 'types/enums';
 import useDebounce from 'hooks/useDebounce.ts';
 import {useGetSearchInfiniteMoimList} from 'hooks/queries/MoimSearchScreen/useGetSeachInfiniteMoimList.ts';
 import {HomeStackNavigationProp} from 'navigators/types';
+import {MOIM_REQUEST_TYPE} from 'types/enums';
 import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList.ts';
 
 const MoimSearchScreen = ({
@@ -21,20 +21,30 @@ const MoimSearchScreen = ({
   const handleChangeKeyword = (text: string) => {
     setKeyword(text);
   };
-  const [selectedCategory, setSelectedCategory] =
-    useState<MOIM_REQUEST_TYPE | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<MOIM_REQUEST_TYPE[]>(
+    [],
+  );
+  const allSelectedCategory = Object.values(MOIM_REQUEST_TYPE).filter(
+    type => type !== MOIM_REQUEST_TYPE.ALL,
+  );
   const categoryKeys = Object.keys(CATEGORY_LIST);
 
   const handleSelect = (selectItem: string) => {
-    if (selectedCategory !== null) {
-      setSelectedCategory(null);
-    } else {
-      setSelectedCategory(CATEGORY_LIST[selectItem] || null);
-    }
+    setSelectedCategory(prev => {
+      const selectedType = CATEGORY_LIST[selectItem];
+      if (prev.includes(selectedType)) {
+        return prev.filter(type => type !== selectedType);
+      } else {
+        return [...prev, selectedType];
+      }
+    });
   };
 
   const {data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch} =
-    useGetSearchInfiniteMoimList(debouncedValue, selectedCategory);
+    useGetSearchInfiniteMoimList(
+      debouncedValue,
+      selectedCategory.length < 1 ? allSelectedCategory : selectedCategory,
+    );
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleEndReached = () => {
@@ -67,10 +77,12 @@ const MoimSearchScreen = ({
               <Label
                 label={item}
                 color={
-                  CATEGORY_LIST[item] === selectedCategory ? 'main' : 'gray'
+                  selectedCategory.includes(CATEGORY_LIST[item])
+                    ? 'main'
+                    : 'gray'
                 }
                 variant={
-                  CATEGORY_LIST[item] === selectedCategory
+                  selectedCategory.includes(CATEGORY_LIST[item])
                     ? 'filled'
                     : 'outlined'
                 }

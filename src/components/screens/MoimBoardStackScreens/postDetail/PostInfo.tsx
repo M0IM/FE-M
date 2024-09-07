@@ -333,12 +333,14 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         updatedAt={data?.updateAt && formatKoreanDate(new Date(data?.updateAt))}
         profileImage={data?.profileImage}
         PostMenuList={
-          data?.postType === 'ANNOUNCEMENT'
+          data?.postType === 'ANNOUNCEMENT' &&
+          unReadUsers?.some(user => user.userId === userInfo?.result.userId)
             ? AnnouncementPostMenuList
             : PostMenuList
         }
         PostMyMenuList={
-          data?.postType === 'ANNOUNCEMENT'
+          data?.postType === 'ANNOUNCEMENT' &&
+          unReadUsers?.some(user => user.userId === userInfo?.result.userId)
             ? AnnouncementPostMyMenuList
             : PostMyMenuList
         }

@@ -35,26 +35,28 @@ const PostPreviewBox = ({allPosts}: PostPreviewBoxProps) => {
   }, [filteredPosts]);
 
   return (
-    <View className="flex flex-col px-7 py-3 rounded-3xl bg-gray-50 border-gray-100 border-[1px]">
-      {postsToShow?.map((moimItem, index) => (
-        <View key={index}>
-          <View className="flex flex-col py-4">
-            <Typography className="text-base" fontWeight="MEDIUM">
-              {moimItem.moimTitle}
-            </Typography>
-            <AllMoimPost
-              postList={moimItem.moimPostPreviewDTOList}
-              moimId={moimItem.moimId}
-            />
+    <View className="flex flex-col">
+      <View className="flex flex-col px-7 py-3 rounded-tl-3xl rounded-tr-3xl bg-gray-50 border-gray-100 border-[1px] border-b-0">
+        {postsToShow?.map((moimItem, index) => (
+          <View key={index}>
+            <View className="flex flex-col py-4">
+              <Typography className="text-base" fontWeight="MEDIUM">
+                {moimItem.moimTitle}
+              </Typography>
+              <AllMoimPost
+                postList={moimItem.moimPostPreviewDTOList}
+                moimId={moimItem.moimId}
+              />
+            </View>
           </View>
-        </View>
-      ))}
-
+        ))}
+      </View>
       {filteredPosts && filteredPosts.length > initialPostCount && (
         <TouchableOpacity
           onPress={toggleShowAll}
-          className="flex flex-row items-center gap-x-3 mt-2 self-center">
-          <Typography fontWeight="BOLD" className="text-gray-500 text-xs">
+          activeOpacity={0.8}
+          className="flex flex-row w-full p-3 rounded-bl-3xl rounded-br-3xl justify-center items-center self-center bg-gray-50 border-gray-100 border-[1px] border-t-0">
+          <Typography fontWeight="BOLD" className="text-gray-500 text-xs mr-2">
             {showAll ? '숨기기' : '더보기'}
           </Typography>
           <Ionicons

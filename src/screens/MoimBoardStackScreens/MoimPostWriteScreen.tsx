@@ -64,6 +64,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   const {imageUri, uploadUri, handleChange, deleteImageUri} =
     useSingleImagePicker({initialImage: postInfo?.imageKeyNames[0] || ''});
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(true);
   const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
   const isMember = moimInfo?.myMoimRole === 'MEMBER';
 
@@ -126,7 +127,8 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
               title: data.title,
               content: data.content,
               imageKeyNames: [uploadUri],
-              userIds: selectedIds,
+              userIds: selectAll ? [] : selectedIds,
+              isAllUserSelected: selectAll,
             },
             {
               onSuccess: () => {
@@ -220,7 +222,44 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
           height={isMember ? 130 : 160}
         />
       )}
-      {category && category?.label === '공지사항' && (
+      {!isEdit && category?.key === 'ANNOUNCEMENT' && (
+        <View className="flex flex-col px-2">
+          <Typography className="text-gray-500 mb-3" fontWeight={'BOLD'}>
+            읽을 사람
+          </Typography>
+          <View className="flex-row gap-x-3">
+            <TouchableOpacity onPress={() => setSelectAll(true)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      selectAll ? 'bg-main' : ''
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  전체
+                </Typography>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setSelectAll(false)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      selectAll ? '' : 'bg-main'
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  개인
+                </Typography>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      {category && category?.label === '공지사항' && !selectAll && (
         <TouchableOpacity
           onPress={open}
           activeOpacity={0.8}
@@ -238,6 +277,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
           />
         </TouchableOpacity>
       )}
+
       <InputField
         touched
         placeholder="제목을 입력해주세요."

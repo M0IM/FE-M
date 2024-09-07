@@ -232,6 +232,7 @@ const createAnnouncementPost = async ({
   content,
   imageKeyNames,
   userIds,
+  isAllUserSelected,
 }: TCreateAnnouncementPostParams): Promise<string> => {
   const {data} = await axiosInstance.post(`/api/v1/moims/posts/announcement`, {
     moimId,
@@ -239,6 +240,7 @@ const createAnnouncementPost = async ({
     content,
     imageKeyNames,
     userIds,
+    isAllUserSelected,
   });
   return data?.result;
 };

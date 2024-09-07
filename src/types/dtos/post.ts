@@ -161,6 +161,7 @@ type TCreateAnnouncementPostParams = {
   content: string;
   imageKeyNames: string[];
   userIds: number[];
+  isAllUserSelected: boolean;
 };
 
 export type {

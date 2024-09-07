@@ -50,11 +50,11 @@ const PostInfoContainer = ({
       </View>
 
       {unReadUsers && unReadUsers?.length > 0 && (
-        <>
+        <View className="flex flex-col px-3 border-t-[1px] border-b-[1px] border-gray-100 mt-6 py-4">
           <Typography
-            fontWeight="BOLD"
-            className="flex text-sm text-gray-400 mt-6 ml-2">
-            안 읽은 사람
+            fontWeight="MEDIUM"
+            className="flex text-sm text-gray-400 ml-1">
+            {`안 읽은 사람 (${unReadUsers.length}명)`}
           </Typography>
           <FlatList
             horizontal
@@ -68,13 +68,16 @@ const PostInfoContainer = ({
                     userName: item.nickname,
                   })
                 }
+                size="XS"
               />
             )}
             contentContainerStyle={{
               marginTop: 10,
+              gap: 3,
+              paddingLeft: 4,
             }}
           />
-        </>
+        </View>
       )}
 
       <View className="flex flex-row items-center py-3 border-gray-200 border-b-[0.5px] mt-2 px-1.5">

@@ -11,6 +11,7 @@ enum MOIM_REQUEST_TYPE {
   HUMANITY = 'HUMANITY',
   TECH = 'TECH',
   SPORTS = 'SPORTS',
+  ETC = 'ETC',
 }
 
 enum MOIM_JOIN_STATUS {

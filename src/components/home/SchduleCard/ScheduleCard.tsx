@@ -16,12 +16,14 @@ const ScheduleCard = ({item, ...props}: ScheduleCardProps) => {
       activeOpacity={0.8}
       className="flex flex-col p-6 bg-gray-50 border-gray-200 border-[1px] rounded-xl w-[240] h-[160]">
       <View className="flex gap-3 flex-row items-center max-w-[230]">
-        {item.planType === 'INDIVIDUAL_PLAN' ? (
-          // If Individual Plan
+        {item.planType === 'INDIVIDUAL_PLAN' && (
           <View className="w-[5] h-[27] rounded-lg bg-main" />
-        ) : (
-          // If MoimPlan
+        )}
+        {item.planType === 'MOIM_PLAN' && (
           <View className="w-[5] h-[27] rounded-lg bg-error" />
+        )}
+        {item.planType === 'TODO_PLAN' && (
+          <View className="w-[5] h-[27] rounded-lg bg-warning" />
         )}
         <Typography
           fontWeight="BOLD"

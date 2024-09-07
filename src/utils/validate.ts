@@ -211,6 +211,28 @@ function validateTodo(values: TValidateTodo) {
   return errors;
 }
 
+type TValidateReplyIssuse = {
+  replyEmail: string;
+  content: string;
+};
+
+function validateReplyIssue(values: TValidateReplyIssuse) {
+  const errors = {
+    replyEmail: '',
+    content: '',
+  };
+
+  if (!values.replyEmail?.trim()) {
+    errors.replyEmail = '회신 이메일을 입력해주세요.';
+  }
+
+  if (!values.content?.trim()) {
+    errors.content = '문의사항 내용을 입력해주세요.';
+  }
+
+  return errors;
+}
+
 export {
   validateLogin,
   validateSignUpStep3,
@@ -220,4 +242,5 @@ export {
   validateAddMoimPosts,
   validateEditProfile,
   validateTodo,
+  validateReplyIssue,
 };

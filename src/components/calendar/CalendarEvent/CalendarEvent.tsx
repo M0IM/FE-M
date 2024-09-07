@@ -1,4 +1,4 @@
-import {Platform, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Platform, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
@@ -23,7 +23,7 @@ export function CalendarEvent({post, onPress, ...props}: ICalendarEventProps) {
   const {mutate} = useDeleteMyCalendarSchedule();
   const navigation = useNavigation<CalendarStackNavigationProp>();
   const {setMyCalendar, setIsEditMode} = useMyCalendarStore();
-
+  console.log(post);
   const handlePressDeleteButton = () => {
     mutate(post.planId, {
       onSuccess: () => {
@@ -83,14 +83,16 @@ export function CalendarEvent({post, onPress, ...props}: ICalendarEventProps) {
         activeOpacity={0.5}
         className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"
         key={post.planId}>
-        {post.planType === 'INDIVIDUAL_PLAN' ? (
-          // If Individual Plan
+        {/* 녹색: 개인 일정, 빨간색: 모임 일정, 노란색: 투두 일정 */}
+        {post.planType === 'INDIVIDUAL_PLAN' && (
           <View className="bg-main w-1 rounded-l-full h-full z-10" />
-        ) : (
-          // If MoimPlan
+        )}
+        {post.planType === 'MOIM_PLAN' && (
           <View className="bg-error w-1 rounded-l-full h-full z-10" />
         )}
-
+        {post.planType === 'TODO_PLAN' && (
+          <View className="bg-warning w-1 rounded-l-full h-full z-10" />
+        )}
         <View className={cn(CalenderEventVariant({platform}))}>
           <Text
             numberOfLines={1}

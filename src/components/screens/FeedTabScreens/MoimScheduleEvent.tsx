@@ -63,7 +63,6 @@ export default function MoimScheduleEvent({
     <ScheduleCard
       item={item}
       onPress={() => {
-        console.log(item);
         switch (item.planType) {
           case 'MOIM_PLAN':
             navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
@@ -77,7 +76,7 @@ export default function MoimScheduleEvent({
             break;
           default:
             navigation.navigate('CALENDAR_TODO_DETAIL', {
-              // todoId
+              moimId: item.moimId,
               id: item.planId,
             });
             break;

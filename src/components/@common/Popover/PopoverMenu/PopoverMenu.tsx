@@ -20,7 +20,7 @@ interface PopoverMenuProps {
   isPopover?: boolean;
   menu: MenuType[];
   onPress: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   position?: 'BOTTOM' | 'TOP';
 }
 

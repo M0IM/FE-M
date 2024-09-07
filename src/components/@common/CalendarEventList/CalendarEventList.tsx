@@ -38,13 +38,24 @@ export function CalendarEventList({posts}: ICalendarEventListProps) {
             key={post.planId}
             post={post}
             onPress={() => {
-              post.planType === 'MOIM_PLAN'
-                ? navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
-                    id: post.planId,
-                  })
-                : navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
+              switch (post.planType) {
+                case 'MOIM_PLAN':
+                  navigation.navigate('CALENDAR_PARTICIPANT_DETAIL', {
                     id: post.planId,
                   });
+                  break;
+                case 'INDIVIDUAL_PLAN':
+                  navigation.navigate('CALENDAR_INDIVIDUAL_DETAIL', {
+                    id: post.planId,
+                  });
+                  break;
+                default:
+                  navigation.navigate('CALENDAR_TODO_DETAIL', {
+                    moimId: post.moimId,
+                    id: post.planId,
+                  });
+                  break;
+              }
             }}
           />
         ))}

@@ -7,9 +7,11 @@ import {
 
 import {getMyActiveMoim} from 'apis';
 import {TGetMyActiveMoimResponse} from 'types/dtos/moim.ts';
+import {TMoimRoleCategory} from 'types/dtos/moimManage';
 import {ResponseError} from 'types/mutations/common.ts';
 
 function useGetInfiniteMyActiveMoim(
+  moimRequestRole: TMoimRoleCategory,
   queryOptions?: UseInfiniteQueryOptions<
     TGetMyActiveMoimResponse,
     ResponseError,
@@ -20,7 +22,8 @@ function useGetInfiniteMyActiveMoim(
   >,
 ) {
   return useSuspenseInfiniteQuery({
-    queryFn: ({pageParam}) => getMyActiveMoim(pageParam),
+    queryFn: ({pageParam}) =>
+      getMyActiveMoim({cursor: pageParam, moimRequestRole: moimRequestRole}),
     queryKey: ['myMoim'],
     initialPageParam: 1,
     getNextPageParam: lastPage => {

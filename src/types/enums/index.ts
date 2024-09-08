@@ -39,6 +39,7 @@ enum MOIM_ROLE {
   OWNER = 'OWNER',
   ADMIN = 'ADMIN',
   MEMBER = 'MEMBER',
+  ALL = 'ALL',
 }
 
 export {

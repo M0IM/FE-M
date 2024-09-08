@@ -40,8 +40,6 @@ const getPersonalCalendar = async ({
     `/api/v1/users/monthly/total-plans?year=${year}&month=${month}`,
   );
 
-  console.log(data.result.planList);
-
   return data.result.planList;
 };
 

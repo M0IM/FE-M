@@ -3,7 +3,7 @@ import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
 import RootNavigator from './src/navigators/root/RootNavigator.tsx';
 import {DevToolsBubble} from 'react-native-react-query-devtools';
 import messaging from '@react-native-firebase/messaging';
-import PushNotification from 'react-native-push-notification';
+import PushNotification, {Importance} from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import {LogBox} from 'react-native';
@@ -42,6 +42,7 @@ const toastConfig = {
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Messaging handled in the background', remoteMessage);
+  console.log('undrground', remoteMessage);
 });
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 PushNotification.configure({
@@ -53,6 +54,7 @@ PushNotification.configure({
 
   // (required) Called when a remote is received or opened, or local notification is opened
   onNotification: function (notification) {
+    // 실제 Notification이 오는 곳.
     console.log('NOTIFICATION:', notification);
 
     // process the notification
@@ -94,17 +96,18 @@ PushNotification.configure({
    */
   requestPermissions: true,
 });
-// PushNotification.createChannel(
-//   {
-//     channelId: 'noti',
-//     channelName: '공지사항용',
-//     channelDescription: '앱 실행하는 알림',
-//     soundName: 'default',
-//     importance: 4,
-//     vibrate: true,
-//   },
-//   (created: boolean) => console.log(`channel 생성, ${created}`),
-// );
+
+PushNotification.createChannel(
+  {
+    channelId: 'TODO',
+    channelName: '할 일',
+    channelDescription: '할 일 알림',
+    importance: Importance.HIGH,
+    soundName: 'default',
+    vibrate: true,
+  },
+  (created: boolean) => console.log(`channel PLAN 생성, ${created}`),
+);
 
 function App() {
   return (

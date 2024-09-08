@@ -37,7 +37,7 @@ const getMyActiveMoim = async (
   cursor: number,
 ): Promise<TGetMyActiveMoimResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/me?cursor=${cursor}&take=6`,
+    `/api/v1/moims/me?cursor=${cursor}&take=6&moimRequestRole=ALL`,
   );
 
   return data.result;

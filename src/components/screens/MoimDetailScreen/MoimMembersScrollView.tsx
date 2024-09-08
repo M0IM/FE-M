@@ -88,7 +88,7 @@ const MoimMembersScrollView = ({
               onClose();
             }}>
             <View className="flex flex-row items-center flex-1">
-              <Avatar uri={item.imageKeyName} />
+              <Avatar uri={item.imageKeyName} disabled />
               <View className="ml-4 flex-1 flex-row items-center">
                 <Typography
                   numberOfLines={1}

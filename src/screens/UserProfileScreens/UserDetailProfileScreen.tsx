@@ -70,7 +70,7 @@ export default function UserDetailProfileScreen() {
           </InfoSquareCard>
           <View className="relative">
             <InfoSquareCard
-              title="모임 평가"
+              title="유저 후기"
               onPress={() =>
                 navigation.navigate('USER_DETAIL_PROFILE', {
                   screen: 'USER_REVIEW',
@@ -81,21 +81,14 @@ export default function UserDetailProfileScreen() {
                 })
               }>
               <Typography fontWeight={'BOLD'}>
-                {userInfo?.rating.toFixed(1)}
+                {userInfo?.rating.toFixed(1)} 점
               </Typography>
             </InfoSquareCard>
             <Animated.View
-              style={{
-                transform: [{translateY: floatAnimation}],
-                position: 'absolute',
-                padding: 5,
-                top: -8,
-                right: -10,
-                borderRadius: 10,
-                backgroundColor: '#84DE77',
-              }}>
+              className="absolute p-[6px] top-[-8px] right-[-10px] rounded-lg bg-green-400"
+              style={{transform: [{translateY: floatAnimation}]}}>
               <Typography fontWeight="BOLD" className="text-white text-xs">
-                눌러서 평가 보기
+                Press Me !
               </Typography>
             </Animated.View>
           </View>

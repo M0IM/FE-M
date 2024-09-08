@@ -84,7 +84,7 @@ export default function MyDetailProfileScreen({
         <View className="px-2 py-2 mt-3">
           <ProfileCard userInfo={userInfo as TUserDTO} />
           <View className="flex-row justify-between mt-4">
-            <InfoSquareCard title="가입 날짜">
+            <InfoSquareCard title="가입 날짜" disabled>
               <Typography fontWeight={'BOLD'} className="text-gray-600 text-sm">
                 {year}년
               </Typography>
@@ -92,18 +92,12 @@ export default function MyDetailProfileScreen({
                 {month}월 {day}일
               </Typography>
             </InfoSquareCard>
-            <InfoSquareCard title="모임 평가">
+            <InfoSquareCard title="유저 평가" disabled>
               <Typography fontWeight={'BOLD'} className="text-gray-600text-sm">
                 {userInfo?.rating.toFixed(1)}
               </Typography>
             </InfoSquareCard>
-            <InfoSquareCard
-              title="가입 모임"
-              onPress={() => {
-                navigation.navigate('MOIM_JOIN_LIST', {
-                  id: userId,
-                });
-              }}>
+            <InfoSquareCard title="가입 모임" disabled>
               <Typography fontWeight={'BOLD'} className="text-gray-600 text-sm">
                 {userInfo?.participateMoimCnt} 개
               </Typography>

@@ -79,7 +79,7 @@ export default function MoimMemberDetailProfileScreen({
           </InfoSquareCard>
           <View className="relative">
             <InfoSquareCard
-              title="모임 평가"
+              title="유저 후기"
               onPress={() =>
                 navigation.navigate('MOIM_REVIEW_LIST', {
                   id: userId,
@@ -87,14 +87,14 @@ export default function MoimMemberDetailProfileScreen({
                 })
               }>
               <Typography fontWeight={'BOLD'}>
-                {userInfo?.rating.toFixed(1)}
+                {userInfo?.rating.toFixed(1)} 점
               </Typography>
             </InfoSquareCard>
             <Animated.View
-              className="absolute p-[6px] top-[-8px] right-[-10px] rounded-lg bg-green-200"
+              className="absolute p-[6px] top-[-8px] right-[-10px] rounded-lg bg-green-400"
               style={{transform: [{translateY: floatAnimation}]}}>
-              <Typography fontWeight="LIGHT" className="text-dark-800 text-xs">
-                눌러서 평가 보기
+              <Typography fontWeight="BOLD" className="text-white text-xs">
+                Press Me !
               </Typography>
             </Animated.View>
           </View>

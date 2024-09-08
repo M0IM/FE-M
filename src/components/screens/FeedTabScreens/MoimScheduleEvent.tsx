@@ -1,4 +1,4 @@
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
@@ -10,6 +10,7 @@ import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetIn
 import {HomeStackNavigationProp} from 'navigators/types';
 import MoimScheduleEventSkeleton from './skeleton/MoimScheduleEventSkeleton.tsx';
 import {TUserPlanDTO} from 'types/dtos/calendar.ts';
+import ScheduleColorPalette from './ScheduleColorPalette.tsx';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -86,21 +87,21 @@ export default function MoimScheduleEvent({
   );
 
   return (
-    <View className="flex flex-col gap-2 mt-1">
+    <View className="flex flex-col gap-y-2 mt-1">
       <Typography
         numberOfLines={1}
         className="text-2xl mt-5"
         fontWeight={'BOLD'}>
         {isProfilePending ? '안녕하세요' : `반가워요, ${profile?.nickname}님`}
       </Typography>
-      <TouchableOpacity>
+      <View className="flex flex-row">
         <Typography
           numberOfLines={1}
           className="text-gray-400 mb-3"
           fontWeight={'LIGHT'}>
           오늘 {profile?.dailyPlanCnt ?? 0}개의 예정된 일정이 있어요
         </Typography>
-      </TouchableOpacity>
+      </View>
       <FlatList
         data={calendars.pages.flatMap(calendar => calendar.userPlanDTOList)}
         horizontal={true}
@@ -110,6 +111,9 @@ export default function MoimScheduleEvent({
           gap: 10,
         }}
       />
+      <View className="py-1">
+        <ScheduleColorPalette />
+      </View>
     </View>
   );
 }

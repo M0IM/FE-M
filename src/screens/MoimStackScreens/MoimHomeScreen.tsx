@@ -2,7 +2,9 @@ import {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   SafeAreaView,
+  ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -20,6 +22,7 @@ import {
   MOIM_ROLE_LIST,
   MOIM_ROLES,
 } from 'constants/screens/FeedStackScreens/MoimRoleList';
+import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface IMoimHomeScreenProps {
   navigation: HomeStackNavigationProp;
@@ -74,37 +77,55 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
   const RenderedContainer = () => {
     if (selectedRole === MOIM_ROLE.ALL) {
       return (
-        <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
-          <Logo background={'TRANSPARENT'} size={'LG'} />
-          <Typography className="text-lg" fontWeight={'BOLD'}>
-            내가 활동 중인 모임이 없습니다.
-          </Typography>
-          <Typography fontWeight="BOLD" className="text-gray-500">
-            새로운 모임에 가입해 보세요!
-          </Typography>
-          <CustomButton
-            label={'모임에 참여하기'}
-            textStyle={'text-white font-bold text-lg'}
-            onPress={() => navigation.navigate('MOIM_SEARCH')}
-          />
-        </View>
+        <ScrollView
+          className="flex-1"
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+            />
+          }>
+          <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
+            <Logo background={'TRANSPARENT'} size={'LG'} />
+            <Typography className="text-lg" fontWeight={'BOLD'}>
+              내가 활동 중인 모임이 없습니다.
+            </Typography>
+            <Typography fontWeight="BOLD" className="text-gray-500">
+              새로운 모임에 가입해 보세요!
+            </Typography>
+            <CustomButton
+              label={'모임에 참여하기'}
+              textStyle={'text-white font-bold text-lg'}
+              onPress={() => navigation.navigate('MOIM_SEARCH')}
+            />
+          </View>
+        </ScrollView>
       );
     } else {
       return (
-        <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
-          <Typography fontWeight="MEDIUM" className="text-gray-400 text-sm">
-            {`내가 ${MOIM_ROLES[selectedRole]}인 모임이 없습니다.`}
-          </Typography>
-        </View>
+        <ScrollView
+          className="flex-1"
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+            />
+          }>
+          <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
+            <Typography fontWeight="MEDIUM" className="text-gray-400 text-sm">
+              {`내가 ${MOIM_ROLES[selectedRole]}인 모임이 없습니다.`}
+            </Typography>
+          </View>
+        </ScrollView>
       );
     }
   };
 
   useEffect(() => {
-    refetch();
+    queryClient.invalidateQueries({
+      queryKey: ['myMoim'],
+    });
   }, [selectedRole]);
-
-  console.log(moimPreviewList);
 
   return (
     <SafeAreaView className="flex-1">

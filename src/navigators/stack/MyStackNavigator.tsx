@@ -15,7 +15,7 @@ import MyPasswordChangeScreen from 'screens/MyStackScreens/MyPasswordChangeScree
 import RevokeMoimStackNavigator from './my/RevokeMoimStackNavigator';
 import AppInfoStackNavigator from './my/AppInfoStackNavigator';
 import MyJoinMoimListScreen from '../../screens/MyStackScreens/MyJoinMoimListScreen.tsx';
-import MyAssignmentTodoScreen from '../../screens/MyStackScreens/MyAssignmentTodoScreen.tsx';
+import TodoNavigator from './TodoStackNavigator.tsx';
 // import MemberProfileScreen from '../../screens/MyStackScreens/MemberProfileScreen.tsx';
 
 export default function MyStackNavigator() {
@@ -170,12 +170,9 @@ export default function MyStackNavigator() {
       />
       <MyStack.Screen
         name={'TODO_ASSIGNMENT_LIST'}
-        component={MyAssignmentTodoScreen}
+        component={TodoNavigator}
         options={{
-          headerTitle: '내가 할당한 할 일 확인',
-          headerTintColor: '#000',
-          headerBackTitleVisible: false,
-          headerTitleAlign: 'center',
+          headerShown: false,
         }}
       />
     </MyStack.Navigator>

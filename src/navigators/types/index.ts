@@ -112,7 +112,13 @@ export type MyStackParamList = {
   // 유저 가입 목록 리스트
   MOIM_JOIN_LIST: {id: number};
   // 내가 할당한 할 일 확인
-  TODO_ASSIGNMENT_LIST: undefined;
+  TODO_ASSIGNMENT_LIST: {
+    screen: TodoStackScreenName;
+    params: {
+      id: number;
+      moimId: number;
+    };
+  };
 };
 
 export type MoimTopTabParamList = {
@@ -215,6 +221,14 @@ export type UserProfileStackParamList = {
   };
 };
 
+export type TodoStackParamList = {
+  CREATE_TODO: {id: number};
+  DETAIL_TODO: {id: number; moimId: number};
+  GET_TODO: {id: number};
+  ADD_MEMBER_TODO: {id: number};
+  DELETE_MEMBER_TODO: {id: number};
+};
+
 /** screen name */
 export type HomeStackScreenName = keyof HomeStackParamList;
 export type FeedTabScreenName = keyof FeedTabParamList;
@@ -232,6 +246,7 @@ export type ChatStackScreenName = keyof ChatStackParamList;
 export type MoimManagementScreenName = keyof MoimManagementParamList;
 export type NewFeedHomeStackScreenName = keyof NewFeedHomeStackParamList;
 export type UserProfileStackScreenName = keyof UserProfileStackParamList;
+export type TodoStackScreenName = keyof TodoStackParamList;
 
 /** route props */
 export type HomeStackRouteProp = RouteProp<
@@ -292,6 +307,10 @@ export type UserProfileStackRouteProp = RouteProp<
   UserProfileStackParamList,
   UserProfileStackScreenName
 >;
+export type TodoStackRouteProp = RouteProp<
+  TodoStackParamList,
+  TodoStackScreenName
+>;
 
 /** navigation props */
 export type HomeStackNavigationProp = NavigationProp<HomeStackParamList>;
@@ -321,3 +340,4 @@ export type NewFeedHomeNavigationProp =
   StackNavigationProp<NewFeedHomeStackParamList>;
 export type UserProfileStackNavigationProp =
   StackNavigationProp<UserProfileStackParamList>;
+export type TodoStackNavigationProp = StackNavigationProp<TodoStackParamList>;

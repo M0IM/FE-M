@@ -13,8 +13,11 @@ import {Typography} from 'components/@common/Typography/Typography';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon';
 
 import useTodo from 'hooks/useTodo';
+import {useNavigation} from '@react-navigation/native';
+import {MyStackNavigationProp} from 'navigators/types';
 
 export default function MyAssignmentTodoScreen() {
+  const navigation = useNavigation<MyStackNavigationProp>();
   const {getInfiniteMyAssignmentTodoList} = useTodo();
   const {
     data: todos,
@@ -65,18 +68,13 @@ export default function MyAssignmentTodoScreen() {
                 <Pressable
                   className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
                   onPress={() => {
-                    // navigation.navigate('MOIM_STACK', {
-                    //   screen: 'MOIM_MANAGEMENT',
-                    //   params: {
-                    //     id: item.moimId,
-                    //     // @ts-ignore: TODO: 타입 재정의
-                    //     screen: 'MOIM_DETAIL_TODO',
-                    //     params: {
-                    //       moimId: item.moimId,
-                    //       id: item.todoId,
-                    //     },
-                    //   },
-                    // });
+                    navigation.navigate('TODO_ASSIGNMENT_LIST', {
+                      screen: 'DETAIL_TODO',
+                      params: {
+                        id: item.todoId,
+                        moimId: item.moimId,
+                      },
+                    });
                   }}>
                   {item.imageUrlList[0] ? (
                     <FastImage

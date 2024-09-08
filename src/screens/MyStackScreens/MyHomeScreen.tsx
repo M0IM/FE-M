@@ -1,4 +1,5 @@
-import {Alert, View} from 'react-native';
+import {Alert, RefreshControl, View} from 'react-native';
+import {useState} from 'react';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import MyProfileCard from 'components/screens/MyStackScreens/MyProfileCard.tsx';
@@ -14,10 +15,17 @@ interface IMyHomeScreenProps {
 }
 
 export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
-  const {data: profile} = useGetMyProfile();
+  const {data: profile, refetch} = useGetMyProfile();
   const {logoutMutation, deleteUserMutation} = useAuth();
+  const [refresh, setRefresh] = useState(false);
   const handlePressLogout = () => {
     logoutMutation.mutate(null);
+  };
+
+  const onRefresh = () => {
+    setRefresh(true);
+    refetch();
+    setRefresh(false);
   };
 
   const hanldeDeleteUser = () => {
@@ -41,7 +49,10 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
   };
 
   return (
-    <ScreenContainer>
+    <ScreenContainer
+      refreshControl={
+        <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+      }>
       <MyProfileCard navigation={navigation} profile={profile} />
       <View className="pt-5">
         <View className="flex-col gap-y-2 px-2">

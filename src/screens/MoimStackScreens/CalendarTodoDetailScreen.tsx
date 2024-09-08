@@ -98,23 +98,27 @@ export default function CalendarTodoDetailScreen({
         </View>
       )}
 
-      <Label
-        color={
-          todo?.todoAssigneeStatus === 'COMPLETE'
-            ? 'main'
-            : todo?.todoAssigneeStatus === 'LOADING'
-              ? 'dark'
-              : 'gray'
-        }
-        label={buttonLabel}
-        variant={'filled'}
-      />
-      <Typography
-        className="text-gray-500"
-        fontWeight={'BOLD'}
-        numberOfLines={1}>
-        마감 기간: {moment(todo?.dueDate).format('YYYY년 M월 D일')}
-      </Typography>
+      <View className="flex flex-row items-center">
+        <Typography
+          className="text-gray-500"
+          fontWeight={'BOLD'}
+          numberOfLines={1}>
+          마감 기간 | {moment(todo?.dueDate).format('YYYY년 M월 D일')}
+        </Typography>
+        <Label
+          color={
+            todo?.todoAssigneeStatus === 'COMPLETE'
+              ? 'main'
+              : todo?.todoAssigneeStatus === 'LOADING'
+                ? 'dark'
+                : 'gray'
+          }
+          label={buttonLabel}
+          variant={'filled'}
+          style="ml-auto"
+        />
+      </View>
+
       <DetailItem iconName="pencil" title="내가 할 일" content={todo?.title} />
       <DetailItem
         isMemo={true}

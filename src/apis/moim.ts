@@ -1,3 +1,4 @@
+import {TMoimRoleCategory} from 'types/dtos/moimManage.ts';
 import axiosInstance from './axiosInstance.ts';
 
 import {
@@ -33,11 +34,15 @@ const createMoim = async ({
   return data?.result;
 };
 
-const getMyActiveMoim = async (
-  cursor: number,
-): Promise<TGetMyActiveMoimResponse> => {
+const getMyActiveMoim = async ({
+  cursor,
+  moimRequestRole,
+}: {
+  cursor: number;
+  moimRequestRole: TMoimRoleCategory;
+}): Promise<TGetMyActiveMoimResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/me?cursor=${cursor}&take=6&moimRequestRole=ALL`,
+    `/api/v1/moims/me?cursor=${cursor}&take=6&moimRequestRole=${moimRequestRole}`,
   );
 
   return data.result;

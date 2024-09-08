@@ -7,6 +7,7 @@ import SpaceCard from '../../home/SpaceCard/SpaceCard.tsx';
 import {HomeStackNavigationProp} from 'navigators/types/index.ts';
 import {useGetInfiniteMyActiveMoim} from 'hooks/queries/MoimHomeScreen/useGetInfiniteMyActiveMoim.ts';
 import MoimMyEventSkeleton from './skeleton/MoimMyEventSkeleton.tsx';
+import {MOIM_ROLE} from 'types/enums/index.ts';
 
 interface MoimMyEventProps {
   navigation: HomeStackNavigationProp;
@@ -17,6 +18,7 @@ export default function MoimMyEvent({
   navigation,
   isRefreshing,
 }: MoimMyEventProps) {
+  const moimRequestRole = MOIM_ROLE.ALL;
   const {
     data: moims,
     // fetchNextPage,
@@ -25,7 +27,7 @@ export default function MoimMyEvent({
     refetch: refetchMyActiveMoim,
     isPending,
     isError,
-  } = useGetInfiniteMyActiveMoim();
+  } = useGetInfiniteMyActiveMoim(moimRequestRole);
 
   // const handleEndReached = () => {
   //   if (hasNextPage && !isFetchingNextPage) {

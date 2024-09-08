@@ -13,6 +13,7 @@ import {
   MoimManagementParamList,
   NewFeedHomeStackParamList,
   UserProfileStackParamList,
+  TodoStackParamList,
 } from '../types';
 
 // 1. AuthStack
@@ -56,3 +57,6 @@ export const NewFeedHomeStack =
 // 13. UserProfileStack
 export const UserProfileStack =
   createStackNavigator<UserProfileStackParamList>();
+
+// 14. TodoStack
+export const TodoStack = createStackNavigator<TodoStackParamList>();

@@ -1,9 +1,10 @@
 import {useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 
 import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
 import {CalendarEventList} from 'components/@common/CalendarEventList/CalendarEventList.tsx';
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton.tsx';
+import ScheduleColorPalette from 'components/screens/FeedTabScreens/ScheduleColorPalette';
 
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {CalendarStackNavigationProp} from 'navigators/types';
@@ -48,6 +49,9 @@ export default function CalendarHomeScreen({
         selectedDate={selectedDate}
         onPressDate={handlePressDate}
       />
+      <View className="px-3">
+        <ScheduleColorPalette />
+      </View>
       <CalendarEventList posts={posts[selectedDate]} />
       <FloatingButton
         type={'add'}

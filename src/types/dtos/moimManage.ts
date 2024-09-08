@@ -1,6 +1,11 @@
 import {MOIM_ROLE} from 'types/enums';
 
 export type TMoimRole = MOIM_ROLE.ADMIN | MOIM_ROLE.MEMBER | MOIM_ROLE.OWNER;
+export type TMoimRoleCategory =
+  | MOIM_ROLE.ADMIN
+  | MOIM_ROLE.MEMBER
+  | MOIM_ROLE.OWNER
+  | MOIM_ROLE.ALL;
 
 export type TUserPreviewDTOList = {
   userId: number;

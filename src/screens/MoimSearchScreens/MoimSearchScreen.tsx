@@ -4,6 +4,7 @@ import {FlatList, Keyboard, TouchableOpacity, View} from 'react-native';
 import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard';
 import {SearchInput} from 'components/@common/SearchInput/SearchInput.tsx';
 import Label from 'components/@common/Label/Label.tsx';
+import MoimSearchScreenSkeleton from 'components/screens/MoimSearchScreens/skeleton/MoimSearchScreenSkeleton';
 
 import useDebounce from 'hooks/useDebounce.ts';
 import {useGetSearchInfiniteMoimList} from 'hooks/queries/MoimSearchScreen/useGetSeachInfiniteMoimList.ts';
@@ -40,11 +41,17 @@ const MoimSearchScreen = ({
     });
   };
 
-  const {data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch} =
-    useGetSearchInfiniteMoimList(
-      debouncedValue,
-      selectedCategory.length < 1 ? allSelectedCategory : selectedCategory,
-    );
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+    isPending,
+  } = useGetSearchInfiniteMoimList(
+    debouncedValue,
+    selectedCategory.length < 1 ? allSelectedCategory : selectedCategory,
+  );
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleEndReached = () => {
@@ -58,6 +65,56 @@ const MoimSearchScreen = ({
     await refetch();
     setIsRefreshing(false);
   };
+
+  if (isPending) {
+    return (
+      <View className="flex-1 bg-white p-4">
+        <SearchInput
+          autoFocus
+          value={keyword}
+          onChangeText={handleChangeKeyword}
+          onSubmit={() => Keyboard.dismiss()}
+          placeholder={'찾고싶은 모임을 검색해주세요.'}
+          editable={false}
+        />
+        <View className="flex my-3 flex-col">
+          <FlatList
+            horizontal
+            data={categoryKeys}
+            renderItem={({item}) => (
+              <TouchableOpacity onPress={() => handleSelect(item)} disabled>
+                <Label
+                  label={item}
+                  color={
+                    selectedCategory.includes(CATEGORY_LIST[item])
+                      ? 'main'
+                      : 'gray'
+                  }
+                  variant={
+                    selectedCategory.includes(CATEGORY_LIST[item])
+                      ? 'filled'
+                      : 'outlined'
+                  }
+                />
+              </TouchableOpacity>
+            )}
+            ItemSeparatorComponent={() => <View style={{width: 10}} />}
+            keyExtractor={item => item}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        <FlatList
+          data={Array(10).fill(null)}
+          renderItem={() => <MoimSearchScreenSkeleton />}
+          scrollEnabled={false}
+          ItemSeparatorComponent={() => <View className="h-8" />}
+          contentContainerStyle={{
+            marginTop: 20,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-white p-4">

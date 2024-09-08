@@ -13,24 +13,11 @@ import {Typography} from 'components/@common/Typography/Typography';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon';
 
 import useTodo from 'hooks/useTodo';
-import {CompositeNavigationProp} from '@react-navigation/native';
-import {
-  HomeStackNavigationProp,
-  MoimManagementNavigationProp,
-} from 'navigators/types';
-import {Logo} from '../../components/@common/Logo/Logo.tsx';
-import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
+import {useNavigation} from '@react-navigation/native';
+import {MyStackNavigationProp} from 'navigators/types';
 
-interface IMyAssignmentTodoProps {
-  navigation: CompositeNavigationProp<
-    HomeStackNavigationProp,
-    MoimManagementNavigationProp
-  >;
-}
-
-export default function MyAssignmentTodoScreen({
-  navigation,
-}: IMyAssignmentTodoProps) {
+export default function MyAssignmentTodoScreen() {
+  const navigation = useNavigation<MyStackNavigationProp>();
   const {getInfiniteMyAssignmentTodoList} = useTodo();
   const {
     data: todos,
@@ -81,18 +68,13 @@ export default function MyAssignmentTodoScreen({
                 <Pressable
                   className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
                   onPress={() => {
-                    // navigation.navigate('MOIM_STACK', {
-                    //   screen: 'MOIM_MANAGEMENT',
-                    //   params: {
-                    //     id: item.moimId,
-                    //     // @ts-ignore: TODO: 타입 재정의
-                    //     screen: 'MOIM_DETAIL_TODO',
-                    //     params: {
-                    //       moimId: item.moimId,
-                    //       id: item.todoId,
-                    //     },
-                    //   },
-                    // });
+                    navigation.navigate('TODO_ASSIGNMENT_LIST', {
+                      screen: 'DETAIL_TODO',
+                      params: {
+                        id: item.todoId,
+                        moimId: item.moimId,
+                      },
+                    });
                   }}>
                   {item.imageUrlList[0] ? (
                     <FastImage
@@ -144,12 +126,8 @@ export default function MyAssignmentTodoScreen({
           />
         ) : (
           <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
-            <Logo background={'TRANSPARENT'} size={'LG'} />
-            <Typography className="text-sm" fontWeight={'BOLD'}>
+            <Typography className="text-sm text-gray-300" fontWeight={'BOLD'}>
               내가 할당한 할 일이 없습니다.
-            </Typography>
-            <Typography fontWeight="BOLD">
-              멤버에게 새로운 할 일을 부여해보세요!
             </Typography>
           </View>
         )}

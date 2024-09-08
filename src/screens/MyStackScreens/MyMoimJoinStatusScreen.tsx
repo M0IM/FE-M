@@ -7,6 +7,7 @@ import Label from 'components/@common/Label/Label';
 import {HomeStackNavigationProp} from 'navigators/types';
 import {useGetInfiniteMoimJoinRequest} from 'hooks/queries/MyScreen/useGetInfiniteMoimJoinRequest';
 import {JOIN_STATUS_LIST} from 'constants/screens/MyScreens/MoimJoinStatus';
+import {CATEGORIES_LIST} from 'constants/screens/MoimSearchScreen/CategoryList';
 
 interface MyMoimJoinStatusScreenProps {
   navigation: HomeStackNavigationProp;
@@ -85,19 +86,19 @@ export default function MyMoimJoinStatusScreen({
                     <View className="flex flex-row gap-2">
                       <Typography
                         fontWeight="LIGHT"
-                        className="text-gray-500 text-xs">
-                        {item.moimCategory}
+                        className="text-gray-400 text-xs">
+                        {CATEGORIES_LIST[item.moimCategory]}
                       </Typography>
                       <Typography
                         fontWeight="LIGHT"
-                        className="text-gray-500 text-xs"
+                        className="text-gray-400 text-xs"
                         numberOfLines={1}>
                         {item.location}
                       </Typography>
                       <Typography
                         fontWeight="LIGHT"
-                        className="text-gray-500 text-xs">
-                        참여 인원 {item.userCounts}명
+                        className="text-gray-400 text-xs">
+                        {item.userCounts}명
                       </Typography>
                     </View>
                   </View>

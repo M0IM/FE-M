@@ -109,6 +109,18 @@ PushNotification.createChannel(
   (created: boolean) => console.log(`channel PLAN 생성, ${created}`),
 );
 
+PushNotification.createChannel(
+  {
+    channelId: 'PLAN',
+    channelName: '일정',
+    channelDescription: '일정 알림',
+    importance: Importance.HIGH,
+    soundName: 'default',
+    vibrate: true,
+  },
+  (created: boolean) => console.log(`channel PLAN 생성, ${created}`),
+);
+
 function App() {
   return (
     <AppSetupContainer>

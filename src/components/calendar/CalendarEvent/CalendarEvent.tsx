@@ -23,7 +23,6 @@ export function CalendarEvent({post, onPress, ...props}: ICalendarEventProps) {
   const {mutate} = useDeleteMyCalendarSchedule();
   const navigation = useNavigation<CalendarStackNavigationProp>();
   const {setMyCalendar, setIsEditMode} = useMyCalendarStore();
-  console.log(post);
   const handlePressDeleteButton = () => {
     mutate(post.planId, {
       onSuccess: () => {

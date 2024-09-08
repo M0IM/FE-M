@@ -20,6 +20,7 @@ export default function RootNavigator() {
         }
         const phoneToken = await messaging().getToken();
         setFcmToken(phoneToken);
+        console.log(phoneToken);
       } catch (e) {
         console.log(e);
       }

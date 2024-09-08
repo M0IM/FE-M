@@ -1,12 +1,10 @@
-import {Image, View} from 'react-native';
+import {View} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons.js';
 
 import Avatar from '../../@common/Avatar/Avatar.tsx';
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import InfoSquareCard from '../../me/InfoSquareCard/InfoSquareCard.tsx';
 
-import Group from 'assets/images/Group.png';
-import Call from 'assets/images/ion_call.png';
-import Bubble from 'assets/images/Speech_Bubble.png';
 import {MyStackNavigationProp} from 'navigators/types';
 import {TMyProfileResponse} from 'types/dtos/user.ts';
 
@@ -19,7 +17,12 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
   return (
     <>
       <View className={'flex-row items-center mt-7 pl-2 mb-2'}>
-        <Avatar size="LG" uri={profile?.result.imageUrl} alt="Avatar" />
+        <Avatar
+          size="LG"
+          uri={profile?.result.imageUrl}
+          alt="Avatar"
+          disabled
+        />
         <Typography
           numberOfLines={1}
           fontWeight={'BOLD'}
@@ -35,21 +38,21 @@ export default function MyProfileCard({navigation, profile}: IMyProfileCard) {
               id: profile?.result.userId as number,
             })
           }>
-          <Image source={Group} />
+          <Ionicons name="person" size={30} color="#CBFAC4" />
         </InfoSquareCard>
         <InfoSquareCard
           title={'문의 하기'}
           onPress={() => navigation.navigate('MY_CONTACT')}>
-          <Image source={Call} />
+          <Ionicons name="call" size={30} color="#84DE77" />
         </InfoSquareCard>
         <InfoSquareCard
-          title={'내 후기 확인'}
+          title={'내 후기'}
           onPress={() =>
             navigation.navigate('MY_REVIEW', {
               id: profile?.result.userId as number,
             })
           }>
-          <Image source={Bubble} />
+          <Ionicons name="chatbubble" size={30} color="#E3FCBF" />
         </InfoSquareCard>
       </View>
     </>

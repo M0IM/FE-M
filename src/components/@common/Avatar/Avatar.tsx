@@ -1,5 +1,5 @@
 import {ImageProps, TouchableOpacity} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import user from '../../../assets/icons/user.png';
 
@@ -7,6 +7,7 @@ interface AvatarProps extends ImageProps {
   uri?: string;
   size?: 'XS' | 'SM' | 'MD' | 'LG';
   onPress?: () => void;
+  disabled?: boolean;
 }
 
 const Avatar = ({
@@ -14,6 +15,7 @@ const Avatar = ({
   size = 'SM',
   className,
   onPress,
+  disabled = false,
 }: AvatarProps) => {
   const [avatarSize, setAvatarSize] = useState<string>('');
 
@@ -37,15 +39,14 @@ const Avatar = ({
   }, []);
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <FastImage
-        source={uri ? { uri: uri } : user}
+        source={uri ? {uri: uri} : user}
         className={`flex flex-col items-center justify-center rounded-full ${avatarSize} ${className}`}
         resizeMode={FastImage.resizeMode.cover}
       />
     </TouchableOpacity>
   );
 };
-
 
 export default Avatar;

@@ -37,15 +37,18 @@ import {
   UseMutationCustomOptions,
   UseQueryCustomOptions,
 } from 'types/mutations/common';
+import Toast from 'react-native-toast-message';
 
 function useMoimPost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: writeMoimPost,
-    onSuccess: data => {
-      console.log(data);
-    },
     onError: error => {
-      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -126,7 +129,12 @@ function useWriteMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -139,7 +147,12 @@ function useWriteMoimPostRecomment(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -152,7 +165,12 @@ function useLikeMoimPost(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -165,7 +183,12 @@ function useLikeMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -178,7 +201,12 @@ function useDeleteMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -191,7 +219,12 @@ function useReportMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -204,7 +237,12 @@ function useBlockMoimPostComment(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -217,7 +255,12 @@ function useDeleteMoimPost(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -230,7 +273,12 @@ function useReportMoimPost(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -243,7 +291,12 @@ function useBlockMoimPost(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -256,7 +309,12 @@ function useUpdateMoimPost(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -269,7 +327,12 @@ function useCreateAnnouncementPost(mutationOptions?: UseMutationCustomOptions) {
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });
@@ -284,7 +347,12 @@ function useConfrimAnnouncementPost(
       console.log(data);
     },
     onError: error => {
-      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     },
     ...mutationOptions,
   });

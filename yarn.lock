@@ -7279,9 +7279,9 @@ __metadata:
   linkType: hard
 
 "ansi-regex@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "ansi-regex@npm:6.0.1"
-  checksum: 1ff8b7667cded1de4fa2c9ae283e979fc87036864317da86a2e546725f96406746411d0d85e87a2d12fa5abd715d90006de7fa4fa0477c92321ad3b4c7d4e169
+  version: 6.1.0
+  resolution: "ansi-regex@npm:6.1.0"
+  checksum: 495834a53b0856c02acd40446f7130cb0f8284f4a39afdab20d5dc42b2e198b1196119fe887beed8f9055c4ff2055e3b2f6d4641d0be018cdfb64fedf6fc1aac
   languageName: node
   linkType: hard
 
@@ -13366,11 +13366,11 @@ __metadata:
   linkType: hard
 
 "memfs@npm:^3.4.1, memfs@npm:^3.4.12":
-  version: 3.6.0
-  resolution: "memfs@npm:3.6.0"
+  version: 3.5.3
+  resolution: "memfs@npm:3.5.3"
   dependencies:
     fs-monkey: ^1.0.4
-  checksum: 934e79f32aabb10869056815bf369ed63aacb61d13183a3a3826847bbb359d7023fd5b365984ddd73faed463bbb5370ed5cd1e87ecf50ac010c5cac81929ed78
+  checksum: 18dfdeacad7c8047b976a6ccd58bc98ba76e122ad3ca0e50a21837fe2075fc0d9aafc58ab9cf2576c2b6889da1dd2503083f2364191b695273f40969db2ecc44
   languageName: node
   linkType: hard
 
@@ -18032,8 +18032,8 @@ __metadata:
   linkType: hard
 
 "unplugin@npm:^1.3.1":
-  version: 1.13.1
-  resolution: "unplugin@npm:1.13.1"
+  version: 1.14.0
+  resolution: "unplugin@npm:1.14.0"
   dependencies:
     acorn: ^8.12.1
     webpack-virtual-modules: ^0.6.2
@@ -18042,7 +18042,7 @@ __metadata:
   peerDependenciesMeta:
     webpack-sources:
       optional: true
-  checksum: 8ca28180b175be90403fbe015fcafcff981fb23bd1f61e58aa5de98e48fc214d62e18bc0c521141a87604e680d3da1832febf3930f9b87b9b551d92ea68ed082
+  checksum: 97053128698ca36a26cbd0bf2b3d1fe6bd6d4cb7307192a53843b11f632377c0af18bd21396c702317c31cc5441b23ee7abcb174eef9220a66c1523b071df6b9
   languageName: node
   linkType: hard
 

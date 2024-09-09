@@ -100,21 +100,12 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
                 visibilityTime: 2000,
                 position: 'bottom',
               });
-              navigation.navigate('MOIM_POST_DETAIL', {
-                id: moimId,
-                postId: postInfo?.moimPostId,
-              });
               queryClient.invalidateQueries({
                 queryKey: ['moimPost', moimId, postInfo?.moimPostId],
               });
-            },
-            onError: error => {
-              console.log(error.response);
-              Toast.show({
-                type: 'error',
-                text1: error.message || '게시글 수정 중 에러가 발생했습니다.',
-                visibilityTime: 2000,
-                position: 'bottom',
+              navigation.navigate('MOIM_POST_DETAIL', {
+                id: moimId,
+                postId: postInfo?.moimPostId,
               });
             },
           },
@@ -132,18 +123,13 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
             },
             {
               onSuccess: () => {
-                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
                 queryClient.invalidateQueries({
-                  queryKey: ['moim', 'post', 'ALL', moimId],
+                  queryKey: ['moim', 'post', 'ALL'],
                 });
-              },
-              onError: error => {
-                Toast.show({
-                  type: 'error',
-                  text1: error.response?.data.message,
-                  visibilityTime: 2000,
-                  position: 'bottom',
+                queryClient.invalidateQueries({
+                  queryKey: ['moim', 'post', 'ANOUNCEMENT', moimId],
                 });
+                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
               },
             },
           );
@@ -158,18 +144,10 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
             },
             {
               onSuccess: () => {
-                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
                 queryClient.invalidateQueries({
-                  queryKey: ['moim', 'post', 'ALL', moimId],
+                  queryKey: ['moim', 'post', category?.key, moimId],
                 });
-              },
-              onError: error => {
-                Toast.show({
-                  type: 'error',
-                  text1: error.response?.data.message,
-                  visibilityTime: 2000,
-                  position: 'bottom',
-                });
+                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
               },
             },
           );

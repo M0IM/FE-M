@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Pressable,
@@ -20,6 +20,7 @@ import {
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import useMoimPostStore from 'stores/useMoimPostStore';
+import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 
 type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
@@ -41,8 +42,10 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
     refetch,
     isPending,
   } = useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
-  const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
+  const {data: moimInfo} = useGetMoimSpaceInfo(moimId as number);
   const {setPostInfo} = useMoimPostStore();
+
+  console.log();
 
   useFocusEffect(
     useCallback(() => {

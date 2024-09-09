@@ -1,19 +1,20 @@
+import {LogBox, Platform} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
-import RootNavigator from './src/navigators/root/RootNavigator.tsx';
 import {DevToolsBubble} from 'react-native-react-query-devtools';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-
-import {LogBox, Platform} from 'react-native';
-LogBox.ignoreLogs(['Sending']);
 
 import Toast, {
   BaseToast,
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
+
+import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
+import RootNavigator from './src/navigators/root/RootNavigator.tsx';
+
+LogBox.ignoreLogs(['Sending']);
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -45,6 +46,8 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('underground', remoteMessage);
 });
 
+let isNotificationHandled = false; // 플래그 초기화
+
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
@@ -55,11 +58,20 @@ PushNotification.configure({
 
   // (required) Called when a remote is received or opened, or local notification is opened
   onNotification: function (notification: any) {
-    // 실제 Notification이 오는 곳.
-    console.log('NOTIFICATION:', notification);
-    console.log(notification.data.count, 'hi');
+    if (isNotificationHandled) {
+      // 이미 처리된 알림이면 종료
+      return;
+    }
+    console.log(isNotificationHandled, '공지');
 
-    if (Platform.OS === 'ios' && notification.foreground) {
+    console.log('NOTIFICATION:', notification);
+
+    // iOS에서 foreground 상태이고, 알림이 로컬 알림에서 온 것이 아니라면만 로컬 알림을 생성
+    if (
+      Platform.OS === 'ios' &&
+      notification.foreground &&
+      !notification.userInteraction // 로컬 알림으로 인한 상호작용이 아닌 경우
+    ) {
       PushNotification.localNotification({
         title: notification.title,
         message: notification.message,
@@ -70,7 +82,10 @@ PushNotification.configure({
       });
     }
 
-    // (required) Called when a remote is received or opened, or local notification is opened
+    // 알림 처리 완료 후 플래그 설정
+    isNotificationHandled = true;
+
+    // 알림 처리 완료 후 마무리
     notification.finish(PushNotificationIOS.FetchResult.NoData);
   },
 
@@ -146,7 +161,6 @@ channels.forEach(channel => {
 });
 
 function App() {
-  PushNotification.setApplicationIconBadgeNumber(0);
   return (
     <AppSetupContainer>
       <GestureHandlerRootView>

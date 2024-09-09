@@ -211,20 +211,16 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         },
         {
           onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['moim', 'post', 'ALL'],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['moim', 'post', data?.postType],
+            });
             navigation.goBack();
             Toast.show({
               type: 'success',
               text1: '게시글이 삭제되었습니다.',
-              visibilityTime: 2000,
-              position: 'bottom',
-            });
-          },
-          onError: error => {
-            Toast.show({
-              type: 'error',
-              text1:
-                error?.response?.data.message ||
-                '게시글 삭제 중 에러가 발생했습니다.',
               visibilityTime: 2000,
               position: 'bottom',
             });

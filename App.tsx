@@ -6,7 +6,7 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
-import {LogBox} from 'react-native';
+import {LogBox, Platform} from 'react-native';
 LogBox.ignoreLogs(['Sending']);
 
 import Toast, {
@@ -42,8 +42,9 @@ const toastConfig = {
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Messaging handled in the background', remoteMessage);
-  console.log('undrground', remoteMessage);
+  console.log('underground', remoteMessage);
 });
+
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
@@ -53,11 +54,21 @@ PushNotification.configure({
   },
 
   // (required) Called when a remote is received or opened, or local notification is opened
-  onNotification: function (notification) {
+  onNotification: function (notification: any) {
     // 실제 Notification이 오는 곳.
     console.log('NOTIFICATION:', notification);
+    console.log(notification.data.count, 'hi');
 
-    // process the notification
+    if (Platform.OS === 'ios' && notification.foreground) {
+      PushNotification.localNotification({
+        title: notification.title,
+        message: notification.message,
+        playSound: true,
+        soundName: 'default',
+        priority: 'high',
+        vibrate: true,
+      });
+    }
 
     // (required) Called when a remote is received or opened, or local notification is opened
     notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -97,37 +108,51 @@ PushNotification.configure({
   requestPermissions: true,
 });
 
-PushNotification.createChannel(
-  {
-    channelId: 'TODO',
-    channelName: '할 일',
-    channelDescription: '할 일 알림',
-    importance: Importance.HIGH,
-    soundName: 'default',
-    vibrate: true,
-  },
-  (created: boolean) => console.log(`channel PLAN 생성, ${created}`),
-);
+// PushNotification 채널 생성 함수
+const createNotificationChannel = (
+  channelId: string,
+  channelName: string,
+  channelDescription: string,
+) => {
+  PushNotification.createChannel(
+    {
+      channelId,
+      channelName,
+      channelDescription,
+      importance: Importance.HIGH,
+      soundName: 'default',
+      vibrate: true,
+    },
+    (created: boolean) =>
+      console.log(`channel ${channelName} 생성, ${created}`),
+  );
+};
 
-PushNotification.createChannel(
-  {
-    channelId: 'PLAN',
-    channelName: '일정',
-    channelDescription: '일정 알림',
-    importance: Importance.HIGH,
-    soundName: 'default',
-    vibrate: true,
-  },
-  (created: boolean) => console.log(`channel PLAN 생성, ${created}`),
-);
+// 여러 채널 생성
+const channels = [
+  {id: 'TODO', name: '할 일', description: '할 일 알림'},
+  {id: 'PLAN', name: '일정', description: '일정 알림'},
+  {id: 'COMMENT', name: '댓글', description: '댓글 알림'},
+  {id: 'POST', name: '게시글', description: '게시글 알림'},
+  {id: 'CHATROOM', name: '채팅', description: '채팅 알림'},
+  {id: 'MOIM', name: '모임', description: '모임 알림'},
+  {id: 'REVIEW', name: '리뷰', description: '리뷰 알림'},
+  {id: 'EVENT', name: '이벤트', description: '이벤트 알림'},
+];
+
+// 채널 생성 반복
+channels.forEach(channel => {
+  createNotificationChannel(channel.id, channel.name, channel.description);
+});
 
 function App() {
+  PushNotification.setApplicationIconBadgeNumber(0);
   return (
     <AppSetupContainer>
       <GestureHandlerRootView>
         <RootNavigator />
         <Toast config={toastConfig} />
-        <DevToolsBubble />
+        {/*<DevToolsBubble />*/}
       </GestureHandlerRootView>
     </AppSetupContainer>
   );

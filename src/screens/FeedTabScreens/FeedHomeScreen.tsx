@@ -30,7 +30,7 @@ export default function FeedHomeScreen({navigation}: FeedHomeScreenProps) {
     }, [setMoinInfo]),
   );
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setIsRefreshing(true);
     wait(2000).then(() => setIsRefreshing(false));
   }, []);

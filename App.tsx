@@ -1,19 +1,20 @@
+import {LogBox, Platform} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
-import RootNavigator from './src/navigators/root/RootNavigator.tsx';
 import {DevToolsBubble} from 'react-native-react-query-devtools';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-
-import {LogBox} from 'react-native';
-LogBox.ignoreLogs(['Sending']);
 
 import Toast, {
   BaseToast,
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
+
+import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
+import RootNavigator from './src/navigators/root/RootNavigator.tsx';
+
+LogBox.ignoreLogs(['Sending']);
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -42,8 +43,11 @@ const toastConfig = {
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Messaging handled in the background', remoteMessage);
-  console.log('undrground', remoteMessage);
+  console.log('underground', remoteMessage);
 });
+
+let isNotificationHandled = false; // 플래그 초기화
+
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
@@ -53,13 +57,35 @@ PushNotification.configure({
   },
 
   // (required) Called when a remote is received or opened, or local notification is opened
-  onNotification: function (notification) {
-    // 실제 Notification이 오는 곳.
+  onNotification: function (notification: any) {
+    if (isNotificationHandled) {
+      // 이미 처리된 알림이면 종료
+      return;
+    }
+    console.log(isNotificationHandled, '공지');
+
     console.log('NOTIFICATION:', notification);
 
-    // process the notification
+    // iOS에서 foreground 상태이고, 알림이 로컬 알림에서 온 것이 아니라면만 로컬 알림을 생성
+    if (
+      Platform.OS === 'ios' &&
+      notification.foreground &&
+      !notification.userInteraction // 로컬 알림으로 인한 상호작용이 아닌 경우
+    ) {
+      PushNotification.localNotification({
+        title: notification.title,
+        message: notification.message,
+        playSound: true,
+        soundName: 'default',
+        priority: 'high',
+        vibrate: true,
+      });
+    }
 
-    // (required) Called when a remote is received or opened, or local notification is opened
+    // 알림 처리 완료 후 플래그 설정
+    isNotificationHandled = true;
+
+    // 알림 처리 완료 후 마무리
     notification.finish(PushNotificationIOS.FetchResult.NoData);
   },
 
@@ -97,29 +123,42 @@ PushNotification.configure({
   requestPermissions: true,
 });
 
-PushNotification.createChannel(
-  {
-    channelId: 'TODO',
-    channelName: '할 일',
-    channelDescription: '할 일 알림',
-    importance: Importance.HIGH,
-    soundName: 'default',
-    vibrate: true,
-  },
-  (created: boolean) => console.log(`channel PLAN 생성, ${created}`),
-);
+// PushNotification 채널 생성 함수
+const createNotificationChannel = (
+  channelId: string,
+  channelName: string,
+  channelDescription: string,
+) => {
+  PushNotification.createChannel(
+    {
+      channelId,
+      channelName,
+      channelDescription,
+      importance: Importance.HIGH,
+      soundName: 'default',
+      vibrate: true,
+    },
+    (created: boolean) =>
+      console.log(`channel ${channelName} 생성, ${created}`),
+  );
+};
 
-PushNotification.createChannel(
-  {
-    channelId: 'PLAN',
-    channelName: '일정',
-    channelDescription: '일정 알림',
-    importance: Importance.HIGH,
-    soundName: 'default',
-    vibrate: true,
-  },
-  (created: boolean) => console.log(`channel PLAN 생성, ${created}`),
-);
+// 여러 채널 생성
+const channels = [
+  {id: 'TODO', name: '할 일', description: '할 일 알림'},
+  {id: 'PLAN', name: '일정', description: '일정 알림'},
+  {id: 'COMMENT', name: '댓글', description: '댓글 알림'},
+  {id: 'POST', name: '게시글', description: '게시글 알림'},
+  {id: 'CHATROOM', name: '채팅', description: '채팅 알림'},
+  {id: 'MOIM', name: '모임', description: '모임 알림'},
+  {id: 'REVIEW', name: '리뷰', description: '리뷰 알림'},
+  {id: 'EVENT', name: '이벤트', description: '이벤트 알림'},
+];
+
+// 채널 생성 반복
+channels.forEach(channel => {
+  createNotificationChannel(channel.id, channel.name, channel.description);
+});
 
 function App() {
   return (
@@ -127,7 +166,7 @@ function App() {
       <GestureHandlerRootView>
         <RootNavigator />
         <Toast config={toastConfig} />
-        <DevToolsBubble />
+        {/*<DevToolsBubble />*/}
       </GestureHandlerRootView>
     </AppSetupContainer>
   );

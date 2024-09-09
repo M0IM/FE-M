@@ -92,7 +92,7 @@ export default function MoimCreateTodoScreen({
       },
     );
   };
-
+  console.log(imageUri);
   const handleModifyTodo = () => {
     const imageKey = uploadUri
       ? // uploadUri가 존재하면 사용.
@@ -104,6 +104,7 @@ export default function MoimCreateTodoScreen({
           imageUri.replace(Config.AWS_S3_URL, '')
         : // imageUri 제거
           imageUri;
+    console.log(imageKey, '이미지 키');
     isEdit &&
       modifyTodoMutation.mutate(
         {

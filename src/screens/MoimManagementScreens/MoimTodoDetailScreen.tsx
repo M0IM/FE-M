@@ -42,6 +42,7 @@ export default function MoimTodoDetailScreen({
 
   const {useGetMoimTodoDetail, deleteTodoMutation} = useTodo();
   const {data: todo} = useGetMoimTodoDetail(moimId, todoId);
+  console.log(todo);
 
   const {setTodoList, setIsEditMode} = useTodoStore();
   const PostMyMenuList = [

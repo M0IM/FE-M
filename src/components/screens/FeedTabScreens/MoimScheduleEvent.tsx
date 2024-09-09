@@ -1,5 +1,5 @@
 import {FlatList, View} from 'react-native';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
@@ -11,6 +11,7 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import MoimScheduleEventSkeleton from './skeleton/MoimScheduleEventSkeleton.tsx';
 import {TUserPlanDTO} from 'types/dtos/calendar.ts';
 import ScheduleColorPalette from './ScheduleColorPalette.tsx';
+import {MoimWriteBar} from '../../home/MoimWriteBar/MoimWriteBar.tsx';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;

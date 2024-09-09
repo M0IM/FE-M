@@ -54,7 +54,6 @@ export default function MoimMyEvent({
         <Typography className="text-lg mb-4" fontWeight={'BOLD'}>
           내 모임
         </Typography>
-
         <FlatList
           scrollEnabled={false}
           horizontal

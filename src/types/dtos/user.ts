@@ -1,4 +1,4 @@
-import {USER_PROVIDER} from 'types/enums/index.ts';
+import {MOIM_JOIN_STATUS, USER_PROVIDER} from 'types/enums/index.ts';
 import {CommonResponse} from '../mutations/common.ts';
 import {JOIN_STATUS, MOIM_CATEGORY} from './moim.ts';
 
@@ -14,6 +14,12 @@ type TMyProfile = {
     | USER_PROVIDER.NAVER
     | USER_PROVIDER.UNREGISTERED;
 };
+
+export type JOIN_STATUS_REQUEST =
+  | MOIM_JOIN_STATUS.COMPLETE
+  | MOIM_JOIN_STATUS.LOADING
+  | MOIM_JOIN_STATUS.REJECT
+  | MOIM_JOIN_STATUS.ALL;
 
 type TMyProfileResponse = CommonResponse<TMyProfile>;
 
@@ -64,6 +70,7 @@ type TUpdateUserParams = {
 type TGetMoimJoinRequestParams = {
   cursor: number;
   take: number;
+  moimRequestJoin: JOIN_STATUS_REQUEST;
 };
 
 export type {

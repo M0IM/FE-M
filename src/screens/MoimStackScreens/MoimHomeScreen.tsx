@@ -129,31 +129,6 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="flex-row p-5 gap-x-3 mt-5 items-center">
-        <Typography className="text-xl" fontWeight={'BOLD'}>
-          내가 활동 중인 모임
-        </Typography>
-      </View>
-      <View className="flex px-5 flex-col">
-        <FlatList
-          horizontal
-          data={roleKeys}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => handleSelect(item)}>
-              <Label
-                label={item}
-                color={selectedRole === MOIM_ROLE_LIST[item] ? 'main' : 'gray'}
-                variant={
-                  selectedRole === MOIM_ROLE_LIST[item] ? 'filled' : 'outlined'
-                }
-              />
-            </TouchableOpacity>
-          )}
-          ItemSeparatorComponent={() => <View style={{width: 5}} />}
-          keyExtractor={item => item}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
       {moimPreviewList && moimPreviewList.length > 0 ? (
         <FlatList
           data={moimPreviewList}
@@ -181,6 +156,41 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
           onRefresh={handleRefresh}
           scrollIndicatorInsets={{right: 1}}
           indicatorStyle={'black'}
+          ListHeaderComponent={
+            <>
+              <View className="flex-row gap-x-3 mt-5 mb-3 items-center">
+                <Typography className="text-xl" fontWeight={'BOLD'}>
+                  내가 활동 중인 모임
+                </Typography>
+              </View>
+              <View className="flex flex-col">
+                <FlatList
+                  horizontal
+                  data={roleKeys}
+                  renderItem={({item}) => (
+                    <TouchableOpacity onPress={() => handleSelect(item)}>
+                      <Label
+                        label={item}
+                        color={
+                          selectedRole === MOIM_ROLE_LIST[item]
+                            ? 'main'
+                            : 'gray'
+                        }
+                        variant={
+                          selectedRole === MOIM_ROLE_LIST[item]
+                            ? 'filled'
+                            : 'outlined'
+                        }
+                      />
+                    </TouchableOpacity>
+                  )}
+                  ItemSeparatorComponent={() => <View style={{width: 5}} />}
+                  keyExtractor={item => item}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
+            </>
+          }
         />
       ) : (
         <RenderedContainer />

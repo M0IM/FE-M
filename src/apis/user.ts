@@ -54,9 +54,10 @@ const updateMyProfile = async ({
 const getMoimJoinRequest = async ({
   cursor,
   take,
+  moimRequestJoin,
 }: TGetMoimJoinRequestParams): Promise<TGetMoimJoinRequestResponse> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/my-requests?cursor=${cursor}&take=${take}`,
+    `/api/v1/moims/my-requests?cursor=${cursor}&take=${take}&moimRequestJoin=${moimRequestJoin}`,
   );
   return data?.result;
 };

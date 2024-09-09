@@ -26,8 +26,10 @@ const RevokeMoimDetailScreen = ({
 }: RevokeMoimDetailScreenProps) => {
   const moimId = route.params?.id as number;
   const [exitReason, setExitReason] = useState('');
-  const debouncedValue = useDebounce(exitReason, 1000);
+  const debouncedValue = useDebounce(exitReason, 100);
   const {mutate} = useWithdrawMoim();
+
+  console.log(debouncedValue);
 
   return (
     <ScreenContainer

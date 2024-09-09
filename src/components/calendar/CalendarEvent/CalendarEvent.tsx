@@ -11,6 +11,7 @@ import useDeleteMyCalendarSchedule from 'hooks/queries/CalendarHomeScreen/useDel
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import {CalendarStackNavigationProp} from 'navigators/types';
 import useMyCalendarStore from 'stores/useMyCalendarStore.ts';
+import Toast from 'react-native-toast-message';
 
 interface ICalendarEventProps {
   post: TPlanListDTO;
@@ -27,6 +28,14 @@ export function CalendarEvent({post, onPress, ...props}: ICalendarEventProps) {
     mutate(post.planId, {
       onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ['calendar']});
+      },
+      onError: error => {
+        Toast.show({
+          type: 'error',
+          text1: error.response?.data.message,
+          visibilityTime: 2000,
+          position: 'bottom',
+        });
       },
     });
   };
@@ -67,31 +76,57 @@ export function CalendarEvent({post, onPress, ...props}: ICalendarEventProps) {
     );
   };
 
-  if (post.planType === 'TODO_PLAN') {
-    return (
-      <TouchableOpacity
-        onPress={onPress}
-        {...props}
-        activeOpacity={0.5}
-        className="flex-row mt-[10px] items-center justify-center w-[323px] h-[88px] "
-        key={post.planId}>
-        <View className="bg-warning w-1 rounded-l-full h-[90%] z-10" />
+  switch (post.planType) {
+    case 'TODO_PLAN':
+      return (
+        <TouchableOpacity
+          onPress={onPress}
+          {...props}
+          activeOpacity={0.5}
+          className="flex-row mt-[10px] items-center justify-center w-[323px] h-[88px] "
+          key={post.planId}>
+          <View className="bg-warning w-1 rounded-l-full h-[90%] z-10" />
 
-        <View className={cn(CalenderEventVariant({platform}))}>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            className="text-dark-800 font-bold text-base mb-1">
-            {post.title}
-          </Text>
-          <View className="mt-1">
-            <Text className="text-xs text-gray-400">
-              {year}년 {month}월 {day}일
+          <View className={cn(CalenderEventVariant({platform}))}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              className="text-dark-800 font-bold text-base mb-1">
+              {post.title}
             </Text>
+            <View className="mt-1">
+              <Text className="text-xs text-gray-400">
+                {year}년 {month}월 {day}일
+              </Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    );
+        </TouchableOpacity>
+      );
+    case 'MOIM_PLAN':
+      return (
+        <TouchableOpacity
+          onPress={onPress}
+          {...props}
+          activeOpacity={0.5}
+          className="flex-row mt-[10px] items-center justify-center w-[323px] h-[88px] "
+          key={post.planId}>
+          <View className="bg-error w-1 rounded-l-full h-[90%] z-10" />
+
+          <View className={cn(CalenderEventVariant({platform}))}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              className="text-dark-800 font-bold text-base mb-1">
+              {post.title}
+            </Text>
+            <View className="mt-1">
+              <Text className="text-xs text-gray-400">
+                {year}년 {month}월 {day}일
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
   }
 
   return (
@@ -113,9 +148,6 @@ export function CalendarEvent({post, onPress, ...props}: ICalendarEventProps) {
           {/* 녹색: 개인 일정, 빨간색: 모임 일정, 노란색: 투두 일정 */}
           {post.planType === 'INDIVIDUAL_PLAN' && (
             <View className="bg-main w-1 rounded-l-full h-[90%] z-10" />
-          )}
-          {post.planType === 'MOIM_PLAN' && (
-            <View className="bg-error w-1 rounded-l-full h-[90%] z-10" />
           )}
           <View className="bg-white p-4 rounded-r-2xl flex-1">
             <Text

@@ -24,6 +24,8 @@ export default function MoimGetTodoScreen({
   navigation: MoimManagementNavigationProp;
 }) {
   const moimId = route.params.id as number;
+
+  console.log(moimId);
   const {getInfiniteMoimTodoList} = useTodo();
   const {
     data: todos,

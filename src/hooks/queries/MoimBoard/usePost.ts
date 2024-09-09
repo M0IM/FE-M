@@ -111,7 +111,7 @@ function useGetInfiniteMoimPostComment(
         take: 10,
       }),
     queryKey: ['postComments', moimId, postId],
-    initialPageParam: 1,
+    initialPageParam: 0,
     getNextPageParam: lastPage => {
       return lastPage.hasNext ? lastPage.nextCursor : undefined;
     },

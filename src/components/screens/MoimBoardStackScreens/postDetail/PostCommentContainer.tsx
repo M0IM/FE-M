@@ -72,7 +72,7 @@ const PostCommentContainer = ({
             position: 'bottom',
           });
         },
-        onSettled: () => {
+        onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: ['postComments', moimId, postId],
           });
@@ -206,8 +206,6 @@ const PostCommentContainer = ({
   if (isDeleted) {
     return <></>;
   }
-
-  console.log(commentData);
 
   return (
     <Pressable onPress={() => targetCommentId && handleUpdateCommentId(null)}>

@@ -11,6 +11,9 @@ import {useGetSearchInfiniteMoimList} from 'hooks/queries/MoimSearchScreen/useGe
 import {HomeStackNavigationProp} from 'navigators/types';
 import {MOIM_REQUEST_TYPE} from 'types/enums';
 import {CATEGORY_LIST} from 'constants/screens/MoimSearchScreen/CategoryList.ts';
+import {Logo} from '../../components/@common/Logo/Logo.tsx';
+import {Typography} from '../../components/@common/Typography/Typography.tsx';
+import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
 
 const MoimSearchScreen = ({
   navigation,
@@ -65,6 +68,8 @@ const MoimSearchScreen = ({
     await refetch();
     setIsRefreshing(false);
   };
+
+  const moimPreviewList = data.pages.flatMap(page => page.moimPreviewList);
 
   if (isPending) {
     return (
@@ -151,39 +156,56 @@ const MoimSearchScreen = ({
           showsHorizontalScrollIndicator={false}
         />
       </View>
-      <FlatList
-        data={data.pages.flatMap(page => page.moimPreviewList)}
-        renderItem={({item}) => {
-          return (
-            <ActiveMoimCard
-              key={item.moimId}
-              moim={item}
-              onPress={() =>
-                navigation.navigate('MOIM_STACK', {
-                  screen: 'MOIM_SPACE',
-                  params: {
-                    id: item.moimId,
-                  },
-                })
-              }
-            />
-          );
-        }}
-        keyExtractor={item => String(item.moimId)}
-        numColumns={1}
-        contentContainerStyle={{
-          paddingHorizontal: 30,
-          gap: 10,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        refreshing={isRefreshing}
-        onRefresh={handleRefresh}
-        scrollIndicatorInsets={{right: 1}}
-        indicatorStyle={'black'}
-      />
+      {moimPreviewList.length !== 0 ? (
+        <FlatList
+          data={moimPreviewList}
+          renderItem={({item}) => {
+            return (
+              <ActiveMoimCard
+                key={item.moimId}
+                moim={item}
+                onPress={() =>
+                  navigation.navigate('MOIM_STACK', {
+                    screen: 'MOIM_SPACE',
+                    params: {
+                      id: item.moimId,
+                    },
+                  })
+                }
+              />
+            );
+          }}
+          keyExtractor={item => String(item.moimId)}
+          numColumns={1}
+          contentContainerStyle={{
+            paddingHorizontal: 30,
+            gap: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          scrollIndicatorInsets={{right: 1}}
+          indicatorStyle={'black'}
+        />
+      ) : (
+        <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
+          <Logo background={'TRANSPARENT'} size={'LG'} />
+          <Typography className="text-md text-gray-500" fontWeight={'BOLD'}>
+            현재 생성 된 모임이 없습니다.
+          </Typography>
+          <Typography fontWeight="BOLD" className="text-gray-400">
+            새로운 모임을 개설해보세요!
+          </Typography>
+          <CustomButton
+            label={'모임 생성하기'}
+            textStyle={'text-white font-bold text-lg'}
+            onPress={() => navigation.navigate('MOIM_CREATE')}
+          />
+        </View>
+      )}
     </View>
   );
 };

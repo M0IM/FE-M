@@ -1,6 +1,5 @@
 import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Toast from 'react-native-toast-message';
 
 import {InputField} from 'components/@common/InputField/InputField';
 import useCommentStore from 'stores/useCommentStore';
@@ -36,25 +35,13 @@ const CommentInput = ({id, postId}: CommentInputProps) => {
         },
         {
           onSuccess: () => {
-            setComment('');
-          },
-          onError: error => {
-            Toast.show({
-              type: 'error',
-              text1:
-                error?.response?.data.message ||
-                '댓글 작성 중 에러가 발생했습니다.',
-              visibilityTime: 2000,
-              position: 'bottom',
-            });
-          },
-          onSettled: () => {
             queryClient.invalidateQueries({
               queryKey: ['postComments', id, postId],
             });
             queryClient.invalidateQueries({
               queryKey: ['moimPost', id, postId],
             });
+            setComment('');
           },
         },
       );
@@ -72,24 +59,14 @@ const CommentInput = ({id, postId}: CommentInputProps) => {
         },
         {
           onSuccess: () => {
-            setRecomment('');
-            handleUpdateCommentId(null);
-          },
-          onError: error => {
-            console.error(error);
-            Toast.show({
-              type: 'error',
-              text1:
-                error?.response?.data.message ||
-                '대댓글 작성 중 에러가 발생했습니다.',
-              visibilityTime: 2000,
-              position: 'bottom',
-            });
-          },
-          onSettled: () => {
             queryClient.invalidateQueries({
               queryKey: ['postComments', id, postId],
             });
+            queryClient.invalidateQueries({
+              queryKey: ['moimPost', id, postId],
+            });
+            setRecomment('');
+            handleUpdateCommentId(null);
           },
         },
       );

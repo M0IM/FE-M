@@ -42,15 +42,21 @@ export default function MoimHappeningEvent({
   }
 
   if (isError) {
-    return;
+    return <View></View>;
   }
 
   return (
     <View className="flex flex-col">
-      <Typography className="text-lg mb-4 text-dark-800" fontWeight={'BOLD'}>
-        모임에 무슨일이 일어나고 있나요?
-      </Typography>
-      <PostPreviewBox allPosts={data} />
+      {data.length !== 0 ? (
+        <>
+          <Typography
+            className="text-lg mb-4 text-dark-800"
+            fontWeight={'BOLD'}>
+            모임에 무슨일이 일어나고 있나요?
+          </Typography>
+          <PostPreviewBox allPosts={data} />
+        </>
+      ) : null}
     </View>
   );
 }

@@ -5,10 +5,14 @@ import {
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
 import {getMoimJoinRequest} from 'apis';
-import {TGetMoimJoinRequestResponse} from 'types/dtos/user';
+import {
+  JOIN_STATUS_REQUEST,
+  TGetMoimJoinRequestResponse,
+} from 'types/dtos/user';
 import {ResponseError} from 'types/mutations/common';
 
 function useGetInfiniteMoimJoinRequest(
+  moimRequestJoin: JOIN_STATUS_REQUEST,
   queryOptions?: UseInfiniteQueryOptions<
     TGetMoimJoinRequestResponse,
     ResponseError,
@@ -21,6 +25,7 @@ function useGetInfiniteMoimJoinRequest(
   return useSuspenseInfiniteQuery({
     queryFn: ({pageParam}) =>
       getMoimJoinRequest({
+        moimRequestJoin,
         cursor: pageParam,
         take: 10,
       }),

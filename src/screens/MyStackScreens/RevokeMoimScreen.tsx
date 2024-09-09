@@ -6,6 +6,7 @@ import {ActiveMoimCard} from 'components/calendar/ActiveMoimCard.tsx';
 
 import {RevokeMoimStackNavigatorProp} from 'navigators/types';
 import {useGetInfiniteMyActiveMoim} from 'hooks/queries/MoimHomeScreen/useGetInfiniteMyActiveMoim.ts';
+import {MOIM_ROLE} from 'types/enums';
 
 interface RevokeMoimScreenProps {
   navigation: RevokeMoimStackNavigatorProp;
@@ -20,7 +21,7 @@ export default function RevokeMoimScreen({navigation}: RevokeMoimScreenProps) {
     refetch,
     isPending,
     isError,
-  } = useGetInfiniteMyActiveMoim();
+  } = useGetInfiniteMyActiveMoim(MOIM_ROLE.ALL);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -41,11 +42,6 @@ export default function RevokeMoimScreen({navigation}: RevokeMoimScreenProps) {
   }
   return (
     <View className="flex-1 bg-white">
-      <View className="p-5">
-        <Typography fontWeight={'BOLD'} className="text-lg">
-          어떤 모임을 탈퇴하시겠어요?
-        </Typography>
-      </View>
       <FlatList
         data={moims.pages.flatMap(page => page.moimPreviewList)}
         renderItem={({item}) => {
@@ -69,6 +65,13 @@ export default function RevokeMoimScreen({navigation}: RevokeMoimScreenProps) {
         onRefresh={handleRefresh}
         scrollIndicatorInsets={{right: 1}}
         indicatorStyle={'black'}
+        ListHeaderComponent={
+          <View className="pt-5">
+            <Typography fontWeight={'BOLD'} className="text-lg">
+              어떤 모임을 탈퇴하시겠어요?
+            </Typography>
+          </View>
+        }
       />
     </View>
   );

@@ -18,10 +18,7 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import {useGetInfiniteMyActiveMoim} from 'hooks/queries/MoimHomeScreen/useGetInfiniteMyActiveMoim.ts';
 import {MOIM_ROLE} from 'types/enums';
 import Label from 'components/@common/Label/Label';
-import {
-  MOIM_ROLE_LIST,
-  MOIM_ROLES,
-} from 'constants/screens/FeedStackScreens/MoimRoleList';
+import {MOIM_ROLE_LIST} from 'constants/screens/FeedStackScreens/MoimRoleList';
 import {queryClient} from 'containers/TanstackQueryContainer';
 
 interface IMoimHomeScreenProps {
@@ -104,16 +101,47 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
     } else {
       return (
         <ScrollView
-          className="flex-1"
+          className="flex-1 px-[30px]"
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
             />
           }>
+          <>
+            <View className="flex-row gap-x-3 mt-5 mb-3 items-center">
+              <Typography className="text-xl" fontWeight={'BOLD'}>
+                내가 활동 중인 모임
+              </Typography>
+            </View>
+            <View className="flex flex-col">
+              <FlatList
+                horizontal
+                data={roleKeys}
+                renderItem={({item}) => (
+                  <TouchableOpacity onPress={() => handleSelect(item)}>
+                    <Label
+                      label={item}
+                      color={
+                        selectedRole === MOIM_ROLE_LIST[item] ? 'main' : 'gray'
+                      }
+                      variant={
+                        selectedRole === MOIM_ROLE_LIST[item]
+                          ? 'filled'
+                          : 'outlined'
+                      }
+                    />
+                  </TouchableOpacity>
+                )}
+                ItemSeparatorComponent={() => <View style={{width: 5}} />}
+                keyExtractor={item => item}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+          </>
           <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
             <Typography fontWeight="MEDIUM" className="text-gray-400 text-sm">
-              {`내가 ${MOIM_ROLES[selectedRole]}인 모임이 없습니다.`}
+              해당되는 모임이 없습니다.
             </Typography>
           </View>
         </ScrollView>

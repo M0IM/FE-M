@@ -83,7 +83,7 @@ export default function TodoCreateScreen({
           imageKeyList: uploadUri
             ? [uploadUri]
             : !imageUri
-              ? []
+              ? null
               : [imageUri?.split('.com/')[1]],
         },
         {

@@ -199,6 +199,9 @@ export type MoimManagementParamList = {
     moimId: number | undefined;
     todoId: number | undefined;
   };
+  MOIM_OUT_MEMBER: {
+    id: number;
+  };
 };
 
 export type NewFeedHomeStackParamList = {

@@ -103,16 +103,6 @@ export default function PostForm({moimId}: IPostForm) {
       }),
     };
 
-    console.log(
-      schedules.map(schedule => {
-        const dateObject = parseTimeStringToDate(schedule.startTime);
-        return {
-          ...schedule,
-          startTime: moment(dateObject.toISOString()).format('HH:mm:ss'),
-        };
-      }),
-    );
-
     if (!postData?.title) {
       Toast.show({
         type: 'error',

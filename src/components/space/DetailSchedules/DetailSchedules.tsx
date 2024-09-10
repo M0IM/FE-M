@@ -25,18 +25,22 @@ const DetailSchedules = ({
     <View className="flex flex-row border-l-2 border-main pl-3">
       <ScrollView className="flex-col max-h-[100] gap-y-4">
         {(type === 'full' ? detailSchedules : scheduleList).map(
-          (item, index) => (
-            <View key={index} className="flex flex-row">
-              <Typography
-                fontWeight="MEDIUM"
-                className="text-gray-500 text-xs mr-5">
-                {moment(item.startTime).format('A hh시 mm분')}
-              </Typography>
-              <Typography fontWeight="MEDIUM" className="text-gray-500 text-xs">
-                {item.title}
-              </Typography>
-            </View>
-          ),
+          (item, index) => {
+            return (
+              <View key={index} className="flex flex-row">
+                <Typography
+                  fontWeight="MEDIUM"
+                  className="text-gray-500 text-xs mr-5">
+                  {moment(item.startTime, 'HH:mm:ss').format('A h시 mm분')}
+                </Typography>
+                <Typography
+                  fontWeight="MEDIUM"
+                  className="text-gray-500 text-xs">
+                  {item.title}
+                </Typography>
+              </View>
+            );
+          },
         )}
       </ScrollView>
     </View>

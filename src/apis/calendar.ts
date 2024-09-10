@@ -53,7 +53,7 @@ const getDetailMoimCalendar = async ({
   planId,
 }: TDetailCalendarProps): Promise<TDetailMoimCalendarDTO> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moim/${moimId}/plan/${planId}?scheduleCntLimit=5`,
+    `/api/v1/moim/${moimId}/plan/${planId}`,
   );
 
   return data.result;

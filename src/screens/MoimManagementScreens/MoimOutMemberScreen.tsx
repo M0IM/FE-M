@@ -111,6 +111,7 @@ export default function MoimOutMemberScreen({
         <FlatList
           data={userList}
           renderItem={({item}) => {
+            console.log(item.userId);
             return (
               <View
                 key={item.userId}

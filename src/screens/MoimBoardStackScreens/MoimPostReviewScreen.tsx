@@ -33,6 +33,7 @@ export default function MoimPostReviewScreen({
         onSuccess: data => {
           console.log(data);
           queryClient.invalidateQueries({queryKey: ['review']});
+          queryClient.invalidateQueries({queryKey: ['profile', targetUserId]});
           navigation.goBack();
         },
         onError: error => {

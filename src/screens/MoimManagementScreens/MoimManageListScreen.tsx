@@ -6,6 +6,8 @@ import {
   MoimManagementRouteProp,
 } from 'navigators/types';
 import useTodoStore from 'stores/useTodoStore.ts';
+import useGetMoimSpaceInfo from '../../hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
+import {MOIM_ROLE} from '../../types/enums';
 
 interface MoimManageListScreenProps {
   route: MoimManagementRouteProp;
@@ -17,6 +19,8 @@ const MoimManageListScreen = ({
   navigation,
 }: MoimManageListScreenProps) => {
   const id = route.params?.id;
+  // TODO: 관리자 권한 불러오는 API
+  const {data} = useGetMoimSpaceInfo(id);
   const {setIsEditMode} = useTodoStore();
 
   return (
@@ -25,7 +29,7 @@ const MoimManageListScreen = ({
         className="m-3 mt-6"
         onPress={() => navigation.navigate('PERMISSION_MANAGEMENT', {id})}>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800 ">
-          멤버 권한 수정
+          모임 멤버 관리
         </Typography>
       </TouchableOpacity>
       <TouchableOpacity
@@ -35,22 +39,26 @@ const MoimManageListScreen = ({
           가입 관리
         </Typography>
       </TouchableOpacity>
-      <TouchableOpacity
-        className="m-3"
-        onPress={() =>
-          navigation.navigate('DELEGATION_AUTHORITY_SCREEN', {id})
-        }>
-        <Typography fontWeight="BOLD" className="text-lg text-dark-800">
-          모임장 위임
-        </Typography>
-      </TouchableOpacity>
-      <TouchableOpacity
-        className="m-3"
-        onPress={() => navigation.navigate('MOIM_OUT_MEMBER', {id})}>
-        <Typography fontWeight="BOLD" className="text-lg text-dark-800">
-          모임 멤버 탈퇴
-        </Typography>
-      </TouchableOpacity>
+      {data?.myMoimRole === MOIM_ROLE.OWNER ? (
+        <TouchableOpacity
+          className="m-3"
+          onPress={() =>
+            navigation.navigate('DELEGATION_AUTHORITY_SCREEN', {id})
+          }>
+          <Typography fontWeight="BOLD" className="text-lg text-dark-800">
+            모임장 위임
+          </Typography>
+        </TouchableOpacity>
+      ) : null}
+      {data?.myMoimRole === MOIM_ROLE.OWNER ? (
+        <TouchableOpacity
+          className="m-3"
+          onPress={() => navigation.navigate('MOIM_OUT_MEMBER', {id})}>
+          <Typography fontWeight="BOLD" className="text-lg text-dark-800">
+            모임 멤버 탈퇴
+          </Typography>
+        </TouchableOpacity>
+      ) : null}
       <TouchableOpacity
         className="m-3"
         onPress={() => {
@@ -75,13 +83,15 @@ const MoimManageListScreen = ({
           내가 할당한 할 일 확인
         </Typography>
       </TouchableOpacity>
-      <TouchableOpacity
-        className="m-3"
-        onPress={() => navigation.navigate('MOIM_INFO_EDIT', {id})}>
-        <Typography fontWeight="BOLD" className="text-lg text-dark-800">
-          모임 정보 수정
-        </Typography>
-      </TouchableOpacity>
+      {data?.myMoimRole === MOIM_ROLE.OWNER ? (
+        <TouchableOpacity
+          className="m-3"
+          onPress={() => navigation.navigate('MOIM_INFO_EDIT', {id})}>
+          <Typography fontWeight="BOLD" className="text-lg text-dark-800">
+            모임 정보 수정
+          </Typography>
+        </TouchableOpacity>
+      ) : null}
     </ScreenContainer>
   );
 };

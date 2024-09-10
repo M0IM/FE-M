@@ -4,6 +4,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
   useMutation,
+  useSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
 import {
   acceptMoimJoinRequest,
@@ -183,7 +184,7 @@ function useGetInfinityMoimMembersWithOutOwner(
     number
   >,
 ) {
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     queryFn: ({pageParam}) =>
       getMoimMemberListWithOutOwner({
         moimId,
@@ -203,9 +204,6 @@ function useGetInfinityMoimMembersWithOutOwner(
 function useOutMoimMember(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: outMoimMember,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['moimMembers']});
-    },
     onError: error => {
       Toast.show({
         type: 'error',

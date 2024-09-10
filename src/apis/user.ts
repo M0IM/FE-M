@@ -19,7 +19,7 @@ const getMyDetailReview = async (
   page = 1,
 ): Promise<TMembersReviewDTO[]> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/users/reviews/${userId}?page=${page}&size=5`,
+    `/api/v1/users/reviews/${userId}?page=${page}&size=8`,
   );
 
   return data.result.reviewDTOList;

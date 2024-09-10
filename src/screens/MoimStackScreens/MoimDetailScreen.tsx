@@ -139,6 +139,8 @@ export default function MoimDetailScreen({
       {!(data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE) && (
         <View className="p-3 pt-0">
           <CustomButton
+            disabled={requestMoimJoimMutation.isPending}
+            className={`${requestMoimJoimMutation.isPending ? 'bg-gray-400' : null}`}
             label={
               data?.joinStatus === MOIM_JOIN_STATUS.LOADING
                 ? '신청 확인 중'

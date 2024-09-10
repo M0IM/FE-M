@@ -9,11 +9,11 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
 import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
+import Label from 'components/@common/Label/Label.tsx';
 
 import useTodo from 'hooks/useTodo.ts';
 import {TODO_ASSIGNEE_STATUS} from 'types/dtos/todo.ts';
 import {HomeStackRouteProp} from 'navigators/types';
-import Label from '../../components/@common/Label/Label.tsx';
 
 export default function CalendarTodoDetailScreen({
   route,

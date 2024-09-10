@@ -113,16 +113,16 @@ export default function MoimTodoDetailScreen({
             )}
           </View>
           <Typography
-            fontWeight={'BOLD'}
+            fontWeight={'LIGHT'}
             className="text-xl font-bold text-gray-800 mb-2">
             {todo?.title || '할일 제목 없음'}
           </Typography>
           <Typography
-            fontWeight={'BOLD'}
+            fontWeight={'LIGHT'}
             className="text-base text-gray-600 mb-4">
             {todo?.content || '내용 없음'}
           </Typography>
-          <Typography fontWeight={'BOLD'} className="text-sm text-gray-500">
+          <Typography fontWeight={'LIGHT'} className="text-sm text-gray-500">
             마감 기한 :{' '}
             {todo?.dueDate
               ? moment(todo.dueDate).format('YYYY년 MM월 DD일')

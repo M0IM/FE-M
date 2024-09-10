@@ -49,7 +49,16 @@ export default function MoimOutMemberScreen({
           text: '탈퇴',
           style: 'destructive',
           onPress: () => {
-            outMoimMemberMutation.mutate({userId, moimId});
+            outMoimMemberMutation.mutate(
+              {userId, moimId},
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({
+                    queryKey: ['moimMembers', 'notOwner', moimId],
+                  });
+                },
+              },
+            );
           },
         },
         {
@@ -74,18 +83,16 @@ export default function MoimOutMemberScreen({
     setIsRefreshing(false);
   };
 
-  if (isError) {
-    return <Typography fontWeight="MEDIUM">에러</Typography>;
-  }
-
   if (isPending) {
     return (
-      <SafeAreaView className="flex-1 bg-white">
-        <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color={'#00F0A1'} />
-        </View>
+      <SafeAreaView className="flex flex-col items-center justify-center bg-white">
+        <ActivityIndicator size="large" className="mt-10" />
       </SafeAreaView>
     );
+  }
+
+  if (isError) {
+    return <Typography fontWeight="MEDIUM">에러</Typography>;
   }
 
   const userList = moimMembers.pages.flatMap(page => page.userPreviewDTOList);
@@ -111,6 +118,7 @@ export default function MoimOutMemberScreen({
         <FlatList
           data={userList}
           renderItem={({item}) => {
+            console.log(item.userId);
             return (
               <View
                 key={item.userId}
@@ -124,7 +132,9 @@ export default function MoimOutMemberScreen({
                     {item.nickname}
                   </Typography>
                 </View>
-                <TouchableOpacity className="p-2 rounded-xl bg-error ml-2 items-center justify-center">
+                <TouchableOpacity
+                  disabled={outMoimMemberMutation.isPending}
+                  className="p-2 rounded-xl bg-error ml-2 items-center justify-center">
                   <Typography
                     fontWeight="BOLD"
                     className="text-xs text-white"

@@ -66,7 +66,7 @@ export default function CalendarParticipantDetailScreen({
         <View className="flex-row items-center gap-x-3 mb-3">
           <IonIcons name="calendar" size={24} color="#00F0A1" />
           <Typography
-            className="text-gray-700 text-lg ml-2"
+            className="text-gray-500 text-sm ml-2"
             fontWeight={'BOLD'}>
             세부 일정
           </Typography>
@@ -76,11 +76,11 @@ export default function CalendarParticipantDetailScreen({
         return (
           <View
             key={idx}
-            className="flex-col items-start border p-4 border-gray-200 rounded-xl bg-green-50">
-            <Typography className="text-gray-600" fontWeight={'BOLD'}>
+            className="flex-col items-start border p-4 border-gray-200 rounded-xl">
+            <Typography className="text-gray-400" fontWeight={'BOLD'}>
               {moment(startTime).format('a hh시 mm분')}
             </Typography>
-            <Typography className="text-black mt-3" fontWeight={'BOLD'}>
+            <Typography className="text-black mt-3" fontWeight={'LIGHT'}>
               {title}
             </Typography>
           </View>

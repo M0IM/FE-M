@@ -65,7 +65,7 @@ export default function ParticipantList({
           const getStatusLabel = (status: TODO_ASSIGNEE_STATUS) => {
             switch (status) {
               case 'LOADING':
-                return '대기 중';
+                return '진행 중';
               case 'PENDING':
                 return '미확인';
               case 'COMPLETE':

@@ -97,7 +97,7 @@ export default function MyDetailProfileScreen({
                 {userInfo?.rating.toFixed(1)}
               </Typography>
             </InfoSquareCard>
-            <InfoSquareCard title="가입 모임" disabled>
+            <InfoSquareCard title="가입 모임">
               <Typography fontWeight={'BOLD'} className="text-gray-600 text-sm">
                 {userInfo?.participateMoimCnt} 개
               </Typography>

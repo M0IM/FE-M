@@ -62,14 +62,6 @@ const updateMoimInfo = async ({
   description,
   imageKeyName,
 }: TUpdateMoimInfoParams): Promise<string> => {
-  console.log({
-    moimId,
-    title,
-    address,
-    moimCategory,
-    description,
-    imageKeyName,
-  });
   const {data} = await axiosInstance.put(`/api/v1/moims`, {
     moimId,
     title,
@@ -78,7 +70,6 @@ const updateMoimInfo = async ({
     description,
     imageKeyName,
   });
-  console.log(data);
   return data?.result;
 };
 
@@ -125,6 +116,32 @@ const delegationMoimWangAuthority = async ({
   return data.result;
 };
 
+// 모임 멤버 API (모임장 제외)
+const getMoimMemberListWithOutOwner = async ({
+  moimId,
+  cursor,
+  take,
+  search,
+}: {
+  moimId: number;
+  cursor: number;
+  take: number;
+  search: string;
+}): Promise<TGetMoimMembers> => {
+  const {data} = await axiosInstance.get(
+    `/api/v1/moims/${moimId}/members/owner?cursor=${cursor}&take=${take}&search=${search}`,
+  );
+
+  return data.result;
+};
+
+// 모임 탈퇴 시키기 API
+const outMoimMember = async () => {
+  const {data} = await axiosInstance.delete(`/api/v1/moims/expel`, {});
+
+  return data.result;
+};
+
 export {
   getMoimRequestUsers,
   updateMoimAuthorities,
@@ -133,4 +150,6 @@ export {
   getMoimMembers,
   rejectMoimJoinRequest,
   delegationMoimWangAuthority,
+  getMoimMemberListWithOutOwner,
+  outMoimMember,
 };

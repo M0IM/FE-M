@@ -9,6 +9,7 @@ import ScheduleColorPalette from 'components/screens/FeedTabScreens/ScheduleColo
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {CalendarStackNavigationProp} from 'navigators/types';
 import {useGetPersonalCalendar} from 'hooks/queries/CalendarHomeScreen/useGetPersonalCalendar.ts';
+import useMyCalendarStore from '../../stores/useMyCalendarStore.ts';
 
 export default function CalendarHomeScreen({
   navigation,
@@ -18,7 +19,7 @@ export default function CalendarHomeScreen({
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
-
+  const {setIsEditMode} = useMyCalendarStore();
   const {
     data: posts,
     isPending,
@@ -55,7 +56,10 @@ export default function CalendarHomeScreen({
       <CalendarEventList posts={posts[selectedDate]} />
       <FloatingButton
         type={'add'}
-        onPress={() => navigation.navigate('CALENDAR_WRITE')}
+        onPress={() => {
+          setIsEditMode(false);
+          navigation.navigate('CALENDAR_WRITE');
+        }}
       />
     </SafeAreaView>
   );

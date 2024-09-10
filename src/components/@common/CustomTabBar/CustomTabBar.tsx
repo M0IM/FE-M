@@ -52,6 +52,7 @@ const CustomTabBar = ({
         'MOIM_CREATE_TODO',
         'MOIM_GET_TODO',
         'MOIM_ASSIGNMENT_TODO',
+        'MOIM_OUT_MEMBER',
       ];
       const moimBoardState = state.routes.find(
         route => route.name === 'MOIM_MANAGEMENT',

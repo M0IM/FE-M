@@ -126,10 +126,10 @@ const modifyMoimTodo = async ({
   content,
   dueDate,
   imageKeyList,
-}: Pick<
-  TCreateTodoDTO,
-  'moimId' | 'title' | 'content' | 'dueDate' | 'imageKeyList'
-> & {todoId: number}): Promise<TCreateTodoResponse> => {
+}: Pick<TCreateTodoDTO, 'moimId' | 'title' | 'content' | 'dueDate'> & {
+  todoId: number;
+  imageKeyList: string[] | null;
+}): Promise<TCreateTodoResponse> => {
   const {data} = await axiosInstance.put(
     `/api/v1/moims/${moimId}/todos/admin/${todoId}`,
     {

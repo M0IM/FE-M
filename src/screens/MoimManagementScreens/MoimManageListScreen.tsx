@@ -46,9 +46,9 @@ const MoimManageListScreen = ({
       </TouchableOpacity>
       <TouchableOpacity
         className="m-3"
-        onPress={() => navigation.navigate('MOIM_INFO_EDIT', {id})}>
+        onPress={() => navigation.navigate('MOIM_OUT_MEMBER', {id})}>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800">
-          모임 정보 수정
+          모임 멤버 탈퇴
         </Typography>
       </TouchableOpacity>
       <TouchableOpacity
@@ -73,6 +73,13 @@ const MoimManageListScreen = ({
         onPress={() => navigation.navigate('MOIM_ASSIGNMENT_TODO', {id})}>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800">
           내가 할당한 할 일 확인
+        </Typography>
+      </TouchableOpacity>
+      <TouchableOpacity
+        className="m-3"
+        onPress={() => navigation.navigate('MOIM_INFO_EDIT', {id})}>
+        <Typography fontWeight="BOLD" className="text-lg text-dark-800">
+          모임 정보 수정
         </Typography>
       </TouchableOpacity>
     </ScreenContainer>

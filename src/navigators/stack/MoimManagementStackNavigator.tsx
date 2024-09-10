@@ -10,9 +10,9 @@ import MoimGetTodoScreen from 'screens/MoimManagementScreens/MoimGetTodoScreen.t
 import MoimTodoDetailScreen from 'screens/MoimManagementScreens/MoimTodoDetailScreen.tsx';
 import MyMoimAssignmentCheckScreen from 'screens/MoimManagementScreens/MyMoimAssignmentCheckScreen.tsx';
 import MoimCreateScreen from 'screens/MoimCreateScreens/MoimCreateScreen';
-import MoimAddMemberScreen from '../../screens/MoimManagementScreens/MoimAddMemberScreen.tsx';
-import MoimDeleteMemberScreen from '../../screens/MoimManagementScreens/MoimDeleteMemberScreen.tsx';
-
+import MoimAddMemberScreen from 'screens/MoimManagementScreens/MoimAddMemberScreen.tsx';
+import MoimDeleteMemberScreen from 'screens/MoimManagementScreens/MoimDeleteMemberScreen.tsx';
+import MoimOutMemberScreen from '../../screens/MoimManagementScreens/MoimOutMemberScreen.tsx';
 
 const MoimManagementStackNavigator = () => {
   const route = useRoute<MoimManagementRouteProp>();
@@ -123,6 +123,16 @@ const MoimManagementStackNavigator = () => {
         component={MoimDeleteMemberScreen}
         options={{
           headerTitle: '할 일 멤버 삭제',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        }}
+      />
+      <MoimManagementStack.Screen
+        name={'MOIM_OUT_MEMBER'}
+        component={MoimOutMemberScreen}
+        options={{
+          headerTitle: '모임 멤버 탈퇴',
           headerTintColor: '#000',
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,

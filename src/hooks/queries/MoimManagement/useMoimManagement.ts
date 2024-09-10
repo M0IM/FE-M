@@ -8,6 +8,7 @@ import {
 import {
   acceptMoimJoinRequest,
   delegationMoimWangAuthority,
+  getMoimMemberListWithOutOwner,
   getMoimMembers,
   getMoimRequestUsers,
   rejectMoimJoinRequest,
@@ -168,6 +169,35 @@ function useDelegationMoimWangAuthority(
   });
 }
 
+function useGetInfinityMoimMembersWithOutOwner(
+  moimId: number,
+  search: string,
+  queryOptions?: UseInfiniteQueryOptions<
+    TGetMoimMembers,
+    ResponseError,
+    InfiniteData<TGetMoimMembers, number>,
+    TGetMoimMembers,
+    QueryKey,
+    number
+  >,
+) {
+  return useInfiniteQuery({
+    queryFn: ({pageParam}) =>
+      getMoimMemberListWithOutOwner({
+        moimId,
+        cursor: pageParam,
+        take: 30,
+        search,
+      }),
+    queryKey: ['moimMembers', 'notOwner', moimId, search],
+    initialPageParam: 1,
+    getNextPageParam: lastPage => {
+      return lastPage.hasNext ? lastPage.nextCursor : undefined;
+    },
+    ...queryOptions,
+  });
+}
+
 function useMoimManagment() {
   const updateMoimAuthoritiesMutation = useUpdateMoimAuthorities();
   const acceptMoimJoinRequestMutation = useAcceptMoimJoinRequest();
@@ -183,6 +213,7 @@ function useMoimManagment() {
     updateMoimInfoMutation,
     rejectMoimJoinRequestMutation,
     updateMoimWangMutation,
+    useGetInfinityMoimMembersWithOutOwner,
   };
 }
 

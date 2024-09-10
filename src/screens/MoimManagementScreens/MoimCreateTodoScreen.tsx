@@ -113,7 +113,7 @@ export default function MoimCreateTodoScreen({
           title: addTodo.values.title,
           content: addTodo.values.content,
           dueDate: moment(date).format('YYYY-MM-DD'),
-          imageKeyList: [imageKey],
+          imageKeyList: imageKey ? [imageKey] : null,
         },
         {
           onSuccess: () => {

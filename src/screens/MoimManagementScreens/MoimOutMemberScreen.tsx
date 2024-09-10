@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
@@ -15,6 +16,8 @@ import Avatar from 'components/@common/Avatar/Avatar.tsx';
 import {MoimManagementRouteProp} from 'navigators/types';
 import useDebounce from 'hooks/useDebounce.ts';
 import useMoimManagement from 'hooks/queries/MoimManagement/useMoimManagement';
+import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
+import Toast from 'react-native-toast-message';
 
 export default function MoimOutMemberScreen({
   route,
@@ -24,7 +27,8 @@ export default function MoimOutMemberScreen({
   const moimId = route.params?.id as number;
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
-  const {useGetInfinityMoimMembersWithOutOwner} = useMoimManagement();
+  const {useGetInfinityMoimMembersWithOutOwner, outMoimMemberMutation} =
+    useMoimManagement();
 
   const {
     data: moimMembers,
@@ -35,6 +39,26 @@ export default function MoimOutMemberScreen({
     isPending,
     isError,
   } = useGetInfinityMoimMembersWithOutOwner(moimId, debouncedSearch);
+
+  const handleOutMember = (userId: number) => {
+    Alert.alert(
+      '정말 해당 유저를 탈퇴하시겠습니까?',
+      '해당 유저는, 해당 모임 서비스를 이용할 수 없게 됩니다.',
+      [
+        {
+          text: '탈퇴',
+          style: 'destructive',
+          onPress: () => {
+            outMoimMemberMutation.mutate({userId, moimId});
+          },
+        },
+        {
+          text: '취소',
+          style: 'default',
+        },
+      ],
+    );
+  };
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -101,7 +125,10 @@ export default function MoimOutMemberScreen({
                   </Typography>
                 </View>
                 <TouchableOpacity className="p-2 rounded-xl bg-error ml-2 items-center justify-center">
-                  <Typography fontWeight="BOLD" className="text-xs text-white">
+                  <Typography
+                    fontWeight="BOLD"
+                    className="text-xs text-white"
+                    onPress={() => handleOutMember(item.userId)}>
                     탈퇴
                   </Typography>
                 </TouchableOpacity>

@@ -11,6 +11,7 @@ import {
   getMoimMemberListWithOutOwner,
   getMoimMembers,
   getMoimRequestUsers,
+  outMoimMember,
   rejectMoimJoinRequest,
   updateMoimAuthorities,
   updateMoimInfo,
@@ -18,6 +19,7 @@ import {
 import {TGetMoimMembers, TMoimRequestUsers} from 'types/dtos/moimManage';
 import {ResponseError, UseMutationCustomOptions} from 'types/mutations/common';
 import Toast from 'react-native-toast-message';
+import {queryClient} from '../../../containers/TanstackQueryContainer.tsx';
 
 function useGetInfinityMoimRequest(
   moimId: number,
@@ -198,12 +200,31 @@ function useGetInfinityMoimMembersWithOutOwner(
   });
 }
 
+function useOutMoimMember(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: outMoimMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['moimMembers']});
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.response?.data.message,
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
+    },
+    ...mutationOptions,
+  });
+}
+
 function useMoimManagment() {
   const updateMoimAuthoritiesMutation = useUpdateMoimAuthorities();
   const acceptMoimJoinRequestMutation = useAcceptMoimJoinRequest();
   const updateMoimInfoMutation = useUpdateMoimInfo();
   const rejectMoimJoinRequestMutation = useRejectMoimRequest();
   const updateMoimWangMutation = useDelegationMoimWangAuthority();
+  const outMoimMemberMutation = useOutMoimMember();
 
   return {
     useGetInfinityMoimRequest,
@@ -214,6 +235,7 @@ function useMoimManagment() {
     rejectMoimJoinRequestMutation,
     updateMoimWangMutation,
     useGetInfinityMoimMembersWithOutOwner,
+    outMoimMemberMutation,
   };
 }
 

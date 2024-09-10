@@ -136,8 +136,16 @@ const getMoimMemberListWithOutOwner = async ({
 };
 
 // 모임 탈퇴 시키기 API
-const outMoimMember = async () => {
-  const {data} = await axiosInstance.delete(`/api/v1/moims/expel`, {});
+const outMoimMember = async ({
+  userId,
+  moimId,
+}: {
+  userId: number;
+  moimId: number;
+}) => {
+  const {data} = await axiosInstance.delete(
+    `/api/v1/users/${userId}/moims/${moimId}/expel`,
+  );
 
   return data.result;
 };

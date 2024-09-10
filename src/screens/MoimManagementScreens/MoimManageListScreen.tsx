@@ -19,6 +19,7 @@ const MoimManageListScreen = ({
   navigation,
 }: MoimManageListScreenProps) => {
   const id = route.params?.id;
+  // TODO: 관리자 권한 불러오는 API
   const {data} = useGetMoimSpaceInfo(id);
   const {setIsEditMode} = useTodoStore();
 

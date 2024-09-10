@@ -161,7 +161,7 @@ const getMembersActiveMoimList = async ({
   take: number;
 }): Promise<TActiveMoimList> => {
   const {data} = await axiosInstance.get(
-    `/api/v1/moims/list/${userId}?cursor=${cursor}&take=${take}`,
+    `/api/v1/moims/list/${userId}?cursor=${cursor}&take=${take}&moimRequestRole=ALL`,
   );
 
   return data.result;

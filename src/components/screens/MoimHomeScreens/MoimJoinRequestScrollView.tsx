@@ -163,6 +163,7 @@ const MoimJoinRequestScrollView = ({
             </Typography>
             <View className="flex flex-row ml-auto">
               <TouchableOpacity
+                disabled={rejectMoimJoinRequestMutation.isPending}
                 className="p-2 px-4 rounded-xl bg-gray-200 mr-2"
                 onPress={() => handleRejectRequest(item.userId)}>
                 <Typography
@@ -172,6 +173,7 @@ const MoimJoinRequestScrollView = ({
                 </Typography>
               </TouchableOpacity>
               <TouchableOpacity
+                disabled={acceptMoimJoinRequestMutation.isPending}
                 className="p-2 px-4 rounded-xl bg-gray-200"
                 onPress={() => handleAcceptRequest(item.userId)}>
                 <Typography

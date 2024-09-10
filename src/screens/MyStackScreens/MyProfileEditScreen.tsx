@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {ActivityIndicator, TouchableOpacity, View} from 'react-native';
 import {useState} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useNavigation} from '@react-navigation/native';
@@ -25,7 +25,8 @@ export default function MyProfileEditScreen() {
   const {mutate} = useUpdateMyProfile();
   const [moimList, setMoimList] = useState([]);
   const uploadImages = useMutateImages();
-  const {mutate: createPresignedUrl} = useCreatePresignedURL();
+  const {mutate: createPresignedUrl, isPending: presignedUrlIsPending} =
+    useCreatePresignedURL();
   const [keyName, setKeyName] = useState<string | null>(
     isEdit && detailProfile && detailProfile.imageUrl
       ? detailProfile?.imageUrl?.match(/(?<=com\/).+/)?.[0] || ''
@@ -66,58 +67,70 @@ export default function MyProfileEditScreen() {
     );
   };
 
+  const handleDeleteImage = () => {
+    setImageUrl('');
+    setKeyName(null);
+  };
+
   return (
     <ScreenContainer>
       <View className="flex items-center justify-center mt-4">
-        <Avatar
-          size={'LG'}
-          uri={imageUrl}
-          onPress={async () => {
-            try {
-              const image = await ImagePicker.openPicker({
-                mediaType: 'photo',
-                multiple: false,
-                includeBase64: true,
-                maxFiles: 1,
-                cropperChooseText: '완료',
-                cropperCancelText: '취소',
-              });
-              const {formData, fileName, fileType, fileUri} =
-                getFormDataImage(image);
-              console.log(formData);
-              createPresignedUrl(fileName, {
-                onSuccess: data => {
-                  const {keyName} = data;
-                  console.log('받은 키네임', keyName);
-                  setKeyName(keyName);
+        {presignedUrlIsPending ? (
+          <View className="flex flex-col items-center justify-center w-20 h-20">
+            <ActivityIndicator />
+          </View>
+        ) : (
+          <Avatar
+            size={'LG'}
+            uri={imageUrl}
+            onPress={async () => {
+              try {
+                const image = await ImagePicker.openPicker({
+                  mediaType: 'photo',
+                  multiple: false,
+                  includeBase64: true,
+                  maxFiles: 1,
+                  cropperChooseText: '완료',
+                  cropperCancelText: '취소',
+                });
+                const {formData, fileName, fileType, fileUri} =
+                  getFormDataImage(image);
+                console.log(formData);
+                createPresignedUrl(fileName, {
+                  onSuccess: data => {
+                    const {keyName} = data;
+                    console.log('받은 키네임', keyName);
+                    setKeyName(keyName);
 
-                  uploadImages.mutate(
-                    {
-                      url: data.url,
-                      file: formData,
-                      fileType,
-                      fileUri: fileUri,
-                    },
-                    {
-                      onSuccess: () => {
-                        setImageUrl(`${Config.AWS_S3_URL}${keyName}`);
+                    uploadImages.mutate(
+                      {
+                        url: data.url,
+                        file: formData,
+                        fileType,
+                        fileUri: fileUri,
                       },
-                    },
-                  );
-                },
-              });
-            } catch (error) {
-              console.log('Error picking image: ', error);
-            }
-          }}
-        />
-        <View className="flex flex-col">
+                      {
+                        onSuccess: () => {
+                          setImageUrl(`${Config.AWS_S3_URL}${keyName}`);
+                        },
+                      },
+                    );
+                  },
+                });
+              } catch (error) {
+                console.log('Error picking image: ', error);
+              }
+            }}
+          />
+        )}
+
+        <TouchableOpacity className="flex flex-col" onPress={handleDeleteImage}>
           <Typography
             fontWeight={'MEDIUM'}
-            className="text-sm text-gray-500 mb-2">
+            className="text-sm text-gray-500 my-2">
             대표 이미지
           </Typography>
-        </View>
+        </TouchableOpacity>
       </View>
       <View className="mt-5">
         <Typography className="mb-3" fontWeight={'BOLD'}>

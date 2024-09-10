@@ -13,13 +13,13 @@ export function TitleSubTitleBox({title, subTitle}: ITitleSubTitleBoxProps) {
       <Typography
         numberOfLines={1}
         className="w-1/5 text-sm text-gray-500"
-        fontWeight={'BOLD'}>
+        fontWeight={'LIGHT'}>
         {title}
       </Typography>
       <Typography
         numberOfLines={1}
         className="flex-1 text-gray-500"
-        fontWeight={'BOLD'}>
+        fontWeight={'LIGHT'}>
         {subTitle}
       </Typography>
     </View>

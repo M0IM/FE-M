@@ -34,7 +34,7 @@ const DetailItem = ({
       </Typography>
     </View>
     <View
-      className={`border p-4 border-gray-200 rounded-xl bg-green-50 flex-row ${isMemo && 'h-[200px]'}`}>
+      className={`border p-4 border-gray-200 rounded-xl flex-row ${isMemo && 'h-[200px]'}`}>
       <Typography className="text-base text-dark-800" fontWeight={'MEDIUM'}>
         {content}
       </Typography>

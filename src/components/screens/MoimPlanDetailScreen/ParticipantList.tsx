@@ -56,7 +56,7 @@ export default function ParticipantList({
                   key={item?.userId}
                   className="flex-row items-center gap-x-2">
                   <Avatar uri={item?.imageUrl} />
-                  <Typography fontWeight={'BOLD'}>{item?.nickname}</Typography>
+                  <Typography fontWeight={'LIGHT'}>{item?.nickname}</Typography>
                 </View>
               </>
             );

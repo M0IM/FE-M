@@ -65,6 +65,8 @@ export default function MoimPlanDetailScreen({
     );
   }
 
+  console.log(data);
+
   const PostMyMenuList = [
     {
       title: '수정하기',

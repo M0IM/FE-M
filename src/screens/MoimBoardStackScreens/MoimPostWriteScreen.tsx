@@ -33,6 +33,7 @@ import {
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 import useMoimPostStore from 'stores/useMoimPostStore.ts';
+import useThrottle from 'hooks/useThrottle.ts';
 
 interface MoimPostWriteScreenProps {
   route: MoimPostStackRouteProp;
@@ -79,7 +80,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   const announcementIsLoading = createAnnouncementPostMutation.isPending;
   const postIsLoading = moimPostMutation.isPending;
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = useThrottle(() => {
     if (moimId && category && data.title) {
       if (isEdit) {
         updateMoimPostMutation.mutate(
@@ -161,7 +162,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
         position: 'bottom',
       });
     }
-  };
+  });
 
   useEffect(() => {
     const selected = POST_WRITE_LIST.find(item => item.key === postType);

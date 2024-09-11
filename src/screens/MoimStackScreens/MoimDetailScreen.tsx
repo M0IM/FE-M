@@ -21,6 +21,7 @@ import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 import {MOIM_JOIN_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import useMoimInfoStore from 'stores/useMoimInfoStore';
+import useThrottle from 'hooks/useThrottle';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
@@ -58,7 +59,7 @@ export default function MoimDetailScreen({
   };
   const close = () => setIsOpen(false);
 
-  const handleRequestMoimJoin = () => {
+  const handleRequestMoimJoin = useThrottle(() => {
     requestMoimJoimMutation.mutate(
       {
         moimId,
@@ -88,7 +89,7 @@ export default function MoimDetailScreen({
         },
       },
     );
-  };
+  });
 
   const onRefresh = async () => {
     setRefreshing(true);

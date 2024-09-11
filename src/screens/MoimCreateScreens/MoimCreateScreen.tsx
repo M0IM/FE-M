@@ -71,6 +71,7 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
   const updateIsLoading = updateMoimInfoMutation.isPending;
 
   const handleOnSubmit = useThrottle(() => {
+    console.log('모임 생성을 요청합니다.');
     if (data?.title && region && data?.introduction && category?.key) {
       if (isEdit) {
         updateMoimInfoMutation.mutate(

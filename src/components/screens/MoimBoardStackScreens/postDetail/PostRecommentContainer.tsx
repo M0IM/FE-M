@@ -19,6 +19,7 @@ import {
   MoimPostStackNavigationProp,
   MyStackNavigationProp,
 } from 'navigators/types';
+import useThrottle from 'hooks/useThrottle';
 
 interface PostRecommentContainerProps {
   moimId?: number;
@@ -52,7 +53,7 @@ const PostRecommentContainer = ({
     recommentData?.writer === null &&
     recommentData?.content === null;
 
-  const handleMoimPostCommentLike = (commentId: number) => {
+  const handleMoimPostCommentLike = useThrottle((commentId: number) => {
     likeMoimPostCommentMutation.mutate(
       {
         commentId,
@@ -76,9 +77,9 @@ const PostRecommentContainer = ({
         },
       },
     );
-  };
+  }, 2 * 1000);
 
-  const handleBlockRecomment = () => {
+  const handleBlockRecomment = useThrottle(() => {
     if (moimId && postId) {
       blockMoimPostCommentMutation.mutate(
         {
@@ -113,9 +114,9 @@ const PostRecommentContainer = ({
         },
       );
     }
-  };
+  });
 
-  const handleReportRecomment = () => {
+  const handleReportRecomment = useThrottle(() => {
     if (moimId && postId) {
       reportMoimPostCommentMutation.mutate(
         {
@@ -148,9 +149,9 @@ const PostRecommentContainer = ({
         },
       );
     }
-  };
+  });
 
-  const handleDeleteRecomment = () => {
+  const handleDeleteRecomment = useThrottle(() => {
     deleteMoimPostCommentMutation.mutate(
       {
         commentId: recommentData.commentId,
@@ -179,7 +180,7 @@ const PostRecommentContainer = ({
         },
       },
     );
-  };
+  });
 
   const PostMenuList = [
     {

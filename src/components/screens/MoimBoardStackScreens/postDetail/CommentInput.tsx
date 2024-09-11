@@ -5,6 +5,8 @@ import {InputField} from 'components/@common/InputField/InputField';
 import useCommentStore from 'stores/useCommentStore';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import usePost from 'hooks/queries/MoimBoard/usePost';
+import useThrottle from 'hooks/useThrottle';
+import Toast from 'react-native-toast-message';
 
 interface CommentInputProps {
   id?: number;
@@ -25,7 +27,7 @@ const CommentInput = ({id, postId}: CommentInputProps) => {
   const isCommentLoading = postWriteCommentMutation.isPending;
   const isRecommentLoading = postWriteRecommentMutation.isPending;
 
-  const handleWriteComment = () => {
+  const handleWriteComment = useThrottle(() => {
     if (id && postId && comment) {
       postWriteCommentMutation.mutate(
         {
@@ -45,10 +47,17 @@ const CommentInput = ({id, postId}: CommentInputProps) => {
           },
         },
       );
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: '댓글을 입력하세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     }
-  };
+  });
 
-  const handleWriteRecomment = () => {
+  const handleWriteRecomment = useThrottle(() => {
     if (id && postId && recomment && commentId) {
       postWriteRecommentMutation.mutate(
         {
@@ -70,8 +79,15 @@ const CommentInput = ({id, postId}: CommentInputProps) => {
           },
         },
       );
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: '댓글을 입력하세요.',
+        visibilityTime: 2000,
+        position: 'bottom',
+      });
     }
-  };
+  });
 
   return (
     <View className="items-center justify-between flex-row p-3">

@@ -118,6 +118,7 @@ export default function SignupLastStepScreen({
           label={'가입 후 로그인 하기'}
           onPress={handleSubmit}
           inValid={isDisabled}
+          isLoading={signUpMutation.isPending}
         />
       }>
       <View className="mb-10">

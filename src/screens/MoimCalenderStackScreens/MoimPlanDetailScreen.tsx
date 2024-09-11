@@ -21,6 +21,7 @@ import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen
 import useDeleteMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/useDeleteMoimScheduleParticipation.ts';
 import useDeleteDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useDeleteDetailMoimCalendar.ts';
 import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile.ts';
+import useThrottle from 'hooks/useThrottle';
 
 import {getMonthYearDetails} from 'utils/date.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
@@ -53,6 +54,63 @@ export default function MoimPlanDetailScreen({
     useDeleteMoimScheduleParticipation();
   const {setMoimCalendar, setIsEditMode} = useMoimCalendarStore();
 
+  const deletePlan = useThrottle(() => {
+    deletePost(
+      {moimId, planId},
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['detailCalendar', moimId, planId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['participantList', moimId, planId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: [
+              'moimCalendar',
+              moimId,
+              currentMonthYear.month,
+              currentMonthYear.year,
+            ],
+          });
+          navigation.goBack();
+        },
+      },
+    );
+  });
+
+  const participationPlan = useThrottle(() =>
+    participationSchedule(
+      {moimId, planId},
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['detailCalendar', moimId, planId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['participantList', moimId, planId],
+          });
+        },
+      },
+    ),
+  );
+
+  const cancelPlan = useThrottle(() => {
+    cancelSchedule(
+      {moimId, planId},
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['detailCalendar', moimId, planId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['participantList', moimId, planId],
+          });
+        },
+      },
+    );
+  });
+
   if (isError) {
     return <></>;
   }
@@ -64,8 +122,6 @@ export default function MoimPlanDetailScreen({
       </SafeAreaView>
     );
   }
-
-  console.log(data);
 
   const PostMyMenuList = [
     {
@@ -87,30 +143,7 @@ export default function MoimPlanDetailScreen({
     },
     {
       title: '삭제하기',
-      onPress: () => {
-        deletePost(
-          {moimId, planId},
-          {
-            onSuccess: () => {
-              queryClient.invalidateQueries({
-                queryKey: ['detailCalendar', moimId, planId],
-              });
-              queryClient.invalidateQueries({
-                queryKey: ['participantList', moimId, planId],
-              });
-              queryClient.invalidateQueries({
-                queryKey: [
-                  'moimCalendar',
-                  moimId,
-                  currentMonthYear.month,
-                  currentMonthYear.year,
-                ],
-              });
-              navigation.goBack();
-            },
-          },
-        );
-      },
+      onPress: () => deletePlan(),
     },
   ];
 
@@ -171,33 +204,7 @@ export default function MoimPlanDetailScreen({
             className={data?.isParticipant ? 'bg-error' : 'bg-main'}
             textStyle="font-bold text-white text-lg"
             onPress={() => {
-              data?.isParticipant
-                ? cancelSchedule(
-                    {moimId, planId},
-                    {
-                      onSuccess: () => {
-                        queryClient.invalidateQueries({
-                          queryKey: ['detailCalendar', moimId, planId],
-                        });
-                        queryClient.invalidateQueries({
-                          queryKey: ['participantList', moimId, planId],
-                        });
-                      },
-                    },
-                  )
-                : participationSchedule(
-                    {moimId, planId},
-                    {
-                      onSuccess: () => {
-                        queryClient.invalidateQueries({
-                          queryKey: ['detailCalendar', moimId, planId],
-                        });
-                        queryClient.invalidateQueries({
-                          queryKey: ['participantList', moimId, planId],
-                        });
-                      },
-                    },
-                  );
+              data?.isParticipant ? cancelPlan() : participationPlan();
             }}
             isLoading={
               participationScheduleIsLoading || cancelScheduleIsLoading

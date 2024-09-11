@@ -2,8 +2,8 @@ import {TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
-
-import {MoimPlanStackNavigationProp} from 'navigators/types';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import Toast from 'react-native-toast-message';
 
 import {CustomButton} from '../@common/CustomButton/CustomButton.tsx';
 import {DatePickerOption} from '../@common/DatePickerOption/DatePickerOption.tsx';
@@ -13,9 +13,7 @@ import {Typography} from '../@common/Typography/Typography.tsx';
 import {InputField} from '../@common/InputField/InputField.tsx';
 import ScheduleEditEvent from '../screens/MoimWriteScreen/ScheduleEditEvent.tsx';
 import ScheduleEvent from '../screens/MoimWriteScreen/ScheduleEvent.tsx';
-import Octicons from 'react-native-vector-icons/Octicons';
-import IonIcons from 'react-native-vector-icons/Ionicons';
-import useForm from 'hooks/useForm.ts';
+
 import {
   formatTime,
   getDateWithSeparator,
@@ -23,12 +21,16 @@ import {
   parseTimeStringToDate,
   validateAddMoimPosts,
 } from 'utils';
+
+import useForm from 'hooks/useForm.ts';
 import useModal from 'hooks/useModal.ts';
 import usePostDetailMoimCalendar from 'hooks/queries/MoimWriteScreen/usePostDetailMoimCalendar.ts';
+import useThrottle from 'hooks/useThrottle.ts';
+import useUpdateDetailMoimCalendar from '../../hooks/queries/MoimWriteScreen/useUpdateDetailMoimCalendar.ts';
+
+import {MoimPlanStackNavigationProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
-import useUpdateDetailMoimCalendar from '../../hooks/queries/MoimWriteScreen/useUpdateDetailMoimCalendar.ts';
-import Toast from 'react-native-toast-message';
 import RegionBottomSheet from '../screens/RegionBottomSheet/RegionBottomSheet.tsx';
 
 interface IPostForm {
@@ -85,7 +87,7 @@ export default function PostForm({moimId}: IPostForm) {
   const {mutate: updatePost, isPending: updateIsLoading} =
     useUpdateDetailMoimCalendar();
 
-  const handleSubmit = () => {
+  const handleSubmit = useThrottle(() => {
     const postData = {
       moimId,
       title: addPost.values.title,
@@ -174,7 +176,7 @@ export default function PostForm({moimId}: IPostForm) {
             },
           },
         );
-  };
+  });
 
   const handleChangeDate = (pickedDate: Date) => {
     setDate(pickedDate);

@@ -1,10 +1,12 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {
   FlatList,
   Pressable,
   TouchableOpacity,
   View,
   ActivityIndicator,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -20,7 +22,6 @@ import {
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import useMoimPostStore from 'stores/useMoimPostStore';
-import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 
 type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
@@ -145,35 +146,51 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
           }}
         />
       ) : (
-        <View className="flex flex-col justify-center items-center h-[60%]">
-          <Typography fontWeight="LIGHT" className="text-gray-600 text-base">
-            아직 작성된 게시글이 없습니다.
-          </Typography>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            className="bg-gray-200 rounded-2xl p-3 px-5 mt-4"
-            onPress={() => {
-              if (isSelected === 'ALL') {
-                navigation.navigate('MOIM_POST_WRITE', {id: route.params.id});
-              } else {
-                if (
-                  moimInfo?.myMoimRole === 'MEMBER' &&
-                  isSelected === 'ANNOUNCEMENT'
-                ) {
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '80%',
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+            />
+          }>
+          <View className="flex flex-col justify-center items-center">
+            <Typography fontWeight="LIGHT" className="text-gray-600 text-base">
+              아직 작성된 게시글이 없습니다.
+            </Typography>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              className="bg-gray-200 rounded-2xl p-3 px-5 mt-4"
+              onPress={() => {
+                if (isSelected === 'ALL') {
                   navigation.navigate('MOIM_POST_WRITE', {id: route.params.id});
                 } else {
-                  navigation.navigate('MOIM_POST_WRITE', {
-                    id: route.params.id,
-                    postType: isSelected,
-                  });
+                  if (
+                    moimInfo?.myMoimRole === 'MEMBER' &&
+                    isSelected === 'ANNOUNCEMENT'
+                  ) {
+                    navigation.navigate('MOIM_POST_WRITE', {
+                      id: route.params.id,
+                    });
+                  } else {
+                    navigation.navigate('MOIM_POST_WRITE', {
+                      id: route.params.id,
+                      postType: isSelected,
+                    });
+                  }
                 }
-              }
-            }}>
-            <Typography fontWeight="BOLD" className="text-gray-500 text-sm">
-              새로운 게시글 작성하기
-            </Typography>
-          </TouchableOpacity>
-        </View>
+              }}>
+              <Typography fontWeight="BOLD" className="text-gray-500 text-sm">
+                새로운 게시글 작성하기
+              </Typography>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       )}
 
       <FloatingButton

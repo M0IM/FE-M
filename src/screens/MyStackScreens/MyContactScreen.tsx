@@ -7,6 +7,7 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 
 import useForm from 'hooks/useForm.ts';
 import useEmail from 'hooks/useEmail.ts';
+import useThrottle from 'hooks/useThrottle';
 
 import {validateReplyIssue} from 'utils';
 import {MyStackNavigationProp} from '../../navigators/types';
@@ -25,7 +26,7 @@ export default function MyContactScreen({
     validate: validateReplyIssue,
   });
 
-  const handleSendIssue = () => {
+  const handleSendIssue = useThrottle(() => {
     postInquireEmailMutation.mutate(
       {
         replyEmail: form.values.replyEmail,
@@ -37,7 +38,7 @@ export default function MyContactScreen({
         },
       },
     );
-  };
+  }, 3 * 1000);
 
   return (
     <ScreenContainer

@@ -19,6 +19,7 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 
 import {AuthHome} from 'constants/screens/AuthStackScreens/AuthHome.ts';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+import useThrottle from 'hooks/useThrottle.ts';
 import {TSignup} from 'types/dtos/auth.ts';
 import {AuthStackNavigationProp} from 'navigators/types';
 import useFcmTokenStore from '../../stores/useFcmTokenStore.ts';
@@ -63,7 +64,7 @@ export default function AuthHomeScreen({
 
   const {socialIdTokenMutation} = useAuth();
 
-  const handlePressNaverLoginButton = async () => {
+  const handlePressNaverLoginButton = useThrottle(async () => {
     const {successResponse} = await NaverLogin.login();
     const profile = await NaverLogin.getProfile(successResponse!.accessToken);
 
@@ -94,8 +95,8 @@ export default function AuthHomeScreen({
         },
       },
     );
-  };
-  const handlePressKakaoLoginButton = async () => {
+  });
+  const handlePressKakaoLoginButton = useThrottle(async () => {
     const {idToken} = await loginWithKakaoAccount();
     console.log(idToken);
     const {nickname, email, id} = await getProfile();
@@ -126,8 +127,8 @@ export default function AuthHomeScreen({
         },
       },
     );
-  };
-  const handlePressAppleLoginButton = async () => {
+  });
+  const handlePressAppleLoginButton = useThrottle(async () => {
     const {user, identityToken: idToken} = await appleClient.fetchLogin();
 
     const authState = await appleClient.getUserAuthState(user);
@@ -161,8 +162,8 @@ export default function AuthHomeScreen({
         },
       );
     }
-  };
-  const handlePressGoogleLoginButton = async () => {
+  });
+  const handlePressGoogleLoginButton = useThrottle(async () => {
     await GoogleSignin.hasPlayServices();
     const response: User = await GoogleSignin.signIn();
 
@@ -193,7 +194,7 @@ export default function AuthHomeScreen({
         },
       },
     );
-  };
+  });
 
   return (
     <View className="flex flex-1 bg-white flex-col items-center justify-around p-10">

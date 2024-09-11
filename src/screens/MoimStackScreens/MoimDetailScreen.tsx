@@ -65,14 +65,14 @@ export default function MoimDetailScreen({
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['moimSpaceInfo', moimId],
+          });
           Toast.show({
             type: 'success',
             text1: '가입 신청되었습니다.',
             visibilityTime: 2000,
             position: 'bottom',
-          });
-          queryClient.invalidateQueries({
-            queryKey: ['moimSpaceInfo', moimId],
           });
         },
         onError: error => {
@@ -91,7 +91,6 @@ export default function MoimDetailScreen({
   };
 
   const onRefresh = async () => {
-    console.log('handleRefreshStore');
     setRefreshing(true);
     await refetch();
     setRefreshing(false);

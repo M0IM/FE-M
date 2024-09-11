@@ -167,6 +167,13 @@ const getMembersActiveMoimList = async ({
   return data.result;
 };
 
+// 자신의 role 반환 API
+const getMyMoimRole = async ({moimId}: {moimId: number}) => {
+  const {data} = await axiosInstance.get(`/api/v1/moims/${moimId}/my-roles`);
+
+  return data.result;
+};
+
 export {
   getMyActiveMoim,
   getDetailMoimParticipantsList,
@@ -179,4 +186,5 @@ export {
   withdrawMoim,
   getMoimAllPostPreviews,
   getMembersActiveMoimList,
+  getMyMoimRole,
 };

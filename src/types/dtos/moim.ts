@@ -163,6 +163,11 @@ type TActiveMoimList = {
   hasNext: boolean;
 };
 
+type TMoimRoles = {
+  moimRole: TMoimRole;
+  joinStatus: JOIN_STATUS;
+};
+
 export type {
   TMoimDTOResponse,
   TGetMyActiveMoimResponse,
@@ -176,4 +181,5 @@ export type {
   TMoimPreviewListResponse,
   TMoimAllPostsPreviews,
   TActiveMoimList,
+  TMoimRoles,
 };

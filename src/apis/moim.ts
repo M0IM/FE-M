@@ -9,6 +9,7 @@ import {
   TMoimAllPostsPreviews,
   TMoimMembersDTO,
   TMoimParticipantList,
+  TMoimRoles,
   TMoimSpaceInfoDTO,
   TWithdrawMoimResponse,
 } from 'types/dtos/moim.ts';
@@ -168,7 +169,11 @@ const getMembersActiveMoimList = async ({
 };
 
 // 자신의 role 반환 API
-const getMyMoimRole = async ({moimId}: {moimId: number}) => {
+const getMyMoimRole = async ({
+  moimId,
+}: {
+  moimId: number;
+}): Promise<TMoimRoles> => {
   const {data} = await axiosInstance.get(`/api/v1/moims/${moimId}/my-roles`);
 
   return data.result;

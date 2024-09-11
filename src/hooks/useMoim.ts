@@ -3,11 +3,12 @@ import {useQuery} from '@tanstack/react-query';
 import {getMyMoimRole} from 'apis';
 
 import {UseQueryCustomOptions} from 'types/mutations/common.ts';
+import {TMoimRoles} from 'types/dtos/moim.ts';
 import {queryKeys} from 'constants/storageKeys/keys.ts';
 
 function useGetMyMoimRole(
   moimId: number,
-  queryOptions?: UseQueryCustomOptions,
+  queryOptions?: UseQueryCustomOptions<TMoimRoles>,
 ) {
   return useQuery({
     queryFn: () => getMyMoimRole({moimId}),

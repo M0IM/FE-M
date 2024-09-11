@@ -73,12 +73,13 @@ export default function CalendarParticipantDetailScreen({
         </View>
       </View>
       {data?.schedules.map(({startTime, title}, idx) => {
+        console.log(startTime);
         return (
           <View
             key={idx}
             className="flex-col items-start border p-4 border-gray-200 rounded-xl">
             <Typography className="text-gray-400" fontWeight={'BOLD'}>
-              {moment(startTime).format('a hh시 mm분')}
+              {moment(startTime, 'HH:mm:ss').format('A h시 mm분')}
             </Typography>
             <Typography className="text-black mt-3" fontWeight={'LIGHT'}>
               {title}

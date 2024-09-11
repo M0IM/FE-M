@@ -1,4 +1,4 @@
-import {View, Pressable} from 'react-native';
+import {View, Pressable, Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -14,6 +14,11 @@ import {TPostRecommentDto} from 'types/dtos/post';
 import {COMMENT_STATUS} from 'types/enums';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {formatKoreanDate} from 'utils';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  MoimPostStackNavigationProp,
+  MyStackNavigationProp,
+} from 'navigators/types';
 
 interface PostRecommentContainerProps {
   moimId?: number;
@@ -26,6 +31,13 @@ const PostRecommentContainer = ({
   postId,
   recommentData,
 }: PostRecommentContainerProps) => {
+  const navigation =
+    useNavigation<
+      CompositeNavigationProp<
+        MoimPostStackNavigationProp,
+        MyStackNavigationProp
+      >
+    >();
   const {isPopover, handlePopover} = usePopover();
   const {data: userInfo} = useGetMyProfile();
   const {
@@ -187,45 +199,63 @@ const PostRecommentContainer = ({
     },
   ];
 
-  // 삭제된 대댓글
-  if (isDeleted) {
-    return <></>;
-  }
-
   return (
     <View className="flex flex-col border-b-[0.5px] border-gray-200 bg-gray-50 py-4 px-4 ml-3">
       <View className="flex flex-row items-center">
-        <Avatar size="XS" uri={recommentData.profileImage} />
+        <Avatar
+          size="XS"
+          uri={recommentData.profileImage}
+          onPress={() => {
+            if (recommentData.writer !== null) {
+              navigation.navigate('MOIM_MEMBER_PROFILE', {
+                id: recommentData.writerId as number,
+                userName: recommentData.writer
+                  ? recommentData.writer
+                  : '프로필',
+              });
+            } else {
+              Alert.alert('접근할 수 없는 유저입니다.');
+            }
+          }}
+        />
         <View className="flex flex-col justify-center ml-2">
           <Typography fontWeight="MEDIUM" className="text-dark-800 text-xs">
-            {recommentData.writer}
+            {recommentData.writer ?? '알 수 없는 사용자'}
           </Typography>
           <Typography fontWeight="MEDIUM" className="text-gray-300 text-xs">
             {formatKoreanDate(new Date(recommentData?.createAt))}
           </Typography>
         </View>
-        <View className="flex flex-row gap-x-2 ml-auto">
-          <Pressable onPress={handlePopover}>
-            <PopoverMenu
-              menu={
-                userInfo?.result.nickname === recommentData?.writer
-                  ? PostMyMenuList
-                  : PostMenuList
-              }
-              isPopover={isPopover}
-              onPress={handlePopover}>
-              <Ionicons name="ellipsis-vertical" size={15} color={'#C9CCD1'} />
-            </PopoverMenu>
-          </Pressable>
-          <Pressable
-            onPress={() => handleMoimPostCommentLike(recommentData.commentId)}>
-            {recommentData.isLike ? (
-              <Ionicons name="heart" size={15} color={'#00F0A1'} />
-            ) : (
-              <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
-            )}
-          </Pressable>
-        </View>
+        {!isBlocked && (
+          <View className="flex flex-row gap-x-2 ml-auto">
+            <Pressable onPress={handlePopover}>
+              <PopoverMenu
+                menu={
+                  userInfo?.result.nickname === recommentData?.writer
+                    ? PostMyMenuList
+                    : PostMenuList
+                }
+                isPopover={isPopover}
+                onPress={handlePopover}>
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={15}
+                  color={'#C9CCD1'}
+                />
+              </PopoverMenu>
+            </Pressable>
+            <Pressable
+              onPress={() =>
+                handleMoimPostCommentLike(recommentData.commentId)
+              }>
+              {recommentData.isLike ? (
+                <Ionicons name="heart" size={15} color={'#00F0A1'} />
+              ) : (
+                <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
+              )}
+            </Pressable>
+          </View>
+        )}
       </View>
       <Typography
         fontWeight="MEDIUM"

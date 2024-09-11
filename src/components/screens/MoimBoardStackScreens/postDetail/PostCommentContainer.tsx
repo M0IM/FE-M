@@ -202,11 +202,6 @@ const PostCommentContainer = ({
     },
   ];
 
-  // 삭제된 댓글
-  if (isDeleted) {
-    return <></>;
-  }
-
   return (
     <Pressable onPress={() => targetCommentId && handleUpdateCommentId(null)}>
       <View className="flex flex-col">
@@ -232,7 +227,7 @@ const PostCommentContainer = ({
                       : '프로필',
                   });
                 } else {
-                  Alert.alert('탈퇴 또는 차단 된 유저입니다');
+                  Alert.alert('접근할 수 없는 유저입니다.');
                 }
               }}
               size="XS"
@@ -247,46 +242,52 @@ const PostCommentContainer = ({
                 {formatKoreanDate(new Date(commentData?.createAt))}
               </Typography>
             </View>
-            <View className="flex flex-row gap-x-2 ml-auto">
-              <Pressable className="ml-auto" onPress={handlePopover}>
-                <PopoverMenu
-                  menu={
-                    userInfo?.result.nickname === commentData?.writer
-                      ? PostMyMenuList
-                      : PostMenuList
-                  }
-                  isPopover={isPopover}
-                  onPress={handlePopover}>
+            {!isDeleted && !isBlocked && (
+              <View className="flex flex-row gap-x-2 ml-auto">
+                <Pressable className="ml-auto" onPress={handlePopover}>
+                  <PopoverMenu
+                    menu={
+                      userInfo?.result.userId === commentData?.writerId
+                        ? PostMyMenuList
+                        : PostMenuList
+                    }
+                    isPopover={isPopover}
+                    onPress={handlePopover}>
+                    <Ionicons
+                      name="ellipsis-vertical"
+                      size={15}
+                      color={'#C9CCD1'}
+                    />
+                  </PopoverMenu>
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    targetCommentId
+                      ? handleUpdateCommentId(null)
+                      : handleUpdateCommentId(commentData.commentId);
+                  }}>
                   <Ionicons
-                    name="ellipsis-vertical"
+                    name="chatbubble-outline"
                     size={15}
                     color={'#C9CCD1'}
                   />
-                </PopoverMenu>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  targetCommentId
-                    ? handleUpdateCommentId(null)
-                    : handleUpdateCommentId(commentData.commentId);
-                }}>
-                <Ionicons
-                  name="chatbubble-outline"
-                  size={15}
-                  color={'#C9CCD1'}
-                />
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  handleMoimPostCommentLike(commentData.commentId)
-                }>
-                {commentData.isLike ? (
-                  <Ionicons name="heart" size={15} color={'#00F0A1'} />
-                ) : (
-                  <Ionicons name="heart-outline" size={15} color={'#C9CCD1'} />
-                )}
-              </Pressable>
-            </View>
+                </Pressable>
+                <Pressable
+                  onPress={() =>
+                    handleMoimPostCommentLike(commentData.commentId)
+                  }>
+                  {commentData.isLike ? (
+                    <Ionicons name="heart" size={15} color={'#00F0A1'} />
+                  ) : (
+                    <Ionicons
+                      name="heart-outline"
+                      size={15}
+                      color={'#C9CCD1'}
+                    />
+                  )}
+                </Pressable>
+              </View>
+            )}
           </View>
           <Typography
             fontWeight="MEDIUM"
@@ -296,6 +297,7 @@ const PostCommentContainer = ({
                 : 'text-dark-800 text-sm mt-3 pl-2'
             }>
             {isBlocked ? '차단된 댓글입니다.' : commentData?.content}
+            {isDeleted && '삭제된 댓글입니다.'}
           </Typography>
           <Typography
             fontWeight="MEDIUM"

@@ -72,6 +72,7 @@ export type TPostRecommentDto = {
   updateAt: string;
   createAt: string;
   commentStatus: COMMENT_STATUS_TYPE;
+  writerId: number;
 };
 
 export type TPostCommentDto = {

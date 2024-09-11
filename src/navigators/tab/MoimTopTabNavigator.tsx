@@ -1,7 +1,8 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import CustomTabBar from 'components/@common/CustomTabBar/CustomTabBar';
-import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
+
+import useMoim from 'hooks/useMoim.ts';
 import MoimManagementStackNavigator from 'navigators/stack/MoimManagementStackNavigator';
 import MoimPlanStackNavigator from 'navigators/stack/MoimPlanStackNavigator';
 import MoimPostStackNavigator from 'navigators/stack/MoimPostStackNavigator';
@@ -18,7 +19,9 @@ export default function MoimTopTabNavigator({
 }) {
   // TODO: Route Type 다시 잡기
   const id = route.params?.params?.id;
-  const {data} = useGetMoimSpaceInfo(id);
+
+  const {useGetMyMoimRole} = useMoim();
+  const {data: role} = useGetMyMoimRole(id);
 
   return (
     <Tab.Navigator
@@ -31,7 +34,7 @@ export default function MoimTopTabNavigator({
           tabBarLabel: '모임 홈',
         }}
       />
-      {data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE && (
+      {role?.joinStatus === MOIM_JOIN_STATUS.COMPLETE && (
         <>
           <Tab.Screen
             name={'MOIM_TOP_PLAN'}
@@ -49,7 +52,7 @@ export default function MoimTopTabNavigator({
               tabBarLabel: '게시판',
             }}
           />
-          {!(data?.myMoimRole === MOIM_ROLE.MEMBER) && (
+          {!(role?.moimRole === MOIM_ROLE.MEMBER) && (
             <Tab.Screen
               name={'MOIM_MANAGEMENT'}
               component={MoimManagementStackNavigator}

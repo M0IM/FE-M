@@ -132,6 +132,10 @@ const getMoimMemberListWithOutOwner = async ({
     `/api/v1/moims/${moimId}/members/owner?cursor=${cursor}&take=${take}&search=${search}`,
   );
 
+  console.log(
+    `/api/v1/moims/${moimId}/members/owner?cursor=${cursor}&take=${take}&search=${search}`,
+  );
+
   return data.result;
 };
 

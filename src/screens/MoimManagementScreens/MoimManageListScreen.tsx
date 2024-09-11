@@ -1,13 +1,16 @@
 import {TouchableOpacity} from 'react-native';
+
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
+
 import {
   MoimManagementNavigationProp,
   MoimManagementRouteProp,
 } from 'navigators/types';
+import {MOIM_ROLE} from 'types/enums';
+
 import useTodoStore from 'stores/useTodoStore.ts';
-import useGetMoimSpaceInfo from '../../hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
-import {MOIM_ROLE} from '../../types/enums';
+import useMoim from 'hooks/useMoim.ts';
 
 interface MoimManageListScreenProps {
   route: MoimManagementRouteProp;
@@ -20,7 +23,8 @@ const MoimManageListScreen = ({
 }: MoimManageListScreenProps) => {
   const id = route.params?.id;
   // TODO: 관리자 권한 불러오는 API
-  const {data} = useGetMoimSpaceInfo(id);
+  const {useGetMyMoimRole} = useMoim();
+  const {data: role} = useGetMyMoimRole(id);
   const {setIsEditMode} = useTodoStore();
 
   return (
@@ -39,7 +43,7 @@ const MoimManageListScreen = ({
           가입 관리
         </Typography>
       </TouchableOpacity>
-      {data?.myMoimRole === MOIM_ROLE.OWNER ? (
+      {role?.moimRole === MOIM_ROLE.OWNER ? (
         <TouchableOpacity
           className="m-3"
           onPress={() =>
@@ -50,7 +54,7 @@ const MoimManageListScreen = ({
           </Typography>
         </TouchableOpacity>
       ) : null}
-      {data?.myMoimRole === MOIM_ROLE.OWNER ? (
+      {role?.moimRole === MOIM_ROLE.OWNER ? (
         <TouchableOpacity
           className="m-3"
           onPress={() => navigation.navigate('MOIM_OUT_MEMBER', {id})}>
@@ -83,7 +87,7 @@ const MoimManageListScreen = ({
           내가 할당한 할 일 확인
         </Typography>
       </TouchableOpacity>
-      {data?.myMoimRole === MOIM_ROLE.OWNER ? (
+      {role?.moimRole === MOIM_ROLE.OWNER ? (
         <TouchableOpacity
           className="m-3"
           onPress={() => navigation.navigate('MOIM_INFO_EDIT', {id})}>

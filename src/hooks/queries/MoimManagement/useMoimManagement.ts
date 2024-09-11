@@ -189,7 +189,7 @@ function useGetInfinityMoimMembersWithOutOwner(
       getMoimMemberListWithOutOwner({
         moimId,
         cursor: pageParam,
-        take: 30,
+        take: 10,
         search,
       }),
     queryKey: ['moimMembers', 'notOwner', moimId, search],

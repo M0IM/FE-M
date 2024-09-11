@@ -13,16 +13,20 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {InputField} from 'components/@common/InputField/InputField.tsx';
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
 
-import {MoimManagementRouteProp} from 'navigators/types';
+import {
+  MoimManagementNavigationProp,
+  MoimManagementRouteProp,
+} from 'navigators/types';
 import useDebounce from 'hooks/useDebounce.ts';
 import useMoimManagement from 'hooks/queries/MoimManagement/useMoimManagement';
-import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
-import Toast from 'react-native-toast-message';
+import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 
 export default function MoimOutMemberScreen({
   route,
+  navigation,
 }: {
   route: MoimManagementRouteProp;
+  navigation: MoimManagementNavigationProp;
 }) {
   const moimId = route.params?.id as number;
   const [search, setSearch] = useState('');
@@ -54,7 +58,12 @@ export default function MoimOutMemberScreen({
               {
                 onSuccess: () => {
                   queryClient.invalidateQueries({
-                    queryKey: ['moimMembers', 'notOwner', moimId],
+                    queryKey: [
+                      'moimMembers',
+                      'notOwner',
+                      moimId,
+                      debouncedSearch,
+                    ],
                   });
                 },
               },
@@ -85,7 +94,7 @@ export default function MoimOutMemberScreen({
 
   if (isPending) {
     return (
-      <SafeAreaView className="flex flex-col items-center justify-center bg-white">
+      <SafeAreaView className="flex-1 flex-col items-center justify-center bg-white">
         <ActivityIndicator size="large" className="mt-10" />
       </SafeAreaView>
     );
@@ -118,11 +127,8 @@ export default function MoimOutMemberScreen({
         <FlatList
           data={userList}
           renderItem={({item}) => {
-            console.log(item.userId);
             return (
-              <View
-                key={item.userId}
-                className="flex-1 flex-row justify-between py-3">
+              <View key={item.userId} className="flex-row justify-between py-3">
                 <View className="flex-row items-center justify-center">
                   <Avatar uri={item.imageKeyName} />
                   <Typography
@@ -133,12 +139,10 @@ export default function MoimOutMemberScreen({
                   </Typography>
                 </View>
                 <TouchableOpacity
+                  onPress={() => handleOutMember(item.userId)}
                   disabled={outMoimMemberMutation.isPending}
                   className="p-2 rounded-xl bg-error ml-2 items-center justify-center">
-                  <Typography
-                    fontWeight="BOLD"
-                    className="text-xs text-white"
-                    onPress={() => handleOutMember(item.userId)}>
+                  <Typography fontWeight="BOLD" className="text-xs text-white">
                     탈퇴
                   </Typography>
                 </TouchableOpacity>

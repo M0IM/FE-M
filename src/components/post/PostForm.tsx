@@ -98,7 +98,7 @@ export default function PostForm({moimId}: IPostForm) {
         const dateObject = parseTimeStringToDate(schedule.startTime);
         return {
           ...schedule,
-          startTime: dateObject.toISOString(),
+          startTime: moment(dateObject.toISOString()).format('HH:mm:ss'),
         };
       }),
     };

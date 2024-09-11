@@ -77,7 +77,9 @@ export default function MoimPlanDetailScreen({
           planId,
           schedules: data?.schedules.map(schedule => ({
             ...schedule,
-            startTime: moment(schedule.startTime).format('A hh시 mm분'),
+            startTime: moment(schedule.startTime, 'HH:mm:ss').format(
+              'A h시 mm분',
+            ),
           })),
         });
         navigation.navigate('MOIM_PLAN_WRITE', {id: moimId});

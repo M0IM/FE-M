@@ -24,7 +24,7 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 export default function MyProfileEditScreen() {
   const {detailProfile} = useDetailProfileStore();
   const [isEdit, setIsEdit] = useState(true);
-  const {mutate} = useUpdateMyProfile();
+  const {mutate, isPending} = useUpdateMyProfile();
   const [moimList, setMoimList] = useState([]);
   const uploadImages = useMutateImages();
   const {mutate: createPresignedUrl, isPending: presignedUrlIsPending} =
@@ -174,6 +174,8 @@ export default function MyProfileEditScreen() {
         onPress={handleSubmit}
         className="mt-auto"
         textStyle="text-white text-base font-bold"
+        isLoading={isPending}
+        inValid={isPending}
       />
     </ScreenContainer>
   );

@@ -51,10 +51,12 @@ export default function MoimPostReviewScreen({
           label={isPending ? <ActivityIndicator /> : '후기 작성'}
           textStyle="text-lg text-white font-bold"
           onPress={handlePressReview}
+          isLoading={isPending}
+          inValid={isPending}
         />
       }>
       <Typography fontWeight={'BOLD'} className="text-lg mt-4">
-        모임 활동 평가를 해주세요!
+        이 멤버의 활동 평가를 해주세요!
       </Typography>
 
       <StarRating
@@ -70,7 +72,7 @@ export default function MoimPostReviewScreen({
         className="h-[200px] mt-4"
         multiline
         textAlignVertical="top"
-        placeholder="해당 유저가 모임에서 어떻게 활동했는지, 작성해주세요!"
+        placeholder="해당 멤버가 모임에서 어떻게 활동했는지 작성해주세요!"
         value={review}
         returnKeyType="join"
         onChangeText={text => setReview(text)}

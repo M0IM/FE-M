@@ -47,8 +47,10 @@ function CalendarPostForm() {
     timePickerModal.hide();
   };
 
-  const {mutate: postCalendar} = usePostMyCalendarSchedule();
-  const {mutate: modifyCalendar} = useUpdateMyCalendarSchedule();
+  const {mutate: postCalendar, isPending: postCalenderIsPending} =
+    usePostMyCalendarSchedule();
+  const {mutate: modifyCalendar, isPending: updateCalenderIsPending} =
+    useUpdateMyCalendarSchedule();
   const navigation = useNavigation<CalendarStackNavigationProp>();
 
   const writeMyCalendar = useForm({
@@ -117,6 +119,8 @@ function CalendarPostForm() {
           label={'작성 완료'}
           textStyle={'font-bold text-white text-lg'}
           onPress={isEdit ? handleModifyMyScheule : handleSubmitMySchedule}
+          isLoading={postCalenderIsPending || updateCalenderIsPending}
+          inValid={postCalenderIsPending || updateCalenderIsPending}
         />
       }>
       <View className="mt-5">

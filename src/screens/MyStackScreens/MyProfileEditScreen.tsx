@@ -15,6 +15,8 @@ import useUpdateMyProfile from 'hooks/queries/MyScreen/useUpdateMyProfile';
 import usePermission from 'hooks/usePermission';
 import useMutateImages from 'hooks/queries/MoimCreateScreen/useMutateImages';
 import useCreatePresignedURL from 'hooks/queries/MyScreen/useCreatePresignedURL';
+import useThrottle from 'hooks/useThrottle';
+
 import {getFormDataImage, validateEditProfile} from 'utils';
 import useDetailProfileStore from 'stores/useDetailProfileStore';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
@@ -22,7 +24,7 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 export default function MyProfileEditScreen() {
   const {detailProfile} = useDetailProfileStore();
   const [isEdit, setIsEdit] = useState(true);
-  const {mutate} = useUpdateMyProfile();
+  const {mutate, isPending} = useUpdateMyProfile();
   const [moimList, setMoimList] = useState([]);
   const uploadImages = useMutateImages();
   const {mutate: createPresignedUrl, isPending: presignedUrlIsPending} =
@@ -46,7 +48,7 @@ export default function MyProfileEditScreen() {
     validate: validateEditProfile,
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = useThrottle(() => {
     mutate(
       {
         imageKey: keyName,
@@ -65,7 +67,7 @@ export default function MyProfileEditScreen() {
         },
       },
     );
-  };
+  });
 
   const handleDeleteImage = () => {
     setImageUrl('');
@@ -172,6 +174,8 @@ export default function MyProfileEditScreen() {
         onPress={handleSubmit}
         className="mt-auto"
         textStyle="text-white text-base font-bold"
+        isLoading={isPending}
+        inValid={isPending}
       />
     </ScreenContainer>
   );

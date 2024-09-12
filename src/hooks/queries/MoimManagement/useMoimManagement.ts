@@ -20,7 +20,6 @@ import {
 import {TGetMoimMembers, TMoimRequestUsers} from 'types/dtos/moimManage';
 import {ResponseError, UseMutationCustomOptions} from 'types/mutations/common';
 import Toast from 'react-native-toast-message';
-import {queryClient} from '../../../containers/TanstackQueryContainer.tsx';
 
 function useGetInfinityMoimRequest(
   moimId: number,

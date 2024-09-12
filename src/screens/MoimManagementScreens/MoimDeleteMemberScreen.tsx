@@ -12,6 +12,8 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
 
 import useTodo from 'hooks/useTodo.ts';
+import useThrottle from 'hooks/useThrottle';
+
 import {
   MoimManagementNavigationProp,
   MoimManagementRouteProp,
@@ -69,7 +71,7 @@ export default function MoimDeleteMemberScreen({
     return <View></View>;
   }
 
-  const handlePressDeleteMembers = () => {
+  const handlePressDeleteMembers = useThrottle(() => {
     deleteAssignedMember.mutate(
       {moimId, todoId, deleteAssigneeIdList: selectedIds},
       {
@@ -78,7 +80,7 @@ export default function MoimDeleteMemberScreen({
         },
       },
     );
-  };
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -118,6 +120,9 @@ export default function MoimDeleteMemberScreen({
           label={deleteAssignedMember.isPending ? '멤버 삭제 중' : '멤버 삭제'}
           onPress={handlePressDeleteMembers}
           disabled={deleteAssignedMember.isPending}
+          textStyle="text-base text-white font-bold"
+          isLoading={deleteAssignedMember.isPending}
+          inValid={deleteAssignedMember.isPending}
         />
       </View>
     </SafeAreaView>

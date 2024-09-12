@@ -16,6 +16,7 @@ import {formatKoreanDate} from 'utils';
 import PostInfoContainer from './PostInfoContainer';
 import PostInfoSkeleton from './skeleton/PostInfoSkeleton';
 import useMoimPostStore from 'stores/useMoimPostStore';
+import useThrottle from 'hooks/useThrottle';
 
 interface PostInfoProps {
   id?: number;
@@ -62,7 +63,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     }
   }, [data]);
 
-  const handleMoimPostLike = () => {
+  const handleMoimPostLike = useThrottle(() => {
     if (postId) {
       likeMoimPostMutation.mutate(
         {
@@ -88,9 +89,9 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         },
       );
     }
-  };
+  }, 2 * 1000);
 
-  const handleReportMoimPost = () => {
+  const handleReportMoimPost = useThrottle(() => {
     if (id && postId) {
       reportMoimPostMutation.mutate(
         {
@@ -124,9 +125,9 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         },
       );
     }
-  };
+  });
 
-  const handleBlockMoimPost = () => {
+  const handleBlockMoimPost = useThrottle(() => {
     if (id && postId) {
       blockMoimPostMutation.mutate(
         {
@@ -162,9 +163,9 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         },
       );
     }
-  };
+  });
 
-  const handleConfirmPost = () => {
+  const handleConfirmPost = useThrottle(() => {
     if (postId) {
       confirmAnnouncementPostMutation.mutate(
         {
@@ -195,7 +196,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         },
       );
     }
-  };
+  });
 
   const handleUpdateMoimPost = () => {
     if (id && postId) {
@@ -203,7 +204,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
     }
   };
 
-  const handleDeleteMoimPost = () => {
+  const handleDeleteMoimPost = useThrottle(() => {
     if (data?.moimPostId) {
       deleteMoimPostMutation.mutate(
         {
@@ -234,7 +235,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         },
       );
     }
-  };
+  });
 
   const AnnouncementPostMenuList = [
     {

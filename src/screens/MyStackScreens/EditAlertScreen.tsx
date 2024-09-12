@@ -8,6 +8,7 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 import usePostEventAlertStatus from 'hooks/queries/MyScreen/usePostEventAlertStatus.ts';
 import usePostPushAlertStatus from 'hooks/queries/MyScreen/usePostPushAlertStatus.ts';
 import useGetAlertStatus from 'hooks/queries/MyScreen/useGetAlertStatus.ts';
+import useThrottle from 'hooks/useThrottle';
 
 export default function EditAlertScreen() {
   const {data, isPending, isError} = useGetAlertStatus();
@@ -30,6 +31,25 @@ export default function EditAlertScreen() {
     );
   }
 
+  const toggleGetPushAlert = useThrottle(() => {
+    changePushStatus(null, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({queryKey: ['alertStatus']});
+      },
+    });
+  });
+
+  const toggleGetEventAlert = useThrottle(() => {
+    changeEventStatus(
+      {},
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({queryKey: ['alertStatus']});
+        },
+      },
+    );
+  });
+
   return (
     <ScreenContainer>
       <View className="h-2" />
@@ -43,13 +63,7 @@ export default function EditAlertScreen() {
         </View>
         <ToggleSwitch
           isEnabled={data?.isPushAlarm}
-          onToggle={() => {
-            changePushStatus(null, {
-              onSuccess: () => {
-                queryClient.invalidateQueries({queryKey: ['alertStatus']});
-              },
-            });
-          }}
+          onToggle={toggleGetPushAlert}
           className="ml-auto"
         />
       </View>
@@ -64,16 +78,7 @@ export default function EditAlertScreen() {
         </View>
         <ToggleSwitch
           isEnabled={data?.isEventAlarm}
-          onToggle={() => {
-            changeEventStatus(
-              {},
-              {
-                onSuccess: () => {
-                  queryClient.invalidateQueries({queryKey: ['alertStatus']});
-                },
-              },
-            );
-          }}
+          onToggle={toggleGetEventAlert}
           className="ml-auto"
         />
       </View>

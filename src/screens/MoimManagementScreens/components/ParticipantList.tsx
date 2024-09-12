@@ -43,7 +43,7 @@ export default function ParticipantList({
   const participantList = participants.pages.flatMap(page => page.list);
 
   return (
-    <View>
+    <View className="flex-1">
       <FlatList
         data={participantList}
         renderItem={({item}) => {

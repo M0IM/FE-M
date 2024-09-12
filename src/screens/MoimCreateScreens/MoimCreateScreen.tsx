@@ -8,19 +8,20 @@ import {InputField} from 'components/@common/InputField/InputField';
 import {Typography} from 'components/@common/Typography/Typography';
 import CustomDropdown from 'components/@common/Dropdown/CustomDropdown';
 import {ScreenContainer} from 'components/ScreenContainer';
+import RegionBottomSheet from '../../components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
 
 import usePermission from 'hooks/usePermission';
 import useCreateMoim from 'hooks/queries/MoimCreateScreen/useCreateMoim';
+import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement.ts';
 import useSingleImagePicker from 'hooks/useSingleImagePicker';
 import useDropdown from 'hooks/useDropdown';
+import useThrottle from 'hooks/useThrottle.ts';
+import useModal from 'hooks/useModal';
 
 import {HomeStackNavigationProp} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {CREATE_CATEGORIES_LIST_DATA} from 'constants/screens/MoimSearchScreen/CategoryList';
-import useModal from 'hooks/useModal';
-import RegionBottomSheet from '../../components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
 import useMoimInfoStore from 'stores/useMoimInfoStore.ts';
-import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement.ts';
 
 interface MoimCreateScreenProps {
   navigation: HomeStackNavigationProp;
@@ -41,6 +42,7 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
   const createMoimMutation = useCreateMoim();
   const {updateMoimInfoMutation} = useMoimManagment();
   const platform = Platform.OS;
+
   const [region, setRegion] = useState(moimInfo?.address);
   const [isPickedRegion, setIsPickedRegion] = useState(
     moimInfo?.address ? true : false,
@@ -66,8 +68,10 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
   }, [moimInfo]);
 
   const createIsLoading = createMoimMutation.isPending;
+  const updateIsLoading = updateMoimInfoMutation.isPending;
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = useThrottle(() => {
+    console.log('모임 생성을 요청합니다.');
     if (data?.title && region && data?.introduction && category?.key) {
       if (isEdit) {
         updateMoimInfoMutation.mutate(
@@ -88,6 +92,9 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
                 visibilityTime: 2000,
                 position: 'bottom',
               });
+              queryClient.invalidateQueries({
+                queryKey: ['myMoim'],
+              });
             },
             onError: error => {
               console.error(error?.response);
@@ -98,11 +105,6 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
                   '모임 수정 중 오류가 발생했습니다.',
                 visibilityTime: 2000,
                 position: 'bottom',
-              });
-            },
-            onSettled: () => {
-              queryClient.invalidateQueries({
-                queryKey: ['myMoim'],
               });
             },
           },
@@ -121,6 +123,9 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
           {
             onSuccess: () => {
               navigation.goBack();
+              queryClient.invalidateQueries({
+                queryKey: ['myMoim'],
+              });
             },
             onError: error => {
               console.error(error?.response);
@@ -131,11 +136,6 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
                   '모임 생성 중 오류가 발생했습니다.',
                 visibilityTime: 2000,
                 position: 'bottom',
-              });
-            },
-            onSettled: () => {
-              queryClient.invalidateQueries({
-                queryKey: ['myMoim'],
               });
             },
           },
@@ -167,7 +167,7 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
           position: 'bottom',
         });
     }
-  };
+  });
 
   const handleConfirmRegion = () => {
     setIsPickedRegion(true);
@@ -180,8 +180,8 @@ const MoimCreateScreen = ({navigation}: MoimCreateScreenProps) => {
         <CustomButton
           label={isEdit ? '모임 수정하기' : '모임 만들기'}
           textStyle="text-white font-bold text-base"
-          onPress={() => handleOnSubmit()}
-          isLoading={createIsLoading}
+          onPress={handleOnSubmit}
+          isLoading={createIsLoading || updateIsLoading}
         />
       }>
       {isEdit ? (

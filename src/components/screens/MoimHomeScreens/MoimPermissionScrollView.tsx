@@ -11,6 +11,7 @@ import {TMoimRole} from 'types/dtos/moimManage';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {SafeAreaView} from 'react-native';
 import useGetMoimSpaceInfo from '../../../hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
+import useThrottle from 'hooks/useThrottle.ts';
 
 interface MoimPermissionScrollViewProps {
   moimId?: number;
@@ -64,39 +65,42 @@ const MoimPermissionScrollView = ({
     refetch();
   }, [isRefreshing, refetchMoimMembers]);
 
-  const handleMemberAuth = (userId: number, moimRole: TMoimRole) => {
-    const newRole = moimRole === 'MEMBER' ? 'ADMIN' : 'MEMBER';
-    if (moimId && userId && moimRole) {
-      updateMoimAuthoritiesMutation.mutate(
-        {
-          moimId,
-          moimRole: newRole,
-          userId,
-        },
-        {
-          onError: error => {
-            console.error(error.response);
-            Toast.show({
-              type: 'error',
-              text1:
-                error.response?.data.message ||
-                '권한 변경 중 에러가 발생했습니다.',
-              visibilityTime: 2000,
-              position: 'bottom',
-            });
+  const handleMemberAuth = useThrottle(
+    (userId: number, moimRole: TMoimRole) => {
+      const newRole = moimRole === 'MEMBER' ? 'ADMIN' : 'MEMBER';
+      if (moimId && userId && moimRole) {
+        updateMoimAuthoritiesMutation.mutate(
+          {
+            moimId,
+            moimRole: newRole,
+            userId,
           },
-          onSettled: () => {
-            queryClient.refetchQueries({
-              queryKey: ['moimMembers', moimId],
-            });
-            queryClient.invalidateQueries({
-              queryKey: ['moimRequests', moimId],
-            });
+          {
+            onError: error => {
+              console.error(error.response);
+              Toast.show({
+                type: 'error',
+                text1:
+                  error.response?.data.message ||
+                  '권한 변경 중 에러가 발생했습니다.',
+                visibilityTime: 2000,
+                position: 'bottom',
+              });
+            },
+            onSettled: () => {
+              queryClient.refetchQueries({
+                queryKey: ['moimMembers', moimId],
+              });
+              queryClient.invalidateQueries({
+                queryKey: ['moimRequests', moimId],
+              });
+            },
           },
-        },
-      );
-    }
-  };
+        );
+      }
+    },
+    2 * 1000,
+  );
 
   if (isPending) {
     return (

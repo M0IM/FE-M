@@ -12,6 +12,7 @@ import {Typography} from 'components/@common/Typography/Typography';
 
 import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement';
 import {queryClient} from 'containers/TanstackQueryContainer';
+import useThrottle from 'hooks/useThrottle';
 
 interface MoimJoinRequestScrollViewProps {
   moimId?: number;
@@ -56,7 +57,7 @@ const MoimJoinRequestScrollView = ({
     refetch();
   }, [isRefreshing, refetchMoimRequests]);
 
-  const handleAcceptRequest = (userId: number) => {
+  const handleAcceptRequest = useThrottle((userId: number) => {
     if (moimId && userId) {
       acceptMoimJoinRequestMutation.mutate(
         {
@@ -92,9 +93,9 @@ const MoimJoinRequestScrollView = ({
         },
       );
     }
-  };
+  }, 2 * 1000);
 
-  const handleRejectRequest = (userId: number) => {
+  const handleRejectRequest = useThrottle((userId: number) => {
     if (moimId && userId) {
       rejectMoimJoinRequestMutation.mutate(
         {
@@ -129,7 +130,7 @@ const MoimJoinRequestScrollView = ({
         },
       );
     }
-  };
+  }, 2 * 1000);
 
   if (isPending) {
     return (

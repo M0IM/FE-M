@@ -13,6 +13,7 @@ import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOp
 import useForm from 'hooks/useForm.ts';
 import useModal from 'hooks/useModal.ts';
 import useAuth from 'hooks/queries/AuthScreen/useAuth.ts';
+import useThrottle from 'hooks/useThrottle.ts';
 
 import {validateSignUpStep5} from 'utils/validate.ts';
 import {getDateWithSeparator} from 'utils';
@@ -67,7 +68,7 @@ export default function SignupLastStepScreen({
     setGender(selectedGender);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = useThrottle(() => {
     setSignUpInfo(prevInfo => ({
       ...prevInfo,
       gender: form.values.gender,
@@ -86,9 +87,7 @@ export default function SignupLastStepScreen({
       residence: region,
       fcmToken: fcmToken as string,
     });
-  };
-
-  console.log(gender);
+  });
 
   const isDisabled = Object.values(form.errors).some(error => error);
 
@@ -119,6 +118,7 @@ export default function SignupLastStepScreen({
           label={'가입 후 로그인 하기'}
           onPress={handleSubmit}
           inValid={isDisabled}
+          isLoading={signUpMutation.isPending}
         />
       }>
       <View className="mb-10">

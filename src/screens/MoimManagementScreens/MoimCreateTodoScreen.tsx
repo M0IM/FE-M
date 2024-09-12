@@ -11,17 +11,19 @@ import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOp
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import ReaderPickerBottomSheet from './components/ReaderPickerBottomSheet.tsx';
 
-import {
-  MoimManagementNavigationProp,
-  MoimManagementRouteProp,
-} from 'navigators/types';
-import {getDateWithSeparator, validateTodo} from 'utils';
 import useForm from 'hooks/useForm.ts';
 import useModal from 'hooks/useModal.ts';
 import usePermission from 'hooks/usePermission.ts';
 import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 import useTodo from 'hooks/useTodo.ts';
+import useThrottle from 'hooks/useThrottle.ts';
+
 import useTodoStore from 'stores/useTodoStore.ts';
+import {
+  MoimManagementNavigationProp,
+  MoimManagementRouteProp,
+} from 'navigators/types';
+import {getDateWithSeparator, validateTodo} from 'utils';
 
 export default function MoimCreateTodoScreen({
   route,
@@ -74,7 +76,7 @@ export default function MoimCreateTodoScreen({
     validate: validateTodo,
   });
 
-  const handleCreateTodo = () => {
+  const handleCreateTodo = useThrottle(() => {
     createTodoMutation.mutate(
       {
         moimId,
@@ -91,17 +93,17 @@ export default function MoimCreateTodoScreen({
         },
       },
     );
-  };
-  console.log(imageUri);
-  const handleModifyTodo = () => {
+  });
+
+  const handleModifyTodo = useThrottle(() => {
     const imageKey = uploadUri
       ? // uploadUri가 존재하면 사용.
         uploadUri
       : // uploadUri가 없는 경우 imageUri 사용.
         // imageUri가 도메인을 포함하면
-        imageUri.includes(Config.AWS_S3_URL)
+        imageUri?.includes(Config.AWS_S3_URL)
         ? // imageUri 도메인 제거
-          imageUri.replace(Config.AWS_S3_URL, '')
+          imageUri?.replace(Config.AWS_S3_URL, '')
         : // imageUri 제거
           imageUri;
     console.log(imageKey, '이미지 키');
@@ -122,7 +124,7 @@ export default function MoimCreateTodoScreen({
           },
         },
       );
-  };
+  });
 
   return (
     <ScreenContainer>
@@ -259,12 +261,13 @@ export default function MoimCreateTodoScreen({
           </TouchableOpacity>
         </TouchableOpacity>
       )}
+      <View className="flex-1" />
       <CustomButton
-        className={`${createTodoMutation.isPending ? 'bg-gray-300' : ''}`}
-        textStyle="text-white text-lg font-bold"
+        textStyle="mt-auto text-white text-lg font-bold"
         label={`${createTodoMutation.isPending ? '배정 중...' : '할 일 배정'}`}
         onPress={isEdit ? handleModifyTodo : handleCreateTodo}
-        disabled={createTodoMutation.isPending}
+        disabled={createTodoMutation.isPending || modifyTodoMutation.isPending}
+        inValid={createTodoMutation.isPending || modifyTodoMutation.isPending}
       />
       <DatePickerOption
         isVisible={datePickerModal.isVisible}

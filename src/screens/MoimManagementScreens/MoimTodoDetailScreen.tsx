@@ -3,20 +3,22 @@ import React, {useLayoutEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {RouteProp} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
+import PopoverMenu from '../../components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
+
+import useTodo from 'hooks/useTodo.ts';
+import useThrottle from 'hooks/useThrottle.ts';
+
+import ParticipantList from './components/ParticipantList.tsx';
+import useTodoStore from '../../stores/useTodoStore.ts';
 
 import {
   MoimManagementNavigationProp,
   MoimManagementParamList,
 } from 'navigators/types';
-import useTodo from 'hooks/useTodo.ts';
-import ParticipantList from './components/ParticipantList.tsx';
-import IonIcons from 'react-native-vector-icons/Ionicons';
-import PopoverMenu from '../../components/@common/Popover/PopoverMenu/PopoverMenu.tsx';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import useTodoStore from '../../stores/useTodoStore.ts';
 
 export default function MoimTodoDetailScreen({
   navigation,
@@ -31,7 +33,7 @@ export default function MoimTodoDetailScreen({
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity className="pr-2" onPress={handlePressRightIcon}>
-          <IonIcons name={'menu'} size={25} />
+          <Ionicons name={'menu'} size={25} />
         </TouchableOpacity>
       ),
     });
@@ -45,6 +47,18 @@ export default function MoimTodoDetailScreen({
   console.log(todo);
 
   const {setTodoList, setIsEditMode} = useTodoStore();
+
+  const handleDeleteTodo = useThrottle(() => {
+    deleteTodoMutation.mutate(
+      {moimId, todoId},
+      {
+        onSuccess: () => {
+          navigation.goBack();
+        },
+      },
+    );
+  });
+
   const PostMyMenuList = [
     {
       title: '멤버 추가',
@@ -78,16 +92,7 @@ export default function MoimTodoDetailScreen({
     },
     {
       title: '할 일 삭제',
-      onPress: () => {
-        deleteTodoMutation.mutate(
-          {moimId, todoId},
-          {
-            onSuccess: () => {
-              navigation.goBack();
-            },
-          },
-        );
-      },
+      onPress: () => handleDeleteTodo(),
     },
   ];
 

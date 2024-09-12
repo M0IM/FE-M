@@ -12,6 +12,7 @@ import Avatar from 'components/@common/Avatar/Avatar.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 
 import useTodo from 'hooks/useTodo.ts';
+import useThrottle from 'hooks/useThrottle';
 import {
   MoimManagementNavigationProp,
   MoimManagementRouteProp,
@@ -71,7 +72,7 @@ export default function MoimAddMemberScreen({
     return <View></View>;
   }
 
-  const handlePressAddMembers = () => {
+  const handlePressAddMembers = useThrottle(() => {
     updateAssignedMember.mutate(
       {moimId, todoId, addAssigneeIdList: selectedIds},
       {
@@ -80,7 +81,7 @@ export default function MoimAddMemberScreen({
         },
       },
     );
-  };
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -119,6 +120,9 @@ export default function MoimAddMemberScreen({
           label={updateAssignedMember.isPending ? '멤버 추가 중' : '멤버 추가'}
           onPress={handlePressAddMembers}
           disabled={updateAssignedMember.isPending}
+          textStyle="text-white text-base font-bold"
+          isLoading={updateAssignedMember.isPending}
+          inValid={updateAssignedMember.isPending}
         />
       </View>
     </SafeAreaView>

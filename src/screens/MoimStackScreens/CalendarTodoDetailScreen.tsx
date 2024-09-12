@@ -12,6 +12,8 @@ import PopoverMenu from 'components/@common/Popover/PopoverMenu/PopoverMenu.tsx'
 import Label from 'components/@common/Label/Label.tsx';
 
 import useTodo from 'hooks/useTodo.ts';
+import useThrottle from 'hooks/useThrottle.ts';
+
 import {TODO_ASSIGNEE_STATUS} from 'types/dtos/todo.ts';
 import {HomeStackRouteProp} from 'navigators/types';
 
@@ -31,7 +33,7 @@ export default function CalendarTodoDetailScreen({
     setIsPopOverOpen(prev => !prev);
   };
 
-  const handleTodoStatusChange = (status: TODO_ASSIGNEE_STATUS) => {
+  const handleTodoStatusChange = useThrottle((status: TODO_ASSIGNEE_STATUS) => {
     modifyMyTodoStatus.mutate(
       {
         moimId,
@@ -42,7 +44,7 @@ export default function CalendarTodoDetailScreen({
         onSuccess: data => console.log(data),
       },
     );
-  };
+  });
 
   const ChangeTodoStatus = [
     {
@@ -126,15 +128,15 @@ export default function CalendarTodoDetailScreen({
         title="상세 내용"
         content={todo?.content}
       />
+      <View className="flex-1" />
 
       <PopoverMenu
         menu={ChangeTodoStatus}
         isPopover={isPopOverOpen}
         onPress={handlePressPopOver}
       />
-
       <CustomButton
-        textStyle="text-white font-bold"
+        textStyle="text-white font-bold text-base"
         label={'상태 변경'}
         onPress={handlePressPopOver}
       />

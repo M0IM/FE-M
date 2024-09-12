@@ -8,16 +8,18 @@ import {CustomButton} from '../@common/CustomButton/CustomButton.tsx';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import {InputField} from '../@common/InputField/InputField.tsx';
 import {DatePickerOption} from '../@common/DatePickerOption/DatePickerOption.tsx';
+import {useNavigation} from '@react-navigation/native';
 
 import useModal from 'hooks/useModal.ts';
-import usePostMyCalendarSchedule from 'hooks/queries/CalendarHomeScreen/usePostMyCalendarSchedule.ts';
 import useForm from 'hooks/useForm.ts';
+import useThrottle from 'hooks/useThrottle.ts';
+import useUpdateMyCalendarSchedule from 'hooks/queries/CalendarHomeScreen/useUpdateMyCalendarSchedule.ts';
+import usePostMyCalendarSchedule from 'hooks/queries/CalendarHomeScreen/usePostMyCalendarSchedule.ts';
+
 import {formatTime, getDateWithSeparator, validateCalendarWrite} from 'utils';
 import {CalendarStackNavigationProp} from 'navigators/types';
 import useMyCalendarStore from 'stores/useMyCalendarStore.ts';
-import useUpdateMyCalendarSchedule from 'hooks/queries/CalendarHomeScreen/useUpdateMyCalendarSchedule.ts';
 import {TimePickerOption} from '../@common/TimePickerOption/TimePickerOption.tsx';
-import {useNavigation} from '@react-navigation/native';
 
 function CalendarPostForm() {
   const datePickerModal = useModal();
@@ -59,7 +61,7 @@ function CalendarPostForm() {
     validate: validateCalendarWrite,
   });
 
-  const handleSubmitMySchedule = () => {
+  const handleSubmitMySchedule = useThrottle(() => {
     postCalendar(
       {
         title: writeMyCalendar.values.title,
@@ -79,9 +81,9 @@ function CalendarPostForm() {
         onError: error => console.log(error),
       },
     );
-  };
+  });
 
-  const handleModifyMyScheule = () => {
+  const handleModifyMyScheule = useThrottle(() => {
     isEdit &&
       modifyCalendar(
         {
@@ -105,7 +107,7 @@ function CalendarPostForm() {
           onError: error => console.log(error.response?.data),
         },
       );
-  };
+  });
 
   return (
     <ScreenContainer

@@ -15,6 +15,8 @@ import useUpdateMyProfile from 'hooks/queries/MyScreen/useUpdateMyProfile';
 import usePermission from 'hooks/usePermission';
 import useMutateImages from 'hooks/queries/MoimCreateScreen/useMutateImages';
 import useCreatePresignedURL from 'hooks/queries/MyScreen/useCreatePresignedURL';
+import useThrottle from 'hooks/useThrottle';
+
 import {getFormDataImage, validateEditProfile} from 'utils';
 import useDetailProfileStore from 'stores/useDetailProfileStore';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
@@ -46,7 +48,7 @@ export default function MyProfileEditScreen() {
     validate: validateEditProfile,
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = useThrottle(() => {
     mutate(
       {
         imageKey: keyName,
@@ -65,7 +67,7 @@ export default function MyProfileEditScreen() {
         },
       },
     );
-  };
+  });
 
   const handleDeleteImage = () => {
     setImageUrl('');

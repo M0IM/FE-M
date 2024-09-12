@@ -13,6 +13,7 @@ import {
 } from 'navigators/types';
 import usePostReviewMutation from '../../hooks/queries/MoimPostReviewScreen/usePostReviewMutation.ts';
 import {ActivityIndicator} from 'react-native';
+import useThrottle from 'hooks/useThrottle.ts';
 
 export default function MoimPostReviewScreen({
   route,
@@ -26,7 +27,7 @@ export default function MoimPostReviewScreen({
   const {mutate, error, isPending} = usePostReviewMutation();
   const targetUserId = route.params.id as number;
 
-  const handlePressReview = () => {
+  const handlePressReview = useThrottle(() => {
     mutate(
       {targetUserId, rating, content: review},
       {
@@ -40,7 +41,7 @@ export default function MoimPostReviewScreen({
         },
       },
     );
-  };
+  });
 
   return (
     <ScreenContainer

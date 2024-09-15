@@ -1,4 +1,4 @@
-package com.moim
+package com.matthew.moim
 
 import android.os.Bundle
 import com.facebook.react.ReactActivity

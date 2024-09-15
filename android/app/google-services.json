@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:517103038765:android:3d7d5c2b35f7963372e3a4",
+        "android_client_info": {
+          "package_name": "com.matthew.moim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBleBu4lXUqTkYQrCKK-1p6u2FmyrUCq9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:517103038765:android:a163772815821ff072e3a4",
         "android_client_info": {
           "package_name": "com.moim"

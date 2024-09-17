@@ -7,9 +7,9 @@ type TSignup = {
   email: string;
   password?: string;
   role?: 'ROLE_USER' | 'ROLE_ADMIN';
-  gender: 'FEMALE' | 'MALE';
-  birth: string;
-  residence: string;
+  gender: 'FEMALE' | 'MALE' | null;
+  birth: string | null;
+  residence: string | null;
   fcmToken: string;
 };
 

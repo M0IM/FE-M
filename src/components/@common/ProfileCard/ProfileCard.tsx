@@ -26,13 +26,15 @@ export function ProfileCard({userInfo}: IProfileCardProps) {
             numberOfLines={1}
             fontWeight={'MEDIUM'}
             className="text-gray-500 w-[200]">
-            {userInfo?.residence}
+            {userInfo?.residence ?? '거주지역 정보가 없습니다.'}
           </Typography>
           <Typography
             numberOfLines={1}
             fontWeight={'MEDIUM'}
             className="text-gray-500">
-            {moment(userInfo?.birth).format('YYYY년 MM월 DD일')}
+            {userInfo?.birth
+              ? moment(userInfo?.birth).format('YYYY년 MM월 DD일')
+              : '생년월일을 선택하지 않았습니다.'}
           </Typography>
         </View>
       </View>

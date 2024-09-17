@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {Pressable, View} from 'react-native';
+import React, {useState} from 'react';
+import {Pressable, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CheckBox from '@react-native-community/checkbox';
@@ -33,7 +33,7 @@ export default function SignupLastStepScreen({
   signUpInfo,
 }: TSignUpScreenProps) {
   const navigation = useNavigation<AuthStackNavigationProp>();
-  const [gender, setGender] = useState<'FEMALE' | 'MALE'>('MALE');
+  const [gender, setGender] = useState<'FEMALE' | 'MALE' | null>('MALE');
   const {signUpMutation} = useAuth();
   const datePickerModal = useModal();
   const regionPickerModal = useModal();
@@ -68,13 +68,11 @@ export default function SignupLastStepScreen({
     setGender(selectedGender);
   };
 
+  const [isSelectGender, setIsSelectGender] = useState(false);
+  const [isSelectBirth, setIsSelectBirth] = useState(false);
+  const [isSelectRegion, setIsSelectRegion] = useState(false);
+  console.log(isSelectGender, isSelectBirth, isSelectRegion);
   const handleSubmit = useThrottle(() => {
-    setSignUpInfo(prevInfo => ({
-      ...prevInfo,
-      gender: form.values.gender,
-      birth: form.values.birth,
-      residence: region,
-    }));
     signUpMutation.mutate({
       provider: signUpInfo.provider,
       providerId: signUpInfo.providerId,
@@ -82,9 +80,9 @@ export default function SignupLastStepScreen({
       email: signUpInfo.email,
       password: signUpInfo.password,
       role: 'ROLE_USER',
-      gender,
-      birth: moment(date).format('YYYY-MM-DD'),
-      residence: region,
+      gender: isSelectGender ? form.values.gender : null,
+      birth: isSelectBirth ? moment(date).format('YYYY-MM-DD') : null,
+      residence: isSelectRegion ? region : null,
       fcmToken: fcmToken as string,
     });
   });
@@ -121,7 +119,7 @@ export default function SignupLastStepScreen({
           isLoading={signUpMutation.isPending}
         />
       }>
-      <View className="mb-10">
+      <View className="mb-1">
         <Typography fontWeight={'BOLD'} className="text-xl mt-10">
           {FIFTH_STEP.DESC_1}
         </Typography>
@@ -137,52 +135,151 @@ export default function SignupLastStepScreen({
       <View className="flex-col gap-y-10">
         <View>
           <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.GENDER}</Typography>
-          <View className="flex flex-row justify-around">
-            <View className="flex flex-col items-center gap-y-2">
-              <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.MALE}</Typography>
-              <CheckBox
-                disabled={false}
-                value={gender === 'MALE'}
-                onValueChange={() => handleGenderChange('MALE')}
-                onFillColor={'#00F0A1'}
-                onCheckColor={'#FFFFFF'}
-                onTintColor={'#FFFFFF'}
-              />
-            </View>
-            <View className="flex flex-col items-center gap-y-2">
-              <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.FEMALE}</Typography>
-              <CheckBox
-                disabled={false}
-                value={gender === 'FEMALE'}
-                onValueChange={() => handleGenderChange('FEMALE')}
-                onFillColor={'#00F0A1'}
-                onCheckColor={'#FFFFFF'}
-                onTintColor={'#FFFFFF'}
-              />
-            </View>
+          <View className="flex-row items-center gap-x-2 py-3">
+            <TouchableOpacity onPress={() => setIsSelectGender(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      isSelectGender ? 'bg-main' : ''
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  제공
+                </Typography>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsSelectGender(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      isSelectGender ? '' : 'bg-main'
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  제공하지 않음
+                </Typography>
+              </View>
+            </TouchableOpacity>
           </View>
+          {isSelectGender ? (
+            <View className="flex flex-row justify-around">
+              <View className="flex flex-col items-center gap-y-2">
+                <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.MALE}</Typography>
+                <CheckBox
+                  disabled={false}
+                  value={gender === 'MALE'}
+                  onValueChange={() => handleGenderChange('MALE')}
+                  onFillColor={'#00F0A1'}
+                  onCheckColor={'#FFFFFF'}
+                  onTintColor={'#FFFFFF'}
+                />
+              </View>
+              <View className="flex flex-col items-center gap-y-2">
+                <Typography fontWeight={'MEDIUM'}>
+                  {FIFTH_STEP.FEMALE}
+                </Typography>
+                <CheckBox
+                  disabled={false}
+                  value={gender === 'FEMALE'}
+                  onValueChange={() => handleGenderChange('FEMALE')}
+                  onFillColor={'#00F0A1'}
+                  onCheckColor={'#FFFFFF'}
+                  onTintColor={'#FFFFFF'}
+                />
+              </View>
+            </View>
+          ) : null}
         </View>
         <View>
           <Typography className="mb-4" fontWeight={'MEDIUM'}>
             생년월일
           </Typography>
-          <CustomButton
-            variant="gray"
-            label={
-              isPicked ? `${getDateWithSeparator(date, '. ')}` : '날짜 선택'
-            }
-            onPress={datePickerModal.show}
-          />
+          <View className="flex-row items-center gap-x-2 py-3">
+            <TouchableOpacity onPress={() => setIsSelectBirth(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      isSelectBirth ? 'bg-main' : ''
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  제공
+                </Typography>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsSelectBirth(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      isSelectBirth ? '' : 'bg-main'
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  제공하지 않음
+                </Typography>
+              </View>
+            </TouchableOpacity>
+          </View>
+          {isSelectBirth ? (
+            <CustomButton
+              variant="gray"
+              label={
+                isPicked ? `${getDateWithSeparator(date, '. ')}` : '날짜 선택'
+              }
+              onPress={datePickerModal.show}
+            />
+          ) : null}
         </View>
         <View>
           <Typography className="mb-4" fontWeight={'MEDIUM'}>
             {FIFTH_STEP.RESIDENCE}
           </Typography>
-          <CustomButton
-            variant="gray"
-            label={isPickedRegion ? region : '지역 선택'}
-            onPress={regionPickerModal.show}
-          />
+          <View className="flex-row items-center gap-x-2 py-3">
+            <TouchableOpacity onPress={() => setIsSelectRegion(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      isSelectRegion ? 'bg-main' : ''
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  제공
+                </Typography>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsSelectRegion(prev => !prev)}>
+              <View className="flex-row items-center w-full">
+                <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                  <View
+                    className={`${
+                      isSelectRegion ? '' : 'bg-main'
+                    } rounded-full w-[10] h-[10]`}
+                  />
+                </View>
+                <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                  제공하지 않음
+                </Typography>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          {isSelectRegion ? (
+            <CustomButton
+              variant="gray"
+              label={isPickedRegion ? region : '지역 선택'}
+              onPress={regionPickerModal.show}
+            />
+          ) : null}
         </View>
         <DatePickerOption
           isVisible={datePickerModal.isVisible}

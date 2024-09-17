@@ -45,7 +45,6 @@ export default function MyDetailProfileScreen({
   } = useGetDetailProfile(userId);
   const {setDetailProfile} = useDetailProfileStore();
   const [refreshing, setRefreshing] = useState(false);
-
   const {year, month, day} = getMonthYearDetails(
     new Date(userInfo?.createdAt as string),
   );

@@ -37,6 +37,8 @@ const updateMyProfile = async ({
   nickname,
   imageKey,
   residence,
+  gender,
+  birth,
   introduction,
   publicMoimList,
 }: TUpdateUserParams) => {
@@ -44,6 +46,8 @@ const updateMyProfile = async ({
     nickname,
     imageKey,
     residence,
+    gender,
+    birth,
     introduction,
     publicMoimList,
   });

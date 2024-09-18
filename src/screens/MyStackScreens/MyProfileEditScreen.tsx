@@ -1,14 +1,18 @@
 import {ActivityIndicator, TouchableOpacity, View} from 'react-native';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useNavigation} from '@react-navigation/native';
 import Config from 'react-native-config';
+import moment from 'moment';
+import CheckBox from '@react-native-community/checkbox';
 
 import {ScreenContainer} from 'components/ScreenContainer';
 import {Typography} from 'components/@common/Typography/Typography';
 import {InputField} from 'components/@common/InputField/InputField';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import Avatar from 'components/@common/Avatar/Avatar';
+import RegionBottomSheet from 'components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
+import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOption.tsx';
 
 import useForm from 'hooks/useForm';
 import useUpdateMyProfile from 'hooks/queries/MyScreen/useUpdateMyProfile';
@@ -17,11 +21,18 @@ import useMutateImages from 'hooks/queries/MoimCreateScreen/useMutateImages';
 import useCreatePresignedURL from 'hooks/queries/MyScreen/useCreatePresignedURL';
 import useThrottle from 'hooks/useThrottle';
 
-import {getFormDataImage, validateEditProfile} from 'utils';
+import {
+  getDateWithSeparator,
+  getFormDataImage,
+  validateEditProfile,
+} from 'utils';
 import useDetailProfileStore from 'stores/useDetailProfileStore';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
+import useModal from 'hooks/useModal.ts';
+import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
 
 export default function MyProfileEditScreen() {
+  usePermission('PHOTO');
   const {detailProfile} = useDetailProfileStore();
   const [isEdit, setIsEdit] = useState(true);
   const {mutate, isPending} = useUpdateMyProfile();
@@ -37,12 +48,52 @@ export default function MyProfileEditScreen() {
   const navigation = useNavigation();
   const isEditMode = isEdit && detailProfile;
   const [imageUrl, setImageUrl] = useState(detailProfile?.imageUrl);
-  usePermission('PHOTO');
+
+  // TODO: 성별 관련
+  const [gender, setGender] = useState<'FEMALE' | 'MALE' | null>(
+    isEditMode ? detailProfile.gender : null,
+  );
+  const [isSelectGender, setIsSelectGender] = useState(
+    isEditMode && detailProfile.gender === null ? false : true,
+  );
+  const handleGenderChange = (selectedGender: 'FEMALE' | 'MALE') => {
+    setGender(selectedGender);
+  };
+
+  // TODO: DATE 관련
+  const [isSelectBirth, setIsSelectBirth] = useState(
+    isEditMode && detailProfile?.birth === null ? false : true,
+  );
+  const [date, setDate] = useState<Date>(
+    isEditMode ? (new Date(detailProfile.birth) ?? '날짜 선택') : new Date(),
+  );
+  const [isPicked, setIsPicked] = useState(false);
+  const handleChangeDate = (pickedDate: Date) => {
+    setDate(pickedDate);
+  };
+  const datePickerModal = useModal();
+  const handleConfirmDate = () => {
+    setIsPicked(true);
+    datePickerModal.hide();
+  };
+
+  // TODO: REGION 관련
+  const [isSelectRegion, setIsSelectRegion] = useState(
+    isEditMode && detailProfile?.residence === null ? false : true,
+  );
+  const [isPickedRegion, setIsPickedRegion] = useState(false);
+  const [region, setRegion] = useState(
+    isEditMode ? (detailProfile.residence ?? '지역 선택') : '',
+  );
+  const regionPickerModal = useModal();
+  const handleConfirmRegion = () => {
+    setIsPickedRegion(true);
+    regionPickerModal.hide();
+  };
 
   const editProfile = useForm({
     initialValue: {
       nickname: isEditMode ? detailProfile.nickname : '',
-      residence: isEditMode ? detailProfile.residence : '',
       introduction: isEditMode ? detailProfile.introduction : '',
     },
     validate: validateEditProfile,
@@ -53,7 +104,9 @@ export default function MyProfileEditScreen() {
       {
         imageKey: keyName,
         nickname: editProfile.values.nickname,
-        residence: editProfile.values.residence,
+        residence: isSelectRegion ? region : null,
+        birth: isSelectBirth ? moment(date).format('YYYY-MM-DD') : null,
+        gender: isSelectGender ? gender : null,
         introduction: editProfile.values.introduction,
         publicMoimList: moimList,
       },
@@ -101,7 +154,6 @@ export default function MyProfileEditScreen() {
                 createPresignedUrl(fileName, {
                   onSuccess: data => {
                     const {keyName} = data;
-                    console.log('받은 키네임', keyName);
                     setKeyName(keyName);
 
                     uploadImages.mutate(
@@ -147,14 +199,153 @@ export default function MyProfileEditScreen() {
       </View>
       <View>
         <Typography className="mb-3" fontWeight={'BOLD'}>
+          성별
+        </Typography>
+        <View className="flex-row items-center gap-x-2 py-3">
+          <TouchableOpacity onPress={() => setIsSelectGender(prev => !prev)}>
+            <View className="flex-row items-center w-full">
+              <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                <View
+                  className={`${
+                    isSelectGender ? 'bg-main' : ''
+                  } rounded-full w-[10] h-[10]`}
+                />
+              </View>
+              <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                제공
+              </Typography>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsSelectGender(prev => !prev)}>
+            <View className="flex-row items-center w-full">
+              <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                <View
+                  className={`${
+                    isSelectGender ? '' : 'bg-main'
+                  } rounded-full w-[10] h-[10]`}
+                />
+              </View>
+              <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                제공하지 않음
+              </Typography>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {isSelectGender ? (
+          <View className="flex flex-row justify-around">
+            <View className="flex flex-col items-center gap-y-2">
+              <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.MALE}</Typography>
+              <CheckBox
+                disabled={false}
+                value={gender === 'MALE'}
+                onValueChange={() => handleGenderChange('MALE')}
+                onFillColor={'#00F0A1'}
+                onCheckColor={'#FFFFFF'}
+                onTintColor={'#FFFFFF'}
+              />
+            </View>
+            <View className="flex flex-col items-center gap-y-2">
+              <Typography fontWeight={'MEDIUM'}>{FIFTH_STEP.FEMALE}</Typography>
+              <CheckBox
+                disabled={false}
+                value={gender === 'FEMALE'}
+                onValueChange={() => handleGenderChange('FEMALE')}
+                onFillColor={'#00F0A1'}
+                onCheckColor={'#FFFFFF'}
+                onTintColor={'#FFFFFF'}
+              />
+            </View>
+          </View>
+        ) : null}
+      </View>
+      <View>
+        {/* TODO: 거주지역 */}
+        <Typography className="mb-3" fontWeight={'BOLD'}>
           거주지역
         </Typography>
-        <InputField
-          {...editProfile.getTextInputProps('residence')}
-          // error={editProfile.errors.residence}
-          touched={editProfile.touched.residence}
-          returnKeyType="next"
-        />
+        <View className="flex-row items-center gap-x-2 py-3">
+          <TouchableOpacity onPress={() => setIsSelectRegion(prev => !prev)}>
+            <View className="flex-row items-center w-full">
+              <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                <View
+                  className={`${
+                    isSelectRegion ? 'bg-main' : ''
+                  } rounded-full w-[10] h-[10]`}
+                />
+              </View>
+              <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                제공
+              </Typography>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsSelectRegion(prev => !prev)}>
+            <View className="flex-row items-center w-full">
+              <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                <View
+                  className={`${
+                    isSelectRegion ? '' : 'bg-main'
+                  } rounded-full w-[10] h-[10]`}
+                />
+              </View>
+              <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                제공하지 않음
+              </Typography>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {isSelectRegion ? (
+          <CustomButton
+            variant="gray"
+            label={isPickedRegion || isEditMode ? region : '지역 선택'}
+            onPress={regionPickerModal.show}
+          />
+        ) : null}
+      </View>
+      <View>
+        <Typography className="mb-3" fontWeight={'BOLD'}>
+          생년월일
+        </Typography>
+        <View className="flex-row items-center gap-x-2 py-3">
+          <TouchableOpacity onPress={() => setIsSelectBirth(prev => !prev)}>
+            <View className="flex-row items-center w-full">
+              <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                <View
+                  className={`${
+                    isSelectBirth ? 'bg-main' : ''
+                  } rounded-full w-[10] h-[10]`}
+                />
+              </View>
+              <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                제공
+              </Typography>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsSelectBirth(prev => !prev)}>
+            <View className="flex-row items-center w-full">
+              <View className="flex flex-col items-center justify-center border-gray-400 border-[1px] p-[5] rounded-full w-[15] h-[15] mr-2">
+                <View
+                  className={`${
+                    isSelectBirth ? '' : 'bg-main'
+                  } rounded-full w-[10] h-[10]`}
+                />
+              </View>
+              <Typography className="text-gray-500" fontWeight={'BOLD'}>
+                제공하지 않음
+              </Typography>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {isSelectBirth ? (
+          <CustomButton
+            variant="gray"
+            label={
+              isPicked || isEditMode
+                ? `${getDateWithSeparator(date, '. ')}`
+                : '날짜 선택'
+            }
+            onPress={datePickerModal.show}
+          />
+        ) : null}
       </View>
       <View>
         <Typography className="mb-3" fontWeight={'BOLD'}>
@@ -176,6 +367,22 @@ export default function MyProfileEditScreen() {
         textStyle="text-white text-base font-bold"
         isLoading={isPending}
         inValid={isPending}
+      />
+
+      <DatePickerOption
+        isVisible={datePickerModal.isVisible}
+        onOpen={datePickerModal.show}
+        onClose={datePickerModal.hide}
+        date={date}
+        onChangeDate={handleChangeDate}
+        onConfirmDate={handleConfirmDate}
+      />
+      <RegionBottomSheet
+        isOpen={regionPickerModal.isVisible}
+        onClose={regionPickerModal.hide}
+        onOpen={regionPickerModal.show}
+        setRegion={setRegion}
+        handleConfirmRegion={handleConfirmRegion}
       />
     </ScreenContainer>
   );

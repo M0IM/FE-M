@@ -51,7 +51,6 @@ export default function MyDetailProfileScreen({
   );
 
   const {data} = useGetMyProfile();
-  console.log(data);
 
   const onRefresh = () => {
     setRefreshing(true);

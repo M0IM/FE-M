@@ -117,7 +117,9 @@ export default function MoimDetailScreen({
         }>
         <MoimImageBox
           backgroundImage={data?.profileImageUrl}
-          memberCount={data?.femaleCount + data?.maleCount}
+          memberCount={
+            data?.femaleCount + data?.maleCount + data?.nonSelectCount
+          }
           category={data?.category}
           address={data?.address}
         />

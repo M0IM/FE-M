@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import {TDetailMoimCalendarDTO, TMoimPlanListDTO} from 'types/dtos/calendar.ts';
+import {TDetailMoimCalendarDTO} from 'types/dtos/calendar.ts';
 
 interface IMoimCalendarStore {
   moimCalendar: TDetailMoimCalendarDTO | null;

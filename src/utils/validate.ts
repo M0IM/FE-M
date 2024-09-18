@@ -90,7 +90,7 @@ function validateSignUpStep5(values: Pick<TSignup, 'birth' | 'gender'>) {
     birth: '',
   };
 
-  if (!['FEMALE', 'MALE'].includes(values.gender)) {
+  if (!['FEMALE', 'MALE', null].includes(values.gender)) {
     errors.gender = '유효한 성별을 선택해주세요.';
   }
 
@@ -163,23 +163,17 @@ function validateAddMoimPosts(values: TValidateAddMoimPosts) {
 
 type TValidateEditProfile = {
   nickname: string;
-  residence: string;
   introduction: string;
 };
 
 function validateEditProfile(values: TValidateEditProfile) {
   const errors = {
     nickname: '',
-    residence: '',
     introduction: '',
   };
 
   if (values.nickname?.trim()) {
     errors.nickname = '수정하실 닉네임을 입력해주세요.';
-  }
-
-  if (values.residence?.trim()) {
-    errors.residence = '수정하실 거주지역을 입력해주세요.';
   }
 
   if (values.introduction?.trim()) {

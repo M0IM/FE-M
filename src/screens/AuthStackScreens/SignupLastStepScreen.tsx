@@ -9,6 +9,7 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOption.tsx';
+import RegionBottomSheet from 'components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
 
 import useForm from 'hooks/useForm.ts';
 import useModal from 'hooks/useModal.ts';
@@ -20,8 +21,7 @@ import {getDateWithSeparator} from 'utils';
 import {AuthStackNavigationProp} from 'navigators/types';
 import {TSignup} from 'types/dtos/auth.ts';
 import {FIFTH_STEP} from 'constants/screens/SignUpScreens/SignUpFunnelScreen.ts';
-import RegionBottomSheet from '../../components/screens/RegionBottomSheet/RegionBottomSheet.tsx';
-import useFcmTokenStore from '../../stores/useFcmTokenStore.ts';
+import useFcmTokenStore from 'stores/useFcmTokenStore.ts';
 
 type TSignUpScreenProps = {
   setSignUpInfo: React.Dispatch<React.SetStateAction<TSignup>>;
@@ -71,7 +71,7 @@ export default function SignupLastStepScreen({
   const [isSelectGender, setIsSelectGender] = useState(false);
   const [isSelectBirth, setIsSelectBirth] = useState(false);
   const [isSelectRegion, setIsSelectRegion] = useState(false);
-  console.log(isSelectGender, isSelectBirth, isSelectRegion);
+
   const handleSubmit = useThrottle(() => {
     signUpMutation.mutate({
       provider: signUpInfo.provider,

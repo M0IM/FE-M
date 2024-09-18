@@ -34,11 +34,12 @@ type TUserDTO = {
   imageUrl: string;
   nickname: string;
   residence: string;
-  birth: number;
+  birth: string;
   createdAt: string;
   rating: number;
   introduction: string;
   participateMoimCnt: number;
+  gender: 'MALE' | 'FEMALE' | null;
 };
 
 export type TMoimJoinRequestDTOList = {
@@ -61,8 +62,10 @@ type TGetMoimJoinRequestResponse = {
 
 type TUpdateUserParams = {
   nickname: string;
-  imageKey: string;
-  residence: string;
+  imageKey: string | null;
+  residence: string | null;
+  gender: 'MALE' | 'FEMALE' | null;
+  birth: string | null;
   introduction: string;
   publicMoimList: number[];
 };

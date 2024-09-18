@@ -71,6 +71,7 @@ type TMoimSpaceInfoDTO = {
   moimReviewCount: number;
   maleCount: number;
   femaleCount: number;
+  nonSelectCount: number;
   address: string;
   createAt: string;
   updateAt: string;

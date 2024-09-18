@@ -23,6 +23,7 @@ import useDetailProfileStore from 'stores/useDetailProfileStore.ts';
 import {TUserDTO} from 'types/dtos/user.ts';
 
 import {CompositeNavigationProp} from '@react-navigation/native';
+import {useGetMyProfile} from '../../hooks/queries/MyScreen/useGetProfile.ts';
 
 interface IMyDetailProfileScreenProps {
   route: MyStackRouteProp;
@@ -48,6 +49,9 @@ export default function MyDetailProfileScreen({
   const {year, month, day} = getMonthYearDetails(
     new Date(userInfo?.createdAt as string),
   );
+
+  const {data} = useGetMyProfile();
+  console.log(data);
 
   const onRefresh = () => {
     setRefreshing(true);

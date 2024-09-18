@@ -7,6 +7,7 @@ import {Typography} from 'components/@common/Typography/Typography';
 interface MoimDashboardContainerProps {
   femaleCount: number;
   maleCount: number;
+  nonSelectCount: number;
   averageAge: number;
   diaryCount: number;
   moimReviewCount: number;
@@ -15,13 +16,17 @@ interface MoimDashboardContainerProps {
 const MoimDashboardContainer = ({
   femaleCount,
   maleCount,
+  nonSelectCount,
   averageAge,
   diaryCount,
   moimReviewCount,
 }: MoimDashboardContainerProps) => {
-  const totalMembers = femaleCount + maleCount;
+  const totalMembers = femaleCount + maleCount + nonSelectCount;
   const femalePercentage = ((femaleCount / totalMembers) * 100).toFixed(1);
   const malePercentage = ((maleCount / totalMembers) * 100).toFixed(1);
+  const nonSelectPercentage = ((nonSelectCount / totalMembers) * 100).toFixed(
+    1,
+  );
 
   const infoList = [
     {
@@ -48,6 +53,11 @@ const MoimDashboardContainer = ({
       value: femaleCount,
       color: '#FFB6C1',
       text: '여',
+    },
+    {
+      value: nonSelectCount,
+      color: '#CFCFC4',
+      text: '성별 X',
     },
   ];
 
@@ -98,7 +108,7 @@ const MoimDashboardContainer = ({
         />
 
         <View className="h-full flex-1 items-center justify-center gap-2 w-full">
-          <View className="flex-row justify-around w-[65%]">
+          <View className="flex-row justify-around w-[75%]">
             <Typography fontWeight="MEDIUM" className="text-gray-300">
               여
             </Typography>
@@ -106,7 +116,7 @@ const MoimDashboardContainer = ({
               {`${femalePercentage}% (${femaleCount}명)`}
             </Typography>
           </View>
-          <View className="flex-row justify-around w-[65%]">
+          <View className="flex-row justify-around w-[75%]">
             <Typography fontWeight="MEDIUM" className="text-gray-300">
               남
             </Typography>
@@ -114,7 +124,15 @@ const MoimDashboardContainer = ({
               {`${malePercentage}% (${maleCount}명)`}
             </Typography>
           </View>
-          <View className="flex-row justify-around w-[65%]">
+          <View className="flex-row justify-around w-[75%]">
+            <Typography fontWeight="MEDIUM" className="text-gray-300">
+              성별 X
+            </Typography>
+            <Typography fontWeight="MEDIUM" className="text-gray-500 ml-auto">
+              {`${nonSelectPercentage}% (${nonSelectCount}명)`}
+            </Typography>
+          </View>
+          <View className="flex-row justify-around w-[75%]">
             <Typography fontWeight="MEDIUM" className="text-gray-300">
               전체
             </Typography>

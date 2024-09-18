@@ -130,6 +130,7 @@ export default function MoimDetailScreen({
         <MoimDashboardContainer
           femaleCount={data?.femaleCount}
           maleCount={data?.maleCount}
+          nonSelectCount={data?.nonSelectCount}
           averageAge={data?.averageAge}
           diaryCount={data?.diaryCount}
           moimReviewCount={data?.moimReviewCount}

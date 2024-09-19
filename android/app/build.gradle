@@ -90,7 +90,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.0"
         vectorDrawables.useSupportLibrary = true
         flavorDimensions "version"
         productFlavors {
@@ -137,6 +137,7 @@ dependencies {
     implementation("com.facebook.react:flipper-integration")
     implementation platform('com.google.firebase:firebase-bom:33.1.2')
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

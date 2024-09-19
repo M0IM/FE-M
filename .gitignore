@@ -77,3 +77,4 @@ ios/tmp.xcconfig
 .yarn
 .yarn/install-state.gz
 gradle.properties
+appcenter-config.json

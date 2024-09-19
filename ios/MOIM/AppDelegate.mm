@@ -1,7 +1,11 @@
 #import "AppDelegate.h"
 
+#import <CodePush/CodePush.h>
 #import <RNKakaoLogins.h>
 #import <React/RCTBundleURLProvider.h>
+#import <AppCenterReactNative.h>
+#import <AppCenterReactNativeAnalytics.h>
+#import <AppCenterReactNativeCrashes.h>
 #import "RNSplashScreen.h"
 #import <NaverThirdPartyLogin/NaverThirdPartyLoginConnection.h>
 #import "RNCConfig.h"
@@ -60,6 +64,9 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
       [FIRApp configure];
   }
 
+  [AppCenterReactNative register];
+  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
+  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
   [super application:application didFinishLaunchingWithOptions:launchOptions];
   [RNSplashScreen show];
 
@@ -84,7 +91,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
 #else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  return [CodePush bundleURL];
 #endif
 }
 

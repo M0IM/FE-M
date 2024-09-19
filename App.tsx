@@ -1,9 +1,10 @@
-import {LogBox, Platform} from 'react-native';
+import {LogBox, Platform, Text, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DevToolsBubble} from 'react-native-react-query-devtools';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import CodePush from 'react-native-code-push';
 
 import Toast, {
   BaseToast,
@@ -13,6 +14,7 @@ import Toast, {
 
 import AppSetupContainer from './src/containers/AppSetupContainer.tsx';
 import RootNavigator from './src/navigators/root/RootNavigator.tsx';
+import useCodePush from './src/hooks/useCodePush.ts';
 
 LogBox.ignoreLogs(['Sending']);
 
@@ -161,10 +163,17 @@ channels.forEach(channel => {
 });
 
 function App() {
+  const {hasUpdate, syncProgress} = useCodePush();
   return (
     <AppSetupContainer>
       <GestureHandlerRootView>
-        <RootNavigator />
+        {hasUpdate ? (
+          <View>
+            <Text>업데이트 중</Text>
+          </View>
+        ) : (
+          <RootNavigator />
+        )}
         <Toast config={toastConfig} />
         {/*<DevToolsBubble />*/}
       </GestureHandlerRootView>
@@ -182,4 +191,4 @@ if (__DEV__) {
   require('./ReactotronConfig');
 }
 
-export default AppEntryPoint;
+export default CodePush(AppEntryPoint);

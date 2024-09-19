@@ -70,6 +70,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>CodePushDeploymentKey</key>
+	<string>$(CODEPUSH_PRODUCTION_KEY)</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

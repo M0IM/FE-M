@@ -107,7 +107,7 @@ type TMoimPostParams = {
   title: string;
   content: string;
   imageKeyNames: string[];
-  postType: POST_TYPE;
+  postType: string;
 };
 
 type TMoimPostCommentParams = {

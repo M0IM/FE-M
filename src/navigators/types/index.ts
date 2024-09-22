@@ -135,18 +135,18 @@ export type MoimPlanStackParamList = {
 };
 
 export type MoimPostStackParamList = {
-  MOIM_BOARD_HOME: {id: number | undefined};
+  MOIM_BOARD_HOME: {id: number};
   MOIM_POST_DETAIL: {
-    id: number | undefined;
-    postId: number | undefined;
+    id: number;
+    postId: number;
   };
   MOIM_POST_WRITE: {
-    id: number | undefined;
-    postType?: POST_LIST_TYPE;
+    id: number;
+    postType: POST_LIST_TYPE;
   };
   MOIM_POST_EDIT: {
-    id: number | undefined;
-    postId: number | undefined;
+    id: number;
+    postId: number;
   };
   MOIM_MEMBER_PROFILE: {
     id: number;

@@ -10,7 +10,7 @@ import {TMoimPreviewListDto} from 'types/dtos/post';
 import {detailDate} from 'utils';
 
 interface BoardPostPreviewProps {
-  moimId: number | undefined;
+  moimId: number;
   postPreview: TMoimPreviewListDto;
   navigation: MoimPostStackNavigationProp;
 }

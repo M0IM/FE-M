@@ -24,7 +24,9 @@ const MoimPostDetailScreen = ({
   route,
   navigation,
 }: MoimPostDetailScreenProps) => {
-  const {id, postId} = route.params;
+  const params = route?.params;
+  const id = params?.id;
+  const postId = params && 'postId' in params ? params.postId : undefined;
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -65,13 +67,15 @@ const MoimPostDetailScreen = ({
           navigation={navigation}
           isRefreshing={isRefreshing}
         />
-        <PostCommentView
-          id={id}
-          postId={postId}
-          navigation={navigation}
-          isRefreshing={isRefreshing}
-          isEndReached={isEndReached}
-        />
+        {id && postId && (
+          <PostCommentView
+            id={id}
+            postId={postId}
+            navigation={navigation}
+            isRefreshing={isRefreshing}
+            isEndReached={isEndReached}
+          />
+        )}
       </ScrollView>
 
       <CommentInput id={id} postId={postId} />

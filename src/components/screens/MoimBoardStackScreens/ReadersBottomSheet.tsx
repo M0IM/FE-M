@@ -14,7 +14,7 @@ import useGetInfinityMoimMembers from 'hooks/queries/MoimSpace/useGetInfinityMoi
 const {height: screenHeight} = Dimensions.get('window');
 
 interface ReadersBottomSheetProps {
-  moimId?: number;
+  moimId: number;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;

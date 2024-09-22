@@ -34,9 +34,13 @@ interface MoimPostEditScreenProps {
 
 const MoimPostEditScreen = ({route, navigation}: MoimPostEditScreenProps) => {
   usePermission('PHOTO');
-  const {id, postId} = route.params;
+  const params = route?.params;
+  const id = params?.id;
+  const postId = params && 'postId' in params ? params.postId : undefined;
   const {useGetMoimPostDetail, updateMoimPostMutation} = usePost();
-  const {data: postData, isPending} = useGetMoimPostDetail(id, postId);
+  const {data: postData, isPending} = postId
+    ? useGetMoimPostDetail(id, postId)
+    : {data: undefined, isPending: false};
   const [data, setData] = useState({
     title: postData?.title,
     content: postData?.content,

@@ -10,8 +10,8 @@ import {
 } from 'navigators/types';
 
 interface PostCommentViewProps {
-  id?: number;
-  postId?: number;
+  id: number;
+  postId: number;
   navigation: CompositeNavigationProp<
     MoimPostStackNavigationProp,
     MyStackNavigationProp

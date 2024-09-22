@@ -44,8 +44,9 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   usePermission('PHOTO');
   const {postInfo} = useMoimPostStore();
   const isEdit = !!postInfo;
-  const moimId = route?.params?.id;
-  const postType = route?.params?.postType;
+  const params = route?.params;
+  const moimId = params?.id;
+  const postType = params && 'postType' in params ? params.postType : undefined;
   const {isPressed, category, handleCategory, handleSelectedCategory} =
     useDropdown();
   // const [readers, setReaders] = useState('전체 대상');

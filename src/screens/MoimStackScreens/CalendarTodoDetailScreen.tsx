@@ -22,11 +22,12 @@ export default function CalendarTodoDetailScreen({
 }: {
   route: HomeStackRouteProp;
 }) {
-  const moimId = route.params?.moimId;
-  const todoId = route.params?.id;
+  const params = route?.params;
+  const moimId = params && 'moimId' in params ? params.moimId : undefined;
+  const todoId = params && 'id' in params ? params.id : undefined;
 
   const {useGetMyAssignedTodo, modifyMyTodoStatus} = useTodo();
-  const {data: todo} = useGetMyAssignedTodo(moimId, todoId);
+  const {data: todo} = useGetMyAssignedTodo(moimId ?? -1, todoId ?? -1);
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
 
   const handlePressPopOver = () => {
@@ -34,16 +35,18 @@ export default function CalendarTodoDetailScreen({
   };
 
   const handleTodoStatusChange = useThrottle((status: TODO_ASSIGNEE_STATUS) => {
-    modifyMyTodoStatus.mutate(
-      {
-        moimId,
-        todoId,
-        todoAssigneeStatus: status,
-      },
-      {
-        onSuccess: data => console.log(data),
-      },
-    );
+    if (moimId && todoId) {
+      modifyMyTodoStatus.mutate(
+        {
+          moimId,
+          todoId,
+          todoAssigneeStatus: status,
+        },
+        {
+          onSuccess: data => console.log(data),
+        },
+      );
+    }
   });
 
   const ChangeTodoStatus = [

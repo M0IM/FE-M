@@ -45,11 +45,19 @@ const getMoimTodoList = async ({
   cursor: number;
   take: number;
 }): Promise<TTodoListResponse> => {
-  const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/todos/admins?cursor=${cursor}&take=${take}`,
-  );
+  if (moimId === -1) {
+    return {
+      nextCursor: 0,
+      hasNext: false,
+      list: [],
+    };
+  } else {
+    const {data} = await axiosInstance.get(
+      `/api/v1/moims/${moimId}/todos/admins?cursor=${cursor}&take=${take}`,
+    );
 
-  return data.result;
+    return data.result;
+  }
 };
 
 // GET: todo 할당 받은 멤버 리스트 조회 (모임 관리자)
@@ -79,11 +87,19 @@ const getDetailTodoMemberList = async ({
   cursor: number;
   take: number;
 }): Promise<TTodoParticipantResponse> => {
-  const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/todos/${todoId}/admins/assignee-list?cursor=${cursor}&take=${take}`,
-  );
+  if (moimId === -1 || todoId === -1) {
+    return {
+      list: [],
+      nextCursor: 0,
+      hasNext: false,
+    };
+  } else {
+    const {data} = await axiosInstance.get(
+      `/api/v1/moims/${moimId}/todos/${todoId}/admins/assignee-list?cursor=${cursor}&take=${take}`,
+    );
 
-  return data.result;
+    return data.result;
+  }
 };
 
 // GET: 특정 모임 관리자 회원이 부여한 todo 리스트 조회 (모임 관리자)
@@ -96,11 +112,19 @@ const getIndividualAssignmentTodoList = async ({
   cursor: number;
   take: number;
 }): Promise<TIndividualAssignmentTodoListResponse> => {
-  const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/todos/by-me?cursor=${cursor}&take=${take}`,
-  );
+  if (moimId === -1) {
+    return {
+      list: [],
+      nextCursor: 0,
+      hasNext: false,
+    };
+  } else {
+    const {data} = await axiosInstance.get(
+      `/api/v1/moims/${moimId}/todos/by-me?cursor=${cursor}&take=${take}`,
+    );
 
-  return data.result;
+    return data.result;
+  }
 };
 
 // GET: 내가 부여한 TODO 확인
@@ -204,11 +228,19 @@ const getNoneAssignedMemberList = async ({
   cursor: number;
   take: number;
 }): Promise<TTodoParticipantResponse> => {
-  const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/todos/${todoId}/admins/non-assignee-list?cursor=${cursor}&take=${take}`,
-  );
+  if (moimId === -1 || todoId === -1) {
+    return {
+      list: [],
+      nextCursor: 0,
+      hasNext: false,
+    };
+  } else {
+    const {data} = await axiosInstance.get(
+      `/api/v1/moims/${moimId}/todos/${todoId}/admins/non-assignee-list?cursor=${cursor}&take=${take}`,
+    );
 
-  return data.result;
+    return data.result;
+  }
 };
 
 // PUT: todo assignee 추가

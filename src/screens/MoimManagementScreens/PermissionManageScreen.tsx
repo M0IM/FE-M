@@ -15,7 +15,8 @@ interface PermissionManageScreenProps {
 }
 
 const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
-  const moimId = route.params.id;
+  const params = route?.params;
+  const moimId = params && 'id' in params ? params.id : undefined;
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEndReached, setIsEndReached] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);

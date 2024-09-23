@@ -22,8 +22,8 @@ export default function ParticipantList({
     hasNextPage,
     isFetchingNextPage,
     refetch,
-    isPending,
-    isError,
+    // isPending,
+    // isError,
   } = getInfiniteMoimTodoParticipantList(moimId, todoId, 5);
 
   const [isRefreshing, setIsRefreshing] = useState(false);

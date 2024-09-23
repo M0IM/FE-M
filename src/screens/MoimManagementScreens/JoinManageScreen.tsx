@@ -21,7 +21,8 @@ interface JoinManageScreenProps {
 }
 
 const JoinManageScreen = ({route}: JoinManageScreenProps) => {
-  const moimId = route.params?.id;
+  const params = route?.params;
+  const moimId = params && 'id' in params ? params?.id : undefined;
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
   const [isRefreshing, setIsRefreshing] = useState(false);

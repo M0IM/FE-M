@@ -79,11 +79,19 @@ const getMoimMembers = async ({
   take,
   search,
 }: TMoimMembersParams): Promise<TGetMoimMembers> => {
-  const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}&search=${search}`,
-  );
-  console.log(data);
-  return data?.result;
+  if (moimId === -1) {
+    return {
+      userPreviewDTOList: [],
+      hasNext: false,
+      nextCursor: 0,
+    };
+  } else {
+    const {data} = await axiosInstance.get(
+      `/api/v1/moims/${moimId}/members?cursor=${cursor}&take=${take}&search=${search}`,
+    );
+    console.log(data);
+    return data?.result;
+  }
 };
 
 const rejectMoimJoinRequest = async ({
@@ -128,15 +136,23 @@ const getMoimMemberListWithOutOwner = async ({
   take: number;
   search: string;
 }): Promise<TGetMoimMembers> => {
-  const {data} = await axiosInstance.get(
-    `/api/v1/moims/${moimId}/members/owner?cursor=${cursor}&take=${take}&search=${search}`,
-  );
+  if (moimId === -1) {
+    return {
+      userPreviewDTOList: [],
+      hasNext: false,
+      nextCursor: 0,
+    };
+  } else {
+    const {data} = await axiosInstance.get(
+      `/api/v1/moims/${moimId}/members/owner?cursor=${cursor}&take=${take}&search=${search}`,
+    );
 
-  console.log(
-    `/api/v1/moims/${moimId}/members/owner?cursor=${cursor}&take=${take}&search=${search}`,
-  );
+    console.log(
+      `/api/v1/moims/${moimId}/members/owner?cursor=${cursor}&take=${take}&search=${search}`,
+    );
 
-  return data.result;
+    return data.result;
+  }
 };
 
 // 모임 탈퇴 시키기 API

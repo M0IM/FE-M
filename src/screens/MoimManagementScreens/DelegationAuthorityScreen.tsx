@@ -30,12 +30,13 @@ interface IDelegationAuthorityScreenProps {
 export default function DelegationAuthorityScreen({
   route,
 }: IDelegationAuthorityScreenProps) {
-  const moimId = route.params?.id as number;
+  const params = route?.params;
+  const moimId = params && 'id' in params ? params.id : undefined;
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
   const {useGetInfinityMoimMembers, updateMoimWangMutation} =
     useMoimManagment();
-  const {data} = useGetMoimSpaceInfo(moimId);
+  const {data} = moimId ? useGetMoimSpaceInfo(moimId) : {data: undefined};
 
   const {
     data: moimMembers,
@@ -45,7 +46,7 @@ export default function DelegationAuthorityScreen({
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimMembers(moimId, debouncedSearch);
+  } = useGetInfinityMoimMembers(moimId ?? -1, debouncedSearch);
 
   const handleNowRole = (role: TMoimRole) => {
     if (role === 'ADMIN') {
@@ -185,20 +186,24 @@ export default function DelegationAuthorityScreen({
                   {item.moimRole !== 'OWNER' &&
                     data?.myMoimRole === 'OWNER' && (
                       <>
-                        <TouchableOpacity
-                          className="p-2 rounded-xl bg-error ml-2"
-                          onPress={() =>
-                            handleDelegationAuthority({
-                              moimId,
-                              userId: item.userId,
-                            })
-                          }>
-                          <Typography
-                            fontWeight="BOLD"
-                            className="text-xs text-white">
-                            모임장 위임
-                          </Typography>
-                        </TouchableOpacity>
+                        {moimId ? (
+                          <TouchableOpacity
+                            className="p-2 rounded-xl bg-error ml-2"
+                            onPress={() =>
+                              handleDelegationAuthority({
+                                moimId,
+                                userId: item.userId,
+                              })
+                            }>
+                            <Typography
+                              fontWeight="BOLD"
+                              className="text-xs text-white">
+                              모임장 위임
+                            </Typography>
+                          </TouchableOpacity>
+                        ) : (
+                          <></>
+                        )}
                       </>
                     )}
                 </View>

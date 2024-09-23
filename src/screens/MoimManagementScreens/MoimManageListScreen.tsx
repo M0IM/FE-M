@@ -21,11 +21,16 @@ const MoimManageListScreen = ({
   route,
   navigation,
 }: MoimManageListScreenProps) => {
-  const id = route.params?.id;
+  const params = route?.params;
+  const id = params && 'id' in params ? params.id : undefined;
   // TODO: 관리자 권한 불러오는 API
   const {useGetMyMoimRole} = useMoim();
-  const {data: role} = useGetMyMoimRole(id);
+  const {data: role} = useGetMyMoimRole(id ?? -1);
   const {setIsEditMode} = useTodoStore();
+
+  if (!id) {
+    return <></>;
+  }
 
   return (
     <ScreenContainer>

@@ -182,22 +182,22 @@ export type AppInfoStackParamList = {
 };
 
 export type MoimManagementParamList = {
-  MOIM_MANAGE_LIST: {id: number | undefined};
-  PERMISSION_MANAGEMENT: {id: number | undefined};
-  JOIN_MANAGEMENT: {id: number | undefined};
-  MOIM_INFO_EDIT: {id: number | undefined};
-  DELEGATION_AUTHORITY_SCREEN: {id: number | undefined};
-  MOIM_CREATE_TODO: {id: number | undefined};
-  MOIM_GET_TODO: {id: number | undefined};
+  MOIM_MANAGE_LIST: {id: number};
+  PERMISSION_MANAGEMENT: {id: number};
+  JOIN_MANAGEMENT: {id: number};
+  MOIM_INFO_EDIT: {id: number};
+  DELEGATION_AUTHORITY_SCREEN: {id: number};
+  MOIM_CREATE_TODO: {id: number};
+  MOIM_GET_TODO: {id: number};
   MOIM_DETAIL_TODO: {id: number; moimId: number};
-  MOIM_ASSIGNMENT_TODO: {id: number | undefined};
+  MOIM_ASSIGNMENT_TODO: {id: number};
   MOIM_ADD_MEMBER: {
-    moimId: number | undefined;
-    todoId: number | undefined;
+    moimId: number;
+    todoId: number;
   };
   MOIM_DELETE_MEMBER: {
-    moimId: number | undefined;
-    todoId: number | undefined;
+    moimId: number;
+    todoId: number;
   };
   MOIM_OUT_MEMBER: {
     id: number;

@@ -94,7 +94,7 @@ type TMoimMembersDTO = {
 type TCreateMoimParams = {
   title: string;
   location: string;
-  moimCategory: MOIM_CATEGORY;
+  moimCategory: string;
   imageKeyName?: string;
   introduceVideoKeyName?: string;
   introduceVideoTitle?: string;

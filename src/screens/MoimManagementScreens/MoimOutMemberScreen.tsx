@@ -23,12 +23,13 @@ import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 
 export default function MoimOutMemberScreen({
   route,
-  navigation,
+  // navigation,
 }: {
   route: MoimManagementRouteProp;
   navigation: MoimManagementNavigationProp;
 }) {
-  const moimId = route.params?.id as number;
+  const params = route?.params;
+  const moimId = params && 'id' in params ? params.id : undefined;
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
   const {useGetInfinityMoimMembersWithOutOwner, outMoimMemberMutation} =
@@ -42,7 +43,7 @@ export default function MoimOutMemberScreen({
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimMembersWithOutOwner(moimId, debouncedSearch);
+  } = useGetInfinityMoimMembersWithOutOwner(moimId ?? -1, debouncedSearch);
 
   const handleOutMember = (userId: number) => {
     Alert.alert(
@@ -53,21 +54,23 @@ export default function MoimOutMemberScreen({
           text: '탈퇴',
           style: 'destructive',
           onPress: () => {
-            outMoimMemberMutation.mutate(
-              {userId, moimId},
-              {
-                onSuccess: () => {
-                  queryClient.invalidateQueries({
-                    queryKey: [
-                      'moimMembers',
-                      'notOwner',
-                      moimId,
-                      debouncedSearch,
-                    ],
-                  });
+            if (moimId) {
+              outMoimMemberMutation.mutate(
+                {userId, moimId},
+                {
+                  onSuccess: () => {
+                    queryClient.invalidateQueries({
+                      queryKey: [
+                        'moimMembers',
+                        'notOwner',
+                        moimId,
+                        debouncedSearch,
+                      ],
+                    });
+                  },
                 },
-              },
-            );
+              );
+            }
           },
         },
         {

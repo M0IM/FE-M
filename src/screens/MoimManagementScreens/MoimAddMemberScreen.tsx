@@ -25,9 +25,9 @@ export default function MoimAddMemberScreen({
   route: MoimManagementRouteProp;
   navigation: MoimManagementNavigationProp;
 }) {
-  // TODO: 타입 네비게이팅 재정의
-  const moimId = route.params.moimId;
-  const todoId = route.params.todoId;
+  const params = route?.params;
+  const moimId = params && 'moimId' in params ? params.moimId : undefined;
+  const todoId = params && 'todoId' in params ? params.todoId : undefined;
   const {useGetInfiniteNoneAssignedMemberList, updateAssignedMember} =
     useTodo();
   const {
@@ -38,7 +38,7 @@ export default function MoimAddMemberScreen({
     refetch,
     isPending,
     isError,
-  } = useGetInfiniteNoneAssignedMemberList(moimId, todoId, 7);
+  } = useGetInfiniteNoneAssignedMemberList(moimId ?? -1, todoId ?? -1, 7);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const handleToggleSelectedIds = (id: number) => {
@@ -73,14 +73,16 @@ export default function MoimAddMemberScreen({
   }
 
   const handlePressAddMembers = useThrottle(() => {
-    updateAssignedMember.mutate(
-      {moimId, todoId, addAssigneeIdList: selectedIds},
-      {
-        onSuccess: () => {
-          navigation.goBack();
+    if (moimId && todoId) {
+      updateAssignedMember.mutate(
+        {moimId, todoId, addAssigneeIdList: selectedIds},
+        {
+          onSuccess: () => {
+            navigation.goBack();
+          },
         },
-      },
-    );
+      );
+    }
   });
 
   return (

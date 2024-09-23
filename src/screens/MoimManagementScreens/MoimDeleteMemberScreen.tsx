@@ -26,8 +26,9 @@ export default function MoimDeleteMemberScreen({
   route: MoimManagementRouteProp;
   navigation: MoimManagementNavigationProp;
 }) {
-  const moimId = route.params.moimId;
-  const todoId = route.params.todoId;
+  const params = route?.params;
+  const moimId = params && 'moimId' in params ? params.moimId : undefined;
+  const todoId = params && 'todoId' in params ? params.todoId : undefined;
   const {getInfiniteMoimTodoParticipantList, deleteAssignedMember} = useTodo();
   const {
     data: members,
@@ -37,7 +38,7 @@ export default function MoimDeleteMemberScreen({
     refetch,
     isPending,
     isError,
-  } = getInfiniteMoimTodoParticipantList(moimId, todoId, 7);
+  } = getInfiniteMoimTodoParticipantList(moimId ?? -1, todoId ?? -1, 7);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const handleToggleSelectedIds = (id: number) => {
@@ -72,14 +73,16 @@ export default function MoimDeleteMemberScreen({
   }
 
   const handlePressDeleteMembers = useThrottle(() => {
-    deleteAssignedMember.mutate(
-      {moimId, todoId, deleteAssigneeIdList: selectedIds},
-      {
-        onSuccess: () => {
-          navigation.goBack();
+    if (moimId && todoId) {
+      deleteAssignedMember.mutate(
+        {moimId, todoId, deleteAssigneeIdList: selectedIds},
+        {
+          onSuccess: () => {
+            navigation.goBack();
+          },
         },
-      },
-    );
+      );
+    }
   });
 
   return (

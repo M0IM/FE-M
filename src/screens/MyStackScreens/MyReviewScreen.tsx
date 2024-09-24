@@ -4,10 +4,15 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {useGetInfiniteMyDetailReviews} from 'hooks/queries/MyScreen/useGetInfiniteMyDetailReviews.ts';
 import {ReviewCard} from 'components/screens/MyStackScreens/ReviewCard.tsx';
 import {useState} from 'react';
-import {MyStackRouteProp} from 'navigators/types';
+import {MyStackParamList} from 'navigators/types';
+import {RouteProp} from '@react-navigation/native';
 
-export default function MyReviewScreen({route}: {route: MyStackRouteProp}) {
-  const id = route.params?.id as number;
+export default function MyReviewScreen({
+  route,
+}: {
+  route: RouteProp<MyStackParamList, 'MY_REVIEW'>;
+}) {
+  const id = route.params?.id;
   const {
     data: reviews,
     fetchNextPage,

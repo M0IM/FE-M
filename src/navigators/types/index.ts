@@ -114,10 +114,6 @@ export type MyStackParamList = {
   // 내가 할당한 할 일 확인
   TODO_ASSIGNMENT_LIST: {
     screen: TodoStackScreenName;
-    params: {
-      id: number;
-      moimId: number;
-    };
   };
 };
 
@@ -227,7 +223,7 @@ export type UserProfileStackParamList = {
 export type TodoStackParamList = {
   CREATE_TODO: {id: number};
   DETAIL_TODO: {id: number; moimId: number};
-  GET_TODO: {id: number};
+  GET_TODO: undefined;
   ADD_MEMBER_TODO: {id: number; todoId: number};
   DELETE_MEMBER_TODO: {id: number; todoId: number};
 };

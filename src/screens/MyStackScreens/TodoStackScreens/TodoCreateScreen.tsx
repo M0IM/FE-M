@@ -10,10 +10,7 @@ import {DatePickerOption} from 'components/@common/DatePickerOption/DatePickerOp
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import ReaderPickerBottomSheet from 'screens/MoimManagementScreens/components/ReaderPickerBottomSheet';
 
-import {
-  MoimManagementNavigationProp,
-  MoimManagementRouteProp,
-} from 'navigators/types';
+import {TodoStackNavigationProp, TodoStackParamList} from 'navigators/types';
 import {getDateWithSeparator, validateTodo} from 'utils';
 import useForm from 'hooks/useForm.ts';
 import useModal from 'hooks/useModal.ts';
@@ -21,19 +18,20 @@ import usePermission from 'hooks/usePermission.ts';
 import useSingleImagePicker from 'hooks/useSingleImagePicker.ts';
 import useTodo from 'hooks/useTodo.ts';
 import useTodoStore from 'stores/useTodoStore.ts';
+import {RouteProp} from '@react-navigation/native';
 
 export default function TodoCreateScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
-  navigation: MoimManagementNavigationProp;
+  route: RouteProp<TodoStackParamList, 'CREATE_TODO'>;
+  navigation: TodoStackNavigationProp;
 }) {
   usePermission('PHOTO');
   const {todoList, isEditMode, setIsEditMode} = useTodoStore();
   const isEdit = todoList && isEditMode;
 
-  const moimId = route.params.id as number;
+  const moimId = route.params.id;
   const datePickerModal = useModal();
   const memberSelectModal = useModal();
   const [date, setDate] = useState(

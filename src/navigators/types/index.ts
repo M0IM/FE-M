@@ -228,8 +228,8 @@ export type TodoStackParamList = {
   CREATE_TODO: {id: number};
   DETAIL_TODO: {id: number; moimId: number};
   GET_TODO: {id: number};
-  ADD_MEMBER_TODO: {id: number};
-  DELETE_MEMBER_TODO: {id: number};
+  ADD_MEMBER_TODO: {id: number; todoId: number};
+  DELETE_MEMBER_TODO: {id: number; todoId: number};
 };
 
 /** screen name */

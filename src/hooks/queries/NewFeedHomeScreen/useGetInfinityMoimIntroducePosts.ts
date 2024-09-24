@@ -7,15 +7,15 @@ import {
 
 import {ResponseError} from 'types/mutations/common';
 import {getMoimIntroducePosts} from 'apis/newFeed/posts.ts';
-import {TMoimPreviewListResponse} from '../../../types/dtos/moim.ts';
+import {TMoimIntroduceListResponse} from '../../../types/dtos/moim.ts';
 
 function useGetInfinityMoimIntroducePosts(
   take: number,
   queryOptions?: UseInfiniteQueryOptions<
-    TMoimPreviewListResponse,
+    TMoimIntroduceListResponse,
     ResponseError,
-    InfiniteData<TMoimPreviewListResponse, number>,
-    TMoimPreviewListResponse,
+    InfiniteData<TMoimIntroduceListResponse, number>,
+    TMoimIntroduceListResponse,
     QueryKey,
     number
   >,

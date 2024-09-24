@@ -128,6 +128,27 @@ type TMoimPreviewListResponse = {
   hasNext: boolean;
 };
 
+export type TMoimIntroduceListDTO = {
+  moimPostId: number;
+  moimId: number;
+  title: string;
+  content: string;
+  moimImageUrl: string;
+  ownerProfileImageUrl: string;
+  writer: string;
+  commentCount: number;
+  likeCount: number;
+  postType: POST_LIST_TYPE;
+  createAt: string;
+  writerId: number;
+};
+
+type TMoimIntroduceListResponse = {
+  moimPreviewList: TMoimIntroduceListDTO[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
 export type TMoimPostPreviewDTOList = {
   moimPostId: number;
   title: string;
@@ -183,4 +204,5 @@ export type {
   TMoimAllPostsPreviews,
   TActiveMoimList,
   TMoimRoles,
+  TMoimIntroduceListResponse,
 };

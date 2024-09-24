@@ -1,11 +1,12 @@
 import {TouchableOpacity} from 'react-native';
+import {RouteProp} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
 
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 import {MOIM_ROLE} from 'types/enums';
 
@@ -13,7 +14,7 @@ import useTodoStore from 'stores/useTodoStore.ts';
 import useMoim from 'hooks/useMoim.ts';
 
 interface MoimManageListScreenProps {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_MANAGE_LIST'>;
   navigation: MoimManagementNavigationProp;
 }
 
@@ -22,10 +23,10 @@ const MoimManageListScreen = ({
   navigation,
 }: MoimManageListScreenProps) => {
   const params = route?.params;
-  const id = params && 'id' in params ? params.id : undefined;
+  const id = params.id;
   // TODO: 관리자 권한 불러오는 API
   const {useGetMyMoimRole} = useMoim();
-  const {data: role} = useGetMyMoimRole(id ?? -1);
+  const {data: role} = useGetMyMoimRole(id);
   const {setIsEditMode} = useTodoStore();
 
   if (!id) {

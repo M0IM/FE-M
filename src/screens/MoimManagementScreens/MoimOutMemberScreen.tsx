@@ -15,21 +15,22 @@ import Avatar from 'components/@common/Avatar/Avatar.tsx';
 
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 import useDebounce from 'hooks/useDebounce.ts';
 import useMoimManagement from 'hooks/queries/MoimManagement/useMoimManagement';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
+import {RouteProp} from '@react-navigation/native';
 
 export default function MoimOutMemberScreen({
   route,
   // navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_OUT_MEMBER'>;
   navigation: MoimManagementNavigationProp;
 }) {
   const params = route?.params;
-  const moimId = params && 'id' in params ? params.id : undefined;
+  const moimId = params.id;
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
   const {useGetInfinityMoimMembersWithOutOwner, outMoimMemberMutation} =
@@ -43,7 +44,7 @@ export default function MoimOutMemberScreen({
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimMembersWithOutOwner(moimId ?? -1, debouncedSearch);
+  } = useGetInfinityMoimMembersWithOutOwner(moimId, debouncedSearch);
 
   const handleOutMember = (userId: number) => {
     Alert.alert(

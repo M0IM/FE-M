@@ -9,6 +9,7 @@ import {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import 'moment/locale/ko';
+import {RouteProp} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
@@ -18,7 +19,7 @@ import {CustomButton} from '../../components/@common/CustomButton/CustomButton.t
 import useTodo from 'hooks/useTodo.ts';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 import {TODO_STATUS} from '../../types/dtos/todo.ts';
 
@@ -26,13 +27,12 @@ export default function MoimGetTodoScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_GET_TODO'>;
   navigation: MoimManagementNavigationProp;
 }) {
   const params = route?.params;
-  const moimId = params && 'id' in params ? params.id : undefined;
+  const moimId = params.id;
 
-  console.log(moimId);
   const {getInfiniteMoimTodoList} = useTodo();
   const {
     data: todos,
@@ -42,7 +42,7 @@ export default function MoimGetTodoScreen({
     refetch,
     isPending,
     isError,
-  } = getInfiniteMoimTodoList(moimId ?? -1, 8);
+  } = getInfiniteMoimTodoList(moimId, 8);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 

@@ -11,7 +11,7 @@ import {
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 import useTodo from '../../hooks/useTodo.ts';
 import React, {useState} from 'react';
@@ -21,16 +21,17 @@ import moment from 'moment/moment';
 import {TODO_STATUS} from '../../types/dtos/todo.ts';
 import {Logo} from '../../components/@common/Logo/Logo.tsx';
 import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
+import {RouteProp} from '@react-navigation/native';
 
 export default function MyMoimAssignmentCheckScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_ASSIGNMENT_TODO'>;
   navigation: MoimManagementNavigationProp;
 }) {
   const params = route?.params;
-  const moimId = params && 'id' in params ? params.id : undefined;
+  const moimId = params.id;
   const {getInfiniteIndividualAssignmentTodoList} = useTodo();
   const {
     data: todos,
@@ -40,7 +41,7 @@ export default function MyMoimAssignmentCheckScreen({
     refetch,
     isPending,
     isError,
-  } = getInfiniteIndividualAssignmentTodoList(moimId ?? -1, 8);
+  } = getInfiniteIndividualAssignmentTodoList(moimId, 8);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 

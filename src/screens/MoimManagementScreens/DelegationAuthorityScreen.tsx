@@ -9,6 +9,7 @@ import {
 import {useState} from 'react';
 import Toast from 'react-native-toast-message';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {RouteProp} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
@@ -18,20 +19,20 @@ import {InputField} from 'components/@common/InputField/InputField.tsx';
 import useMoimManagment from 'hooks/queries/MoimManagement/useMoimManagement.ts';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
 import useDebounce from 'hooks/useDebounce.ts';
-import {MoimManagementRouteProp} from 'navigators/types';
+import {MoimManagementParamList} from 'navigators/types';
 
 import {TMoimRole} from 'types/dtos/moimManage.ts';
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
 
 interface IDelegationAuthorityScreenProps {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'DELEGATION_AUTHORITY_SCREEN'>;
 }
 
 export default function DelegationAuthorityScreen({
   route,
 }: IDelegationAuthorityScreenProps) {
   const params = route?.params;
-  const moimId = params && 'id' in params ? params.id : undefined;
+  const moimId = params.id;
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
   const {useGetInfinityMoimMembers, updateMoimWangMutation} =
@@ -46,7 +47,7 @@ export default function DelegationAuthorityScreen({
     refetch,
     isPending,
     isError,
-  } = useGetInfinityMoimMembers(moimId ?? -1, debouncedSearch);
+  } = useGetInfinityMoimMembers(moimId, debouncedSearch);
 
   const handleNowRole = (role: TMoimRole) => {
     if (role === 'ADMIN') {

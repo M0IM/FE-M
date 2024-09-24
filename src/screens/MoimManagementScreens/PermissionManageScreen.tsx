@@ -1,22 +1,23 @@
 import {useCallback, useRef, useState} from 'react';
 import {View, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {RouteProp} from '@react-navigation/native';
 
 import {InputField} from 'components/@common/InputField/InputField';
 
-import {MoimManagementRouteProp} from 'navigators/types';
+import {MoimManagementParamList} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import MoimPermissionScrollView from 'components/screens/MoimHomeScreens/MoimPermissionScrollView';
 import {wait} from 'utils/wait';
 import useDebounce from '../../hooks/useDebounce.ts';
 
 interface PermissionManageScreenProps {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'PERMISSION_MANAGEMENT'>;
 }
 
 const PermissionManageScreen = ({route}: PermissionManageScreenProps) => {
   const params = route?.params;
-  const moimId = params && 'id' in params ? params.id : undefined;
+  const moimId = params.id;
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEndReached, setIsEndReached] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);

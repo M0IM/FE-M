@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import Config from 'react-native-config';
+import {RouteProp} from '@react-navigation/native';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
@@ -21,7 +22,7 @@ import useThrottle from 'hooks/useThrottle.ts';
 import useTodoStore from 'stores/useTodoStore.ts';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 import {getDateWithSeparator, validateTodo} from 'utils';
 
@@ -29,14 +30,14 @@ export default function MoimCreateTodoScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_CREATE_TODO'>;
   navigation: MoimManagementNavigationProp;
 }) {
   usePermission('PHOTO');
   const {todoList, isEditMode, setIsEditMode} = useTodoStore();
   const isEdit = todoList && isEditMode;
   const params = route?.params;
-  const moimId = params && 'id' in params ? params.id : undefined;
+  const moimId = params.id;
   const datePickerModal = useModal();
   const memberSelectModal = useModal();
   const [date, setDate] = useState(

@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
+import {RouteProp} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
@@ -15,19 +16,18 @@ import useTodo from 'hooks/useTodo.ts';
 import useThrottle from 'hooks/useThrottle';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 
 export default function MoimAddMemberScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_ADD_MEMBER'>;
   navigation: MoimManagementNavigationProp;
 }) {
   const params = route?.params;
-  const moimId = params && 'moimId' in params ? params.moimId : undefined;
-  const todoId = params && 'todoId' in params ? params.todoId : undefined;
+  const {moimId, todoId} = params;
   const {useGetInfiniteNoneAssignedMemberList, updateAssignedMember} =
     useTodo();
   const {
@@ -38,7 +38,7 @@ export default function MoimAddMemberScreen({
     refetch,
     isPending,
     isError,
-  } = useGetInfiniteNoneAssignedMemberList(moimId ?? -1, todoId ?? -1, 7);
+  } = useGetInfiniteNoneAssignedMemberList(moimId, todoId, 7);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const handleToggleSelectedIds = (id: number) => {

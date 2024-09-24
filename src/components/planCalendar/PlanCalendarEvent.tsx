@@ -9,9 +9,14 @@ import {getMonthYearDetails} from '../../utils';
 
 interface ICalendarEventProps extends PressableProps {
   post: TMoimPlanListDTO;
+  moimId?: number;
 }
 
-export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
+export function PlanCalendarEvent({
+  moimId,
+  post,
+  ...props
+}: ICalendarEventProps) {
   const navigation = useNavigation<MoimPlanStackNavigationProp>();
   const platform = Platform.OS;
   const {month, year, day} = getMonthYearDetails(new Date(post.time));
@@ -19,11 +24,14 @@ export function PlanCalendarEvent({post, ...props}: ICalendarEventProps) {
   return (
     <Pressable
       {...props}
-      onPress={() =>
-        navigation.navigate('MOIM_PLAN_DETAIL', {
-          planId: post.planId,
-        })
-      }
+      onPress={() => {
+        if (moimId) {
+          navigation.navigate('MOIM_PLAN_DETAIL', {
+            id: moimId,
+            planId: post.planId,
+          });
+        }
+      }}
       className="flex-row my-3 items-center justify-center w-[323px] h-[88px]"
       key={post.planId}>
       <View className="bg-main w-1 rounded-l-full h-full z-10" />

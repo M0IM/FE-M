@@ -15,19 +15,19 @@ import useTodo from 'hooks/useTodo.ts';
 import useThrottle from 'hooks/useThrottle.ts';
 
 import {TODO_ASSIGNEE_STATUS} from 'types/dtos/todo.ts';
-import {HomeStackRouteProp} from 'navigators/types';
+import {HomeStackParamList} from 'navigators/types';
+import {RouteProp} from '@react-navigation/native';
 
 export default function CalendarTodoDetailScreen({
   route,
 }: {
-  route: HomeStackRouteProp;
+  route: RouteProp<HomeStackParamList, 'CALENDAR_TODO_DETAIL'>;
 }) {
   const params = route?.params;
-  const moimId = params && 'moimId' in params ? params.moimId : undefined;
-  const todoId = params && 'id' in params ? params.id : undefined;
+  const {moimId, id: todoId} = params;
 
   const {useGetMyAssignedTodo, modifyMyTodoStatus} = useTodo();
-  const {data: todo} = useGetMyAssignedTodo(moimId ?? -1, todoId ?? -1);
+  const {data: todo} = useGetMyAssignedTodo(moimId, todoId);
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
 
   const handlePressPopOver = () => {

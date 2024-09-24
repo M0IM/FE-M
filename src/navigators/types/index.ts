@@ -130,7 +130,7 @@ export type MoimTopTabParamList = {
 
 export type MoimPlanStackParamList = {
   MOIM_PLAN_HOME: {id: number};
-  MOIM_PLAN_DETAIL: {planId: number};
+  MOIM_PLAN_DETAIL: {id: number; planId: number};
   MOIM_PLAN_WRITE: {id: number};
 };
 

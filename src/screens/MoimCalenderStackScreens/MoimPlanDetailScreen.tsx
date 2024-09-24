@@ -2,6 +2,7 @@ import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import {RouteProp} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
@@ -14,7 +15,7 @@ import MoimPlanDetailSkeleton from 'components/screens/MoimCalenderScreen/MoimPl
 
 import {
   MoimPlanStackNavigationProp,
-  MoimPlanStackRouteProp,
+  MoimPlanStackParamList,
 } from 'navigators/types';
 import useGetDetailMoimCalendar from 'hooks/queries/MoimPlanDetailScreen/useGetDetailMoimCalendar.ts';
 import usePostMoimScheduleParticipation from 'hooks/queries/MoimPlanDetailScreen/usePostMoimScheduleParticipation.ts';
@@ -27,7 +28,7 @@ import {getMonthYearDetails} from 'utils/date.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 
 interface IMoimPlanDetailScreenProps {
-  route: MoimPlanStackRouteProp;
+  route: RouteProp<MoimPlanStackParamList, 'MOIM_PLAN_DETAIL'>;
   navigation: MoimPlanStackNavigationProp;
 }
 
@@ -35,10 +36,10 @@ export default function MoimPlanDetailScreen({
   route,
   navigation,
 }: IMoimPlanDetailScreenProps) {
+  const params = route?.params;
+  const {id: moimId, planId} = params;
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
   const currentMonthYear = getMonthYearDetails(new Date());
-  const moimId = route.params.id as number;
-  const planId = route.params.planId as number;
 
   const {data: userInfo} = useGetMyProfile();
   const {data, isPending, isError} = useGetDetailMoimCalendar({

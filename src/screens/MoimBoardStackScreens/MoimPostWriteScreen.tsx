@@ -29,14 +29,15 @@ import {
 } from 'constants/screens/MoimBoardStackScreens/PostList';
 import {
   MoimPostStackNavigationProp,
-  MoimPostStackRouteProp,
+  MoimPostStackParamList,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 import useMoimPostStore from 'stores/useMoimPostStore.ts';
 import useThrottle from 'hooks/useThrottle.ts';
+import {RouteProp} from '@react-navigation/native';
 
 interface MoimPostWriteScreenProps {
-  route: MoimPostStackRouteProp;
+  route: RouteProp<MoimPostStackParamList, 'MOIM_POST_WRITE'>;
   navigation: MoimPostStackNavigationProp;
 }
 
@@ -45,8 +46,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
   const {postInfo} = useMoimPostStore();
   const isEdit = !!postInfo;
   const params = route?.params;
-  const moimId = params?.id;
-  const postType = params && 'postType' in params ? params.postType : undefined;
+  const {id: moimId, postType} = params;
   const {isPressed, category, handleCategory, handleSelectedCategory} =
     useDropdown();
   // const [readers, setReaders] = useState('전체 대상');

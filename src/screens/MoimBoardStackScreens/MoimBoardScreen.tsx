@@ -8,7 +8,7 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
+import {RouteProp, useFocusEffect} from '@react-navigation/native';
 
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import {Typography} from 'components/@common/Typography/Typography';
@@ -19,14 +19,15 @@ import usePost from 'hooks/queries/MoimBoard/usePost';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import {
   MoimPostStackNavigationProp,
-  MoimPostStackRouteProp,
+  MoimPostStackParamList,
+  // MoimPostStackRouteProp,
 } from 'navigators/types';
 import useMoimPostStore from 'stores/useMoimPostStore';
 
 type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
 interface MoimBoardScreenProps {
-  route: MoimPostStackRouteProp;
+  route: RouteProp<MoimPostStackParamList, 'MOIM_BOARD_HOME'>;
   navigation: MoimPostStackNavigationProp;
 }
 
@@ -42,11 +43,9 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
     isFetchingNextPage,
     refetch,
     isPending,
-  } = useGetInfiniteMoimPostList(route?.params?.id as number, isSelected);
+  } = useGetInfiniteMoimPostList(moimId, isSelected);
   const {data: moimInfo} = useGetMoimSpaceInfo(moimId as number);
   const {setPostInfo} = useMoimPostStore();
-
-  console.log();
 
   useFocusEffect(
     useCallback(() => {
@@ -100,7 +99,10 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
         <FloatingButton
           type="add"
           onPress={() =>
-            navigation.navigate('MOIM_POST_WRITE', {id: route.params.id})
+            navigation.navigate('MOIM_POST_WRITE', {
+              id: moimId,
+              postType: isSelected,
+            })
           }
         />
       </>
@@ -168,14 +170,18 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
               className="bg-gray-200 rounded-2xl p-3 px-5 mt-4"
               onPress={() => {
                 if (isSelected === 'ALL') {
-                  navigation.navigate('MOIM_POST_WRITE', {id: route.params.id});
+                  navigation.navigate('MOIM_POST_WRITE', {
+                    id: moimId,
+                    postType: isSelected,
+                  });
                 } else {
                   if (
                     moimInfo?.myMoimRole === 'MEMBER' &&
                     isSelected === 'ANNOUNCEMENT'
                   ) {
                     navigation.navigate('MOIM_POST_WRITE', {
-                      id: route.params.id,
+                      id: moimId,
+                      postType: isSelected,
                     });
                   } else {
                     navigation.navigate('MOIM_POST_WRITE', {
@@ -196,7 +202,10 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
       <FloatingButton
         type="add"
         onPress={() =>
-          navigation.navigate('MOIM_POST_WRITE', {id: route.params.id})
+          navigation.navigate('MOIM_POST_WRITE', {
+            id: route.params.id,
+            postType: isSelected,
+          })
         }
       />
     </>

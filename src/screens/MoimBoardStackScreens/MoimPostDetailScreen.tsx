@@ -1,11 +1,11 @@
 import {KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {useCallback, useRef, useState} from 'react';
 import {RefreshControl} from 'react-native-gesture-handler';
-import {CompositeNavigationProp} from '@react-navigation/native';
+import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
 
 import {
   MoimPostStackNavigationProp,
-  MoimPostStackRouteProp,
+  MoimPostStackParamList,
   MyStackNavigationProp,
 } from 'navigators/types';
 import CommentInput from 'components/screens/MoimBoardStackScreens/postDetail/CommentInput';
@@ -13,7 +13,7 @@ import PostInfo from 'components/screens/MoimBoardStackScreens/postDetail/PostIn
 import PostCommentView from 'components/screens/MoimBoardStackScreens/postDetail/PostCommentView';
 
 interface MoimPostDetailScreenProps {
-  route: MoimPostStackRouteProp;
+  route: RouteProp<MoimPostStackParamList, 'MOIM_POST_DETAIL'>;
   navigation: CompositeNavigationProp<
     MoimPostStackNavigationProp,
     MyStackNavigationProp
@@ -25,8 +25,7 @@ const MoimPostDetailScreen = ({
   navigation,
 }: MoimPostDetailScreenProps) => {
   const params = route?.params;
-  const id = params?.id;
-  const postId = params && 'postId' in params ? params.postId : undefined;
+  const {id, postId} = params;
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -67,15 +66,13 @@ const MoimPostDetailScreen = ({
           navigation={navigation}
           isRefreshing={isRefreshing}
         />
-        {id && postId && (
-          <PostCommentView
-            id={id}
-            postId={postId}
-            navigation={navigation}
-            isRefreshing={isRefreshing}
-            isEndReached={isEndReached}
-          />
-        )}
+        <PostCommentView
+          id={id}
+          postId={postId}
+          navigation={navigation}
+          isRefreshing={isRefreshing}
+          isEndReached={isEndReached}
+        />
       </ScrollView>
 
       <CommentInput id={id} postId={postId} />

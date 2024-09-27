@@ -14,10 +14,10 @@ import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon';
 
 import useTodo from 'hooks/useTodo';
 import {useNavigation} from '@react-navigation/native';
-import {MyStackNavigationProp} from 'navigators/types';
+import {TodoStackNavigationProp} from 'navigators/types';
 
 export default function MyAssignmentTodoScreen() {
-  const navigation = useNavigation<MyStackNavigationProp>();
+  const navigation = useNavigation<TodoStackNavigationProp>();
   const {getInfiniteMyAssignmentTodoList} = useTodo();
   const {
     data: todos,
@@ -68,12 +68,9 @@ export default function MyAssignmentTodoScreen() {
                 <Pressable
                   className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
                   onPress={() => {
-                    navigation.navigate('TODO_ASSIGNMENT_LIST', {
-                      screen: 'DETAIL_TODO',
-                      params: {
-                        id: item.todoId,
-                        moimId: item.moimId,
-                      },
+                    navigation.navigate('DETAIL_TODO', {
+                      id: item.todoId,
+                      moimId: item.moimId,
                     });
                   }}>
                   {item.imageUrlList[0] ? (

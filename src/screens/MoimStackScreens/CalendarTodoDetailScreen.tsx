@@ -15,15 +15,16 @@ import useTodo from 'hooks/useTodo.ts';
 import useThrottle from 'hooks/useThrottle.ts';
 
 import {TODO_ASSIGNEE_STATUS} from 'types/dtos/todo.ts';
-import {HomeStackRouteProp} from 'navigators/types';
+import {HomeStackParamList} from 'navigators/types';
+import {RouteProp} from '@react-navigation/native';
 
 export default function CalendarTodoDetailScreen({
   route,
 }: {
-  route: HomeStackRouteProp;
+  route: RouteProp<HomeStackParamList, 'CALENDAR_TODO_DETAIL'>;
 }) {
-  const moimId = route.params?.moimId;
-  const todoId = route.params?.id;
+  const params = route?.params;
+  const {moimId, id: todoId} = params;
 
   const {useGetMyAssignedTodo, modifyMyTodoStatus} = useTodo();
   const {data: todo} = useGetMyAssignedTodo(moimId, todoId);
@@ -34,16 +35,18 @@ export default function CalendarTodoDetailScreen({
   };
 
   const handleTodoStatusChange = useThrottle((status: TODO_ASSIGNEE_STATUS) => {
-    modifyMyTodoStatus.mutate(
-      {
-        moimId,
-        todoId,
-        todoAssigneeStatus: status,
-      },
-      {
-        onSuccess: data => console.log(data),
-      },
-    );
+    if (moimId && todoId) {
+      modifyMyTodoStatus.mutate(
+        {
+          moimId,
+          todoId,
+          todoAssigneeStatus: status,
+        },
+        {
+          onSuccess: data => console.log(data),
+        },
+      );
+    }
   });
 
   const ChangeTodoStatus = [

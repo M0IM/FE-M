@@ -7,11 +7,11 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import Avatar from '../../@common/Avatar/Avatar.tsx';
-import {TMoimPreviewListDto} from 'types/dtos/post.ts';
 import {HomeStackNavigationProp} from 'navigators/types/index.ts';
+import {TMoimIntroduceListDTO} from 'types/dtos/moim.ts';
 
 interface INewFeedCardProps extends TouchableOpacityProps {
-  item: TMoimPreviewListDto;
+  item: TMoimIntroduceListDTO;
 }
 
 export function NewFeedCard({item, ...props}: INewFeedCardProps) {

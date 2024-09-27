@@ -12,9 +12,10 @@ import {queryClient} from 'containers/TanstackQueryContainer';
 import {SafeAreaView} from 'react-native';
 import useGetMoimSpaceInfo from '../../../hooks/queries/MoimSpace/useGetMoimSpaceInfo.ts';
 import useThrottle from 'hooks/useThrottle.ts';
+import {MOIM_ROLE} from 'types/enums/index.ts';
 
 interface MoimPermissionScrollViewProps {
-  moimId?: number;
+  moimId: number;
   search: string;
   isEndReached: boolean;
   isRefreshing: boolean;
@@ -67,7 +68,8 @@ const MoimPermissionScrollView = ({
 
   const handleMemberAuth = useThrottle(
     (userId: number, moimRole: TMoimRole) => {
-      const newRole = moimRole === 'MEMBER' ? 'ADMIN' : 'MEMBER';
+      const newRole =
+        moimRole === 'MEMBER' ? MOIM_ROLE.ADMIN : MOIM_ROLE.MEMBER;
       if (moimId && userId && moimRole) {
         updateMoimAuthoritiesMutation.mutate(
           {
@@ -131,21 +133,22 @@ const MoimPermissionScrollView = ({
               </Typography>
               <Label label={translatedRole} color="dark" />
 
-              {data?.myMoimRole === 'OWNER' && item.moimRole !== 'OWNER' && (
-                <>
-                  <TouchableOpacity
-                    className="p-2 rounded-xl bg-gray-200 ml-auto"
-                    onPress={() =>
-                      handleMemberAuth(item.userId, item.moimRole)
-                    }>
-                    <Typography
-                      fontWeight="MEDIUM"
-                      className="text-gray-600 text-xs">
-                      {item.moimRole === 'ADMIN' ? '권한 취소' : '권한 부여'}
-                    </Typography>
-                  </TouchableOpacity>
-                </>
-              )}
+              {data?.myMoimRole === MOIM_ROLE.OWNER &&
+                item.moimRole !== MOIM_ROLE.OWNER && (
+                  <>
+                    <TouchableOpacity
+                      className="p-2 rounded-xl bg-gray-200 ml-auto"
+                      onPress={() =>
+                        handleMemberAuth(item.userId, item.moimRole)
+                      }>
+                      <Typography
+                        fontWeight="MEDIUM"
+                        className="text-gray-600 text-xs">
+                        {item.moimRole === 'ADMIN' ? '권한 취소' : '권한 부여'}
+                      </Typography>
+                    </TouchableOpacity>
+                  </>
+                )}
             </View>
           );
         })}

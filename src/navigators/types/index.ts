@@ -114,10 +114,6 @@ export type MyStackParamList = {
   // 내가 할당한 할 일 확인
   TODO_ASSIGNMENT_LIST: {
     screen: TodoStackScreenName;
-    params: {
-      id: number;
-      moimId: number;
-    };
   };
 };
 
@@ -130,23 +126,23 @@ export type MoimTopTabParamList = {
 
 export type MoimPlanStackParamList = {
   MOIM_PLAN_HOME: {id: number};
-  MOIM_PLAN_DETAIL: {planId: number};
+  MOIM_PLAN_DETAIL: {id: number; planId: number};
   MOIM_PLAN_WRITE: {id: number};
 };
 
 export type MoimPostStackParamList = {
-  MOIM_BOARD_HOME: {id: number | undefined};
+  MOIM_BOARD_HOME: {id: number};
   MOIM_POST_DETAIL: {
-    id: number | undefined;
-    postId: number | undefined;
+    id: number;
+    postId: number;
   };
   MOIM_POST_WRITE: {
-    id: number | undefined;
-    postType?: POST_LIST_TYPE;
+    id: number;
+    postType: POST_LIST_TYPE;
   };
   MOIM_POST_EDIT: {
-    id: number | undefined;
-    postId: number | undefined;
+    id: number;
+    postId: number;
   };
   MOIM_MEMBER_PROFILE: {
     id: number;
@@ -182,22 +178,22 @@ export type AppInfoStackParamList = {
 };
 
 export type MoimManagementParamList = {
-  MOIM_MANAGE_LIST: {id: number | undefined};
-  PERMISSION_MANAGEMENT: {id: number | undefined};
-  JOIN_MANAGEMENT: {id: number | undefined};
-  MOIM_INFO_EDIT: {id: number | undefined};
-  DELEGATION_AUTHORITY_SCREEN: {id: number | undefined};
-  MOIM_CREATE_TODO: {id: number | undefined};
-  MOIM_GET_TODO: {id: number | undefined};
+  MOIM_MANAGE_LIST: {id: number};
+  PERMISSION_MANAGEMENT: {id: number};
+  JOIN_MANAGEMENT: {id: number};
+  MOIM_INFO_EDIT: {id: number};
+  DELEGATION_AUTHORITY_SCREEN: {id: number};
+  MOIM_CREATE_TODO: {id: number};
+  MOIM_GET_TODO: {id: number};
   MOIM_DETAIL_TODO: {id: number; moimId: number};
-  MOIM_ASSIGNMENT_TODO: {id: number | undefined};
+  MOIM_ASSIGNMENT_TODO: {id: number};
   MOIM_ADD_MEMBER: {
-    moimId: number | undefined;
-    todoId: number | undefined;
+    moimId: number;
+    todoId: number;
   };
   MOIM_DELETE_MEMBER: {
-    moimId: number | undefined;
-    todoId: number | undefined;
+    moimId: number;
+    todoId: number;
   };
   MOIM_OUT_MEMBER: {
     id: number;
@@ -227,9 +223,9 @@ export type UserProfileStackParamList = {
 export type TodoStackParamList = {
   CREATE_TODO: {id: number};
   DETAIL_TODO: {id: number; moimId: number};
-  GET_TODO: {id: number};
-  ADD_MEMBER_TODO: {id: number};
-  DELETE_MEMBER_TODO: {id: number};
+  GET_TODO: undefined;
+  ADD_MEMBER_TODO: {id: number; todoId: number};
+  DELETE_MEMBER_TODO: {id: number; todoId: number};
 };
 
 /** screen name */

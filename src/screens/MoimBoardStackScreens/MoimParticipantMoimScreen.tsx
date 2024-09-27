@@ -1,6 +1,6 @@
 import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
 import {
-  MoimPostStackNavigationProp,
+  HomeStackNavigationProp,
   MoimPostStackRouteProp,
 } from 'navigators/types';
 import {useInfiniteGetMembersActiveMoimList} from '../../hooks/queries/MyScreen/useInfiniteGetMembersActiveMoimList.ts';
@@ -11,7 +11,7 @@ export default function MoimParticipantMoimScreen({
   route,
   navigation,
 }: {
-  navigation: MoimPostStackNavigationProp;
+  navigation: HomeStackNavigationProp;
   route: MoimPostStackRouteProp;
 }) {
   const userId = route.params.id as number;

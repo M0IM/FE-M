@@ -1,4 +1,4 @@
-import {Image, SafeAreaView, View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {NewFeedHomeRouteProp} from 'navigators/types';

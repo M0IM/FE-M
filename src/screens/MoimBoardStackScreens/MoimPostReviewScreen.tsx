@@ -24,7 +24,7 @@ export default function MoimPostReviewScreen({
 }) {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
-  const {mutate, error, isPending} = usePostReviewMutation();
+  const {mutate, isPending} = usePostReviewMutation();
   const targetUserId = route.params.id as number;
 
   const handlePressReview = useThrottle(() => {

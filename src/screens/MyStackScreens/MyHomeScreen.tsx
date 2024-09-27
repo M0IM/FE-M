@@ -71,7 +71,11 @@ export default function MyHomeScreen({navigation}: IMyHomeScreenProps) {
           />
           <SettingItem
             title={'내가 할당한 할 일 확인'}
-            onPress={() => navigation.navigate('TODO_ASSIGNMENT_LIST')}
+            onPress={() =>
+              navigation.navigate('TODO_ASSIGNMENT_LIST', {
+                screen: 'GET_TODO',
+              })
+            }
           />
           {/* <SettingItem
             title={'모임 정보 수정하기'}

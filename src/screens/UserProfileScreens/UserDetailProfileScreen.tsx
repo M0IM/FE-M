@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react';
 import {ActivityIndicator, Animated, SafeAreaView, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {ProfileCard} from 'components/@common/ProfileCard/ProfileCard.tsx';
@@ -10,12 +10,18 @@ import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts
 
 import {getMonthYearDetails} from 'utils';
 import {TUserDTO} from 'types/dtos/user.ts';
-import {HomeStackNavigationProp, HomeStackRouteProp} from 'navigators/types';
+import {
+  HomeStackNavigationProp,
+  UserProfileStackParamList,
+} from 'navigators/types';
 
 export default function UserDetailProfileScreen() {
-  const route = useRoute<HomeStackRouteProp>();
+  const route =
+    useRoute<RouteProp<UserProfileStackParamList, 'USER_PROFILE'>>();
   const navigation = useNavigation<HomeStackNavigationProp>();
-  const userId = route?.params?.id as number;
+  const params = route?.params;
+  const userId = params.id;
+
   const {data: userInfo, isPending, isError} = useGetDetailProfile(userId);
 
   const {year, month, day} = getMonthYearDetails(

@@ -94,7 +94,7 @@ type TMoimMembersDTO = {
 type TCreateMoimParams = {
   title: string;
   location: string;
-  moimCategory: MOIM_CATEGORY;
+  moimCategory: string;
   imageKeyName?: string;
   introduceVideoKeyName?: string;
   introduceVideoTitle?: string;
@@ -124,6 +124,27 @@ export type TMoimPreviewListDTO = {
 
 type TMoimPreviewListResponse = {
   moimPreviewList: TMoimPreviewListDTO[];
+  nextCursor: number;
+  hasNext: boolean;
+};
+
+export type TMoimIntroduceListDTO = {
+  moimPostId: number;
+  moimId: number;
+  title: string;
+  content: string;
+  moimImageUrl: string;
+  ownerProfileImageUrl: string;
+  writer: string;
+  commentCount: number;
+  likeCount: number;
+  postType: POST_LIST_TYPE;
+  createAt: string;
+  writerId: number;
+};
+
+type TMoimIntroduceListResponse = {
+  moimPreviewList: TMoimIntroduceListDTO[];
   nextCursor: number;
   hasNext: boolean;
 };
@@ -183,4 +204,5 @@ export type {
   TMoimAllPostsPreviews,
   TActiveMoimList,
   TMoimRoles,
+  TMoimIntroduceListResponse,
 };

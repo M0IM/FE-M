@@ -2,14 +2,16 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
+  RefreshControl,
   SafeAreaView,
+  ScrollView,
   View,
 } from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 import useTodo from '../../hooks/useTodo.ts';
 import React, {useState} from 'react';
@@ -19,15 +21,17 @@ import moment from 'moment/moment';
 import {TODO_STATUS} from '../../types/dtos/todo.ts';
 import {Logo} from '../../components/@common/Logo/Logo.tsx';
 import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
+import {RouteProp} from '@react-navigation/native';
 
 export default function MyMoimAssignmentCheckScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_ASSIGNMENT_TODO'>;
   navigation: MoimManagementNavigationProp;
 }) {
-  const moimId = route.params.id as number;
+  const params = route?.params;
+  const moimId = params.id;
   const {getInfiniteIndividualAssignmentTodoList} = useTodo();
   const {
     data: todos,
@@ -89,12 +93,14 @@ export default function MyMoimAssignmentCheckScreen({
               return (
                 <Pressable
                   className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
-                  onPress={() =>
-                    navigation.navigate('MOIM_DETAIL_TODO', {
-                      moimId,
-                      id: item.todoId,
-                    })
-                  }>
+                  onPress={() => {
+                    if (moimId) {
+                      navigation.navigate('MOIM_DETAIL_TODO', {
+                        moimId,
+                        id: item.todoId,
+                      });
+                    }
+                  }}>
                   {item.imageUrlList[0] ? (
                     <FastImage
                       source={{uri: item.imageUrlList[0]}}
@@ -151,24 +157,34 @@ export default function MyMoimAssignmentCheckScreen({
             indicatorStyle={'black'}
           />
         ) : (
-          <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
-            <Logo background={'TRANSPARENT'} size={'LG'} />
-            <Typography className="text-sm" fontWeight={'BOLD'}>
-              내가 할당한 할 일이 없습니다.
-            </Typography>
-            <Typography fontWeight="BOLD">
-              멤버에게 새로운 할 일을 부여해보세요!
-            </Typography>
-            <CustomButton
-              label={'할 일 생성하기'}
-              textStyle={'text-white font-bold text-lg'}
-              onPress={() =>
-                navigation.navigate('MOIM_CREATE_TODO', {
-                  id: moimId,
-                })
-              }
-            />
-          </View>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+              />
+            }>
+            <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
+              <Logo background={'TRANSPARENT'} size={'LG'} />
+              <Typography className="text-sm" fontWeight={'BOLD'}>
+                내가 할당한 할 일이 없습니다.
+              </Typography>
+              <Typography fontWeight="BOLD">
+                멤버에게 새로운 할 일을 부여해보세요!
+              </Typography>
+              <CustomButton
+                label={'할 일 생성하기'}
+                textStyle={'text-white font-bold text-lg'}
+                onPress={() => {
+                  if (moimId) {
+                    navigation.navigate('MOIM_CREATE_TODO', {
+                      id: moimId,
+                    });
+                  }
+                }}
+              />
+            </View>
+          </ScrollView>
         )}
       </View>
     </SafeAreaView>

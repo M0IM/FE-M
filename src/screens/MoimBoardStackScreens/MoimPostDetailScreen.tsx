@@ -1,11 +1,11 @@
 import {KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {useCallback, useRef, useState} from 'react';
 import {RefreshControl} from 'react-native-gesture-handler';
-import {CompositeNavigationProp} from '@react-navigation/native';
+import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
 
 import {
   MoimPostStackNavigationProp,
-  MoimPostStackRouteProp,
+  MoimPostStackParamList,
   MyStackNavigationProp,
 } from 'navigators/types';
 import CommentInput from 'components/screens/MoimBoardStackScreens/postDetail/CommentInput';
@@ -13,7 +13,7 @@ import PostInfo from 'components/screens/MoimBoardStackScreens/postDetail/PostIn
 import PostCommentView from 'components/screens/MoimBoardStackScreens/postDetail/PostCommentView';
 
 interface MoimPostDetailScreenProps {
-  route: MoimPostStackRouteProp;
+  route: RouteProp<MoimPostStackParamList, 'MOIM_POST_DETAIL'>;
   navigation: CompositeNavigationProp<
     MoimPostStackNavigationProp,
     MyStackNavigationProp
@@ -24,7 +24,8 @@ const MoimPostDetailScreen = ({
   route,
   navigation,
 }: MoimPostDetailScreenProps) => {
-  const {id, postId} = route.params;
+  const params = route?.params;
+  const {id, postId} = params;
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };

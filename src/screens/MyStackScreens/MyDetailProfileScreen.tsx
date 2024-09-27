@@ -15,18 +15,17 @@ import {ProfileCard} from 'components/@common/ProfileCard/ProfileCard.tsx';
 import {
   HomeStackNavigationProp,
   MyStackNavigationProp,
-  MyStackRouteProp,
+  MyStackParamList,
 } from 'navigators/types';
 import {useGetDetailProfile} from 'hooks/queries/MyScreen/useGetDetailProfile.ts';
 import {getMonthYearDetails} from 'utils';
 import useDetailProfileStore from 'stores/useDetailProfileStore.ts';
 import {TUserDTO} from 'types/dtos/user.ts';
 
-import {CompositeNavigationProp} from '@react-navigation/native';
-import {useGetMyProfile} from '../../hooks/queries/MyScreen/useGetProfile.ts';
+import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
 
 interface IMyDetailProfileScreenProps {
-  route: MyStackRouteProp;
+  route: RouteProp<MyStackParamList, 'MY_DETAIL_PROFILE'>;
   navigation: CompositeNavigationProp<
     MyStackNavigationProp,
     HomeStackNavigationProp
@@ -37,7 +36,7 @@ export default function MyDetailProfileScreen({
   route,
   navigation,
 }: IMyDetailProfileScreenProps) {
-  const userId = route.params?.id as number;
+  const userId = route.params?.id;
   const {
     data: userInfo,
     isPending,
@@ -49,8 +48,6 @@ export default function MyDetailProfileScreen({
   const {year, month, day} = getMonthYearDetails(
     new Date(userInfo?.createdAt as string),
   );
-
-  const {data} = useGetMyProfile();
 
   const onRefresh = () => {
     setRefreshing(true);

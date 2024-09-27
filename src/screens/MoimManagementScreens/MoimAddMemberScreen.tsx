@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
+import {RouteProp} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
@@ -15,19 +16,18 @@ import useTodo from 'hooks/useTodo.ts';
 import useThrottle from 'hooks/useThrottle';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 
 export default function MoimAddMemberScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_ADD_MEMBER'>;
   navigation: MoimManagementNavigationProp;
 }) {
-  // TODO: 타입 네비게이팅 재정의
-  const moimId = route.params.moimId;
-  const todoId = route.params.todoId;
+  const params = route?.params;
+  const {moimId, todoId} = params;
   const {useGetInfiniteNoneAssignedMemberList, updateAssignedMember} =
     useTodo();
   const {
@@ -73,14 +73,16 @@ export default function MoimAddMemberScreen({
   }
 
   const handlePressAddMembers = useThrottle(() => {
-    updateAssignedMember.mutate(
-      {moimId, todoId, addAssigneeIdList: selectedIds},
-      {
-        onSuccess: () => {
-          navigation.goBack();
+    if (moimId && todoId) {
+      updateAssignedMember.mutate(
+        {moimId, todoId, addAssigneeIdList: selectedIds},
+        {
+          onSuccess: () => {
+            navigation.goBack();
+          },
         },
-      },
-    );
+      );
+    }
   });
 
   return (

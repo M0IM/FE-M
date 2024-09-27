@@ -2,12 +2,12 @@ import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
 
-import {TodoStackNavigationProp, TodoStackRouteProp} from 'navigators/types';
+import {TodoStackNavigationProp, TodoStackParamList} from 'navigators/types';
 import useTodo from 'hooks/useTodo.ts';
 import ParticipantList from 'screens/MoimManagementScreens/components/ParticipantList.tsx';
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -17,7 +17,7 @@ import useTodoStore from '../../../stores/useTodoStore.ts';
 
 export default function MyTodoDetailScreen() {
   const navigation = useNavigation<TodoStackNavigationProp>();
-  const route = useRoute<TodoStackRouteProp>();
+  const route = useRoute<RouteProp<TodoStackParamList, 'DETAIL_TODO'>>();
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
 
   useLayoutEffect(() => {
@@ -30,19 +30,20 @@ export default function MyTodoDetailScreen() {
     });
   }, []);
 
-  const moimId = route.params?.moimId as number;
-  const todoId = route.params?.id as number;
+  const params = route?.params;
+  const {moimId, id: todoId} = params;
 
   const {useGetMoimTodoDetail, deleteTodoMutation} = useTodo();
   const {data: todo} = useGetMoimTodoDetail(moimId, todoId);
 
   const {setTodoList, setIsEditMode} = useTodoStore();
+
   const PostMyMenuList = [
     {
       title: '멤버 추가',
       onPress: () => {
         navigation.navigate('ADD_MEMBER_TODO', {
-          moimId,
+          id: moimId,
           todoId,
         });
       },
@@ -51,7 +52,7 @@ export default function MyTodoDetailScreen() {
       title: '멤버 삭제',
       onPress: () => {
         navigation.navigate('DELETE_MEMBER_TODO', {
-          moimId,
+          id: moimId,
           todoId,
         });
       },

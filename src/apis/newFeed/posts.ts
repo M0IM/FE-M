@@ -1,5 +1,5 @@
 import axiosInstance from '../axiosInstance.ts';
-import {TMoimPreviewListResponse} from '../../types/dtos/moim.ts';
+import {TMoimIntroduceListResponse} from '../../types/dtos/moim.ts';
 
 /**
  * @docs 모임 소개 개시물 조회 API
@@ -12,7 +12,7 @@ const getMoimIntroducePosts = async ({
 }: {
   cursor: number;
   take: number;
-}): Promise<TMoimPreviewListResponse> => {
+}): Promise<TMoimIntroduceListResponse> => {
   const {data} = await axiosInstance.get(
     `/api/v1/global/posts?cursor=${cursor}&take=${take}`,
   );

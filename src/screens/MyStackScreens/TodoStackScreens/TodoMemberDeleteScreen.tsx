@@ -6,20 +6,20 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import Avatar from 'components/@common/Avatar/Avatar.tsx';
 
 import useTodo from 'hooks/useTodo.ts';
-import {TodoStackNavigationProp, TodoStackRouteProp} from 'navigators/types';
+import {TodoStackNavigationProp, TodoStackParamList} from 'navigators/types';
 
 export default function TodoMemberDeleteScreen() {
   const navigation = useNavigation<TodoStackNavigationProp>();
-  const route = useRoute<TodoStackRouteProp>();
-  const moimId = route.params.moimId;
-  const todoId = route.params.todoId;
+  const route = useRoute<RouteProp<TodoStackParamList, 'DELETE_MEMBER_TODO'>>();
+  const params = route.params;
+  const {id: moimId, todoId} = params;
   const {getInfiniteMoimTodoParticipantList, deleteAssignedMember} = useTodo();
   const {
     data: members,
@@ -91,7 +91,7 @@ export default function TodoMemberDeleteScreen() {
                   } rounded-full w-[10] h-[10]`}
                 />
               </View>
-              <Avatar uri={item.profileImageUrl} />
+              <Avatar uri={item.profileImageUrl} disabled />
               <Typography fontWeight={'BOLD'}>{item.nickname}</Typography>
             </TouchableOpacity>
           );

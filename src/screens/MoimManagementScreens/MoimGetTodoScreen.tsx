@@ -1,31 +1,38 @@
-import {FlatList, Pressable, SafeAreaView, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  View,
+} from 'react-native';
 import {useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import 'moment/locale/ko';
+import {RouteProp} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon.tsx';
+import {Logo} from '../../components/@common/Logo/Logo.tsx';
+import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
+
 import useTodo from 'hooks/useTodo.ts';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
-import {TODO_ASSIGNEE_STATUS, TODO_STATUS} from '../../types/dtos/todo.ts';
-import Label from '../../components/@common/Label/Label.tsx';
-import {Logo} from '../../components/@common/Logo/Logo.tsx';
-import {CustomButton} from '../../components/@common/CustomButton/CustomButton.tsx';
+import {TODO_STATUS} from '../../types/dtos/todo.ts';
 
 export default function MoimGetTodoScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_GET_TODO'>;
   navigation: MoimManagementNavigationProp;
 }) {
-  const moimId = route.params.id as number;
+  const params = route?.params;
+  const moimId = params.id;
 
-  console.log(moimId);
   const {getInfiniteMoimTodoList} = useTodo();
   const {
     data: todos,
@@ -53,6 +60,20 @@ export default function MoimGetTodoScreen({
 
   const todoList = todos.pages.flatMap(page => page.list);
 
+  if (isPending) {
+    return (
+      <SafeAreaView className="bg-white flex-1">
+        <View className="p-1 flex-1 items-center justify-center">
+          <ActivityIndicator size={'large'} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (isError) {
+    return <></>;
+  }
+
   return (
     <SafeAreaView className="bg-white flex-1">
       <View className="p-1 flex-1">
@@ -75,12 +96,14 @@ export default function MoimGetTodoScreen({
               return (
                 <Pressable
                   className="flex flex-row p-[6] h-[102] items-center active:bg-hover active:rounded-lg"
-                  onPress={() =>
-                    navigation.navigate('MOIM_DETAIL_TODO', {
-                      moimId,
-                      id: item.todoId,
-                    })
-                  }>
+                  onPress={() => {
+                    if (moimId) {
+                      navigation.navigate('MOIM_DETAIL_TODO', {
+                        moimId,
+                        id: item.todoId,
+                      });
+                    }
+                  }}>
                   {item.imageUrlList[0] ? (
                     <FastImage
                       source={{uri: item.imageUrlList[0]}}
@@ -148,11 +171,13 @@ export default function MoimGetTodoScreen({
             <CustomButton
               label={'할 일 생성하기'}
               textStyle={'text-white font-bold text-lg'}
-              onPress={() =>
-                navigation.navigate('MOIM_CREATE_TODO', {
-                  id: moimId,
-                })
-              }
+              onPress={() => {
+                if (moimId) {
+                  navigation.navigate('MOIM_CREATE_TODO', {
+                    id: moimId,
+                  });
+                }
+              }}
             />
           </View>
         )}

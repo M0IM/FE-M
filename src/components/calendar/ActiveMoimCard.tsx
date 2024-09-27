@@ -5,11 +5,11 @@ import FastImage from 'react-native-fast-image';
 import {Typography} from '../@common/Typography/Typography.tsx';
 import DefaultIcon from '../@common/DefaultIcon/DefaultIcon.tsx';
 
-import {TMoimDTOResponse} from 'types/dtos/moim.ts';
+import {TMoimDTOResponse, TMoimPostPreviewDTO} from 'types/dtos/moim.ts';
 import {CATEGORIES_LIST} from 'constants/screens/MoimSearchScreen/CategoryList.ts';
 
 interface IActiveMoimCardProps extends PressableProps {
-  moim: TMoimDTOResponse;
+  moim: TMoimDTOResponse | TMoimPostPreviewDTO;
 }
 
 export function ActiveMoimCard({

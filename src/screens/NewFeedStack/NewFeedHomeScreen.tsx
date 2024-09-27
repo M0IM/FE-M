@@ -8,7 +8,6 @@ import useGetInfinityMoimIntroducePosts from 'hooks/queries/NewFeedHomeScreen/us
 import {
   HomeStackNavigationProp,
   NewFeedHomeNavigationProp,
-  NewFeedHomeRouteProp,
 } from 'navigators/types';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {Logo} from '../../components/@common/Logo/Logo.tsx';
@@ -81,6 +80,7 @@ function NewFeedHomeScreen({navigation}: INewFeedHomeScreenProps) {
         <FlatList
           data={moimPreviewList}
           renderItem={({item}) => {
+            console.log(item);
             return (
               <NewFeedCard
                 item={item}

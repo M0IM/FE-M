@@ -7,21 +7,23 @@ import {
   View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {RouteProp} from '@react-navigation/native';
 
 import {InputField} from 'components/@common/InputField/InputField';
 
-import {MoimManagementRouteProp} from 'navigators/types';
+import {MoimManagementParamList} from 'navigators/types';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import MoimJoinRequestScrollView from 'components/screens/MoimHomeScreens/MoimJoinRequestScrollView';
 import {wait} from 'utils/wait';
 import useDebounce from '../../hooks/useDebounce.ts';
 
 interface JoinManageScreenProps {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'JOIN_MANAGEMENT'>;
 }
 
 const JoinManageScreen = ({route}: JoinManageScreenProps) => {
-  const moimId = route.params?.id;
+  const params = route?.params;
+  const moimId = params.id;
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebounce(search, 1000);
   const [isRefreshing, setIsRefreshing] = useState(false);

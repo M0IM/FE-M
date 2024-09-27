@@ -19,8 +19,8 @@ import useMoimPostStore from 'stores/useMoimPostStore';
 import useThrottle from 'hooks/useThrottle';
 
 interface PostInfoProps {
-  id?: number;
-  postId?: number;
+  id: number;
+  postId: number;
   navigation: CompositeNavigationProp<
     MoimPostStackNavigationProp,
     MyStackNavigationProp

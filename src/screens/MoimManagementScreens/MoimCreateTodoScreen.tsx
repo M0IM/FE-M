@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import Config from 'react-native-config';
+import {RouteProp} from '@react-navigation/native';
 
 import {ScreenContainer} from 'components/ScreenContainer.tsx';
 import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
@@ -21,7 +22,7 @@ import useThrottle from 'hooks/useThrottle.ts';
 import useTodoStore from 'stores/useTodoStore.ts';
 import {
   MoimManagementNavigationProp,
-  MoimManagementRouteProp,
+  MoimManagementParamList,
 } from 'navigators/types';
 import {getDateWithSeparator, validateTodo} from 'utils';
 
@@ -29,14 +30,14 @@ export default function MoimCreateTodoScreen({
   route,
   navigation,
 }: {
-  route: MoimManagementRouteProp;
+  route: RouteProp<MoimManagementParamList, 'MOIM_CREATE_TODO'>;
   navigation: MoimManagementNavigationProp;
 }) {
   usePermission('PHOTO');
   const {todoList, isEditMode, setIsEditMode} = useTodoStore();
   const isEdit = todoList && isEditMode;
-
-  const moimId = route.params.id as number;
+  const params = route?.params;
+  const moimId = params.id;
   const datePickerModal = useModal();
   const memberSelectModal = useModal();
   const [date, setDate] = useState(
@@ -77,22 +78,24 @@ export default function MoimCreateTodoScreen({
   });
 
   const handleCreateTodo = useThrottle(() => {
-    createTodoMutation.mutate(
-      {
-        moimId,
-        title: addTodo.values.title,
-        content: addTodo.values.content,
-        dueDate: moment(date).format('YYYY-MM-DD'),
-        imageKeyList: [uploadUri],
-        targetUserIdList: selectAll ? [] : selectedIds,
-        isAssigneeSelectAll: selectAll,
-      },
-      {
-        onSuccess: () => {
-          navigation.goBack();
+    if (moimId) {
+      createTodoMutation.mutate(
+        {
+          moimId,
+          title: addTodo.values.title,
+          content: addTodo.values.content,
+          dueDate: moment(date).format('YYYY-MM-DD'),
+          imageKeyList: [uploadUri],
+          targetUserIdList: selectAll ? [] : selectedIds,
+          isAssigneeSelectAll: selectAll,
         },
-      },
-    );
+        {
+          onSuccess: () => {
+            navigation.goBack();
+          },
+        },
+      );
+    }
   });
 
   const handleModifyTodo = useThrottle(() => {
@@ -107,23 +110,25 @@ export default function MoimCreateTodoScreen({
         : // imageUri 제거
           imageUri;
     console.log(imageKey, '이미지 키');
-    isEdit &&
-      modifyTodoMutation.mutate(
-        {
-          moimId,
-          todoId: todoList?.todoId as number,
-          title: addTodo.values.title,
-          content: addTodo.values.content,
-          dueDate: moment(date).format('YYYY-MM-DD'),
-          imageKeyList: imageKey ? [imageKey] : null,
-        },
-        {
-          onSuccess: () => {
-            setIsEditMode(false);
-            navigation.goBack();
+    if (moimId) {
+      isEdit &&
+        modifyTodoMutation.mutate(
+          {
+            moimId,
+            todoId: todoList?.todoId as number,
+            title: addTodo.values.title,
+            content: addTodo.values.content,
+            dueDate: moment(date).format('YYYY-MM-DD'),
+            imageKeyList: imageKey ? [imageKey] : null,
           },
-        },
-      );
+          {
+            onSuccess: () => {
+              setIsEditMode(false);
+              navigation.goBack();
+            },
+          },
+        );
+    }
   });
 
   return (
@@ -277,15 +282,19 @@ export default function MoimCreateTodoScreen({
         onChangeDate={handleChangeDate}
         onConfirmDate={handleConfirmDate}
       />
-      <ReaderPickerBottomSheet
-        moimId={moimId}
-        isOpen={memberSelectModal.isVisible}
-        onOpen={memberSelectModal.show}
-        onClose={memberSelectModal.hide}
-        handleToggleSelect={handleToggleSelectedIds}
-        setSelectedIds={setSelectedIds}
-        selectedIds={selectedIds}
-      />
+      {moimId ? (
+        <ReaderPickerBottomSheet
+          moimId={moimId}
+          isOpen={memberSelectModal.isVisible}
+          onOpen={memberSelectModal.show}
+          onClose={memberSelectModal.hide}
+          handleToggleSelect={handleToggleSelectedIds}
+          setSelectedIds={setSelectedIds}
+          selectedIds={selectedIds}
+        />
+      ) : (
+        <></>
+      )}
     </ScreenContainer>
   );
 }

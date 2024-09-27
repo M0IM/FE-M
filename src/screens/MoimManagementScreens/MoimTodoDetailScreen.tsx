@@ -39,12 +39,11 @@ export default function MoimTodoDetailScreen({
     });
   }, []);
 
-  const moimId = route.params?.moimId as number;
-  const todoId = route.params?.id as number;
+  const moimId = route.params?.moimId;
+  const todoId = route.params?.id;
 
   const {useGetMoimTodoDetail, deleteTodoMutation} = useTodo();
   const {data: todo} = useGetMoimTodoDetail(moimId, todoId);
-  console.log(todo);
 
   const {setTodoList, setIsEditMode} = useTodoStore();
 

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {RefreshControl, SafeAreaView, ScrollView, View} from 'react-native';
 
 import {Calendar} from 'components/calendar/Calendar/Calendar.tsx';
 import {CalendarEventList} from 'components/@common/CalendarEventList/CalendarEventList.tsx';
@@ -19,11 +19,13 @@ export default function CalendarHomeScreen({
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const {setIsEditMode} = useMyCalendarStore();
   const {
     data: posts,
     isPending,
     isError,
+    refetch,
   } = useGetPersonalCalendar({
     month: monthYear.month,
     year: monthYear.year,
@@ -32,6 +34,12 @@ export default function CalendarHomeScreen({
   if (isPending || isError) {
     return <></>;
   }
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
 
   const handlePressDate = (date: number) => {
     setSelectedDate(date);
@@ -43,17 +51,23 @@ export default function CalendarHomeScreen({
 
   return (
     <SafeAreaView className={'bg-white flex-1'}>
-      <Calendar
-        monthYear={monthYear}
-        schedules={posts}
-        onChangeMonth={handleUpdateMonth}
-        selectedDate={selectedDate}
-        onPressDate={handlePressDate}
-      />
-      <View className="px-3">
-        <ScheduleColorPalette />
-      </View>
-      <CalendarEventList posts={posts[selectedDate]} />
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
+        }>
+        <Calendar
+          monthYear={monthYear}
+          schedules={posts}
+          onChangeMonth={handleUpdateMonth}
+          selectedDate={selectedDate}
+          onPressDate={handlePressDate}
+        />
+        <View className="p-3">
+          <ScheduleColorPalette />
+        </View>
+        <CalendarEventList posts={posts[selectedDate]} />
+      </ScrollView>
+
       <FloatingButton
         type={'add'}
         onPress={() => {

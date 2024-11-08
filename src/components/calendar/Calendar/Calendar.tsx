@@ -94,6 +94,7 @@ export function Calendar<T>({
               onPressDate={onPressDate}
             />
           )}
+          scrollEnabled={false}
           keyExtractor={item => String(item.id)}
           numColumns={7}
         />

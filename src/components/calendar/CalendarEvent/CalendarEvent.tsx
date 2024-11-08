@@ -1,6 +1,6 @@
 import {Platform, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils/cn.ts';

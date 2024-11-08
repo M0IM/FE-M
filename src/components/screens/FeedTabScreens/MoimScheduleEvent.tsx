@@ -11,7 +11,6 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import MoimScheduleEventSkeleton from './skeleton/MoimScheduleEventSkeleton.tsx';
 import {TUserPlanDTO} from 'types/dtos/calendar.ts';
 import ScheduleColorPalette from './ScheduleColorPalette.tsx';
-import {MoimWriteBar} from '../../home/MoimWriteBar/MoimWriteBar.tsx';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;

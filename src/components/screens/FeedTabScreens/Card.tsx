@@ -1,5 +1,4 @@
 import {useNavigation} from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View, TouchableOpacity, Image} from 'react-native';
 
 import DefaultIcon from 'components/@common/DefaultIcon/DefaultIcon';
@@ -52,16 +51,8 @@ const Card = ({item}: {item: TMoimPreviewListDTO}) => {
         <View className="flex flex-row items-center">
           <Typography
             fontWeight="MEDIUM"
-            className="text-gray-400 text-xs mr-2">
+            className="text-gray-400 text-xs mr-2 mt-2">
             {detailDate(new Date(item.createAt))}
-          </Typography>
-          <Ionicons
-            name="heart-outline"
-            color={'#9EA4AA'}
-            style={{marginLeft: 'auto', marginRight: 5}}
-          />
-          <Typography fontWeight="MEDIUM" className="text-gray-400 text-xs">
-            {item.likeCount}
           </Typography>
         </View>
       </View>

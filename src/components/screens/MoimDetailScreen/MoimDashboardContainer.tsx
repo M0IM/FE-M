@@ -126,7 +126,7 @@ const MoimDashboardContainer = ({
           </View>
           <View className="flex-row justify-around w-[75%]">
             <Typography fontWeight="MEDIUM" className="text-gray-300">
-              성별 X
+              기타
             </Typography>
             <Typography fontWeight="MEDIUM" className="text-gray-500 ml-auto">
               {`${nonSelectPercentage}% (${nonSelectCount}명)`}

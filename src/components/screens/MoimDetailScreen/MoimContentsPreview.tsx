@@ -1,4 +1,9 @@
-import {View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 
 import {Typography} from 'components/@common/Typography/Typography';
 import SchedulePreviewCard from 'components/space/SchedulePreviewCard/SchedulePreviewCard';
@@ -27,12 +32,12 @@ const MoimContentsPreview = ({
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const {useGetInfiniteMoimPostList} = usePost();
-  const {data: announcementData} = useGetInfiniteMoimPostList(
-    moimId,
-    'ANNOUNCEMENT',
-  );
+  const {data: announcementData, isPending: moimPostListIsLoading} =
+    useGetInfiniteMoimPostList(moimId, 'ANNOUNCEMENT');
   const announcementDataList = announcementData?.pages[0].moimPreviewList;
-  const {data: calenderData} = useGetMoimCalendar({moimId, year, month});
+  const {data: calenderData, isPending: calenderIsLoading} = useGetMoimCalendar(
+    {moimId, year, month},
+  );
 
   const getAllPlans = (data: any) => {
     let allPlans: TMoimPlanListDTO[] = [];
@@ -47,13 +52,21 @@ const MoimContentsPreview = ({
   };
   const allPlanList = getAllPlans(calenderData);
 
+  if (moimPostListIsLoading || calenderIsLoading) {
+    return (
+      <View className="flex flex-col p-3 px-6">
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
   return (
     <View className="flex flex-col p-3 px-6">
       <View className="flex flex-col">
         <Typography fontWeight="BOLD" className="text-xs text-gray-400">
           예정된 일정
         </Typography>
-        {allPlanList && allPlanList.length > 0 ? (
+        {allPlanList.length > 0 ? (
           <FlatList
             horizontal
             data={allPlanList}
@@ -65,11 +78,10 @@ const MoimContentsPreview = ({
                 place={item.location}
                 onPress={() =>
                   planNavigation.navigate('MOIM_PLAN_DETAIL', {
+                    id: moimId,
                     planId: item.planId,
                   })
                 }
-                //   cost={item.cost}
-                //   participants={item.participants}
               />
             )}
             ItemSeparatorComponent={() => <View className="w-3" />}

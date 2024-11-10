@@ -13,7 +13,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2122284382E34B168E760E70 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */; };
 		22D58F8B8B8F3A61DFE67956 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACEBCA1747EBB350A1CF0170 /* PrivacyInfo.xcprivacy */; };
-		3083A1DE2C9DB6A600264D32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3083A1DD2C9DB6A600264D32 /* GoogleService-Info.plist */; };
 		30B611A8EFCA41CE8910A67F /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7C316099B4149C4940C3837 /* Pretendard-Bold.ttf */; };
 		30FE8C9D2C5955FB0021204E /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 30FE8C9C2C5955FB0021204E /* main.jsbundle */; };
 		34698566AF581AB2E8D12AD2 /* libPods-MOIM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF6AE5AC5ADCFA1A44F78957 /* libPods-MOIM.a */; };
@@ -22,6 +21,7 @@
 		636BD3132C4FCB6B00FC5E0D /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6322C4FC9A800DC9714 /* MaterialIcons.ttf */; };
 		636BD3142C4FCB6B00FC5E0D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 638CD6302C4FC9A800DC9714 /* Octicons.ttf */; };
 		63CFFA992C5393AB00B87BF7 /* SwfitBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CFFA982C5393AB00B87BF7 /* SwfitBridge.swift */; };
+		63E575C52CE0ED3C007F98C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63E575C42CE0ED3C007F98C1 /* GoogleService-Info.plist */; };
 		63E62BB92C9C8C8300DE8FB8 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63E62BB82C9C8C8300DE8FB8 /* AppCenter-Config.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9B9107ABCF3F4E68A344B54C /* SokchoBadaDotum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 032223B17DE349E082179A94 /* SokchoBadaDotum.ttf */; };
@@ -52,18 +52,17 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MOIM/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MOIM/main.m; sourceTree = "<group>"; };
 		27D136A8D43E44E992EE9831 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.ttf"; path = "../src/assets/fonts/Pretendard-Medium.ttf"; sourceTree = "<group>"; };
-		3083A1DD2C9DB6A600264D32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		30FE8C9C2C5955FB0021204E /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		43D1F99B84FDF3967BFFBE52 /* Pods-MOIM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM.debug.xcconfig"; path = "Target Support Files/Pods-MOIM/Pods-MOIM.debug.xcconfig"; sourceTree = "<group>"; };
 		4A7CB1839AA01CA1AF9167E0 /* Pods-MOIM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MOIM.release.xcconfig"; path = "Target Support Files/Pods-MOIM/Pods-MOIM.release.xcconfig"; sourceTree = "<group>"; };
 		637A6CFA2C536909004CC647 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		637ED59C2C8082CE009F7A85 /* MOIMDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MOIMDebug.entitlements; path = MOIM/MOIMDebug.entitlements; sourceTree = "<group>"; };
-		637F8D482C81E9C9005E01B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		638CD6302C4FC9A800DC9714 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		638CD6312C4FC9A800DC9714 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		638CD6322C4FC9A800DC9714 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		63CFFA972C5393AA00B87BF7 /* MOIM-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MOIM-Bridging-Header.h"; sourceTree = "<group>"; };
 		63CFFA982C5393AB00B87BF7 /* SwfitBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwfitBridge.swift; sourceTree = "<group>"; };
+		63E575C42CE0ED3C007F98C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63E62BB82C9C8C8300DE8FB8 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "MOIM/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		63F1D9362C54C6920075A05D /* MOIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MOIM.entitlements; path = MOIM/MOIM.entitlements; sourceTree = "<group>"; };
 		66B6A9776CF84E5BA791B630 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../src/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
@@ -117,7 +116,7 @@
 		13B07FAE1A68108700A75B9A /* MOIM */ = {
 			isa = PBXGroup;
 			children = (
-				3083A1DD2C9DB6A600264D32 /* GoogleService-Info.plist */,
+				63E575C42CE0ED3C007F98C1 /* GoogleService-Info.plist */,
 				63E62BB82C9C8C8300DE8FB8 /* AppCenter-Config.plist */,
 				637ED59C2C8082CE009F7A85 /* MOIMDebug.entitlements */,
 				63F1D9362C54C6920075A05D /* MOIM.entitlements */,
@@ -175,7 +174,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				637F8D482C81E9C9005E01B5 /* GoogleService-Info.plist */,
 				30FE8C9C2C5955FB0021204E /* main.jsbundle */,
 				63CFFA982C5393AB00B87BF7 /* SwfitBridge.swift */,
 				637A6CFA2C536909004CC647 /* Config.xcconfig */,
@@ -314,13 +312,13 @@
 				636BD3142C4FCB6B00FC5E0D /* Octicons.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				63E575C52CE0ED3C007F98C1 /* GoogleService-Info.plist in Resources */,
 				22D58F8B8B8F3A61DFE67956 /* PrivacyInfo.xcprivacy in Resources */,
 				30B611A8EFCA41CE8910A67F /* Pretendard-Bold.ttf in Resources */,
 				E5C247F273CB4A29A9C7106A /* Pretendard-Light.ttf in Resources */,
 				2122284382E34B168E760E70 /* Pretendard-Medium.ttf in Resources */,
 				9B9107ABCF3F4E68A344B54C /* SokchoBadaDotum.ttf in Resources */,
 				5080445DA3D548D9BAAEE51D /* MangoByeolbyeol.ttf in Resources */,
-				3083A1DE2C9DB6A600264D32 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

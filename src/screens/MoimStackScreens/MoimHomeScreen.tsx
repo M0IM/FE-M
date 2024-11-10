@@ -75,14 +75,17 @@ export default function MoimHomeScreen({navigation}: IMoimHomeScreenProps) {
     if (selectedRole === MOIM_ROLE.ALL) {
       return (
         <ScrollView
-          className="flex-1"
+          contentContainerStyle={{
+            flex: 1,
+            justifyContent: 'center',
+          }}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={handleRefresh}
             />
           }>
-          <View className="flex-col p-20 gap-5 mt-5 items-center justify-center">
+          <View className="flex flex-col gap-5 items-center justify-center p-16">
             <Logo background={'TRANSPARENT'} size={'LG'} />
             <Typography className="text-lg" fontWeight={'BOLD'}>
               내가 활동 중인 모임이 없습니다.

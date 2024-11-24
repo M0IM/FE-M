@@ -4229,13 +4229,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-masked-view/masked-view@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@react-native-masked-view/masked-view@npm:0.3.1"
+"@react-native-masked-view/masked-view@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@react-native-masked-view/masked-view@npm:0.3.2"
   peerDependencies:
     react: ">=16"
     react-native: ">=0.57"
-  checksum: 880059020709ce856c448657c2d67a905f2ebcd3f42c1c4d344d732761cb2de98efb600172df5591d943f562393dbca42802e8a903b974aa2b038b441c5718fb
+  checksum: e35ab882148df3f9b71f04355d2fb1b24d6f2aaf29043f80758f398bdf905eed67734b36b072fa8b934923ff4e3d80ccb5e37d8376cb1825272078b96a21dadc
   languageName: node
   linkType: hard
 
@@ -4674,7 +4674,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-navigation/stack@npm:^6.4.1":
+"@react-navigation/stack@npm:6.4.1":
   version: 6.4.1
   resolution: "@react-navigation/stack@npm:6.4.1"
   dependencies:
@@ -6979,7 +6979,7 @@ __metadata:
     "@react-native-firebase/app": ^20.4.0
     "@react-native-firebase/messaging": ^20.4.0
     "@react-native-google-signin/google-signin": ^12.2.1
-    "@react-native-masked-view/masked-view": ^0.3.1
+    "@react-native-masked-view/masked-view": ^0.3.2
     "@react-native-seoul/kakao-login": ^5.4.1
     "@react-native-seoul/naver-login": ^4.0.1
     "@react-native/babel-preset": 0.73.19
@@ -6989,7 +6989,7 @@ __metadata:
     "@react-navigation/bottom-tabs": ^6.6.1
     "@react-navigation/material-top-tabs": ^6.6.14
     "@react-navigation/native": ^6.1.18
-    "@react-navigation/stack": ^6.4.1
+    "@react-navigation/stack": 6.4.1
     "@storybook/addon-actions": ^7.6.13
     "@storybook/addon-controls": ^7.6.13
     "@storybook/addon-essentials": ^7.6.13
@@ -7040,7 +7040,7 @@ __metadata:
     react-native-date-picker: ^5.0.4
     react-native-encrypted-storage: ^4.0.3
     react-native-fast-image: ^8.6.3
-    react-native-gesture-handler: ^2.17.1
+    react-native-gesture-handler: ^2.21.0
     react-native-gifted-charts: ^1.4.26
     react-native-image-crop-picker: ^0.41.2
     react-native-linear-gradient: ^2.8.3
@@ -15966,9 +15966,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.17.1":
-  version: 2.19.0
-  resolution: "react-native-gesture-handler@npm:2.19.0"
+"react-native-gesture-handler@npm:^2.21.0":
+  version: 2.21.0
+  resolution: "react-native-gesture-handler@npm:2.21.0"
   dependencies:
     "@egjs/hammerjs": ^2.0.17
     hoist-non-react-statics: ^3.3.0
@@ -15977,7 +15977,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: ce9b9fc6537debf962e6b8d84f1c4cf18fe00f39bd86498e84a203ebb26bf3543c2642ed247d974537840407b7ddb602939fd8c817c00a3416e87bddc8f2088f
+  checksum: c72c90714567f6db388e6fedfaf1b3e118c82669e01524ce390c3ec4e7c42297aad56c3e0952d203ac80062b5d595fd06b9190ec8a9db82084ab148674fd5e34
   languageName: node
   linkType: hard
 

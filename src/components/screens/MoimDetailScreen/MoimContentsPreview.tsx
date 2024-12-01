@@ -12,11 +12,12 @@ import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar';
 import {TMoimPlanListDTO} from 'types/dtos/calendar';
 import {
-  MoimPlanStackNavigationProp,
   MoimPostStackNavigationProp,
+  MoimSpaceStackParamList,
 } from 'navigators/types';
 import {detailDate, formatKoreanDate} from 'utils';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 interface MoimContentsPreviewProps {
   moimId: number;
@@ -27,7 +28,8 @@ const MoimContentsPreview = ({
   moimId,
   navigation,
 }: MoimContentsPreviewProps) => {
-  const planNavigation = useNavigation<MoimPlanStackNavigationProp>();
+  const planNavigation =
+    useNavigation<StackNavigationProp<MoimSpaceStackParamList, 'SCHEDULE'>>();
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -77,9 +79,12 @@ const MoimContentsPreview = ({
                 date={item.time}
                 place={item.location}
                 onPress={() =>
-                  planNavigation.navigate('MOIM_PLAN_DETAIL', {
-                    id: moimId,
-                    planId: item.planId,
+                  planNavigation.navigate('SCHEDULE', {
+                    screen: 'MOIM_PLAN_DETAIL',
+                    params: {
+                      id: moimId,
+                      planId: item.planId,
+                    },
                   })
                 }
               />

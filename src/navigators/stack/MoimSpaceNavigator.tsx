@@ -3,6 +3,8 @@ import UserProfileStackNavigator from './UserProfileStackNavigator';
 import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
 import {HomeStackParamList, MoimStackParamList} from 'navigators/types';
 import {RouteProp} from '@react-navigation/native';
+import MoimPostStackNavigator from './MoimPostStackNavigator';
+import MoimPlanStackNavigator from './MoimPlanStackNavigator';
 
 export default function MoimSpaceNavigator({
   route,
@@ -24,6 +26,11 @@ export default function MoimSpaceNavigator({
       <MoimSpaceStack.Screen
         name="PROFILE"
         component={UserProfileStackNavigator}
+      />
+      <MoimSpaceStack.Screen name="BOARD" component={MoimPostStackNavigator} />
+      <MoimSpaceStack.Screen
+        name="SCHEDULE"
+        component={MoimPlanStackNavigator}
       />
     </MoimSpaceStack.Navigator>
   );

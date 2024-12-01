@@ -22,7 +22,7 @@ export default function MoimSpaceNavigator({
         component={MoimTopTabNavigator}
       />
       <MoimSpaceStack.Screen
-        name="USER_PROFILE"
+        name="PROFILE"
         component={UserProfileStackNavigator}
       />
     </MoimSpaceStack.Navigator>

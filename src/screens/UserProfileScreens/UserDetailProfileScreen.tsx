@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react';
 import {ActivityIndicator, Animated, SafeAreaView, View} from 'react-native';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography.tsx';
 import {ProfileCard} from 'components/@common/ProfileCard/ProfileCard.tsx';
@@ -15,9 +15,11 @@ import {
   UserProfileStackParamList,
 } from 'navigators/types';
 
-export default function UserDetailProfileScreen() {
-  const route =
-    useRoute<RouteProp<UserProfileStackParamList, 'USER_PROFILE'>>();
+export default function UserDetailProfileScreen({
+  route,
+}: {
+  route: RouteProp<UserProfileStackParamList, 'USER_PROFILE'>;
+}) {
   const navigation = useNavigation<HomeStackNavigationProp>();
   const params = route?.params;
   const userId = params.id;

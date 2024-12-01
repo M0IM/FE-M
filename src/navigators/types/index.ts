@@ -229,8 +229,8 @@ export type TodoStackParamList = {
 };
 
 export type MoimSpaceStackParamList = {
-  USER_PROFILE: {id: number};
-  SPACE: {id: number; userName?: string};
+  PROFILE: {id: number; userName: string};
+  SPACE: {id: number; userName: string};
 };
 
 /** screen name */

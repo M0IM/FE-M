@@ -228,6 +228,11 @@ export type TodoStackParamList = {
   DELETE_MEMBER_TODO: {id: number; todoId: number};
 };
 
+export type MoimSpaceStackParamList = {
+  USER_PROFILE: {id: number};
+  SPACE: {id: number; userName?: string};
+};
+
 /** screen name */
 export type HomeStackScreenName = keyof HomeStackParamList;
 export type FeedTabScreenName = keyof FeedTabParamList;
@@ -246,6 +251,7 @@ export type MoimManagementScreenName = keyof MoimManagementParamList;
 export type NewFeedHomeStackScreenName = keyof NewFeedHomeStackParamList;
 export type UserProfileStackScreenName = keyof UserProfileStackParamList;
 export type TodoStackScreenName = keyof TodoStackParamList;
+export type MoimSpaceStackScreenName = keyof MoimSpaceStackParamList;
 
 /** route props */
 export type HomeStackRouteProp = RouteProp<
@@ -310,6 +316,10 @@ export type TodoStackRouteProp = RouteProp<
   TodoStackParamList,
   TodoStackScreenName
 >;
+export type MoimSpaceStackRouteProp = RouteProp<
+  MoimSpaceStackParamList,
+  MoimSpaceStackScreenName
+>;
 
 /** navigation props */
 export type HomeStackNavigationProp = NavigationProp<HomeStackParamList>;
@@ -340,3 +350,5 @@ export type NewFeedHomeNavigationProp =
 export type UserProfileStackNavigationProp =
   StackNavigationProp<UserProfileStackParamList>;
 export type TodoStackNavigationProp = StackNavigationProp<TodoStackParamList>;
+export type MoimSpaceStackNavigationProp =
+  StackNavigationProp<MoimSpaceStackParamList>;

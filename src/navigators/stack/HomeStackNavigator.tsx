@@ -10,9 +10,9 @@ import CalendarTodoDetailScreen from 'screens/MoimStackScreens/CalendarTodoDetai
 
 import {HomeStack} from 'navigators/constants';
 import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
-import MoimTopTabNavigator from 'navigators/tab/MoimTopTabNavigator';
 import MoimPostStackNavigator from './MoimPostStackNavigator';
 import UserProfileStackNavigator from './UserProfileStackNavigator.tsx';
+import MoimSpaceNavigator from './MoimSpaceNavigator.tsx';
 
 export default function HomeStackNavigator() {
   const insets = useSafeAreaInsets();
@@ -66,7 +66,6 @@ export default function HomeStackNavigator() {
       />
       <HomeStack.Screen
         name={'MOIM_STACK'}
-        component={MoimTopTabNavigator}
         options={{
           headerTitle: '',
           headerLeft: () => <></>,
@@ -75,8 +74,11 @@ export default function HomeStackNavigator() {
             height: platform === 'ios' ? statusBarHeight : statusBarHeight + 10,
             elevation: 0,
           },
-        }}
-      />
+        }}>
+        {({route, navigation}) => (
+          <MoimSpaceNavigator route={route} navigation={navigation} />
+        )}
+      </HomeStack.Screen>
       <HomeStack.Screen
         name={'MOIM_BOARD_STACK'}
         component={MoimPostStackNavigator}

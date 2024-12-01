@@ -231,7 +231,10 @@ export type TodoStackParamList = {
 export type MoimSpaceStackParamList = {
   PROFILE: {id: number; userName: string};
   SPACE: {id: number};
-  BOARD: {id: number};
+  BOARD: {
+    screen: keyof MoimPostStackParamList;
+    params: {id: number; postId: number};
+  };
   SCHEDULE: {
     screen: keyof MoimPlanStackParamList;
     params: {id: number; planId: number};

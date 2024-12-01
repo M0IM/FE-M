@@ -12,10 +12,7 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton';
 import {Typography} from 'components/@common/Typography/Typography';
 import MoimDetailSkeleton from 'components/screens/MoimHomeScreens/Skeleton/MoimDetailSkeleton';
 
-import {
-  MoimPostStackNavigationProp,
-  MoimTopTabRouteProp,
-} from '../../navigators/types';
+import {MoimTopTabRouteProp} from '../../navigators/types';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin';
 import {MOIM_JOIN_STATUS} from 'types/enums';
@@ -25,13 +22,9 @@ import useThrottle from 'hooks/useThrottle';
 
 interface IMoimDetailScreenProps {
   route: MoimTopTabRouteProp;
-  navigation: MoimPostStackNavigationProp;
 }
 
-export default function MoimDetailScreen({
-  route,
-  navigation,
-}: IMoimDetailScreenProps) {
+export default function MoimDetailScreen({route}: IMoimDetailScreenProps) {
   const moimId = route.params?.id;
   const {data, isError, isPending, refetch} = useGetMoimSpaceInfo(moimId);
   const requestMoimJoimMutation = useRequestMoimJoin();
@@ -137,7 +130,7 @@ export default function MoimDetailScreen({
           diaryCount={data?.diaryCount}
           moimReviewCount={data?.moimReviewCount}
         />
-        <MoimContentsPreview moimId={moimId} navigation={navigation} />
+        <MoimContentsPreview moimId={moimId} />
       </ScrollView>
       {!(data?.joinStatus === MOIM_JOIN_STATUS.COMPLETE) && (
         <View className="p-3 pt-0">

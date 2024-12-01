@@ -11,25 +11,20 @@ import SchedulePreviewCard from 'components/space/SchedulePreviewCard/SchedulePr
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar';
 import {TMoimPlanListDTO} from 'types/dtos/calendar';
-import {
-  MoimPostStackNavigationProp,
-  MoimSpaceStackParamList,
-} from 'navigators/types';
+import {MoimSpaceStackParamList} from 'navigators/types';
 import {detailDate, formatKoreanDate} from 'utils';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 interface MoimContentsPreviewProps {
   moimId: number;
-  navigation: MoimPostStackNavigationProp;
 }
 
-const MoimContentsPreview = ({
-  moimId,
-  navigation,
-}: MoimContentsPreviewProps) => {
+const MoimContentsPreview = ({moimId}: MoimContentsPreviewProps) => {
   const planNavigation =
     useNavigation<StackNavigationProp<MoimSpaceStackParamList, 'SCHEDULE'>>();
+  const boardNavigation =
+    useNavigation<StackNavigationProp<MoimSpaceStackParamList, 'BOARD'>>();
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -111,9 +106,12 @@ const MoimContentsPreview = ({
                 key={index}
                 className="p-5 border-gray-200 border-[0.5px] rounded-xl mb-4"
                 onPress={() =>
-                  navigation.navigate('MOIM_POST_DETAIL', {
-                    id: moimId,
-                    postId: item?.moimPostId,
+                  boardNavigation.navigate('BOARD', {
+                    screen: 'MOIM_POST_DETAIL',
+                    params: {
+                      id: moimId,
+                      postId: item.moimPostId,
+                    },
                   })
                 }>
                 <View className="flex flex-row">

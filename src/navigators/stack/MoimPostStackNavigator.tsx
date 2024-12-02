@@ -4,13 +4,10 @@ import {useRoute} from '@react-navigation/native';
 import MoimBoardScreen from 'screens/MoimBoardStackScreens/MoimBoardScreen';
 import MoimPostDetailScreen from 'screens/MoimBoardStackScreens/MoimPostDetailScreen';
 import MoimPostWriteScreen from 'screens/MoimBoardStackScreens/MoimPostWriteScreen';
-import MoimMemberDetailProfileScreen from 'screens/MoimBoardStackScreens/MoimMemberDetailProfileScreen.tsx';
-import MoimUserReviewScreen from 'screens/MoimBoardStackScreens/MoimUserReviewScreen.tsx';
 
 import {MoimPostStackRouteProp} from 'navigators/types';
 import {MoimPostStack} from 'navigators/constants';
 import MoimPostReviewScreen from '../../screens/MoimBoardStackScreens/MoimPostReviewScreen.tsx';
-import MoimParticipantMoimScreen from '../../screens/MoimBoardStackScreens/MoimParticipantMoimScreen.tsx';
 
 export default function MoimPostStackNavigator() {
   const route = useRoute<MoimPostStackRouteProp>();
@@ -66,41 +63,8 @@ export default function MoimPostStackNavigator() {
         }}
       />
       <MoimPostStack.Screen
-        name={'MOIM_MEMBER_PROFILE'}
-        component={MoimMemberDetailProfileScreen}
-        options={({route}) => ({
-          headerTitle: route.params.userName,
-          headerShown: true,
-          headerTintColor: '#000',
-          headerTitleAlign: 'center',
-          headerLeftLabelVisible: false,
-        })}
-      />
-      <MoimPostStack.Screen
         name={'MOIM_POST_REVIEW'}
         component={MoimPostReviewScreen}
-        options={({route}) => ({
-          headerTitle: route.params.userName,
-          headerShown: true,
-          headerTintColor: '#000',
-          headerTitleAlign: 'center',
-          headerLeftLabelVisible: false,
-        })}
-      />
-      <MoimPostStack.Screen
-        name={'MOIM_JOIN_LIST'}
-        component={MoimParticipantMoimScreen}
-        options={({route}) => ({
-          headerTitle: route.params.userName,
-          headerShown: true,
-          headerTintColor: '#000',
-          headerTitleAlign: 'center',
-          headerLeftLabelVisible: false,
-        })}
-      />
-      <MoimPostStack.Screen
-        name={'MOIM_REVIEW_LIST'}
-        component={MoimUserReviewScreen}
         options={({route}) => ({
           headerTitle: route.params.userName,
           headerShown: true,

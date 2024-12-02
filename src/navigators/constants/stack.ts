@@ -14,6 +14,7 @@ import {
   NewFeedHomeStackParamList,
   UserProfileStackParamList,
   TodoStackParamList,
+  MoimSpaceStackParamList,
 } from '../types';
 
 // 1. AuthStack
@@ -60,3 +61,6 @@ export const UserProfileStack =
 
 // 14. TodoStack
 export const TodoStack = createStackNavigator<TodoStackParamList>();
+
+// 15. MoimSpaceStack
+export const MoimSpaceStack = createStackNavigator<MoimSpaceStackParamList>();

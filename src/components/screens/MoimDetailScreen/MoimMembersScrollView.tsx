@@ -7,11 +7,8 @@ import Label from 'components/@common/Label/Label';
 import {Typography} from 'components/@common/Typography/Typography';
 
 import useGetInfinityMoimMembers from 'hooks/queries/MoimSpace/useGetInfinityMoimMembers';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import {
-  MoimPostStackNavigationProp,
-  MyStackNavigationProp,
-} from 'navigators/types';
+import {useNavigation} from '@react-navigation/native';
+import {MoimSpaceStackNavigationProp} from 'navigators/types';
 
 interface MoimMembersScrollViewProps {
   isRefreshing: boolean;
@@ -28,13 +25,7 @@ const MoimMembersScrollView = ({
   moimId,
   onClose,
 }: MoimMembersScrollViewProps) => {
-  const navigation =
-    useNavigation<
-      CompositeNavigationProp<
-        MoimPostStackNavigationProp,
-        MyStackNavigationProp
-      >
-    >();
+  const navigation = useNavigation<MoimSpaceStackNavigationProp>();
   const {
     data: members,
     fetchNextPage,
@@ -81,7 +72,7 @@ const MoimMembersScrollView = ({
             key={item.userId}
             className="flex flex-row w-full items-center justify-between"
             onPress={() => {
-              navigation.navigate('MOIM_MEMBER_PROFILE', {
+              navigation.navigate('PROFILE', {
                 id: item.userId as number,
                 userName: item.nickname ? item.nickname : '프로필',
               });

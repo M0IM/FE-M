@@ -18,7 +18,7 @@ export default function MoimTopTabNavigator({
 }: {
   route: RouteProp<MoimSpaceStackParamList, 'SPACE'>;
 }) {
-  const id = route?.params?.id;
+  const id = route?.params?.params?.id;
 
   const {useGetMyMoimRole} = useMoim();
   const {data: role} = useGetMyMoimRole(id);

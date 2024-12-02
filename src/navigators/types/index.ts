@@ -230,7 +230,10 @@ export type TodoStackParamList = {
 
 export type MoimSpaceStackParamList = {
   PROFILE: {id: number; userName: string};
-  SPACE: {id: number};
+  SPACE: {
+    screen: keyof MoimTopTabParamList;
+    params: {id: number};
+  };
   BOARD: {
     screen: keyof MoimPostStackParamList;
     params: {id: number; postId: number};

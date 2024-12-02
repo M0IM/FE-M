@@ -20,7 +20,7 @@ export default function MoimSpaceNavigator({
       screenOptions={{headerShown: false}}>
       <MoimSpaceStack.Screen
         name="SPACE"
-        initialParams={{id}}
+        initialParams={{screen: 'MOIM_SPACE', params: {id}}}
         component={MoimTopTabNavigator}
       />
       <MoimSpaceStack.Screen

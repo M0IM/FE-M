@@ -5,9 +5,13 @@ import Avatar from 'components/@common/Avatar/Avatar';
 import Label from 'components/@common/Label/Label';
 import {Typography} from 'components/@common/Typography/Typography';
 import {POST_TYPES} from 'constants/screens/MoimBoardStackScreens/PostList';
-import {MoimPostStackNavigationProp} from 'navigators/types';
+import {
+  MoimPostStackNavigationProp,
+  MoimSpaceStackParamList,
+} from 'navigators/types';
 import {TMoimPreviewListDto} from 'types/dtos/post';
 import {detailDate} from 'utils';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 interface BoardPostPreviewProps {
   moimId: number;
@@ -20,6 +24,8 @@ const BoardPostPreview = ({
   navigation,
   postPreview,
 }: BoardPostPreviewProps) => {
+  const profileNavigation =
+    useNavigation<NavigationProp<MoimSpaceStackParamList, 'PROFILE'>>();
   const postTypeLabel = POST_TYPES.find(
     type => type.key === postPreview.postType,
   )?.label;
@@ -39,7 +45,7 @@ const BoardPostPreview = ({
           size="XS"
           onPress={() => {
             if (postPreview.writerId !== null && postPreview.writer !== null) {
-              navigation.navigate('MOIM_MEMBER_PROFILE', {
+              profileNavigation.navigate('PROFILE', {
                 id: postPreview.writerId,
                 userName: postPreview.writer,
               });

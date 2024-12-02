@@ -1,7 +1,11 @@
 import {Alert, SafeAreaView, View} from 'react-native';
 import React, {useEffect} from 'react';
 import Toast from 'react-native-toast-message';
-import {CompositeNavigationProp} from '@react-navigation/native';
+import {
+  CompositeNavigationProp,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography';
 import usePost from 'hooks/queries/MoimBoard/usePost';
@@ -9,6 +13,7 @@ import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 import {queryClient} from 'containers/TanstackQueryContainer';
 import {
   MoimPostStackNavigationProp,
+  MoimSpaceStackParamList,
   MyStackNavigationProp,
 } from 'navigators/types';
 import PostUserProfile from './PostUserProfile';
@@ -29,6 +34,8 @@ interface PostInfoProps {
 }
 
 const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
+  const profileNavigation =
+    useNavigation<NavigationProp<MoimSpaceStackParamList, 'PROFILE'>>();
   const {
     useGetMoimPostDetail,
     likeMoimPostMutation,
@@ -344,7 +351,7 @@ const PostInfo = ({id, postId, navigation, isRefreshing}: PostInfoProps) => {
         isWriter={userInfo?.result.nickname === data?.writer}
         onPress={() => {
           if (data?.writerId !== null && data?.writer !== null) {
-            navigation.navigate('MOIM_MEMBER_PROFILE', {
+            profileNavigation.navigate('PROFILE', {
               id: data?.writerId as number,
               userName: data?.writer ? data?.writer : '프로필',
             });

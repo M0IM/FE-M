@@ -50,6 +50,7 @@ target 'MOIM' do
 
   use_react_native!(
     :path => config[:reactNativePath],
+     :hermes_enabled => false,
     # Enables Flipper.
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and

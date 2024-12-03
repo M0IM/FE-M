@@ -89,7 +89,7 @@ android {
         applicationId "com.matthew.moim"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
+        versionCode 7
         versionName "1.1.2"
         vectorDrawables.useSupportLibrary = true
         flavorDimensions "version"

@@ -20,9 +20,9 @@ import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import {
   MoimPostStackNavigationProp,
   MoimPostStackParamList,
-  // MoimPostStackRouteProp,
 } from 'navigators/types';
 import useMoimPostStore from 'stores/useMoimPostStore';
+import useMoimInfoStore from 'stores/useMoimInfoStore';
 
 type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
@@ -32,7 +32,8 @@ interface MoimBoardScreenProps {
 }
 
 const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
-  const moimId = route?.params.id;
+  const {moimInfo: moimData} = useMoimInfoStore();
+  const moimId = moimData?.moimId || route?.params.id;
   const [isSelected, setIsSelected] = useState<BoardTitleType>('ALL');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {useGetInfiniteMoimPostList} = usePost();

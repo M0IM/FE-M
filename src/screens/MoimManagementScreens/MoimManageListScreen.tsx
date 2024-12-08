@@ -12,6 +12,7 @@ import {MOIM_ROLE} from 'types/enums';
 
 import useTodoStore from 'stores/useTodoStore.ts';
 import useMoim from 'hooks/useMoim.ts';
+import useMoimInfoStore from 'stores/useMoimInfoStore';
 
 interface MoimManageListScreenProps {
   route: RouteProp<MoimManagementParamList, 'MOIM_MANAGE_LIST'>;
@@ -23,7 +24,9 @@ const MoimManageListScreen = ({
   navigation,
 }: MoimManageListScreenProps) => {
   const params = route?.params;
-  const id = params.id;
+  const {moimInfo} = useMoimInfoStore();
+  const id = moimInfo?.moimId || params.id;
+
   // TODO: 관리자 권한 불러오는 API
   const {useGetMyMoimRole} = useMoim();
   const {data: role} = useGetMyMoimRole(id);

@@ -18,6 +18,7 @@ import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin.ts';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+import useMoimInfoStore from 'stores/useMoimInfoStore';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
@@ -30,7 +31,8 @@ const MoimPlanHomeScreen = ({route}: IMoimPlanHomeScreenProps) => {
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
   const requestMoimJoimMutation = useRequestMoimJoin();
-  const moimId = route.params.id as number;
+  const {moimInfo: moimData} = useMoimInfoStore();
+  const moimId = moimData?.moimId || route.params.id;
 
   const {data: moimInfo} = useGetMoimSpaceInfo(moimId);
   const {setIsEditMode} = useMoimCalendarStore();

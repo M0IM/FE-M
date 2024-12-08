@@ -236,7 +236,7 @@ export type MoimSpaceStackParamList = {
   };
   BOARD: {
     screen: keyof MoimPostStackParamList;
-    params: {id: number; postId: number};
+    params: {id: number; postId?: number; postType?: POST_LIST_TYPE};
   };
   SCHEDULE: {
     screen: keyof MoimPlanStackParamList;

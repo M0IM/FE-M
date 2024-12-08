@@ -28,20 +28,24 @@ import {
   POST_WRITE_MEMBER_LIST,
 } from 'constants/screens/MoimBoardStackScreens/PostList';
 import {
-  MoimPostStackNavigationProp,
   MoimPostStackParamList,
+  MoimSpaceStackParamList,
 } from 'navigators/types';
 import {queryClient} from '../../containers/TanstackQueryContainer.tsx';
 import useMoimPostStore from 'stores/useMoimPostStore.ts';
 import useThrottle from 'hooks/useThrottle.ts';
-import {RouteProp} from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from '@react-navigation/native';
 
 interface MoimPostWriteScreenProps {
   route: RouteProp<MoimPostStackParamList, 'MOIM_POST_WRITE'>;
-  navigation: MoimPostStackNavigationProp;
 }
 
-const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
+const MoimPostWriteScreen = ({route}: MoimPostWriteScreenProps) => {
+  const navigation = useNavigation<NavigationProp<MoimSpaceStackParamList>>();
   usePermission('PHOTO');
   const {postInfo} = useMoimPostStore();
   const isEdit = !!postInfo;
@@ -105,9 +109,12 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
               queryClient.invalidateQueries({
                 queryKey: ['moimPost', moimId, postInfo?.moimPostId],
               });
-              navigation.navigate('MOIM_POST_DETAIL', {
-                id: moimId,
-                postId: postInfo?.moimPostId,
+              navigation.navigate('BOARD', {
+                screen: 'MOIM_POST_DETAIL',
+                params: {
+                  id: moimId,
+                  postId: postInfo?.moimPostId,
+                },
               });
             },
           },
@@ -131,7 +138,7 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
                 queryClient.invalidateQueries({
                   queryKey: ['moim', 'post', 'ANOUNCEMENT', moimId],
                 });
-                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
+                navigation.goBack();
               },
             },
           );
@@ -147,9 +154,12 @@ const MoimPostWriteScreen = ({route, navigation}: MoimPostWriteScreenProps) => {
             {
               onSuccess: () => {
                 queryClient.invalidateQueries({
+                  queryKey: ['moim', 'post', 'ALL'],
+                });
+                queryClient.invalidateQueries({
                   queryKey: ['moim', 'post', category?.key, moimId],
                 });
-                navigation.navigate('MOIM_BOARD_HOME', {id: moimId});
+                navigation.goBack();
               },
             },
           );

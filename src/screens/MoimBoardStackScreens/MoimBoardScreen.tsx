@@ -8,7 +8,12 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import {RouteProp, useFocusEffect} from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 
 import FloatingButton from 'components/@common/FloatingButton/FloatingButton';
 import {Typography} from 'components/@common/Typography/Typography';
@@ -18,8 +23,8 @@ import {BOARD_TITLES} from 'constants/screens/MoimBoardStackScreens/PostList';
 import usePost from 'hooks/queries/MoimBoard/usePost';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
 import {
-  MoimPostStackNavigationProp,
   MoimPostStackParamList,
+  MoimSpaceStackParamList,
 } from 'navigators/types';
 import useMoimPostStore from 'stores/useMoimPostStore';
 import useMoimInfoStore from 'stores/useMoimInfoStore';
@@ -28,10 +33,10 @@ type BoardTitleType = (typeof BOARD_TITLES)[number]['key'];
 
 interface MoimBoardScreenProps {
   route: RouteProp<MoimPostStackParamList, 'MOIM_BOARD_HOME'>;
-  navigation: MoimPostStackNavigationProp;
 }
 
-const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
+const MoimBoardScreen = ({route}: MoimBoardScreenProps) => {
+  const navigation = useNavigation<NavigationProp<MoimSpaceStackParamList>>();
   const {moimInfo: moimData} = useMoimInfoStore();
   const moimId = moimData?.moimId || route?.params.id;
   const [isSelected, setIsSelected] = useState<BoardTitleType>('ALL');
@@ -100,9 +105,12 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
         <FloatingButton
           type="add"
           onPress={() =>
-            navigation.navigate('MOIM_POST_WRITE', {
-              id: moimId,
-              postType: isSelected,
+            navigation.navigate('BOARD', {
+              screen: 'MOIM_POST_WRITE',
+              params: {
+                id: moimId,
+                postType: isSelected,
+              },
             })
           }
         />
@@ -171,23 +179,32 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
               className="bg-gray-200 rounded-2xl p-3 px-5 mt-4"
               onPress={() => {
                 if (isSelected === 'ALL') {
-                  navigation.navigate('MOIM_POST_WRITE', {
-                    id: moimId,
-                    postType: isSelected,
+                  navigation.navigate('BOARD', {
+                    screen: 'MOIM_POST_WRITE',
+                    params: {
+                      id: moimId,
+                      postType: isSelected,
+                    },
                   });
                 } else {
                   if (
                     moimInfo?.myMoimRole === 'MEMBER' &&
                     isSelected === 'ANNOUNCEMENT'
                   ) {
-                    navigation.navigate('MOIM_POST_WRITE', {
-                      id: moimId,
-                      postType: isSelected,
+                    navigation.navigate('BOARD', {
+                      screen: 'MOIM_POST_WRITE',
+                      params: {
+                        id: moimId,
+                        postType: isSelected,
+                      },
                     });
                   } else {
-                    navigation.navigate('MOIM_POST_WRITE', {
-                      id: route.params.id,
-                      postType: isSelected,
+                    navigation.navigate('BOARD', {
+                      screen: 'MOIM_POST_WRITE',
+                      params: {
+                        id: moimId,
+                        postType: isSelected,
+                      },
                     });
                   }
                 }
@@ -203,9 +220,12 @@ const MoimBoardScreen = ({route, navigation}: MoimBoardScreenProps) => {
       <FloatingButton
         type="add"
         onPress={() =>
-          navigation.navigate('MOIM_POST_WRITE', {
-            id: route.params.id,
-            postType: isSelected,
+          navigation.navigate('BOARD', {
+            screen: 'MOIM_POST_WRITE',
+            params: {
+              id: moimId,
+              postType: isSelected,
+            },
           })
         }
       />

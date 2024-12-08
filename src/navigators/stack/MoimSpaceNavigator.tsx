@@ -15,28 +15,39 @@ export default function MoimSpaceNavigator({
 }) {
   const id = route?.params?.params?.id;
   return (
-    <MoimSpaceStack.Navigator
-      initialRouteName="SPACE"
-      screenOptions={{
-        headerTitle: '',
-        headerTintColor: '#000',
-        headerTitleAlign: 'center',
-        headerLeftLabelVisible: false,
-        headerShadowVisible: false,
-      }}>
+    <MoimSpaceStack.Navigator initialRouteName="SPACE">
       <MoimSpaceStack.Screen
         name="SPACE"
         initialParams={{screen: 'MOIM_SPACE', params: {id}}}
         component={MoimTopTabNavigator}
+        options={{
+          headerTitle: '',
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+          headerShadowVisible: false,
+        }}
       />
       <MoimSpaceStack.Screen
         name="PROFILE"
         component={UserProfileStackNavigator}
+        options={{
+          headerShown: false,
+        }}
       />
-      <MoimSpaceStack.Screen name="BOARD" component={MoimPostStackNavigator} />
+      <MoimSpaceStack.Screen
+        name="BOARD"
+        component={MoimPostStackNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
       <MoimSpaceStack.Screen
         name="SCHEDULE"
         component={MoimPlanStackNavigator}
+        options={{
+          headerShown: false,
+        }}
       />
     </MoimSpaceStack.Navigator>
   );

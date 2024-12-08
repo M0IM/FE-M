@@ -240,7 +240,7 @@ export type MoimSpaceStackParamList = {
   };
   SCHEDULE: {
     screen: keyof MoimPlanStackParamList;
-    params: {id: number; planId: number};
+    params: {id: number; planId?: number};
   };
 };
 

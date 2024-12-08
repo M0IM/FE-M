@@ -10,20 +10,22 @@ import {Typography} from 'components/@common/Typography/Typography.tsx';
 
 import {getMonthYearDetails, getNewMonthYear} from 'utils';
 import {
-  MoimPlanStackNavigationProp,
   MoimPlanStackRouteProp,
+  MoimSpaceStackParamList,
 } from 'navigators/types';
 import {useGetMoimCalendar} from 'hooks/queries/MoimPlanHomeScreen/useGetMoimCalendar.ts';
 import useMoimCalendarStore from 'stores/useMoimCalendarStore.ts';
 import useRequestMoimJoin from 'hooks/queries/MoimSpace/useRequestMoimJoin.ts';
 import useGetMoimSpaceInfo from 'hooks/queries/MoimSpace/useGetMoimSpaceInfo';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 interface IMoimPlanHomeScreenProps {
   route: MoimPlanStackRouteProp;
-  navigation: MoimPlanStackNavigationProp;
 }
 
-const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
+const MoimPlanHomeScreen = ({route}: IMoimPlanHomeScreenProps) => {
+  const navigation =
+    useNavigation<NavigationProp<MoimSpaceStackParamList, 'SCHEDULE'>>();
   const currentMonthYear = getMonthYearDetails(new Date());
   const [monthYear, setMonthYear] = useState(currentMonthYear);
   const [selectedDate, setSelectedDate] = useState(0);
@@ -125,8 +127,9 @@ const MoimPlanHomeScreen = ({route, navigation}: IMoimPlanHomeScreenProps) => {
         <FloatingButton
           type={'add'}
           onPress={() => {
-            navigation.navigate('MOIM_PLAN_WRITE', {
-              id: moimId,
+            navigation.navigate('SCHEDULE', {
+              screen: 'MOIM_PLAN_WRITE',
+              params: {id: moimId},
             });
             setIsEditMode(false);
           }}

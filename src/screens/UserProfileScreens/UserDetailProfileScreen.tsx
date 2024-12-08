@@ -14,6 +14,8 @@ import {
   HomeStackNavigationProp,
   UserProfileStackParamList,
 } from 'navigators/types';
+import {CustomButton} from 'components/@common/CustomButton/CustomButton';
+import {useGetMyProfile} from 'hooks/queries/MyScreen/useGetProfile';
 
 export default function UserDetailProfileScreen({
   route,
@@ -25,6 +27,7 @@ export default function UserDetailProfileScreen({
   const userId = params.id;
 
   const {data: userInfo, isPending, isError} = useGetDetailProfile(userId);
+  const {data: myProfile} = useGetMyProfile();
 
   const {year, month, day} = getMonthYearDetails(
     new Date(userInfo?.createdAt as string),
@@ -128,6 +131,22 @@ export default function UserDetailProfileScreen({
           {userInfo?.introduction || '아직 소개를 작성하지 않았습니다.'}
         </Typography>
       </View>
+      {myProfile?.result.userId !== userId ? (
+        <View className="px-3 pt-0 mt-auto">
+          <CustomButton
+            label={'후기 작성'}
+            textStyle="font-bold text-white text-base"
+            onPress={() =>
+              navigation.navigate('USER_DETAIL_PROFILE', {
+                screen: 'POST_REVIEW',
+                params: {id: userId, userName: userInfo.nickname},
+              })
+            }
+          />
+        </View>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 }

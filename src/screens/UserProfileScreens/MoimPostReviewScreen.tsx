@@ -7,20 +7,21 @@ import {CustomButton} from 'components/@common/CustomButton/CustomButton.tsx';
 import {InputField} from 'components/@common/InputField/InputField.tsx';
 
 import {queryClient} from 'containers/TanstackQueryContainer.tsx';
-import {
-  MoimPostStackNavigationProp,
-  MoimPostStackRouteProp,
-} from 'navigators/types';
 import usePostReviewMutation from '../../hooks/queries/MoimPostReviewScreen/usePostReviewMutation.ts';
 import {ActivityIndicator} from 'react-native';
 import useThrottle from 'hooks/useThrottle.ts';
+import {
+  UserProfileStackNavigationProp,
+  UserProfileStackRouteProp,
+} from 'navigators/types/index.ts';
+import Toast from 'react-native-toast-message';
 
 export default function MoimPostReviewScreen({
   route,
   navigation,
 }: {
-  route: MoimPostStackRouteProp;
-  navigation: MoimPostStackNavigationProp;
+  route: UserProfileStackRouteProp;
+  navigation: UserProfileStackNavigationProp;
 }) {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
@@ -37,7 +38,14 @@ export default function MoimPostReviewScreen({
           navigation.goBack();
         },
         onError: error => {
-          console.log(error);
+          Toast.show({
+            type: 'error',
+            text1:
+              error.response?.data.message ||
+              '후기 작성 중 에러가 발생했습니다.',
+            visibilityTime: 2000,
+            position: 'bottom',
+          });
         },
       },
     );

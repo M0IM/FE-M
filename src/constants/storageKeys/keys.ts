@@ -2,6 +2,7 @@ const queryKeys = {
   AUTH: 'auth',
   GET_ACCESS_TOKEN: 'getAccessToken',
   GET_PROFILE: 'getProfile',
+  MY_PROFILE: 'profile',
   TODOS: 'todos',
   TODOS_MEMBER: 'todosMember',
   TODOS_INDIVIDUAL: 'todosIndividual',

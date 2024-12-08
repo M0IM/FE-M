@@ -148,10 +148,6 @@ export type MoimPostStackParamList = {
     id: number;
     userName: string;
   };
-  MOIM_POST_REVIEW: {
-    id: number;
-    userName: string;
-  };
   MOIM_JOIN_LIST: {
     id: number;
     userName: string;
@@ -215,6 +211,10 @@ export type UserProfileStackParamList = {
     userName: string;
   };
   USER_PARTICIPANT_MOIM: {
+    id: number;
+    userName: string;
+  };
+  POST_REVIEW: {
     id: number;
     userName: string;
   };

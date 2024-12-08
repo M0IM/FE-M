@@ -17,7 +17,13 @@ export default function MoimSpaceNavigator({
   return (
     <MoimSpaceStack.Navigator
       initialRouteName="SPACE"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{
+        headerTitle: '',
+        headerTintColor: '#000',
+        headerTitleAlign: 'center',
+        headerLeftLabelVisible: false,
+        headerShadowVisible: false,
+      }}>
       <MoimSpaceStack.Screen
         name="SPACE"
         initialParams={{screen: 'MOIM_SPACE', params: {id}}}

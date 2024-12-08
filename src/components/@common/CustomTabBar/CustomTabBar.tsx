@@ -7,7 +7,6 @@ import {
   ParamListBase,
   TabNavigationState,
 } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface CustomTabBarProps {
   state: TabNavigationState<ParamListBase>;
@@ -80,15 +79,6 @@ const CustomTabBar = ({
 
   return (
     <View className="flex flex-col bg-white">
-      {currentRouteName !== 'FEED_HOME_FEED' &&
-        currentRouteName !== 'FEED_HOME_CALENDAR' &&
-        !hideTabs && (
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            className="ml-1 mb-2">
-            <Ionicons name="chevron-back-sharp" size={25} />
-          </TouchableOpacity>
-        )}
       <View className="flex-row items-center justify-start p-2 bg-white">
         {!hideTabs &&
           state.routes.map((route: any, index: number) => {

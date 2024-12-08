@@ -242,6 +242,10 @@ export type MoimSpaceStackParamList = {
     screen: keyof MoimPlanStackParamList;
     params: {id: number; planId?: number};
   };
+  MANAGEMENT: {
+    screen: keyof MoimManagementParamList;
+    params: {id: number};
+  };
 };
 
 /** screen name */

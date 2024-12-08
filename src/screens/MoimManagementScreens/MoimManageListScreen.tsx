@@ -1,12 +1,16 @@
 import {TouchableOpacity} from 'react-native';
-import {RouteProp} from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+} from '@react-navigation/native';
 
 import {Typography} from 'components/@common/Typography/Typography';
 import {ScreenContainer} from 'components/ScreenContainer';
 
 import {
-  MoimManagementNavigationProp,
   MoimManagementParamList,
+  MoimSpaceStackParamList,
 } from 'navigators/types';
 import {MOIM_ROLE} from 'types/enums';
 
@@ -16,13 +20,10 @@ import useMoimInfoStore from 'stores/useMoimInfoStore';
 
 interface MoimManageListScreenProps {
   route: RouteProp<MoimManagementParamList, 'MOIM_MANAGE_LIST'>;
-  navigation: MoimManagementNavigationProp;
 }
 
-const MoimManageListScreen = ({
-  route,
-  navigation,
-}: MoimManageListScreenProps) => {
+const MoimManageListScreen = ({route}: MoimManageListScreenProps) => {
+  const navigation = useNavigation<NavigationProp<MoimSpaceStackParamList>>();
   const params = route?.params;
   const {moimInfo} = useMoimInfoStore();
   const id = moimInfo?.moimId || params.id;
@@ -40,14 +41,24 @@ const MoimManageListScreen = ({
     <ScreenContainer>
       <TouchableOpacity
         className="m-3 mt-6"
-        onPress={() => navigation.navigate('PERMISSION_MANAGEMENT', {id})}>
+        onPress={() =>
+          navigation.navigate('MANAGEMENT', {
+            screen: 'PERMISSION_MANAGEMENT',
+            params: {id},
+          })
+        }>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800 ">
           모임 멤버 관리
         </Typography>
       </TouchableOpacity>
       <TouchableOpacity
         className="m-3"
-        onPress={() => navigation.navigate('JOIN_MANAGEMENT', {id})}>
+        onPress={() =>
+          navigation.navigate('MANAGEMENT', {
+            screen: 'JOIN_MANAGEMENT',
+            params: {id},
+          })
+        }>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800">
           가입 관리
         </Typography>
@@ -56,7 +67,10 @@ const MoimManageListScreen = ({
         <TouchableOpacity
           className="m-3"
           onPress={() =>
-            navigation.navigate('DELEGATION_AUTHORITY_SCREEN', {id})
+            navigation.navigate('MANAGEMENT', {
+              screen: 'DELEGATION_AUTHORITY_SCREEN',
+              params: {id},
+            })
           }>
           <Typography fontWeight="BOLD" className="text-lg text-dark-800">
             모임장 위임
@@ -66,7 +80,12 @@ const MoimManageListScreen = ({
       {role?.moimRole === MOIM_ROLE.OWNER ? (
         <TouchableOpacity
           className="m-3"
-          onPress={() => navigation.navigate('MOIM_OUT_MEMBER', {id})}>
+          onPress={() =>
+            navigation.navigate('MANAGEMENT', {
+              screen: 'MOIM_OUT_MEMBER',
+              params: {id},
+            })
+          }>
           <Typography fontWeight="BOLD" className="text-lg text-dark-800">
             모임 멤버 탈퇴
           </Typography>
@@ -76,7 +95,10 @@ const MoimManageListScreen = ({
         className="m-3"
         onPress={() => {
           setIsEditMode(false);
-          navigation.navigate('MOIM_CREATE_TODO', {id});
+          navigation.navigate('MANAGEMENT', {
+            screen: 'MOIM_CREATE_TODO',
+            params: {id},
+          });
         }}>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800">
           모임 멤버 할 일 배정
@@ -84,14 +106,24 @@ const MoimManageListScreen = ({
       </TouchableOpacity>
       <TouchableOpacity
         className="m-3"
-        onPress={() => navigation.navigate('MOIM_GET_TODO', {id})}>
+        onPress={() =>
+          navigation.navigate('MANAGEMENT', {
+            screen: 'MOIM_GET_TODO',
+            params: {id},
+          })
+        }>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800">
           모임 할 일 확인
         </Typography>
       </TouchableOpacity>
       <TouchableOpacity
         className="m-3"
-        onPress={() => navigation.navigate('MOIM_ASSIGNMENT_TODO', {id})}>
+        onPress={() =>
+          navigation.navigate('MANAGEMENT', {
+            screen: 'MOIM_ASSIGNMENT_TODO',
+            params: {id},
+          })
+        }>
         <Typography fontWeight="BOLD" className="text-lg text-dark-800">
           내가 할당한 할 일 확인
         </Typography>
@@ -99,7 +131,12 @@ const MoimManageListScreen = ({
       {role?.moimRole === MOIM_ROLE.OWNER ? (
         <TouchableOpacity
           className="m-3"
-          onPress={() => navigation.navigate('MOIM_INFO_EDIT', {id})}>
+          onPress={() =>
+            navigation.navigate('MANAGEMENT', {
+              screen: 'MOIM_INFO_EDIT',
+              params: {id},
+            })
+          }>
           <Typography fontWeight="BOLD" className="text-lg text-dark-800">
             모임 정보 수정
           </Typography>

@@ -5,6 +5,7 @@ import {HomeStackParamList, MoimStackParamList} from 'navigators/types';
 import {RouteProp} from '@react-navigation/native';
 import MoimPostStackNavigator from './MoimPostStackNavigator';
 import MoimPlanStackNavigator from './MoimPlanStackNavigator';
+import MoimManagementStackNavigator from './MoimManagementStackNavigator';
 
 export default function MoimSpaceNavigator({
   route,
@@ -45,6 +46,13 @@ export default function MoimSpaceNavigator({
       <MoimSpaceStack.Screen
         name="SCHEDULE"
         component={MoimPlanStackNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <MoimSpaceStack.Screen
+        name="MANAGEMENT"
+        component={MoimManagementStackNavigator}
         options={{
           headerShown: false,
         }}

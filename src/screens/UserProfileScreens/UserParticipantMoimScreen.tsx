@@ -1,14 +1,14 @@
 import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
 import {useState} from 'react';
 import {
-  // NavigationProp,
+  NavigationProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
 
 import {
   HomeStackNavigationProp,
-  // MoimSpaceStackParamList,
+  MoimSpaceStackParamList,
   UserProfileStackRouteProp,
 } from 'navigators/types';
 import {useInfiniteGetMembersActiveMoimList} from '../../hooks/queries/MyScreen/useInfiniteGetMembersActiveMoimList.ts';
@@ -16,9 +16,19 @@ import {ActiveMoimCard} from '../../components/calendar/ActiveMoimCard.tsx';
 
 export default function UserParticipantMoimScreen() {
   const route = useRoute<UserProfileStackRouteProp>();
-  // const moimSpaceNavigation =
-  //   useNavigation<NavigationProp<MoimSpaceStackParamList, 'SPACE'>>();
+  const moimSpaceNavigation =
+    useNavigation<NavigationProp<MoimSpaceStackParamList, 'SPACE'>>();
   const homeNavigation = useNavigation<HomeStackNavigationProp>();
+
+  function getTopmostParent(navigation: any) {
+    let parent = navigation.getParent();
+    while (parent?.getParent()) {
+      parent = parent.getParent();
+    }
+    return parent;
+  }
+
+  const topmostParent = getTopmostParent(homeNavigation);
 
   const userId = route?.params?.id as number;
   const {
@@ -66,16 +76,19 @@ export default function UserParticipantMoimScreen() {
         renderItem={({item}) => {
           return (
             <ActiveMoimCard
-              onPress={() =>
-                // moimSpaceNavigation.navigate('SPACE', {
-                //   screen: 'MOIM_SPACE',
-                //   params: {id: item.moimId},
-                // })
-                homeNavigation.navigate('MOIM_STACK', {
-                  screen: 'MOIM_SPACE',
-                  params: {id: item.moimId},
-                })
-              }
+              onPress={() => {
+                if (topmostParent?.getState().index === 1) {
+                  homeNavigation.navigate('MOIM_STACK', {
+                    screen: 'MOIM_SPACE',
+                    params: {id: item.moimId},
+                  });
+                } else if (topmostParent?.getState().index === 2) {
+                  moimSpaceNavigation.navigate('SPACE', {
+                    screen: 'MOIM_SPACE',
+                    params: {id: item.moimId},
+                  });
+                }
+              }}
               moim={item}
             />
           );

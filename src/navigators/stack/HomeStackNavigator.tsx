@@ -75,9 +75,7 @@ export default function HomeStackNavigator() {
             elevation: 0,
           },
         }}>
-        {({route, navigation}) => (
-          <MoimSpaceNavigator route={route} navigation={navigation} />
-        )}
+        {({route}) => <MoimSpaceNavigator route={route} />}
       </HomeStack.Screen>
       <HomeStack.Screen
         name={'MOIM_BOARD_STACK'}

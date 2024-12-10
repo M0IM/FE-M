@@ -1,13 +1,14 @@
 import {ActivityIndicator, FlatList, SafeAreaView, View} from 'react-native';
 import {useState} from 'react';
 import {
-  NavigationProp,
+  // NavigationProp,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
 
 import {
-  MoimSpaceStackParamList,
+  HomeStackNavigationProp,
+  // MoimSpaceStackParamList,
   UserProfileStackRouteProp,
 } from 'navigators/types';
 import {useInfiniteGetMembersActiveMoimList} from '../../hooks/queries/MyScreen/useInfiniteGetMembersActiveMoimList.ts';
@@ -15,8 +16,10 @@ import {ActiveMoimCard} from '../../components/calendar/ActiveMoimCard.tsx';
 
 export default function UserParticipantMoimScreen() {
   const route = useRoute<UserProfileStackRouteProp>();
-  const navigation =
-    useNavigation<NavigationProp<MoimSpaceStackParamList, 'SPACE'>>();
+  // const moimSpaceNavigation =
+  //   useNavigation<NavigationProp<MoimSpaceStackParamList, 'SPACE'>>();
+  const homeNavigation = useNavigation<HomeStackNavigationProp>();
+
   const userId = route?.params?.id as number;
   const {
     data: moims,
@@ -64,7 +67,11 @@ export default function UserParticipantMoimScreen() {
           return (
             <ActiveMoimCard
               onPress={() =>
-                navigation.navigate('SPACE', {
+                // moimSpaceNavigation.navigate('SPACE', {
+                //   screen: 'MOIM_SPACE',
+                //   params: {id: item.moimId},
+                // })
+                homeNavigation.navigate('MOIM_STACK', {
                   screen: 'MOIM_SPACE',
                   params: {id: item.moimId},
                 })

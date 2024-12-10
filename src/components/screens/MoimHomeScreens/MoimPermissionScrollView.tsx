@@ -122,7 +122,6 @@ const MoimPermissionScrollView = ({
         .flatMap(page => page.userPreviewDTOList)
         .map(item => {
           const translatedRole = handleNowRole(item.moimRole);
-          console.log(item.moimRole, 'hihihihi');
           return (
             <View key={item.userId} className="flex flex-row items-center py-3">
               <Avatar uri={item.imageKeyName} />

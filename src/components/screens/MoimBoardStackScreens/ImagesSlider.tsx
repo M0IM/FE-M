@@ -15,7 +15,6 @@ const ImagesSlider = ({
   className,
   ...props
 }: ImagesSliderProps) => {
-  console.log(images);
   return (
     <>
       <Swiper

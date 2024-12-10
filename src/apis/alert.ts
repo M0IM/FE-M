@@ -35,8 +35,6 @@ const getAlertList = async ({
     `/api/v1/users/alarms?cursor=${cursor}&take=${take}`,
   );
 
-  console.log(data.result);
-
   return data.result;
 };
 

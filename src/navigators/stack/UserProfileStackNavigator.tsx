@@ -1,4 +1,5 @@
 import {UserProfileStack} from 'navigators/constants';
+import MoimPostReviewScreen from 'screens/UserProfileScreens/MoimPostReviewScreen';
 import UserDetailProfileScreen from 'screens/UserProfileScreens/UserDetailProfileScreen';
 import UserParticipantMoimScreen from 'screens/UserProfileScreens/UserParticipantMoimScreen';
 import UserReviewScreen from 'screens/UserProfileScreens/UserReviewScreen';
@@ -43,6 +44,17 @@ export default function UserProfileStackNavigator({route}: {route: any}) {
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,
         }}
+      />
+      <UserProfileStack.Screen
+        name={'POST_REVIEW'}
+        component={MoimPostReviewScreen}
+        options={({route}) => ({
+          headerTitle: route.params.userName,
+          headerShown: true,
+          headerTintColor: '#000',
+          headerTitleAlign: 'center',
+          headerLeftLabelVisible: false,
+        })}
       />
     </UserProfileStack.Navigator>
   );

@@ -148,10 +148,6 @@ export type MoimPostStackParamList = {
     id: number;
     userName: string;
   };
-  MOIM_POST_REVIEW: {
-    id: number;
-    userName: string;
-  };
   MOIM_JOIN_LIST: {
     id: number;
     userName: string;
@@ -218,6 +214,10 @@ export type UserProfileStackParamList = {
     id: number;
     userName: string;
   };
+  POST_REVIEW: {
+    id: number;
+    userName: string;
+  };
 };
 
 export type TodoStackParamList = {
@@ -236,11 +236,15 @@ export type MoimSpaceStackParamList = {
   };
   BOARD: {
     screen: keyof MoimPostStackParamList;
-    params: {id: number; postId: number};
+    params: {id: number; postId?: number; postType?: POST_LIST_TYPE};
   };
   SCHEDULE: {
     screen: keyof MoimPlanStackParamList;
-    params: {id: number; planId: number};
+    params: {id: number; planId?: number};
+  };
+  MANAGEMENT: {
+    screen: keyof MoimManagementParamList;
+    params: {id: number};
   };
 };
 

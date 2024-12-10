@@ -5,10 +5,7 @@ import Avatar from 'components/@common/Avatar/Avatar';
 import Label from 'components/@common/Label/Label';
 import {Typography} from 'components/@common/Typography/Typography';
 import {POST_TYPES} from 'constants/screens/MoimBoardStackScreens/PostList';
-import {
-  MoimPostStackNavigationProp,
-  MoimSpaceStackParamList,
-} from 'navigators/types';
+import {MoimSpaceStackParamList} from 'navigators/types';
 import {TMoimPreviewListDto} from 'types/dtos/post';
 import {detailDate} from 'utils';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
@@ -16,7 +13,7 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 interface BoardPostPreviewProps {
   moimId: number;
   postPreview: TMoimPreviewListDto;
-  navigation: MoimPostStackNavigationProp;
+  navigation: NavigationProp<MoimSpaceStackParamList>;
 }
 
 const BoardPostPreview = ({
@@ -33,9 +30,12 @@ const BoardPostPreview = ({
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate('MOIM_POST_DETAIL', {
-          id: moimId,
-          postId: postPreview.moimPostId,
+        navigation.navigate('BOARD', {
+          screen: 'MOIM_POST_DETAIL',
+          params: {
+            id: moimId,
+            postId: postPreview.moimPostId,
+          },
         })
       }
       activeOpacity={0.8}

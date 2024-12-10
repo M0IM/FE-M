@@ -18,7 +18,7 @@ const getMoimRequestUsers = async ({
   const {data} = await axiosInstance.get(
     `/api/v1/moims/${moimId}/requests/users?cursor=${cursor}&take=${take}&search=${search}`,
   );
-  console.log(data);
+
   return data?.result;
 };
 
@@ -35,7 +35,7 @@ const updateMoimAuthorities = async ({
       userId,
     },
   );
-  console.log(data);
+
   return data?.result;
 };
 
@@ -50,7 +50,7 @@ const acceptMoimJoinRequest = async ({
     moimId,
     userId,
   });
-  console.log(data);
+
   return data?.result;
 };
 

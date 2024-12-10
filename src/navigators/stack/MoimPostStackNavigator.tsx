@@ -7,7 +7,6 @@ import MoimPostWriteScreen from 'screens/MoimBoardStackScreens/MoimPostWriteScre
 
 import {MoimPostStackRouteProp} from 'navigators/types';
 import {MoimPostStack} from 'navigators/constants';
-import MoimPostReviewScreen from '../../screens/MoimBoardStackScreens/MoimPostReviewScreen.tsx';
 
 export default function MoimPostStackNavigator() {
   const route = useRoute<MoimPostStackRouteProp>();
@@ -61,17 +60,6 @@ export default function MoimPostStackNavigator() {
           headerTitleAlign: 'center',
           headerLeftLabelVisible: false,
         }}
-      />
-      <MoimPostStack.Screen
-        name={'MOIM_POST_REVIEW'}
-        component={MoimPostReviewScreen}
-        options={({route}) => ({
-          headerTitle: route.params.userName,
-          headerShown: true,
-          headerTintColor: '#000',
-          headerTitleAlign: 'center',
-          headerLeftLabelVisible: false,
-        })}
       />
     </MoimPostStack.Navigator>
   );

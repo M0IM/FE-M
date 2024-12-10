@@ -1,11 +1,11 @@
 import {Platform, Pressable, PressableProps, Text, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
 import {cva} from 'class-variance-authority';
 import {cn} from 'utils/cn.ts';
-import {MoimPlanStackNavigationProp} from 'navigators/types';
 import {TMoimPlanListDTO} from 'types/dtos/calendar.ts';
 import {getMonthYearDetails} from '../../utils';
+import {MoimSpaceStackParamList} from 'navigators/types';
 
 interface ICalendarEventProps extends PressableProps {
   post: TMoimPlanListDTO;
@@ -17,7 +17,7 @@ export function PlanCalendarEvent({
   post,
   ...props
 }: ICalendarEventProps) {
-  const navigation = useNavigation<MoimPlanStackNavigationProp>();
+  const navigation = useNavigation<NavigationProp<MoimSpaceStackParamList>>();
   const platform = Platform.OS;
   const {month, year, day} = getMonthYearDetails(new Date(post.time));
 
@@ -26,9 +26,9 @@ export function PlanCalendarEvent({
       {...props}
       onPress={() => {
         if (moimId) {
-          navigation.navigate('MOIM_PLAN_DETAIL', {
-            id: moimId,
-            planId: post.planId,
+          navigation.navigate('SCHEDULE', {
+            screen: 'MOIM_PLAN_DETAIL',
+            params: {id: moimId, planId: post.planId},
           });
         }
       }}

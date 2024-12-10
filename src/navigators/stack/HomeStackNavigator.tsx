@@ -13,6 +13,12 @@ import FeedTabNavigator from 'navigators/tab/FeedTabNavigator';
 import MoimPostStackNavigator from './MoimPostStackNavigator';
 import UserProfileStackNavigator from './UserProfileStackNavigator.tsx';
 import MoimSpaceNavigator from './MoimSpaceNavigator.tsx';
+import {RouteProp} from '@react-navigation/native';
+import {HomeStackParamList} from 'navigators/types/index.ts';
+
+type TUserDetailProfileProps = {
+  route: RouteProp<HomeStackParamList, 'USER_DETAIL_PROFILE'>;
+};
 
 export default function HomeStackNavigator() {
   const insets = useSafeAreaInsets();
@@ -75,9 +81,7 @@ export default function HomeStackNavigator() {
             elevation: 0,
           },
         }}>
-        {({route, navigation}) => (
-          <MoimSpaceNavigator route={route} navigation={navigation} />
-        )}
+        {({route}) => <MoimSpaceNavigator route={route} />}
       </HomeStack.Screen>
       <HomeStack.Screen
         name={'MOIM_BOARD_STACK'}
@@ -114,12 +118,22 @@ export default function HomeStackNavigator() {
         }}
       />
       <HomeStack.Screen
-        name={'USER_DETAIL_PROFILE'}
-        component={UserProfileStackNavigator}
-        options={() => ({
-          headerShown: false,
-        })}
-      />
+        name="USER_DETAIL_PROFILE"
+        options={() => {
+          return {
+            headerShown: false,
+          };
+        }}>
+        {(props: TUserDetailProfileProps) => {
+          const extractedParams = props.route.params?.params || {};
+          return (
+            <UserProfileStackNavigator
+              {...props}
+              route={{...props.route, params: extractedParams}}
+            />
+          );
+        }}
+      </HomeStack.Screen>
     </HomeStack.Navigator>
   );
 }

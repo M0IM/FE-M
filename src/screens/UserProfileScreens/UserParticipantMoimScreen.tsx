@@ -7,6 +7,7 @@ import {
 } from '@react-navigation/native';
 
 import {
+  HomeStackNavigationProp,
   MoimSpaceStackParamList,
   UserProfileStackRouteProp,
 } from 'navigators/types';
@@ -15,8 +16,20 @@ import {ActiveMoimCard} from '../../components/calendar/ActiveMoimCard.tsx';
 
 export default function UserParticipantMoimScreen() {
   const route = useRoute<UserProfileStackRouteProp>();
-  const navigation =
+  const moimSpaceNavigation =
     useNavigation<NavigationProp<MoimSpaceStackParamList, 'SPACE'>>();
+  const homeNavigation = useNavigation<HomeStackNavigationProp>();
+
+  function getTopmostParent(navigation: any) {
+    let parent = navigation.getParent();
+    while (parent?.getParent()) {
+      parent = parent.getParent();
+    }
+    return parent;
+  }
+
+  const topmostParent = getTopmostParent(homeNavigation);
+
   const userId = route?.params?.id as number;
   const {
     data: moims,
@@ -63,12 +76,19 @@ export default function UserParticipantMoimScreen() {
         renderItem={({item}) => {
           return (
             <ActiveMoimCard
-              onPress={() =>
-                navigation.navigate('SPACE', {
-                  screen: 'MOIM_SPACE',
-                  params: {id: item.moimId},
-                })
-              }
+              onPress={() => {
+                if (topmostParent?.getState().index === 1) {
+                  homeNavigation.navigate('MOIM_STACK', {
+                    screen: 'MOIM_SPACE',
+                    params: {id: item.moimId},
+                  });
+                } else if (topmostParent?.getState().index === 2) {
+                  moimSpaceNavigation.navigate('SPACE', {
+                    screen: 'MOIM_SPACE',
+                    params: {id: item.moimId},
+                  });
+                }
+              }}
               moim={item}
             />
           );

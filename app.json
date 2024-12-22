@@ -1,4 +1,8 @@
 {
   "name": "MOIM",
-  "displayName": "MOIM"
+  "displayName": "MOIM",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-3296643559689345~2538652596",
+    "ios_app_id": "ca-app-pub-3296643559689345~8625548796"
+  }
 }

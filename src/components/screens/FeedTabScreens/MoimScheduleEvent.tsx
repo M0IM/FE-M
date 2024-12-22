@@ -1,5 +1,5 @@
 import {FlatList, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
@@ -11,6 +11,8 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import MoimScheduleEventSkeleton from './skeleton/MoimScheduleEventSkeleton.tsx';
 import {TUserPlanDTO} from 'types/dtos/calendar.ts';
 import ScheduleColorPalette from './ScheduleColorPalette.tsx';
+import MobileAds from 'react-native-google-mobile-ads';
+import ScreenBannerAd from 'components/@common/ScreenBannerAd/ScreenBannerAd.tsx';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -19,6 +21,15 @@ interface MoimScheduleEventProps {
 export default function MoimScheduleEvent({
   isRefreshing,
 }: MoimScheduleEventProps) {
+  const [adsInitialized, setAdsInitialized] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      await MobileAds().initialize();
+      setAdsInitialized(true);
+    })();
+  }, []);
+
   const navigation = useNavigation<HomeStackNavigationProp>();
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
@@ -114,6 +125,7 @@ export default function MoimScheduleEvent({
       <View className="py-1">
         <ScheduleColorPalette />
       </View>
+      {adsInitialized && <ScreenBannerAd />}
     </View>
   );
 }

@@ -1,9 +1,10 @@
 import {FlatList, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {Typography} from '../../@common/Typography/Typography.tsx';
 import ScheduleCard from '../../home/SchduleCard/ScheduleCard.tsx';
+import mobileAds from 'react-native-google-mobile-ads';
 
 import {useGetUserSchedulesCount} from 'hooks/queries/FeedHome/useGetUserSchedulesCount.ts';
 import {useGetInfiniteAllUserScheduleList} from 'hooks/queries/FeedHome/useGetInfiniteAllUserSchedule.ts';
@@ -11,6 +12,7 @@ import {HomeStackNavigationProp} from 'navigators/types';
 import MoimScheduleEventSkeleton from './skeleton/MoimScheduleEventSkeleton.tsx';
 import {TUserPlanDTO} from 'types/dtos/calendar.ts';
 import ScheduleColorPalette from './ScheduleColorPalette.tsx';
+import ScreenBannerAd from 'components/@common/ScreenBannerAd/ScreenBannerAd.tsx';
 
 interface MoimScheduleEventProps {
   isRefreshing: boolean;
@@ -19,6 +21,14 @@ interface MoimScheduleEventProps {
 export default function MoimScheduleEvent({
   isRefreshing,
 }: MoimScheduleEventProps) {
+  const [adsInitialized, setAdsInitialized] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      await mobileAds().initialize();
+      setAdsInitialized(true);
+    })();
+  }, []);
   const navigation = useNavigation<HomeStackNavigationProp>();
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
@@ -88,10 +98,12 @@ export default function MoimScheduleEvent({
 
   return (
     <View className="flex flex-col gap-y-2 mt-1">
+      <ScreenBannerAd />
       <Typography
         numberOfLines={1}
         className="text-2xl mt-5"
         fontWeight={'BOLD'}>
+        {adsInitialized && <ScreenBannerAd />}
         {isProfilePending ? '안녕하세요' : `반가워요, ${profile?.nickname}님`}
       </Typography>
       <View className="flex flex-row">

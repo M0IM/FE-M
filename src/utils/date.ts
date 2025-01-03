@@ -1,5 +1,10 @@
 function getDateDetails(dateString: Date | string) {
   const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    throw new Error(`Invalid date: ${dateString}`);
+  }
+
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -21,20 +26,20 @@ function getDateWithSeparator(
 }
 
 function getMonthYearDetails(initialDate: Date) {
-  const month = initialDate.getMonth() + 1;
+  if (isNaN(initialDate.getTime())) {
+    throw new Error(`Invalid initialDate: ${initialDate}`);
+  }
+
   const year = initialDate.getFullYear();
+  const month = initialDate.getMonth() + 1;
   const day = initialDate.getDate();
-  // 매달 1일이 무슨 요일에서 시작하는지 알아야함
-  const startDate = new Date(`${year}-${month}`);
+
+  // 매달 1일의 날짜를 명시적으로 설정
+  const startDate = new Date(year, month - 1, 1);
   const firstDOW = startDate.getDay();
-  const lastDateString = String(
-    new Date(
-      initialDate.getFullYear(),
-      initialDate.getMonth() + 1,
-      0,
-    ).getDate(),
-  );
-  const lastDate = Number(lastDateString);
+
+  // 해당 월의 마지막 날 계산
+  const lastDate = new Date(year, month, 0).getDate();
 
   return {
     month,
@@ -55,25 +60,36 @@ type MonthYear = {
 };
 
 function getNewMonthYear(prevData: MonthYear, increment: number) {
-  const newMonthYear = new Date(
+  if (isNaN(prevData.startDate.getTime())) {
+    throw new Error(`Invalid startDate in prevData: ${prevData.startDate}`);
+  }
+
+  const newStartDate = new Date(
     prevData.startDate.setMonth(prevData.startDate.getMonth() + increment),
   );
 
-  return getMonthYearDetails(newMonthYear);
+  return getMonthYearDetails(newStartDate);
 }
 
 function isSameAsCurrentDate(year: number, month: number, date: number) {
   const currentDate = getDateWithSeparator(new Date());
-  const inputDate = `${year}${String(month).padStart(2, '0')}${String(
-    date,
-  ).padStart(2, '0')}`;
+  const inputDate = [
+    year,
+    String(month).padStart(2, '0'),
+    String(date).padStart(2, '0'),
+  ].join('');
 
   return currentDate === inputDate;
 }
 
 const detailDate = (date: Date) => {
+  if (isNaN(date.getTime())) {
+    throw new Error(`Invalid date provided: ${date}`);
+  }
+
   const milliSeconds = +new Date() - +date;
   const seconds = milliSeconds / 1000;
+
   if (seconds < 60) return `방금 전`;
   const minutes = seconds / 60;
   if (minutes < 60) return `${Math.floor(minutes)}분 전`;
@@ -92,6 +108,10 @@ const detailDate = (date: Date) => {
 function formatKoreanDate(dateString: Date | string) {
   const date = new Date(dateString);
 
+  if (isNaN(date.getTime())) {
+    throw new Error(`Invalid date: ${dateString}`);
+  }
+
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -103,7 +123,10 @@ function formatKoreanDate(dateString: Date | string) {
   if (hours > 12) hours -= 12;
   if (hours === 0) hours = 12;
 
-  return `${year}년 ${month}월 ${day}일 ${period} ${String(hours).padStart(2, '0')}:${minutes}`;
+  return `${year}년 ${month}월 ${day}일 ${period} ${String(hours).padStart(
+    2,
+    '0',
+  )}:${minutes}`;
 }
 
 export type {MonthYear};

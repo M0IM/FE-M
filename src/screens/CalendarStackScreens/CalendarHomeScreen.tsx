@@ -21,6 +21,7 @@ export default function CalendarHomeScreen({
   const [selectedDate, setSelectedDate] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {setIsEditMode} = useMyCalendarStore();
+  console.log(monthYear);
   const {
     data: posts,
     isPending,
